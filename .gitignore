@@ -1,0 +1,14 @@
+/admin-cp-old/
+/error_log
+/php.ini
+/.DS_Store
+/test.php
+/phpmailer.zip
+/rename_tables.php
+/restore_tables.php
+/setup_database.php
+/analyze_db.php
+/fix_missing_tables.php
+/migrate_data.php
+/db_structure.html
+/Khaservice_v5/

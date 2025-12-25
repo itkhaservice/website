@@ -1,0 +1,1242 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bizz - Business Consulting and Agency HTML Template </title>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Calling Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
+    <!-- Calling Favicon -->
+    <!-- ********************* -->
+    <!-- CSS files -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/nice-select.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/meanmenu.css" media="all">
+    <link rel="stylesheet" href="css/default.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/color.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- End CSS files -->
+</head>
+
+<body>
+    <!-- Preloader start -->
+    <div class="loader-page flex-center">
+        <img src="img/loader.gif" alt="">
+    </div>
+    <!-- Preloader end -->
+    <!-- Header start -->
+    <section class="top-header d-none d-md-block">
+        <div class="container">
+            <div class="row d-flex align-items-center">
+                <div class="col-lg-12 col-md-12">
+                    <div class="icon-links icon-links-top right-head-top d-flex align-items-center">
+                        <div class="contact-head mail flex-center d-lg-block d-none">
+                            <a class="black f-500" href="mailto:khaservice06092010@gmail.com">
+                                <i class="far fa-envelope green mr-10"></i>khaservice06092010@gmail.com
+                            </a>
+                        </div>
+                        <div class="contact-head phone flex-center d-none d-sm-flex">
+                            <a class="black f-500" href="tel:02838253041">
+                                <i class="fas fa-phone fa-flip-horizontal green mr-15  mr-10"></i>(028)38253041
+                            </a>
+                        </div>
+                        <div class="contact-head mobile flex-center d-none d-sm-flex">
+                            <a class="black f-500" href="tel:0918754277">
+                                <i class="fas fa-mobile-alt green mr-15  mr-10"></i>0918 754 277
+                            </a>
+                        </div>
+                        <div class="icon-links icon-links-top d-flex align-items-center">
+                            <div class="language d-none d-md-flex pl-30 pt-00 pb-00 align-items-center">
+                                <i class="fas fa-globe-americas mr-5"></i>
+                                <select class="form-control lan-select" id="sel1">
+                                    <option>VN</option>
+                                    <option>ENG</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <header class="transperant-head header-style-3 transition-4 ">
+        <div class="container">
+            <div class="row align-items-center no-gutters">
+                <div class="col-lg-2 col-md-5 col-sm-4 col-7">
+                    <div class="logo transition-4">
+                        <a href="index-3.html">
+                            <img src="img/logo/logo-3.png" class="transition-4" alt="logo">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-10 col-md-7 col-sm-8 col-5">
+                    <div class="icon-links d-flex align-items-center mr-md-30">
+                        <a href="" class="search-icon d-none d-sm-block black" data-toggle="modal" data-target="#searchModal">
+                            <i class="fas fa-search"></i>
+                        </a>
+                        <div class="btn btn-round d-none d-sm-block blob-small btn-dropdown">
+                            <span>Phần mềm QLVH <i class="fas fa-angle-down mr-5"></i></span>
+                            <ul class="submenu">
+                                <li><a href="#" target="_blank">Link phần mềm quản lý</a></li>
+                                <li><a href="#" target="_blank">Nội dung giới thiệu về App Dân Cư</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="menu-links links-type-3 float-left">
+                        <nav class="main-menu main-menu-3 white">
+                            <ul>
+                                <li class="active">
+                                    <a href="index-3.html"><i class="fas fa-home"></i></a>
+                                </li>
+                                <li>
+                                    <a href="about-us.html">Giới thiệu <i class="fas fa-angle-down"></i></a>
+                                    <ul class="submenu">
+                                        <li><a href="about-us.html">Về chúng tôi</a></li>
+                                        <li><a href="terms.html">Cam kết và chính sách</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="services-2.html">Lĩnh vực hoạt động <i class="fas fa-angle-down"></i></a>
+                                    <ul class="submenu">
+                                        <li><a href="portfolio-details-2.html">Dịch vụ quản lý và vận hành nhà chung cư</a></li>
+                                        <li><a href="portfolio-details-2.html">Dịch vụ bảo trì máy lạnh, thi công lắp đặt điện</a></li>
+                                        <li><a href="portfolio-details-2.html">Dịch vụ giữ xe tháng: ôtô, xe gắn máy</a></li>
+                                        <li><a href="portfolio-details-2.html">Dịch vụ sửa chữa nhà, trang trí nội thất</a></li>
+                                        <li><a href="portfolio-details-2.html">Dịch vụ bảo vệ</a></li>
+                                        <li><a href="portfolio-details-2.html">Dịch vụ bảo trì</a></li>
+                                        <li><a href="portfolio-details-2.html">Dịch vụ giặt ủi</a></li>
+                                        <li><a href="portfolio-details-2.html">Dịch vụ cây xanh</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="pricing-1.html">Dự án</a>
+                                </li>
+                                <li>
+                                    <a href="blog-listing-grid.html">Tin tức <i class="fas fa-angle-down"></i></a>
+                                    <ul class="submenu">
+                                        <li><a href="blog-listing-grid.html">Tin công ty</a></li>
+                                        <li><a href="blog-listing-grid.html">Tin trong ngành</a></li>
+                                        <li><a href="blog-listing-grid.html">Kiến thức phong thủy</a></li>
+                                        <li><a href="blog-listing-grid.html">Sổ tay cư dân</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="career.html">Tuyển dụng</a></li>
+                                <li>
+                                    <a href="contact-us.html">Liên hệ</a>
+                                </li>
+                                <li class="d-block d-lg-none">
+                                    <a href="#">Phần mềm QLVH</a>
+                                    <ul class="submenu">
+                                        <li><a href="#" target="_blank">Link phần mềm quản lý</a></li>
+                                        <li><a href="#" target="_blank">Nội dung giới thiệu về App Dân Cư</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mobile-menu-3"></div>
+                </div>
+            </div>
+        </div>
+
+    </header>
+    <!-- The search Modal start -->
+    <div class="search-popup modal" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form action="#">
+                        <div class="form-group relative">
+                            <input type="text" class="form-control input-search" id="search" placeholder="Tìm kiếm...">
+                            <i class="fas fa-search transform-v-center"></i>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <i class="fas fa-times close-search-modal" data-dismiss="modal" aria-label="Close"></i>
+    </div>
+    <!-- The search Modal end -->
+    <!-- Header end -->
+
+    <!-- Slider start -->
+    <section class="slider-area-2 relative">
+        <div class="owl-carousel slider-2">
+            <div class="item">
+                <div class="silder-img bg-cover" style="background-image: url('img/banner/banner_3b.jpg');">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xl-7 col-md-8">
+                                <div class="slider-content-3 z-10">
+                                    <h5 class="line-head">
+                                          25 years of experience
+                                        <span class="line  after"></span>
+                                      </h5>
+                                    <h1 class="banner-head-2 banner-head-3 black f-700 mt-15 mb-35 mt-xs-20 mb-xs-30">We are <span class="green">Uncompetitive</span> in Consulting Solution <span class="green">Around the world</span>.</h1>
+                                    <a href="" class="btn btn-square-border">Learn More<i class="fas fa-long-arrow-alt-right ml-20"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="silder-img bg-cover" style="background-image: url('img/banner/banner_3a.jpg');">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xl-7 col-md-8">
+                                <div class="slider-content-3 z-10">
+                                    <h5 class="line-head">
+                              1000+ Happy Clients
+                            <span class="line  after"></span>
+                          </h5>
+                                    <h1 class="banner-head-2 banner-head-3 black f-700 mt-15 mb-35 mt-xs-20 mb-xs-30">Let's <span class="green">Make Something Awesome Together</span> with the Right People.</h1>
+                                    <a href="" class="btn btn-square-border">Learn More<i class="fas fa-long-arrow-alt-right ml-20"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slider-control type-3 z-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <div class="dots-slider">
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6 text-right d-none d-lg-block">
+                        <div class="nav-slider d-flex justify-content-end">
+                            <a href="" class="slider-btn slides-left flex-center">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                            <a href="" class="slider-btn slides-right flex-center">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Slider end -->
+
+    <!-- Our features start -->
+
+    <section class="features-area bg-light-white pt-40 pb-40 pb-xs-00">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 text-center text-lg-left">
+                    <div class="icon-box d-flex flex-column flex-lg-row">
+                        <div class="icon-img mr-20 mr-md-00 mb-md-10">
+                            <img src="img/feature/icon1.png" alt="Icon">
+                        </div>
+                        <div class="icon-text">
+                            <h5 class="f-700">Quản lý thông minh</h5>
+                            <p>Là một trong những đơn vị tiên phong đưa ứng dụng công nghệ 4.0 vào hoạt động quản lý vận hành tòa nhà nhắm nâng cao hiệu suất, giám chi phí, đơn giản hóa quy trình quản lý vận hành</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 text-center text-lg-left">
+                    <div class="icon-box d-flex flex-column flex-lg-row">
+                        <div class="icon-img mr-20 mr-md-00 mb-md-10">
+                            <img src="img/feature/icon2.png" alt="Icon">
+                        </div>
+                        <div class="icon-text">
+                            <h5 class="f-700">Tiện nghi sử dụng</h5>
+                            <p>Với ứng dụng trên mobile Quý cư dân luôn được phục vụ và hỗ trợ một cách nhanh chóng, tiện lợi, kịp thời</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 text-center text-lg-left">
+                    <div class="icon-box d-flex flex-column flex-lg-row">
+                        <div class="icon-img mr-20 mr-md-00 mb-md-10">
+                            <img src="img/feature/icon3.png" alt="Icon">
+                        </div>
+                        <div class="icon-text">
+                            <h5 class="f-700">Minh bạch tài chính</h5>
+                            <p>Việc ứng dụng công nghệ vào công tác quản lý, vận hành giúp cho mọi hoạt động đều minh bạch, đảm bảo sự chính xác tuyệt đối về số liệu, tính chặt chẽ trong công tác quản lý từng bộ phận</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our features end -->
+
+    <!-- About us start -->
+    <section class="about-us pt-100 pb-100">
+        <div class="container">
+            <div class="row align-items-xl-center">
+                <div class="col-lg-5">
+                    <div class="ceo-video relative img-lined mx-auto shadow-1 wow fadeInLeft">
+                        <img src="img/about/ceo.jpg" alt="">
+                        <div class="blob green transform-center">
+                            <a href="https://www.youtube.com/watch?v=qtQgbdmIO30" class="popup-video"> <i class="fas fa-play"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="about-text mt-md-60 text-center text-lg-left wow fadeInRight">
+                        <div class="fancy-head left-al  mb-10">
+                            <h5 class="line-head mb-10">
+                                <span class="line before d-lg-none"></span>
+                                Về chúng tôi
+                                <span class="line  after"></span>
+                            </h5>
+                            <h1>Câu Chuyện Thành Công</h1>
+                        </div>
+                        <p>Quisque enim ipsum, commodo et venenatis rutrum, luctus in enim. Quisque dapibus lacus non pulvinar lobortis. Cras odio dolor, pulv inar id ligula non, congue aliquam velit. Pellentesque tempor ornare mal esuada. Mauris vel metus vel urna interdum.</p>
+                        <p>Pellentesque tempor ornare mal esuada. Mauris vel metus vel urna interdum condimentum. Pelle ntesque Quisque enim ipsum, co mmodo et venenatis rutrum ornare mal esuada.. <a href="about-us.html">Read More</a></p>
+                        <div class="about-author mt-20 d-flex align-items-center justify-content-center justify-content-lg-start">
+                            <div class="signature mr-45 mr-xs-15">
+                                <img src="img/about/signature.png" alt="">
+                            </div>
+                            <div class="name-author">
+                                <p class="name">Jhon Doe</p>
+                                <p>Founder & CEO</p>
+                            </div>
+                        </div>
+                        <div class="hr-line mb-30 mt-30"></div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="count-box wow fadeInUp">
+                                    <h3 class="f-900 mb-10"><span class="counter">5000</span>+</h3>
+                                    <p>Nhân viên</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="count-box wow fadeInUp" data-wow-delay=".2s">
+                                    <h3 class="f-900 mb-10"><span class="counter">333</span>+</h3>
+                                    <p>Dự án</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="count-box wow fadeInUp" data-wow-delay=".4s">
+                                    <h3 class="f-900 mb-10"><span class="counter">3260</span>+</h3>
+                                    <p>Khách hàng</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- About us end -->
+
+    <!-- Service start -->
+    <section class="service-3 pt-95" data-overlay="9" style="background-image: url('img/bg/bg_blgng.jpg');">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="fancy-head text-center relative z-5 mb-45">
+                        <h5 class="line-head mb-15 wow fadeInDown" >
+                          <span class="line before "></span>
+                                DỊCH VỤ CỦA CHÚNG TÔI
+                          <span class="line after"></span>
+                        </h5>
+                        <h1 class="white wow fadeInUp" >Lĩnh Vực Hoạt Động</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-3 col-md-6 text-center">
+                    <div class="service-list-3 shadow-2 transition-4 img-lined z-5 no-mar wow zoomIn">
+                        <div class="icon-bg-white flex-center z-10">
+                            <img src="img/service/2.png" class="" alt="">
+                        </div>
+                        <div class="service-text-3 transition-4 mt-15 z-10">
+                            <h4 class="f-700 mb-10">Dịch vụ quản lý và vận hành nhà chung cư</h4>
+                            <p class="mb-20">Lorem ipsum dolor sit amet, consectetur</p>
+                            <a href="portfolio-details-2.html" class="btn btn-border-blue mb-30">
+                                Xem thêm<i class="fas fa-long-arrow-alt-right ml-15"></i>
+                            </a>
+                            <span class="bg-green undeline-3"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 text-center">
+                    <div class="service-list-3 shadow-2 transition-4 img-lined z-5 no-mar wow zoomIn">
+                        <div class="icon-bg-white flex-center z-10">
+                            <img src="img/service/1.png" class="" alt="">
+                        </div>
+                        <div class="service-text-3 transition-4 mt-15 z-10">
+                            <h4 class="f-700 mb-10">Dịch vụ bảo trì máy lạnh, thi công lắp đặt điện</h4>
+                            <p class="mb-20">Phasellus tristique gravida consequat Nunc </p>
+                            <a href="portfolio-details-2.html" class="btn btn-border-blue mb-30">
+                                Xem thêm<i class="fas fa-long-arrow-alt-right ml-15"></i>
+                            </a>
+                            <span class="bg-green undeline-3"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 text-center">
+                    <div class="service-list-3 shadow-2 transition-4 img-lined z-5 no-mar wow zoomIn">
+                        <div class="icon-bg-white z-10 flex-center">
+                            <img src="img/service/3.png" class="" alt="">
+                        </div>
+                        <div class="service-text-3 mt-15 z-10">
+                            <h4 class="f-700 mb-10">Dịch vụ giữ xe tháng: ôtô, xe gắn máy</h4>
+                            <p class="mb-20">Quisque vestibulum, elit eget facilisis luctus</p>
+                            <a href="portfolio-details-2.html" class="btn btn-border-blue mb-30">
+                                Xem thêm<i class="fas fa-long-arrow-alt-right ml-15"></i>
+                            </a>
+                            <span class="bg-green undeline-3"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 text-center">
+                    <div class="service-list-3 shadow-2 transition-4 img-lined z-5 no-mar wow zoomIn">
+                        <div class="icon-bg-white z-10  flex-center">
+                            <img src="img/service/4.png" class="" alt="">
+                        </div>
+                        <div class="service-text-3 mt-15 z-10">
+                            <h4 class="f-700 mb-10">Dịch vụ sửa chữa nhà, trang trí nội thất</h4>
+                            <p class="mb-20">Donec in rhoncus lorem tincidunt neque</p>
+                            <a href="portfolio-details-2.html" class="btn btn-border-blue mb-30">
+                                Xem thêm<i class="fas fa-long-arrow-alt-right ml-15"></i>
+                            </a>
+                            <span class="bg-green undeline-3"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 text-center">
+                    <div class="service-list-3 shadow-2 transition-4 img-lined z-5 wow zoomIn">
+                        <div class="icon-bg-white flex-center z-10">
+                            <img src="img/service/2.png" class="" alt="">
+                        </div>
+                        <div class="service-text-3 transition-4 mt-15 z-10">
+                            <h4 class="f-700 mb-10">Dịch vụ bảo vệ</h4>
+                            <p class="mb-20">Lorem ipsum dolor sit amet, consectetur</p>
+                            <a href="portfolio-details-2.html" class="btn btn-border-blue mb-30">
+                                Xem thêm<i class="fas fa-long-arrow-alt-right ml-15"></i>
+                            </a>
+                            <span class="bg-green undeline-3"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 text-center">
+                    <div class="service-list-3 shadow-2 transition-4 img-lined z-5 wow zoomIn">
+                        <div class="icon-bg-white flex-center z-10">
+                            <img src="img/service/1.png" class="" alt="">
+                        </div>
+                        <div class="service-text-3 transition-4 mt-15 z-10">
+                            <h4 class="f-700 mb-10">Dịch vụ bảo trì</h4>
+                            <p class="mb-20">Phasellus tristique gravida consequat Nunc </p>
+                            <a href="portfolio-details-2.html" class="btn btn-border-blue mb-30">
+                                Xem thêm<i class="fas fa-long-arrow-alt-right ml-15"></i>
+                            </a>
+                            <span class="bg-green undeline-3"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 text-center">
+                    <div class="service-list-3 shadow-2 transition-4 img-lined z-5 wow zoomIn">
+                        <div class="icon-bg-white z-10 flex-center">
+                            <img src="img/service/3.png" class="" alt="">
+                        </div>
+                        <div class="service-text-3 mt-15 z-10">
+                            <h4 class="f-700 mb-10">Dịch vụ giặt ủi</h4>
+                            <p class="mb-20">Quisque vestibulum, elit eget facilisis luctus</p>
+                            <a href="portfolio-details-2.html" class="btn btn-border-blue mb-30">
+                                Xem thêm<i class="fas fa-long-arrow-alt-right ml-15"></i>
+                            </a>
+                            <span class="bg-green undeline-3"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 text-center">
+                    <div class="service-list-3 shadow-2 transition-4 img-lined z-5 wow zoomIn">
+                        <div class="icon-bg-white z-10  flex-center">
+                            <img src="img/service/4.png" class="" alt="">
+                        </div>
+                        <div class="service-text-3 mt-15 z-10">
+                            <h4 class="f-700 mb-10">Dịch vụ cây xanh</h4>
+                            <p class="mb-20">Donec in rhoncus lorem tincidunt neque</p>
+                            <a href="portfolio-details-2.html" class="btn btn-border-blue mb-30">
+                                Xem thêm<i class="fas fa-long-arrow-alt-right ml-15"></i>
+                            </a>
+                            <span class="bg-green undeline-3"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Service end -->
+
+    <!-- Count area start -->
+    <section class="count-3 pt-100 pb-70">
+    </section>
+    <!-- Count area end -->
+
+    <!-- Features list start -->
+    <section class="feature-list-area pt-100 pb-100">
+        <div class="container">
+            <div class="row align-items-xl-center">
+                <div class="col-lg-6">
+                    <div class="video-present relative img-lined shadow-1 bg-blue wow fadeInLeft">
+                        <img src="img/feature/office_video.jpg" class="opacity-5 img-100" alt="">
+                        <div class="video-text transform-center">
+                            <div class="blob green video-blob">
+                                <a href="https://www.youtube.com/watch?v=qtQgbdmIO30" class="popup-video"> <i class="fas fa-play"></i></a>
+                            </div>
+                            <h4 class="white f-700 mt-15">Video Presentation</h4>
+                            <p class="white mt-5 mb-0">Lorem ipsum dolor sit amet</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 ">
+                    <div class="feature-all mt-md-60">
+                        <div class="fancy-head left-al text-left text-md-center text-lg-left mb-30 wow fadeInDown">
+                            <h5 class="line-head mb-15">
+                                <span class="line before d-sm-none d-md-block d-lg-none"></span>
+                                TẠI SAO CHỌN CHÚNG TÔI?
+                                <span class="line after"></span>
+                            </h5>
+                            <h1>Giá Trị Cối Lõi</h1>
+                        </div>
+                        <div class="feature-list wow fadeInRight">
+                            <ul class="feature-list-all">
+                                <li class="">
+                                    <div class="d-flex align-items-center">
+                                        <div class="feature-num mr-25">
+                                            <span class="flex-center bg-light-white">01</span>
+                                        </div>
+                                        <div class="feature-detail">
+                                            <h5 class="f-700">11+ năm kinh nghiệm</h5>
+                                            <p>Quisque enim ipsum, commodo et venenatis.</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="d-flex align-items-center">
+                                        <div class="feature-num mr-25">
+                                            <span class="flex-center bg-light-white">02</span>
+                                        </div>
+                                        <div class="feature-detail">
+                                            <h5 class="f-700">Đội ngũ chuyên nghiệp - tận tâm</h5>
+                                            <p>Quisque enim ipsum, commodo et venenatis.</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="d-flex align-items-center">
+                                        <div class="feature-num mr-25">
+                                            <span class="flex-center bg-light-white">03</span>
+                                        </div>
+                                        <div class="feature-detail">
+                                            <h5 class="f-700">Đối tác liên kết uy tín</h5>
+                                            <p>Quisque enim ipsum, commodo et venenatis.</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="d-flex align-items-center">
+                                        <div class="feature-num mr-25">
+                                            <span class="flex-center bg-light-white">04</span>
+                                        </div>
+                                        <div class="feature-detail">
+                                            <h5 class="f-700">Quản lý toàn diện</h5>
+                                            <p>Quisque enim ipsum, commodo et venenatis.</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="d-flex align-items-center">
+                                        <div class="feature-num mr-25">
+                                            <span class="flex-center bg-light-white">05</span>
+                                        </div>
+                                        <div class="feature-detail">
+                                            <h5 class="f-700">Ứng dụng công nghệ</h5>
+                                            <p>Quisque enim ipsum, commodo et venenatis.</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Features list end -->
+
+    <!-- Request callback start -->
+    <section class="callback-area pt-95 pb-85" style="background-image: url('img/banner/banner_1.jpg');" data-overlay="9">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="fancy-head text-center relative z-5 mb-40 wow fadeInDown">
+                        <h5 class="line-head mb-15 white">
+                            <span class="line before bg-white"></span>
+                                LIÊN HỆ
+                            <span class="line after bg-white"></span>
+                        </h5>
+                        <h1 class="white">Để lại thông tin và chúng tôi sẽ gọi lại cho bạn</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <form action="#" class="relative z-5  wow fadeInUp">
+                        <div class="row">
+                            <div class="col-xl-10 col-lg-12">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group relative">
+                                            <input type="text" class="form-control input-white shadow-2" id="name" placeholder="Họ & Tên">
+                                            <i class="far fa-user transform-v-center"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group relative">
+                                            <input type="email" class="form-control input-white shadow-2" id="email" placeholder="Email">
+                                            <i class="far fa-envelope transform-v-center"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group relative">
+                                            <input type="text" class="form-control input-white shadow-2" id="phone" placeholder="Số Điện Thoại">
+                                            <i class="fas fa-mobile-alt transform-v-center"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-lg-12">
+                                <button class="btn btn-blue btn-block request-btn uppercase shadow-2">Gửi</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Request callback end -->
+
+    <!-- Team area start -->
+    <section class="team-area pt-95 pb-100">
+        <div class="container">
+            <div class="row align-items-end text-center text-lg-left  mb-45">
+                <div class="col-lg-7">
+                    <div class="fancy-head left-al">
+                        <h5 class="line-head mb-15">
+                            <span class="line before d-lg-none"></span>
+                            ĐỘI NGŨ
+                            <span class="line after"></span>
+                        </h5>
+                        <h1>Nhóm Xuất Sắc Nhất Của Chúng Tôi</h1>
+                    </div>
+                </div>
+                <div class="col-lg-5 text-lg-right">
+                    <div class="arrow-navigation mb-15 mt-md-20">
+                        <a href="" class="nav-slide slide-left">
+                            <img src="img/icons/ar_lt.png" alt="">
+                        </a>
+                        <a href="" class="nav-slide slide-right">
+                            <img src="img/icons/ar_rt.png" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="owl-carousel team-slider">
+                        <div class="item">
+                            <div class="team-each">
+                                <div class="team-image relative img-lined">
+                                    <img src="img/team/team1.jpg" alt="">
+                                    <div class="hover-team z-10 transition-4">
+                                        <a href="team-detail.html" class="plus-btn flex-center transform-center">
+                                            <i class="fas fa-plus"></i>
+                                        </a>
+                                        <ul class="social-icons transform-h-center">
+                                            <li>
+                                                <a href=""><i class="fab fa-facebook-f"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i class="fab fa-twitter"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i class="fab fa-linkedin-in"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i class="fab fa-google-plus-g"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="team-info text-center transition-4">
+                                    <h5>
+                                        <a href="" class="f-700">Jessica David</a>
+                                    </h5>
+                                    <p class="mb-0">Co Founder</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="team-each">
+                                <div class="team-image relative img-lined">
+                                    <img src="img/team/team2.jpg" alt="">
+                                    <div class="hover-team z-10 transition-4">
+                                        <a href="team-detail.html" class="plus-btn flex-center transform-center">
+                                            <i class="fas fa-plus"></i>
+                                        </a>
+                                        <ul class="social-icons transform-h-center">
+                                            <li>
+                                                <a href=""><i class="fab fa-facebook-f"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i class="fab fa-twitter"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i class="fab fa-linkedin-in"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i class="fab fa-google-plus-g"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="team-info text-center transition-4">
+                                    <h5>
+                                        <a href="" class="f-700">Jhone Doe</a>
+                                    </h5>
+                                    <p class="mb-0">Finance Manager</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="team-each">
+                                <div class="team-image relative img-lined">
+                                    <img src="img/team/team3.jpg" alt="">
+                                    <div class="hover-team z-10 transition-4">
+                                        <a href="team-detail.html" class="plus-btn flex-center transform-center">
+                                            <i class="fas fa-plus"></i>
+                                        </a>
+                                        <ul class="social-icons transform-h-center">
+                                            <li>
+                                                <a href=""><i class="fab fa-facebook-f"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i class="fab fa-twitter"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i class="fab fa-linkedin-in"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i class="fab fa-google-plus-g"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="team-info text-center transition-4">
+                                    <h5>
+                                        <a href="" class="f-700">Jessica David</a>
+                                    </h5>
+                                    <p class="mb-0">Marketing Manager</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="team-each">
+                                <div class="team-image relative img-lined">
+                                    <img src="img/team/team4.jpg" alt="">
+                                    <div class="hover-team z-10 transition-4">
+                                        <a href="team-detail.html" class="plus-btn flex-center transform-center">
+                                            <i class="fas fa-plus"></i>
+                                        </a>
+                                        <ul class="social-icons transform-h-center">
+                                            <li>
+                                                <a href=""><i class="fab fa-facebook-f"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i class="fab fa-twitter"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i class="fab fa-linkedin-in"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i class="fab fa-google-plus-g"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="team-info text-center transition-4">
+                                    <h5>
+                                        <a href="" class="f-700">Jessica David</a>
+                                    </h5>
+                                    <p class="mb-0">Web Designer</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="team-each">
+                                <div class="team-image relative img-lined">
+                                    <img src="img/team/team1.jpg" alt="">
+                                    <div class="hover-team z-10 transition-4">
+                                        <a href="team-detail.html" class="plus-btn flex-center transform-center">
+                                            <i class="fas fa-plus"></i>
+                                        </a>
+                                        <ul class="social-icons transform-h-center">
+                                            <li>
+                                                <a href=""><i class="fab fa-facebook-f"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i class="fab fa-twitter"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i class="fab fa-linkedin-in"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i class="fab fa-google-plus-g"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="team-info text-center transition-4">
+                                    <h5>
+                                        <a href="" class="f-700">Jessica David</a>
+                                    </h5>
+                                    <p class="mb-0">Co Founder</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="team-each">
+                                <div class="team-image relative img-lined">
+                                    <img src="img/team/team2.jpg" alt="">
+                                    <div class="hover-team z-10 transition-4">
+                                        <a href="team-detail.html" class="plus-btn flex-center transform-center">
+                                            <i class="fas fa-plus"></i>
+                                        </a>
+                                        <ul class="social-icons transform-h-center">
+                                            <li>
+                                                <a href=""><i class="fab fa-facebook-f"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i class="fab fa-twitter"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i class="fab fa-linkedin-in"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i class="fab fa-google-plus-g"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="team-info text-center transition-4">
+                                    <h5>
+                                        <a href="" class="f-700">Jhone Doe</a>
+                                    </h5>
+                                    <p class="mb-0">Finance Manager</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Team area end -->
+
+    <!-- Pricing area start -->
+    <section class="pricong-area bg-light-white pt-95 pb-100">
+        <div class="container">
+            <div class="row align-items-end text-center text-lg-left mb-45">
+                <div class="col-lg-7 text-center text-lg-left">
+                    <div class="fancy-head left-al wow fadeInLeft">
+                        <h5 class="line-head mb-15">
+                            <span class="line before d-lg-none"></span>
+                            Dự án
+                            <span class="line after"></span>
+                        </h5>
+                        <h1>Dự Án Tiêu Biểu</h1>
+                    </div>
+                </div>
+                <div class="col-lg-5 mt-md-25 text-lg-right">
+                    <div class="arrow-navigation mb-15 mt-md-20">
+                        <a href="" class="nav-slide nav-price-left">
+                            <img src="img/icons/ar_lt.png" alt="">
+                        </a>
+                        <a href="" class="nav-slide nav-price-right">
+                            <img src="img/icons/ar_rt.png" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="owl-carousel price-slider">
+                        <div class="item">
+                            <div class="price-each relative img-lined text-center wow fadeInUp" style="background: url('img/price/lan-phuong-mhbr-tower-keenlandcomvn-1.jpg') center center / cover no-repeat;">
+                                <div class="price-head z-8 underlined">
+                                    <div class="price-icon relative flex-center">
+                                        <img src="img/price/price1.png" alt="">
+                                    </div>
+                                </div>
+                                <a href="portfolio-details.html" class="btn btn-round wide mt-10 z-8">LAN PHƯƠNG MHBR TOWER</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="price-each relative img-lined text-center wow fadeInUp" style="background: url('img/price/du-an-khanh-hoi.jpg') center center / cover no-repeat; ">
+                                <div class="price-head z-8 underlined">
+                                    <div class="price-icon relative flex-center">
+                                        <img src="img/price/price1.png" alt="">
+                                    </div>
+                                </div>
+                                <a href="portfolio-details.html" class="btn btn-round wide mt-10 z-8">CHUNG CƯ THE STAR</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="price-each relative img-lined text-center wow fadeInUp" style="background: url('img/price/du-an-chung-cu-goldora-plaza.jpg') center center / cover no-repeat;">
+                                <div class="price-head z-8 underlined">
+                                    <div class="price-icon relative flex-center">
+                                        <img src="img/price/price1.png" alt="">
+                                    </div>
+                                </div>
+                                <a href="portfolio-details.html" class="btn btn-round wide mt-10 z-8">CHUNG CƯ GOLDORA PLAZA</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="price-each relative img-lined text-center wow fadeInUp" style="background: url('img/price/chung-cu-hung-phat.jpg') center center / cover no-repeat;">
+                                <div class="price-head z-8 underlined">
+                                    <div class="price-icon relative flex-center">
+                                        <img src="img/price/price1.png" alt="">
+                                    </div>
+                                </div>
+                                <a href="portfolio-details.html" class="btn btn-round wide mt-10 z-8">CAO ỐC HƯNG PHÁT</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="price-each relative img-lined text-center wow fadeInUp" style="background: url('img/price/orient-apartment-ben-van-don.jpg') center center / cover no-repeat; ">
+                                <div class="price-head z-8 underlined">
+                                    <div class="price-icon relative flex-center">
+                                        <img src="img/price/price1.png" alt="">
+                                    </div>
+                                </div>
+                                <a href="portfolio-details.html" class="btn btn-round wide mt-10 z-8">CAO ỐC ORIENT APARTMENT</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Pricing area end -->
+
+    <!-- Testimonial area start -->
+    <section class="testimonials pt-55 pb-65" data-overlay="9" style="background-image: url('img/bg/bg-2.jpg');">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="fancy-head text-center relative z-5 mb-40">
+                        <h5 class="line-head mb-15 ">
+                            <span class="line before "></span>
+                            LỜI CHỨNG THỰC
+                            <span class="line after"></span>
+                        </h5>
+                        <h1 class="white">Khách Hàng Nói Về Chúng Tôi</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="owl-carousel owl-theme testimonial-slider">
+                        <div class="item">
+                            <div class="testimonial-div text-center">
+                                <div class="client-image">
+                                    <img src="img/testimonial/client1.jpg" class="mt-10 mb-45 rounded-circle" alt="">
+                                </div>
+                                <div class="client-texts">
+                                    <h3 class="green mb-20 f-700 italic">“Best Business Service Ever”</h3>
+                                    <p class="white mb-20">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eleifend sit amet ligula et mattis. Morbi aliquam vitae metus at aliquam. Etiam dui felis, tempus id ornare vel, consectetur in risus.</p>
+                                </div>
+                                <div class="client-info">
+                                    <ul class="stars-rate" data-starsactive="5">
+                                        <li class=" text-center">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </li>
+                                    </ul>
+                                    <h6 class="client-name green f-700">John Doe</h6>
+                                    <p class="white mb-0">CEO, Abc Company</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="testimonial-div text-center">
+                                <div class="client-image">
+                                    <img src="img/testimonial/client2.jpg" class="mt-10 mb-45 rounded-circle" alt="">
+                                </div>
+                                <div class="client-texts">
+                                    <h3 class="green mb-20 f-700 italic">“They're Exactly What I Had in Mind”</h3>
+                                    <p class="white mb-20">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eleifend sit amet ligula et mattis. Morbi aliquam vitae metus at aliquam. Etiam dui felis, tempus id ornare vel, consectetur in risus.</p>
+                                </div>
+                                <div class="client-info">
+                                    <ul class="stars-rate" data-starsactive="5">
+                                        <li class=" text-center">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </li>
+                                    </ul>
+                                    <h6 class="client-name green f-700">Jessica David</h6>
+                                    <p class="white mb-0">CEO, Abc Company</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="testimonial-div text-center">
+                                <div class="client-image">
+                                    <img src="img/testimonial/client3.jpg" class="mt-10 mb-45 rounded-circle" alt="">
+                                </div>
+                                <div class="client-texts">
+                                    <h3 class="green mb-20 f-700 italic">“Beautiful and Functional”</h3>
+                                    <p class="white mb-20">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eleifend sit amet ligula et mattis. Morbi aliquam vitae metus at aliquam. Etiam dui felis, tempus id ornare vel, consectetur in risus.</p>
+                                </div>
+                                <div class="client-info">
+                                    <ul class="stars-rate" data-starsactive="5">
+                                        <li class=" text-center">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </li>
+                                    </ul>
+                                    <h6 class="client-name green f-700">Lissa M</h6>
+                                    <p class="white mb-0">CEO, Abc Company</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Testimonial area end -->
+
+    <!-- Blog/news letter area start -->
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <!-- Blog section start -->
+                    <div class="blog-outer pt-95 pb-100 pb-md-60 mr-65 mr-md-00">
+                        <div class="fancy-head left-al mb-45">
+                            <h5 class="line-head mb-15">
+                                News & blogs
+                                <span class="line after"></span>
+                            </h5>
+                            <h1>Tin tức mới nhất</h1>
+                        </div>
+                        <div class="each-blog pb-25 mb-25 d-flex align-items-center">
+                            <div class="blog-date text-center transition-4 bg-light-white mr-30">
+                                <img src="img/blog/blog-grid1-ms.jpg" alt="" />
+                            </div>
+                            <div class="blog-text">
+                                <h6>
+                                    <a href="blog-details-slider.html" class="f-700">Lorem ipsum dolor sit amet, consect etur adipiscing elit, sed do..</a>
+                                </h6>
+                                <p class="f-500 mb-0">Admin / Business</p>
+                            </div>
+                        </div>
+                        <div class="each-blog pb-25 mb-25 d-flex align-items-center">
+                            <div class="blog-date text-center transition-4 bg-light-white mr-30">
+                                <img src="img/blog/blog-grid3-ms.jpg" alt="" />
+                            </div>
+                            <div class="blog-text">
+                                <h6>
+                                    <a href="blog-details-slider.html" class="f-700">Augue ut lectus arcu bibendum at varius vel pharetra. Semper quis..</a>
+                                </h6>
+                                <p class="f-500 mb-0">Admin / Finance</p>
+                            </div>
+                        </div>
+                        <div class="each-blog pb-25 mb-25 d-flex align-items-center">
+                            <div class="blog-date text-center transition-4 bg-light-white mr-30">
+                                <img src="img/blog/blog-grid5-ms.jpg" alt="" />
+                            </div>
+                            <div class="blog-text">
+                                <h6>
+                                    <a href="blog-details-slider.html" class="f-700">Sollicitudin nibh sit amet commodo nulla facilisi nullam. Vestibulum..</a>
+                                </h6>
+                                <p class="f-500 mb-0">Admin / Business</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Blog section end -->
+                </div>
+                <div class="col-lg-6 mb-md-60 pb-md-60">
+                    <!-- subscribe us section start -->
+                    <div class="subscribe h-100 pt-95 pb-100 pl-65 pr-65 pl-xs-25 pr-xs-25 " style="background-image: url('img/bg/bg_newsletter.jpg');" data-overlay="9">
+                        <div class="fancy-head left-al z-10 mb-40">
+                            <h5 class="line-head mb-15">
+                                Newsletter
+                                <span class="line after"></span>
+                            </h5>
+                            <h1>Đăng ký nhận tin từ chúng tôi</h1>
+                        </div>
+                        <div class="subscribe-cotnent z-10">
+                            <p class="mb-45">Những tin tưc mới nhất sẽ được chúng tôi cập nhật đến bạn quá email nếu bạn để lại cho chúng tôi thông tin và email liên hệ và chúng hoàn toàn tự động. Chúng tôi cam kết không sữ dụng email của bạn vào mục đích nào khác.</p>
+                            <form action="#">
+                                <div class="form-group relative mb-30">
+                                    <input type="text" class="form-control input-white" id="name2" placeholder="Họ & Tên">
+                                    <i class="far fa-user transform-v-center"></i>
+                                </div>
+                                <div class="form-group relative mb-30">
+                                    <input type="email" class="form-control input-white" id="email2" placeholder="Email">
+                                    <i class="far fa-envelope transform-v-center"></i>
+                                </div>
+                                <button class="btn btn-blue uppercase shadow-2">
+                                    Đăng ký
+                                    <i class="fas fa-long-arrow-alt-right ml-15"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- subscribe us section end -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Blog/news letter area end -->
+
+    <!-- Footer area start -->
+    <footer class="footer-area">
+        <div class="container">
+            <div class="row mb-sm-50 mb-xs-00">
+                <div class="col-lg-4 z-5">
+                    <div class="contact-area relative h-100 mr-lg-20 mr-md-00">
+                        <div class="footer-logo mb-35">
+                            <img src="img/logo/logo_footer.png" alt="">
+                        </div>
+                        <div class="contact-options mb-35">
+                            <ul>
+                                <li>
+                                    <i class="fas fa-map-marker-alt green"></i>Tầng 1, Khu Thương Mại, 360C Bến Vân Đồn, Phường 1, Quận 4 , TP HCM
+                                </li>
+                                <li>
+                                    <i class="fas fa-info green"></i> MST: 0310341786
+                                </li>
+                                <li>
+                                    <i class="fas fa-phone green"></i>(028)38253041
+                                </li>
+                                <li>
+                                    <i class="fas fa-mobile-alt green"></i>0918 754 277
+                                </li>
+                                <li>
+                                    <i class="fas fa-envelope green"></i>khaservice06092010@gmail.com
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="social-links">
+                            <ul class="social-icons">
+                                <li>
+                                    <a href=""><i class="fab fa-facebook-f"></i></a>
+                                </li>
+                                <li>
+                                    <a href=""><i class="fab fa-twitter"></i></a>
+                                </li>
+                                <li>
+                                    <a href=""><i class="fab fa-linkedin-in"></i></a>
+                                </li>
+                                <li>
+                                    <a href=""><i class="fab fa-google-plus-g"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-4">
+                    <div class="footer-links pt-85 pb-85 pt-md-50 mb-sm-70">
+                        <h5 class="green f-700 mb-35">Liên kết</h5>
+                        <ul class="links-list">
+                            <li><a href="index-3.html">Trang chủ</a></li>
+                            <li><a href="about-us.html">Giới thiệu</a></li>
+                            <li><a href="services-v2.html">Lĩnh vực hoạt động</a></li>
+                            <li><a href="price-v1.html">Dự án</a></li>
+                            <li><a href="blog-listing-grid.html">Tin tức</a></li>
+                            <li><a href="career.html">Tuyển dụng</a></li>
+                            <li><a href="contact-us.html">Liên hệ</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-sm-8">
+                    <div class="footer-links pt-85 pb-85 pt-md-50 mb-sm-70">
+                        <h5 class="green f-700 mb-35">Lĩnh vực hoạt động</h5>
+                        <ul class="links-list">
+                            <li><a href="services-v2.html">Quản lý và vận hành nhà chung cư</a></li>
+                            <li><a href="services-v2.html">Bảo trì máy lạnh, thi công lắp đặt điện</a></li>
+                            <li><a href="services-v2.html">Giữ xe tháng: ôtô, xe gắn máy</a></li>
+                            <li><a href="services-v2.html">Sửa chữa nhà, trang trí nội thất</a></li>
+                            <li><a href="services-v2.html">Dịch vụ bảo vệ</a></li>
+                            <li><a href="services-v2.html">Dịch vụ bảo trì</a></li>
+                            <li><a href="services-v2.html">Dịch vụ giặt ủi</a></li>
+                            <li><a href="services-v2.html">Dịch vụ cây xanh</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class="copyright pt-25 pb-25">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xl-8">
+                        <p class="mb-0 white">© Copyrights 2019 Bizz All rights reserved</p>
+                    </div>
+                    <div class="col-xl-4 text-right">
+                        <a href="" class="btn scroll-btn f-right flex-center z-25 opacity-0">
+                            <i class="fas fa-arrow-up"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </footer>
+    <!-- Footer area end -->
+    <!-- ********************* -->
+    <!-- JS Files -->
+    <script src="js/modernizr-3.5.0.min.js"></script>
+    <script src="js/jquery-1.12.4.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery.waypoints.min.js"></script>
+    <script src="js/jquery.counterup.min.js"></script>
+    <script src="js/jquery.countdown.min.js"></script>
+    <script src="js/lightslider.min.js"></script>
+    <script src="js/wow.min.js"></script>
+    <script src="js/isotope.pkgd.min.js"></script>
+    <script src="js/jquery.meanmenu.min.js"></script>
+    <script src="js/main.js"></script>
+    <!-- JS Files end -->
+</body>
+
+</html>

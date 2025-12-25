@@ -1,0 +1,1 @@
+<?php  if(!defined('_source')) die("Error");$titlePage = $title_bar = "404 Page not found";?>
