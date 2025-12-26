@@ -44,6 +44,11 @@ $d->reset();
 $d->query("select ten_vi, ten_khong_dau, id from #_news_cat where hienthi=1 and type='tin-tuc' order by stt asc");
 $menu_news_cat = $d->result_array();
 
+// Routing
+$com = (isset($_REQUEST['com'])) ? addslashes($_REQUEST['com']) : "";
+$act = (isset($_REQUEST['act'])) ? addslashes($_REQUEST['act']) : "";
+$template = "index";
+
 // Lấy Banner Trang Con (Inner Banner) tùy theo COM
 $banner_type = 'inner-banner'; // Mặc định là trang khác
 switch($com){
@@ -54,6 +59,7 @@ switch($com){
     case 'tin-tuc': $banner_type = 'banner-tintuc'; break;
     case 'tuyen-dung': $banner_type = 'banner-tuyendung'; break;
     case 'lien-he': $banner_type = 'banner-lienhe'; break;
+    case 'thu-vien-anh': $banner_type = 'inner-banner'; break; // Hoặc tạo type riêng nếu cần
 }
 
 $d->reset();
@@ -68,11 +74,6 @@ if(empty($inner_banner['photo']) && $banner_type != 'inner-banner'){
 }
 
 $inner_banner_img = (!empty($inner_banner['photo'])) ? $inner_banner['photo'] : 'img/banner/inner-banner.jpg';
-
-// Routing
-$com = (isset($_REQUEST['com'])) ? addslashes($_REQUEST['com']) : "";
-$act = (isset($_REQUEST['act'])) ? addslashes($_REQUEST['act']) : "";
-$template = "index";
 
 switch($com){
     case 'gioi-thieu':
