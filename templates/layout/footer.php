@@ -74,13 +74,9 @@
                     <div class="footer-links pt-85 pb-85 pt-md-50 mb-sm-70">
                         <h5 class="green f-700 mb-35">Lĩnh vực hoạt động</h5>
                         <ul class="links-list">
-                            <li><a href="linh-vuc-hoat-dong/quan-ly.html">Quản lý và vận hành nhà chung cư</a></li>
-                            <li><a href="linh-vuc-hoat-dong/bao-tri.html">Bảo trì máy lạnh, thi công lắp đặt điện</a></li>
-                            <li><a href="linh-vuc-hoat-dong/giu-xe.html">Giữ xe tháng: ôtô, xe gắn máy</a></li>
-                            <li><a href="linh-vuc-hoat-dong/sua-chua.html">Sửa chữa nhà, trang trí nội thất</a></li>
-                            <li><a href="linh-vuc-hoat-dong/bao-ve.html">Dịch vụ bảo vệ</a></li>
-                            <li><a href="linh-vuc-hoat-dong/ve-sinh.html">Dịch vụ giặt ủi</a></li>
-                            <li><a href="linh-vuc-hoat-dong/cay-xanh.html">Dịch vụ cây xanh</a></li>
+                            <?php if(!empty($menu_dichvu)) { foreach($menu_dichvu as $v) { ?>
+                                <li><a href="dich-vu/<?=$v['ten_khong_dau']?>.html"><?=$v['ten_vi']?></a></li>
+                            <?php }} ?>
                         </ul>
                     </div>
                 </div>

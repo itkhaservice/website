@@ -8,7 +8,7 @@
     </div>
 </div>
 
-<?php if($com == 'du-an' || $com == 'news' || $com == 'staff') { ?>
+<?php if($com == 'du-an' || $com == 'news' || $com == 'staff' || $com == 'thuvien') { ?>
 <div class="card mb-4 border-0 shadow-sm" style="border-radius: 15px; background: #fff;">
     <div class="card-body py-3 px-4">
         <div class="row align-items-center">
@@ -32,7 +32,7 @@
             </div>
             <?php } ?>
 
-            <?php if($type == 'tin-tuc') { ?>
+            <?php if($type == 'tin-tuc' || $type == 'thuvien-anh') { ?>
             <div class="col-lg-3 col-md-4 mb-2 mb-md-0">
                 <select id="id_cat" class="form-control form-control-sm border-0 bg-light rounded-pill px-3 shadow-none" onchange="onSearch()">
                     <option value="0">-- Tất cả danh mục --</option>
@@ -89,7 +89,7 @@
                             <th style="width: 100px" class="text-center text-uppercase font-weight-800 small text-muted">Hình ảnh</th>
                         <?php } ?>
                         <th class="text-uppercase font-weight-800 small text-muted">Thông tin nội dung</th>
-                        <?php if($com=='du-an' || ($com=='news' && $type=='tin-tuc')) { ?>
+                        <?php if($com=='du-an' || ($com=='news' && $type=='tin-tuc') || $com=='dichvu') { ?>
                             <?php if($com=='du-an') echo '<th class="text-uppercase font-weight-800 small text-muted">Khu vực</th>'; ?>
                             <th style="width: 100px" class="text-center text-uppercase font-weight-800 small text-muted">Nổi bật</th>
                         <?php } ?>
@@ -130,7 +130,7 @@
                             <div class="font-weight-bold text-dark mb-1" style="font-size: 0.95rem;"><?=$v['ten_vi']?></div>
                             <div class="text-muted small"><i class="far fa-calendar-alt mr-1"></i> <?=($v['ngaytao'] > 0) ? date('d/m/Y', $v['ngaytao']) : 'Chưa rõ'?></div>
                         </td>
-                        <?php if($com=='du-an' || ($com=='news' && $type=='tin-tuc')){ 
+                        <?php if($com=='du-an' || ($com=='news' && $type=='tin-tuc') || $com=='dichvu'){ 
                             if($com=='du-an') {
                                 $region_name = $v['ten_khuvuc'];
                                 if($region_name == '' && $v['id_khuvuc'] > 0){

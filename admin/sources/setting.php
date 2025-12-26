@@ -34,7 +34,9 @@ function save_item(){
     $data['taxCode'] = $_POST['taxCode'];
     $data['dienthoai'] = $_POST['dienthoai'];
     $data['hotline'] = $_POST['hotline'];
+    $data['hotline2'] = $_POST['hotline2'];
     $data['email'] = $_POST['email'];
+    $data['email2'] = $_POST['email2'];
     $data['fanpage'] = $_POST['fanpage'];
     $data['tiktok'] = $_POST['tiktok'];
     $data['youtube'] = $_POST['youtube'];

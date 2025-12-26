@@ -1,9 +1,9 @@
     <!-- immer banner start -->
-    <section class="inner-banner pt-80 pb-95" style="background-image: url('img/banner/inner-banner.jpg');" data-overlay="7">
+    <section class="inner-banner pt-80 pb-95" style="background-image: url('<?=$inner_banner_img?>');" data-overlay="7">
         <div class="container">
             <div class="row z-5 align-items-center">
                 <div class="col-md-8 text-center text-md-left">
-                    <h1 class="f-700 green">Chi tiết tuyển dụng</h1>
+                    <h1 class="f-700 green"><?=$row_detail['ten_vi']?></h1>
                     <span class="green-line bg-green d-none d-md-inline-block"></span>
                 </div>
                 <div class="col-md-4 text-center text-md-right">
@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-lg-5 text-center text-lg-right">
                     <p class="mb-5 fs-13">Đăng ngày: <?=date('d/m/Y', $row_detail['ngaytao'])?></p>
-                    <a href="mailto:<?=$row_setting['email']?>" class="btn btn-square blob-small mb-10 mt-lg-20">Ứng tuyển ngay<i class="fas fa-long-arrow-alt-right ml-20"></i></a>
+                    <a href="lien-he.html" class="btn btn-square blob-small mb-10 mt-lg-20">Ứng tuyển ngay<i class="fas fa-long-arrow-alt-right ml-20"></i></a>
                 </div>
             </div>
         </div>
@@ -55,7 +55,7 @@
                         
                         <div class="row align-items-center mt-35 mb-md-60">
                             <div class="col-md-6">
-                                <a href="mailto:<?=$row_setting['email']?>" class="btn btn-square blob-small">Ứng tuyển ngay
+                                <a href="lien-he.html" class="btn btn-square blob-small">Ứng tuyển ngay
                                     <i class="fas fa-long-arrow-alt-right ml-20"></i>
                                 </a>
                             </div>
@@ -68,47 +68,71 @@
                             <h4>Thông tin liên hệ</h4>
                         </div>
                         <div class="right-box-content">
-                            <ul class="mt-10 mb-10">
-                                <li>
-                                    <div class="d-flex">
-                                        <div class="icon-round-box">
-                                            <div class="icon-round-box-icon">
-                                                <i class="fas fa-phone-volume green"></i>
-                                            </div>
+                            <ul class="mt-10 mb-10 category-list list-unstyled">
+                                <li class="py-3 border-bottom">
+                                    <div class="d-flex align-items-center">
+                                        <div class="icon-round-box mr-3">
+                                            <i class="fas fa-phone-volume green fs-20"></i>
                                         </div>
                                         <div class="icon-round-box-text">
-                                            <p><span>Phone:</span> <?=$row_setting['dienthoai']?></p>
-                                            <p><span>Hotline:</span> <?=$row_setting['hotline']?></p>
+                                            <p class="mb-0 font-weight-bold">Hotline:</p>
+                                            <p class="mb-0 text-muted"><?=$row_setting['hotline']?></p>
+                                            <?php if(!empty($row_setting['hotline2'])) { ?>
+                                                <p class="mb-0 text-muted"><?=$row_setting['hotline2']?></p>
+                                            <?php } ?>
                                         </div>
                                     </div>
                                 </li>
-                                <li>
-                                    <div class="d-flex">
-                                        <div class="icon-round-box">
-                                            <div class="icon-round-box-icon">
-                                                <i class="far fa-envelope green"></i>
-                                            </div>
+                                <li class="py-3 border-bottom">
+                                    <div class="d-flex align-items-center">
+                                        <div class="icon-round-box mr-3">
+                                            <i class="far fa-envelope green fs-20"></i>
                                         </div>
                                         <div class="icon-round-box-text">
-                                            <p><?=$row_setting['email']?></p>
+                                            <p class="mb-0 font-weight-bold">Email:</p>
+                                            <p class="mb-0 text-muted"><?=$row_setting['email']?></p>
+                                            <?php if(!empty($row_setting['email2'])) { ?>
+                                                <p class="mb-0 text-muted"><?=$row_setting['email2']?></p>
+                                            <?php } ?>
                                         </div>
                                     </div>
                                 </li>
-                                <li>
-                                    <div class="d-flex">
-                                        <div class="icon-round-box">
-                                            <div class="icon-round-box-icon">
-                                                <i class="fas fa-map-marker-alt green"></i>
-                                            </div>
+                                <li class="py-3">
+                                    <div class="d-flex align-items-start">
+                                        <div class="icon-round-box mr-3 mt-1">
+                                            <i class="fas fa-map-marker-alt green fs-20"></i>
                                         </div>
                                         <div class="icon-round-box-text">
-                                            <p><?=$row_setting['diachi_vi']?></p>
+                                            <p class="mb-0 font-weight-bold">Địa chỉ:</p>
+                                            <p class="mb-0 text-muted small"><?=$row_setting['diachi_vi']?></p>
                                         </div>
                                     </div>
                                 </li>
                             </ul>
                         </div>
                     </div>
+
+                    <?php if(!empty($ds_khac)) { ?>
+                    <div class="right-box bg-light-white mb-30">
+                        <div class="right-box-head">
+                            <h4>Vị trí khác</h4>
+                        </div>
+                        <div class="right-box-content mt-10 mb-10">
+                            <ul class="list-unstyled category-list">
+                                <?php foreach($ds_khac as $v) { 
+                                    $link_v = 'tuyen-dung/' . ($v['ten_khong_dau']!='' ? $v['ten_khong_dau'] : $v['id']) . '.html';
+                                ?>
+                                <li class="py-2 border-bottom">
+                                    <a href="<?=$link_v?>" class="text-dark hover-green font-weight-500 d-block">
+                                        <i class="fas fa-chevron-right small mr-2 green"></i> <?=$v['ten_vi']?>
+                                        <div class="small text-muted ml-4"><?=date('d/m/Y', $v['ngaytao'])?></div>
+                                    </a>
+                                </li>
+                                <?php } ?>
+                            </ul>
+                        </div>
+                    </div>
+                    <?php } ?>
 
                 </div>
             </div>

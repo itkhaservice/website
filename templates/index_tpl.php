@@ -368,7 +368,9 @@
             <div class="row">
                 <div class="col-xl-12">
                     <div class="owl-carousel price-slider">
-                        <?php if(!empty($ds_duan)) { foreach($ds_duan as $v) { ?>
+                        <?php if(!empty($ds_duan)) { foreach($ds_duan as $v) { 
+                            $link_duan = 'du-an/' . ($v['ten_khong_dau']!='' ? $v['ten_khong_dau'] : $v['id']) . '.html';
+                        ?>
                         <div class="item">
                             <div class="price-each relative img-lined text-center wow fadeInUp" style="background: url('<?=($v['photo']!='' && file_exists($v['photo'])) ? $v['photo'] : 'https://placehold.co/600x400/ebebeb/666666?text=No+Image'?>') center center / cover no-repeat;">
                                 <div class="price-head z-8 underlined">
@@ -376,7 +378,7 @@
                                         <span class="badge badge-success px-3 py-2 mt-3 shadow" style="background-color: #108042; font-size: 12px; font-weight: 600; text-transform: uppercase;"><?=$v['ten_khuvuc']?></span>
                                     <?php } ?>
                                 </div>
-                                <a href="index.php?com=du-an&id=<?=$v['id']?>" class="btn btn-round wide mt-10 z-8 text-uppercase"><?=$v['ten_vi']?></a>
+                                <a href="<?=$link_duan?>" class="btn btn-round wide mt-10 z-8 text-uppercase"><?=$v['ten_vi']?></a>
                             </div>
                         </div>
                         <?php }} ?>
@@ -437,6 +439,56 @@
     </section>
     <!-- Testimonial area end -->
 
+    <!-- Photo Gallery area start -->
+    <?php if(!empty($ds_thuvien)) { ?>
+    <section class="gallery-area pt-95 pb-70 bg-light-white">
+        <div class="container">
+            <div class="row align-items-end text-center text-lg-left mb-45">
+                <div class="col-lg-7">
+                    <div class="fancy-head left-al">
+                        <h5 class="line-head mb-15">
+                            <span class="line before d-lg-none"></span>
+                            BỘ SƯU TẬP
+                            <span class="line after"></span>
+                        </h5>
+                        <h1>Thư Viện Ảnh</h1>
+                    </div>
+                </div>
+                <div class="col-lg-5 text-lg-right mt-md-20">
+                    <a href="thu-vien-anh.html" class="btn btn-square-border">XEM TẤT CẢ<i class="fas fa-long-arrow-alt-right ml-20"></i></a>
+                </div>
+            </div>
+            <div class="row">
+                <?php foreach($ds_thuvien as $v) { 
+                    $link_tv = 'thu-vien-anh/' . ($v['ten_khong_dau']!='' ? $v['ten_khong_dau'] : $v['id']) . '.html';
+                ?>
+                <div class="col-lg-4 col-md-6 mb-30">
+                    <div class="gallery-card bg-white shadow-sm rounded-lg overflow-hidden h-100 transition-4" style="border-radius: 12px;">
+                        <div class="gallery-thumb relative overflow-hidden" style="height: 240px;">
+                            <a href="<?=$link_tv?>" class="d-block h-100">
+                                <img src="<?=get_photo($v['photo'])?>" alt="<?=$v['ten_vi']?>" class="w-100 h-100 object-fit-cover transition-4">
+                            </a>
+                            <div class="gallery-overlay d-flex flex-column align-items-center justify-content-center" style="background: rgba(16, 128, 66, 0.8);">
+                                <div class="icon-circle mb-3" style="width: 50px; height: 50px; border: 1px solid #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-images text-white"></i>
+                                </div>
+                                <a href="<?=$link_tv?>" class="btn btn-round-blue btn-sm" style="font-size: 11px; padding: 8px 15px;">XEM ALBUM</a>
+                            </div>
+                        </div>
+                        <div class="gallery-info p-3 text-center">
+                            <h6 class="f-700 mb-0">
+                                <a href="<?=$link_tv?>" class="text-dark hover-green text-split-2" style="font-size: 15px;"><?=$v['ten_vi']?></a>
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+                <?php } ?>
+            </div>
+        </div>
+    </section>
+    <?php } ?>
+    <!-- Photo Gallery area end -->
+
     <!-- Blog/news letter area start -->
     <section>
         <div class="container">
@@ -461,7 +513,8 @@
                             </div>
                             <div class="blog-text">
                                 <h6 style="margin-bottom: 5px;">
-                                    <a href="index.php?com=tin-tuc&id=<?=$v['id']?>" class="f-700 text-split-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.8em; line-height: 1.4em;"><?=$v['ten_vi']?></a>
+                                    <?php $link_tintuc = 'tin-tuc/chi-tiet/' . ($v['ten_khong_dau']!='' ? $v['ten_khong_dau'] : $v['id']) . '.html'; ?>
+                                    <a href="<?=$link_tintuc?>" class="f-700 text-split-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.8em; line-height: 1.4em;"><?=$v['ten_vi']?></a>
                                 </h6>
                                 <p class="f-500 mb-0 small text-muted"><?=date('d/m/Y', $v['ngaytao'])?> / <?=($v['ten_danhmuc']!='')?$v['ten_danhmuc']:'Tin tức'?></p>
                             </div>

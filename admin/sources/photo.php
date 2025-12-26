@@ -2,10 +2,17 @@
 if(!defined('_source')) die("Error");
 
 $act = (isset($_REQUEST['act'])) ? addslashes($_REQUEST['act']) : "";
-$type = (isset($_REQUEST['type'])) ? addslashes($_REQUEST['type']) : "slider";
+$type = (isset($_REQUEST['type'])) ? addslashes($_REQUEST['type']) : "slideshow";
 
 switch($type){
-    case 'slider': $title_main = "Slider Trang chủ"; break;
+    case 'slideshow': $title_main = "Slider Trang chủ"; break;
+    case 'banner-gioithieu': $title_main = "Banner Giới thiệu"; break;
+    case 'banner-linhvuc': $title_main = "Banner Lĩnh vực hoạt động"; break;
+    case 'banner-duan': $title_main = "Banner Dự án"; break;
+    case 'banner-tintuc': $title_main = "Banner Tin tức"; break;
+    case 'banner-tuyendung': $title_main = "Banner Tuyển dụng"; break;
+    case 'banner-lienhe': $title_main = "Banner Liên hệ"; break;
+    case 'inner-banner': $title_main = "Banner Khác"; break;
     case 'doi-tac': $title_main = "Đối tác"; break;
     default: $title_main = "Hình ảnh"; break;
 }
@@ -71,20 +78,31 @@ function save_item(){
     $data['type'] = $type;
     $data['hienthi'] = isset($_POST['hienthi']) ? 1 : 0;
     
+    // Nếu là banner (không phải slider/đối tác) và đang bật hiển thị, thì tắt các cái khác cùng type
+    if($data['hienthi'] == 1 && strpos($type, 'banner') !== false) {
+        $d->reset();
+        $sql = "UPDATE #_photo SET hienthi = 0 WHERE type = '$type'";
+        $d->query($sql);
+    }
+
     // Xử lý hình ảnh
-    // Lưu ý: Đường dẫn upload có thể khác nhau tùy loại ảnh, nhưng tạm thời gom chung vào thư mục upload/hinhanh/
-    $upload_path = _upload_hinhanh_l; 
+    $upload_path_physical = '../upload/banner/'; 
     
-    // Nếu là slider thì dùng path slider (nếu có config riêng)
-    if($type == 'slider') $upload_path = _upload_hinhanh_l; // Dùng chung cho tiện
+    // Đảm bảo thư mục tồn tại
+    if (!file_exists($upload_path_physical)) mkdir($upload_path_physical, 0777, true);
     
-    if($photo = upload_image("file", 'jpg|png|gif|jpeg|JPG|PNG', $upload_path, $file_name)){
-        $data['photo'] = $upload_path . $photo;
+    if($photo = upload_image("file", 'jpg|png|gif|jpeg|JPG|PNG|webp|WEBP', $upload_path_physical, $file_name)){
+        $data['photo'] = 'upload/banner/' . $photo; // Lưu đường dẫn tương đối từ gốc
         if($id){
             $d->reset();
             $d->query("select photo from #_photo where id='".$id."'");
             $row = $d->fetch_array();
-            if($row['photo'] != "") @unlink($row['photo']);
+            if($row['photo'] != "" && file_exists('../'.$row['photo'])) @unlink('../'.$row['photo']);
+        }
+    } else {
+        // Nếu không tải file mới, kiểm tra ảnh chọn từ server (Browser)
+        if(isset($_POST['photo_from_server']) && $_POST['photo_from_server'] != '') {
+            $data['photo'] = str_replace('../', '', $_POST['photo_from_server']);
         }
     }
     

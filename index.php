@@ -31,6 +31,44 @@ $d->reset();
 $d->query("select * from #_setting limit 0,1");
 $row_setting = $d->fetch_array();
 
+// Global Queries (Menu)
+$d->reset();
+$d->query("select ten_vi, id from #_khuvuc where hienthi=1 order by stt asc");
+$menu_khuvuc = $d->result_array();
+
+$d->reset();
+$d->query("select ten_vi, ten_khong_dau, id from #_dichvu where hienthi=1 and noibat=1 order by stt asc");
+$menu_dichvu = $d->result_array();
+
+$d->reset();
+$d->query("select ten_vi, ten_khong_dau, id from #_news_cat where hienthi=1 and type='tin-tuc' order by stt asc");
+$menu_news_cat = $d->result_array();
+
+// Lấy Banner Trang Con (Inner Banner) tùy theo COM
+$banner_type = 'inner-banner'; // Mặc định là trang khác
+switch($com){
+    case 'gioi-thieu': $banner_type = 'banner-gioithieu'; break;
+    case 'linh-vuc-hoat-dong':
+    case 'dich-vu': $banner_type = 'banner-linhvuc'; break;
+    case 'du-an': $banner_type = 'banner-duan'; break;
+    case 'tin-tuc': $banner_type = 'banner-tintuc'; break;
+    case 'tuyen-dung': $banner_type = 'banner-tuyendung'; break;
+    case 'lien-he': $banner_type = 'banner-lienhe'; break;
+}
+
+$d->reset();
+$d->query("select photo from #_photo where type='$banner_type' and hienthi=1 order by stt asc, id desc limit 0,1");
+$inner_banner = $d->fetch_array();
+
+// Nếu trang cụ thể chưa có banner, lấy banner mặc định (inner-banner)
+if(empty($inner_banner['photo']) && $banner_type != 'inner-banner'){
+    $d->reset();
+    $d->query("select photo from #_photo where type='inner-banner' and hienthi=1 order by stt asc, id desc limit 0,1");
+    $inner_banner = $d->fetch_array();
+}
+
+$inner_banner_img = (!empty($inner_banner['photo'])) ? $inner_banner['photo'] : 'img/banner/inner-banner.jpg';
+
 // Routing
 $com = (isset($_REQUEST['com'])) ? addslashes($_REQUEST['com']) : "";
 $act = (isset($_REQUEST['act'])) ? addslashes($_REQUEST['act']) : "";
@@ -65,9 +103,21 @@ switch($com){
         $source = "thuvienanh";
         $template = "thuvienanh"; // Cần kiểm tra file template này có tồn tại không
         break;
+    case 'search':
+        $source = "search";
+        $template = "search";
+        break;
     case 'lien-he':
         $source = "contact";
         $template = "contact";
+        break;
+    case 'thank-you':
+        $source = "thankyou";
+        $template = "thankyou";
+        break;
+    case '404':
+        $source = "404";
+        $template = "404";
         break;
     default:
         $source = "index";

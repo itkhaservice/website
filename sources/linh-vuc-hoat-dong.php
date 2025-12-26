@@ -26,10 +26,32 @@ if($id){
     $ds_khac = $d->result_array();
     
 } else {
-    // TRANG DANH SÁCH
+    // --- TRANG DANH SÁCH DỊCH VỤ ---
+    $per_page = isset($_GET['per_page']) ? (int)$_GET['per_page'] : 8;
+    $page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+    if($page < 1) $page = 1;
+    $startpoint = ($page * $per_page) - $per_page;
+
+    // Đếm tổng số
     $d->reset();
-    $d->query("select * from #_dichvu where hienthi=1 order by stt asc, id desc");
+    $d->query("select count(id) as num from #_dichvu where hienthi=1");
+    $row_num = $d->fetch_array();
+    $total_items = $row_num['num'];
+    $total_pages = ceil($total_items / $per_page);
+
+    // Lấy dữ liệu
+    $d->reset();
+    $d->query("select * from #_dichvu where hienthi=1 order by stt asc, id desc limit $startpoint, $per_page");
     $ds_dichvu = $d->result_array();
+    
+    // Tạo mảng phân trang cho View
+    $paging = array(
+        'total' => $total_items,
+        'per_page' => $per_page,
+        'current' => $page,
+        'last' => $total_pages,
+        'url' => 'linh-vuc-hoat-dong.html'
+    );
     
     $title_bar = "Lĩnh vực hoạt động";
     $template = "linh-vuc-hoat-dong";

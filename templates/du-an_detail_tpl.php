@@ -1,5 +1,5 @@
     <!-- immer banner start -->
-    <section class="inner-banner pt-80 pb-95" style="background-image: url('img/banner/inner-banner.jpg');" data-overlay="7">
+    <section class="inner-banner pt-80 pb-95" style="background-image: url('<?=$inner_banner_img?>');" data-overlay="7">
         <div class="container">
             <div class="row z-5 align-items-center">
                 <div class="col-md-8 text-center text-md-left">
@@ -10,7 +10,7 @@
                     <nav aria-label="breadcrumb" class="banner-breadcump d-none">
                         <ol class="breadcrumb justify-content-center">
                             <li class="breadcrumb-item"><a href="index.php"><i class="fas fa-home fs-12 mr-5"></i>Trang chủ</a></li>
-                            <li class="breadcrumb-item"><a href="index.php?com=du-an">Dự án</a></li>
+                            <li class="breadcrumb-item"><a href="du-an.html">Dự án</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Chi tiết</li>
                         </ol>
                     </nav>
@@ -39,6 +39,14 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
+                    <h1 class="f-700 lh-13 mt-5 mb-20"><?=$row_detail['ten_vi']?></h1>
+                    
+                    <?php if(!empty($row_detail['mota_vi'])) { ?>
+                        <div class="description font-weight-bold text-justify mb-30" style="font-size: 1.1em; color: #444; border-left: 4px solid #108042; padding-left: 20px;">
+                            <?=nl2br($row_detail['mota_vi'])?>
+                        </div>
+                    <?php } ?>
+
                     <div class="content-main">
                         <?=clearContent($row_detail['noidung_vi'])?>
                     </div>
@@ -57,7 +65,7 @@
                 </div>
                 <div class="col-md-6 text-center text-md-right">
                     <div class="next-prev-caser">
-                        <a class="f-600" href="index.php?com=du-an"><i class="fas fa-long-arrow-alt-left mr-25"></i> QUAY LẠI</a>
+                        <a class="f-600" href="du-an.html"><i class="fas fa-long-arrow-alt-left mr-25"></i> QUAY LẠI</a>
                     </div>
                 </div>
             </div>

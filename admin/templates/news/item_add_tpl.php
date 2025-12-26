@@ -5,7 +5,7 @@
         'themanh' => ['ten', 'mota', 'photo', 'stt', 'hienthi'],
         'giatri' => ['ten', 'mota', 'photo', 'stt', 'hienthi'],
         'feedback' => ['ten', 'chucvu', 'mota', 'noidung', 'photo', 'rating', 'stt', 'hienthi'],
-        'dichvu' => ['ten', 'slug', 'mota', 'noidung', 'photo', 'stt', 'hienthi', 'seo'],
+        'dichvu' => ['ten', 'slug', 'mota', 'noidung', 'photo', 'noibat', 'stt', 'hienthi', 'seo'],
         'news' => ['ten', 'slug', 'id_cat', 'mota', 'noidung', 'photo', 'noibat', 'stt', 'hienthi', 'seo'],
         'du-an' => ['ten', 'slug', 'id_khuvuc', 'mota', 'noidung', 'photo', 'noibat', 'rating', 'stt', 'hienthi', 'seo'],
     ];
@@ -47,12 +47,46 @@
                             <a class="nav-link font-weight-bold px-4 py-3 border-0" id="seo-tab" data-toggle="tab" href="#seo" role="tab">SEO</a>
                         </li>
                         <?php } ?>
+                        <?php if($com == 'thuvien') { ?>
+                        <li class="nav-item">
+                            <a class="nav-link font-weight-bold px-4 py-3 border-0" id="album-tab" data-toggle="tab" href="#album" role="tab">Album hình ảnh</a>
+                        </li>
+                        <?php } ?>
                     </ul>
                 </div>
                 <?php } ?>
 
                 <div class="card-body">
                     <div class="tab-content">
+                        <!-- Tab Album (Multi Upload) -->
+                        <?php if($com == 'thuvien') { ?>
+                        <div class="tab-pane fade" id="album" role="tabpanel">
+                            <div class="form-group mb-4">
+                                <label class="font-weight-600">Chọn nhiều hình ảnh</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="files[]" id="gallery-files" multiple accept="image/*">
+                                    <label class="custom-file-label" for="gallery-files">Chọn các tệp ảnh từ máy tính...</label>
+                                </div>
+                                <small class="text-muted mt-2 d-block font-italic">Nhấn giữ phím <b>Ctrl</b> để chọn nhiều tệp cùng lúc.</small>
+                            </div>
+                            
+                            <div id="gallery-preview" class="row">
+                                <?php if(!empty($gallery)) { foreach($gallery as $g) { ?>
+                                    <div class="col-md-3 col-sm-4 col-6 mb-4 gallery-item text-center">
+                                        <div class="bg-light p-2 rounded border shadow-xs position-relative">
+                                            <img src="../<?=$g['photo']?>" class="img-fluid rounded mb-2" style="height: 120px; object-fit: cover;">
+                                            <input type="number" name="stt_existing[<?=$g['id']?>]" class="form-control form-control-sm text-center mb-2 mx-auto" value="<?=$g['stt']?>" style="width: 60px;">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="del-gal-<?=$g['id']?>" name="delete_gallery[]" value="<?=$g['id']?>">
+                                                <label class="custom-control-label text-danger small cursor-pointer" for="del-gal-<?=$g['id']?>">Xóa ảnh này</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } } ?>
+                            </div>
+                        </div>
+                        <?php } ?>
+
                         <!-- Tab Thông tin chung -->
                         <div class="tab-pane fade show active" id="info" role="tabpanel">
                             <div class="row">
@@ -157,7 +191,13 @@
         </div>
         
         <div class="col-md-3">
-            <?php if(in_array('photo', $fields)) { ?>
+            <?php if(in_array('photo', $fields)) { 
+                // Xác định kích thước khuyến nghị
+                $size_info = "800x600px";
+                if($com == 'du-an') $size_info = "600x800px";
+                if($com == 'staff') $size_info = "400x500px";
+                if(in_array($com, ['themanh', 'giatri'])) $size_info = "100x100px hoặc 800x600px";
+            ?>
             <div class="card mb-4 shadow-sm border-0" style="border-radius: 12px;">
                 <div class="card-header bg-white font-weight-bold d-flex justify-content-between align-items-center py-3 text-xs uppercase">
                     <span>Hình ảnh</span>
@@ -170,6 +210,7 @@
                         <input type="file" class="custom-file-input" name="file" id="file">
                         <label class="custom-file-label" for="file">Tải ảnh mới...</label>
                     </div>
+                    <small class="text-danger mt-2 d-block">Kích thước khuyến nghị: <b><?=$size_info?></b> (.jpg, .png, .webp)</small>
                     <input type="hidden" name="photo_from_server" id="input-photo" value="<?=$item['photo']?>">
                 </div>
             </div>
@@ -290,6 +331,28 @@
         if(e.target && e.target.classList.contains('custom-file-input')) {
             var fileName = e.target.value.split("\\").pop();
             if(e.target.nextElementSibling) e.target.nextElementSibling.innerHTML = fileName;
+        }
+
+        // Preview cho Multi Upload Gallery
+        if(e.target && e.target.id === 'gallery-files') {
+            var preview = document.getElementById('gallery-preview');
+            var files = e.target.files;
+            
+            for(var i=0; i<files.length; i++) {
+                (function(file, index) {
+                    var reader = new FileReader();
+                    reader.onload = function(re) {
+                        var html = '<div class="col-md-3 col-sm-4 col-6 mb-4 text-center">' +
+                                   '<div class="bg-light p-2 rounded border shadow-xs border-success">' +
+                                   '<img src="' + re.target.result + '" class="img-fluid rounded mb-2" style="height: 120px; object-fit: cover;">' +
+                                   '<input type="number" name="stt_gallery[]" class="form-control form-control-sm text-center mb-2 mx-auto" value="1" style="width: 60px;">' +
+                                   '<span class="badge badge-success px-2 py-1">Mới</span>' +
+                                   '</div></div>';
+                        preview.insertAdjacentHTML('beforeend', html);
+                    }
+                    reader.readAsDataURL(file);
+                })(files[i], i);
+            }
         }
     });
 </script>

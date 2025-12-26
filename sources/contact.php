@@ -15,12 +15,13 @@ if(isset($_POST['btnContact'])){
     if($data['ten'] && $data['email']){
         $d->setTable('contact');
         if($d->insert($data)){
-            transfer("Gửi liên hệ thành công! Chúng tôi sẽ sớm phản hồi.", "index.php");
+            $_SESSION['form_success'] = true;
+            redirect("thank-you.html");
         } else {
-            transfer("Có lỗi xảy ra. Vui lòng thử lại.", "index.php?com=lien-he");
+            transfer("Có lỗi xảy ra. Vui lòng thử lại.", "lien-he.html");
         }
     } else {
-        transfer("Vui lòng điền đầy đủ thông tin.", "index.php?com=lien-he");
+        transfer("Vui lòng điền đầy đủ thông tin.", "lien-he.html");
     }
 }
 ?>

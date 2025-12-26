@@ -1,5 +1,5 @@
     <!-- immer banner start -->
-    <section class="inner-banner pt-80 pb-95" style="background-image: url('img/banner/inner-banner.jpg');" data-overlay="7">
+    <section class="inner-banner pt-80 pb-95" style="background-image: url('<?=$inner_banner_img?>');" data-overlay="7">
         <div class="container">
             <div class="row z-5 align-items-center">
                 <div class="col-md-8 text-center text-md-left">
@@ -28,7 +28,8 @@
                         <div class="col-lg-6 col-md-6">
                             <div class="blog-grid bg-light-white transition-4 mb-30">
                                 <div class="blog-grid-image relative">
-                                    <a href="index.php?com=tin-tuc&id=<?=$v['id']?>">
+                                    <?php $link_v = 'tin-tuc/chi-tiet/' . ($v['ten_khong_dau']!='' ? $v['ten_khong_dau'] : $v['id']) . '.html'; ?>
+                                    <a href="<?=$link_v?>">
                                         <?php 
                                             $img_src = (!empty($v['photo']) && file_exists($v['photo'])) ? $v['photo'] : 'https://placehold.co/600x400/ebebeb/666666?text=No+Image';
                                         ?>
@@ -40,7 +41,7 @@
                                     </div>
                                 </div>
                                 <div class="blog-grid-text">
-                                    <h5 class="f-700 fs-19 mb-5 lh-15"><a href="index.php?com=tin-tuc&id=<?=$v['id']?>"><?=$v['ten_vi']?></a></h5>
+                                    <h5 class="f-700 fs-19 mb-5 lh-15"><a href="<?=$link_v?>"><?=$v['ten_vi']?></a></h5>
                                     <ul class="blog-by-detail mb-5">
                                         <li><a href="">By <span class="green">Admin</span> </a></li>
                                         <li><a href="">Tin tức </a></li>
@@ -53,20 +54,43 @@
                         <?php }} else { echo '<p class="w-100 text-center">Đang cập nhật...</p>'; } ?>
                     </div>
 
-                    <!-- Pagination (Tạm thời ẩn hoặc xử lý sau) -->
-                    <!-- 
-                    <div class="row">
-                        <div class="col-lg-12 text-center">
-                            <div class="pagination-type1 center-align mt-30">
-                                <ul>
-                                    <li><a href=""><i class="fas fa-long-arrow-alt-left"></i></a></li>
-                                    <li><a href="">1</a></li>
-                                    <li><a href=""><i class="fas fa-long-arrow-alt-right"></i></a></li>
-                                </ul>
+                    <!-- Pagination -->
+                    <?php if(isset($paging) && $paging['total'] > 0) { ?>
+                    <div class="row mt-40">
+                        <div class="col-12">
+                            <div class="pagination-footer d-flex flex-wrap align-items-center justify-content-between">
+                                <div class="d-flex align-items-center small mb-2 mb-md-0">
+                                    <span class="text-muted mr-3">Hiển thị</span>
+                                    <select class="form-control per-page-select shadow-none" style="width: 85px;" onchange="window.location.href='<?=$paging['url']?>&per_page=' + this.value;">
+                                        <?php foreach([6, 12, 24, 48] as $p) { ?>
+                                            <option value="<?=$p?>" <?=($paging['per_page']==$p)?'selected':''?>><?=$p?></option>
+                                        <?php } ?>
+                                    </select>
+                                    <span class="text-muted ml-3">mục trên trang. Tổng: <strong class="text-dark"><?=$paging['total']?></strong></span>
+                                </div>
+                                
+                                <nav class="d-inline-block">
+                                    <ul class="pagination m-0">
+                                        <?php if($paging['current'] > 1) { ?>
+                                            <li class="page-item"><a class="page-link" href="<?=$paging['url']?>&p=1" title="Trang đầu"><i class="fas fa-angle-double-left"></i></a></li>
+                                            <li class="page-item"><a class="page-link" href="<?=$paging['url']?>&p=<?=$paging['current']-1?>"><i class="fas fa-angle-left"></i></a></li>
+                                        <?php } ?>
+                                        
+                                        <?php for($i=1; $i<=$paging['last']; $i++) { 
+                                            if($i == 1 || $i == $paging['last'] || ($i >= $paging['current'] - 1 && $i <= $paging['current'] + 1)) { ?>
+                                            <li class="page-item <?=($i==$paging['current'])?'active':''?>"><a class="page-link" href="<?=$paging['url']?>&p=<?=$i?>"><?=$i?></a></li>
+                                        <?php } elseif($i == 2 || $i == $paging['last'] - 1) { echo '<li class="page-item disabled"><span class="page-link border-0 bg-transparent">...</span></li>'; } } ?>
+                                        
+                                        <?php if($paging['current'] < $paging['last']) { ?>
+                                            <li class="page-item"><a class="page-link" href="<?=$paging['url']?>&p=<?=$paging['current']+1?>"><i class="fas fa-angle-right"></i></a></li>
+                                            <li class="page-item"><a class="page-link" href="<?=$paging['url']?>&p=<?=$paging['last']?>" title="Trang cuối"><i class="fas fa-angle-double-right"></i></a></li>
+                                        <?php } ?>
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
-                    </div> 
-                    -->
+                    </div>
+                    <?php } ?>
                 </div>
                 
                 <!-- right-part (Sidebar) -->
@@ -87,11 +111,31 @@
 
                     <div class="right-box bg-light-white mb-30">
                         <div class="right-box-head">
+                            <h4>Danh mục</h4>
+                        </div>
+                        <div class="right-box-content mt-10 mb-10">
+                            <ul class="list-unstyled category-list">
+                                <?php if(!empty($ds_danhmuc_sidebar)) { foreach($ds_danhmuc_sidebar as $v) { ?>
+                                <li class="py-2 border-bottom d-flex justify-content-between align-items-center">
+                                    <a href="tin-tuc/<?=($v['ten_khong_dau']!='' ? $v['ten_khong_dau'] : $v['id'])?>.html" class="text-dark hover-green font-weight-500 d-block w-100">
+                                        <i class="fas fa-chevron-right small mr-2 green"></i> <?=$v['ten_vi']?>
+                                        <span class="badge badge-pill badge-light border text-muted float-right"><?=$v['so_bai']?></span>
+                                    </a>
+                                </li>
+                                <?php }} ?>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="right-box bg-light-white mb-30">
+                        <div class="right-box-head">
                             <h4>Tin mới nhất</h4>
                         </div>
                         <div class="right-box-content mt-10 mb-10">
-                            <?php if(!empty($ds_sidebar)) { foreach($ds_sidebar as $v) { ?>
-                            <a href="index.php?com=tin-tuc&id=<?=$v['id']?>" class="popular-post d-flex align-items-center">
+                            <?php if(!empty($ds_sidebar)) { foreach($ds_sidebar as $v) { 
+                                $link_side = 'tin-tuc/chi-tiet/' . ($v['ten_khong_dau']!='' ? $v['ten_khong_dau'] : $v['id']) . '.html';
+                            ?>
+                            <a href="<?=$link_side?>" class="popular-post d-flex align-items-center">
                                 <div class="popular-post-img mr-20">
                                     <?php 
                                         $img_sidebar = (!empty($v['photo']) && file_exists($v['photo'])) ? $v['photo'] : 'https://placehold.co/100x100/ebebeb/666666?text=New';
@@ -110,11 +154,6 @@
                         </div>
                     </div>
 
-                    <div class="right-box ad-banner bg-light-white mb-30">
-                        <a href="" class="d-block ">
-                            <img src="img/service/ad-banner.jpg" class="w-100" alt="">
-                        </a>
-                    </div>
                 </div>
             </div>
             

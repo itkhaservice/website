@@ -46,31 +46,41 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold">Mã số thuế (taxCode)</label>
+                                <input type="text" name="taxCode" class="form-control" value="<?=$item['taxCode']?>">
+                            </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="font-weight-bold">Mã số thuế (taxCode)</label>
-                                        <input type="text" name="taxCode" class="form-control" value="<?=$item['taxCode']?>">
+                                        <label class="font-weight-bold">Email 1</label>
+                                        <input type="email" name="email" class="form-control" value="<?=$item['email']?>">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="font-weight-bold">Email</label>
-                                        <input type="email" name="email" class="form-control" value="<?=$item['email']?>">
+                                        <label class="font-weight-bold">Email Tuyển dụng</label>
+                                        <input type="email" name="email2" class="form-control" value="<?=$item['email2']?>">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="font-weight-bold">Điện thoại</label>
                                         <input type="text" name="dienthoai" class="form-control" value="<?=$item['dienthoai']?>">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="font-weight-bold text-danger">Hotline</label>
+                                        <label class="font-weight-bold text-danger">Hotline 1</label>
                                         <input type="text" name="hotline" class="form-control font-weight-bold text-danger" value="<?=$item['hotline']?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold text-danger">Hotline Tuyển dụng</label>
+                                        <input type="text" name="hotline2" class="form-control font-weight-bold text-danger" value="<?=$item['hotline2']?>">
                                     </div>
                                 </div>
                             </div>
@@ -148,6 +158,7 @@
                         <input type="file" class="custom-file-input" name="logo_file" id="logo_file">
                         <label class="custom-file-label" for="logo_file">Tải ảnh mới...</label>
                     </div>
+                    <small class="text-danger mt-2 d-block">Khuyên dùng: <b>200x200px</b> (.png hoặc .ico)</small>
                 </div>
             </div>
 
@@ -169,6 +180,7 @@
                         <input type="file" class="custom-file-input" name="logoRectangle_file" id="logoRectangle_file">
                         <label class="custom-file-label" for="logoRectangle_file">Tải ảnh mới...</label>
                     </div>
+                    <small class="text-danger mt-2 d-block">Khuyên dùng: <b>400x150px</b> (.png trong suốt)</small>
                 </div>
             </div>
         </div>

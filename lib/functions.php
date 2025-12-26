@@ -1989,6 +1989,16 @@ function getRated($id){
     return (int) $rate['rate'];
 }
 
+function get_photo($photo, $default = 'img/no-image.png') {
+    if(!empty($photo) && file_exists($photo)) {
+        return $photo;
+    }
+    if(file_exists($default)) {
+        return $default;
+    }
+    return 'https://placehold.co/600x400/ebebeb/a8a8a8?text=KHASERVICE';
+}
+
 function upload_images($file, $extension, $folder, $newname = '', $max_file = 999)
 {
 

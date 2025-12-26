@@ -1,5 +1,5 @@
     <!-- immer banner start -->
-    <section class="inner-banner pt-80 pb-95" style="background-image: url('img/banner/inner-banner.jpg');" data-overlay="7">
+    <section class="inner-banner pt-80 pb-95" style="background-image: url('<?=$inner_banner_img?>');" data-overlay="7">
         <div class="container">
             <div class="row z-5 align-items-center">
                 <div class="col-md-8 text-center text-md-left">
@@ -42,15 +42,18 @@
                             </div>
                         </div>
                         <div class="icon-box-content">
-                            <h5 class="f-700 fs-19 mb-10">Phone</h5>
-                            <p><?=$row_setting['dienthoai']?></p>
-                            <p><?=$row_setting['hotline']?></p>
+                            <h5 class="f-700 fs-19 mb-10">Phone & Hotline</h5>
+                            <p class="mb-0">Tel: <?=$row_setting['dienthoai']?></p>
+                            <p class="mb-0">Hotline 1: <?=$row_setting['hotline']?></p>
+                            <?php if(!empty($row_setting['hotline2'])) { ?>
+                                <p class="mb-0">Hotline 2: <?=$row_setting['hotline2']?></p>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-4 col-md-6">
-                    <div class="d-flex">
+                    <div class="d-flex mb-sm-30">
                         <div class="icon-box">
                             <div class="icon-box-icon">
                                 <i class="far fa-envelope green"></i>
@@ -58,7 +61,10 @@
                         </div>
                         <div class="icon-box-content">
                             <h5 class="f-700 fs-19 mb-10">Email</h5>
-                            <p><?=$row_setting['email']?></p>
+                            <p class="mb-0">Email 1: <?=$row_setting['email']?></p>
+                            <?php if(!empty($row_setting['email2'])) { ?>
+                                <p class="mb-0">Email 2: <?=$row_setting['email2']?></p>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>

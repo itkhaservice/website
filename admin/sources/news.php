@@ -33,9 +33,11 @@ switch($com){
         if($type=='gioi-thieu'){
             $table_db = 'gioithieu'; 
             $title_main = "Giới thiệu";
+            $folder_upload = 'gioithieu';
         } elseif($type=='tuyen-dung'){
             $table_db = 'tuyendung'; 
             $title_main = "Vị trí tuyển dụng";
+            $folder_upload = 'tuyendung';
         } else {
             $table_db = 'news'; 
             if($type=='') $type = 'tin-tuc'; 
@@ -56,9 +58,9 @@ switch($act){
             $d->query("select id, ten_vi from #_khuvuc order by stt asc, id desc");
             $regions = $d->result_array();
         }
-        if($type == 'tin-tuc'){
+        if($type == 'tin-tuc' || $type == 'thuvien-anh'){
             $d->reset();
-            $d->query("select id, ten_vi from #_news_cat where type='tin-tuc' order by stt asc, id desc");
+            $d->query("select id, ten_vi from #_news_cat where type='$type' order by stt asc, id desc");
             $categories = $d->result_array();
         }
         $template = ($type=='gioi-thieu' || $type=='tuyen-dung') ? "gioithieu/item_add" : "news/item_add";
@@ -91,10 +93,10 @@ function get_items(){
         $regions = $d->result_array();
     }
 
-    // Lấy danh sách danh mục để lọc cho module tin tức
-    if($type == 'tin-tuc'){
+    // Lấy danh sách danh mục để lọc cho module tin tức hoặc thư viện
+    if($type == 'tin-tuc' || $type == 'thuvien-anh'){
         $d->reset();
-        $d->query("select id, ten_vi from #_news_cat where type='tin-tuc' order by stt asc, id desc");
+        $d->query("select id, ten_vi from #_news_cat where type='$type' order by stt asc, id desc");
         $categories = $d->result_array();
     }
 
@@ -160,7 +162,7 @@ function get_items(){
 }
 
 function get_item(){
-    global $d, $item, $table_db, $regions, $categories;
+    global $d, $item, $table_db, $regions, $categories, $gallery;
     $id = isset($_GET['id']) ? (int)$_GET['id'] : "";
     if(!$id)
         transfer("Không tìm thấy dữ liệu", "index.php?com=".$_GET['com']."&act=man&type=".$_GET['type']);
@@ -184,6 +186,13 @@ function get_item(){
     $d->query($sql);
     if($d->num_rows()==0) transfer("Dữ liệu không có thực", "index.php?com=".$_GET['com']."&act=man&type=".$_GET['type']);
     $item = $d->fetch_array();
+
+    // Lấy danh sách ảnh Gallery cho Thư viện ảnh
+    if($_GET['com'] == 'thuvien'){
+        $d->reset();
+        $d->query("select * from #_thuvien_photo where id_main='$id' order by stt asc, id desc");
+        $gallery = $d->result_array();
+    }
 }
 
 function save_item(){
@@ -214,7 +223,7 @@ function save_item(){
     if(isset($_POST['id_cat'])) $data['id_cat'] = (int)$_POST['id_cat'];
     
     // Xử lý nổi bật cho các bảng có cột này
-    if(in_array($table_db, ['news', 'duan'])) {
+    if(in_array($table_db, ['news', 'duan', 'thuvien'])) {
         $data['noibat'] = isset($_POST['noibat']) ? 1 : 0;
     }
 
@@ -223,20 +232,15 @@ function save_item(){
         $data['type'] = $type;
     }
 
-    // Xử lý hình ảnh
+    // Xử lý hình ảnh đại diện
     $file_name = fns_Rand_digit(0,9,12);
-    
-    // 1. Xác định đường dẫn vật lý để upload (Admin đang ở thư mục /admin/ nên cần ../)
-    $upload_dir = (isset($folder_upload) && $folder_upload != '') ? $folder_upload : $table_db;
+    $upload_dir = ($com == 'thuvien') ? 'thuvien' : (($table_db == 'news') ? 'news' : $table_db);
     $upload_path_physical = '../upload/' . $upload_dir . '/';
     if (!file_exists($upload_path_physical)) mkdir($upload_path_physical, 0777, true);
 
-    // 2. Ưu tiên file tải lên mới từ máy tính
     if(isset($_FILES['file']) && $_FILES['file']['name'] != ''){
         if($photo = upload_image("file", 'jpg|png|gif|jpeg|JPG|PNG|webp|WEBP', $upload_path_physical, $file_name)){
-            // Lưu vào DB đường dẫn tương đối tính từ gốc website
             $data['photo'] = 'upload/' . $upload_dir . '/' . $photo;
-            
             if($id){
                 $d->reset(); $d->query("select photo from #_$table_db where id='$id'");
                 $row = $d->fetch_array();
@@ -244,9 +248,7 @@ function save_item(){
             }
         }
     } else {
-        // 3. Nếu không tải file mới, kiểm tra ảnh chọn từ server (Browser)
         if(isset($_POST['photo_from_server']) && $_POST['photo_from_server'] != '') {
-            // Đảm bảo không có ../ trong DB
             $data['photo'] = str_replace('../', '', $_POST['photo_from_server']);
         }
     }
@@ -256,18 +258,58 @@ function save_item(){
     if($id){
         $data['ngaysua'] = time();
         $d->setWhere('id', $id);
-        if($d->update($data))
-            redirect("index.php?com=$com&act=man&type=$type");
-        else
-            transfer("Cập nhật dữ liệu bị lỗi", "index.php?com=$com&act=man&type=$type");
+        $d->update($data);
     }else{
         $data['ngaytao'] = time();
-
-        if($d->insert($data))
-            redirect("index.php?com=$com&act=man&type=$type");
-        else
-            transfer("Lưu dữ liệu bị lỗi", "index.php?com=$com&act=man&type=$type");
+        $d->insert($data);
+        // Lấy ID vừa chèn bằng mysqli_insert_id từ connection của class database
+        $id = mysqli_insert_id($d->db);
     }
+
+    // XỬ LÝ MULTI-PHOTO GALLERY (Cho Thư viện ảnh)
+    if($com == 'thuvien' && $id > 0){
+        // Đảm bảo thư mục tồn tại trước khi upload gallery
+        if (!file_exists($upload_path_physical)) mkdir($upload_path_physical, 0777, true);
+        
+        if (isset($_FILES['files'])) {
+            for($i=0; $i<count($_FILES['files']['name']); $i++) {
+                if ($_FILES['files']['name'][$i] != '') {
+                    $_FILES['file_temp']['name'] = $_FILES['files']['name'][$i];
+                    $_FILES['file_temp']['type'] = $_FILES['files']['type'][$i];
+                    $_FILES['file_temp']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
+                    $_FILES['file_temp']['error'] = $_FILES['files']['error'][$i];
+                    $_FILES['file_temp']['size'] = $_FILES['files']['size'][$i];
+                    
+                    $file_name_gallery = fns_Rand_digit(0,9,12) . "_" . $i;
+                    if($photo_gallery = upload_image("file_temp", 'jpg|png|gif|jpeg|JPG|PNG|webp|WEBP', $upload_path_physical, $file_name_gallery)){
+                        $data_gallery['photo'] = 'upload/' . $upload_dir . '/' . $photo_gallery;
+                        $data_gallery['id_main'] = $id;
+                        $data_gallery['stt'] = (int)$_POST['stt_gallery'][$i];
+                        $data_gallery['hienthi'] = 1;
+                        $d->reset();
+                        $d->setTable('thuvien_photo');
+                        $d->insert($data_gallery);
+                    }
+                }
+            }
+        }
+        
+        // Xử lý xóa ảnh trong gallery
+        if(isset($_POST['delete_gallery']) && !empty($_POST['delete_gallery'])){
+            foreach($_POST['delete_gallery'] as $id_gal){
+                $d->reset(); $d->query("select photo from #_thuvien_photo where id='$id_gal'");
+                $row_gal = $d->fetch_array();
+                if($row_gal['photo'] != "" && file_exists('../'.$row_gal['photo'])) @unlink('../'.$row_gal['photo']);
+                
+                $d->reset();
+                $d->setTable('thuvien_photo');
+                $d->setWhere('id', $id_gal);
+                $d->delete();
+            }
+        }
+    }
+
+    redirect("index.php?com=$com&act=man&type=$type");
 }
 
 function delete_item(){

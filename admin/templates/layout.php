@@ -261,6 +261,30 @@
             box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
     </style>
+<style>
+    .custom-switch-lg .custom-control-label::before {
+        height: 1.5rem;
+        width: 2.5rem;
+        border-radius: 1rem;
+    }
+    .custom-switch-lg .custom-control-label::after {
+        width: calc(1.5rem - 4px);
+        height: calc(1.5rem - 4px);
+        border-radius: 1rem;
+    }
+    .custom-switch-lg .custom-control-input:checked ~ .custom-control-label::after {
+        transform: translateX(1rem);
+    }
+    .custom-switch-lg .custom-control-label {
+        padding-left: 3rem;
+        padding-top: 0.25rem;
+    }
+    .cursor-pointer { cursor: pointer; }
+    .btn-white { background: #fff; border: 1px solid #dee2e6; color: #495057; }
+    .btn-white:hover { background: #f8f9fa; color: #212529; }
+    .table thead th { border-top: none; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.5px; color: #6c757d; }
+    .card { border-radius: 12px; box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); border: none; }
+</style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -417,11 +441,55 @@
           </li>
 
           <li class="nav-header mt-3">HÌNH ẢNH & GIAO DIỆN</li>
-          <li class="nav-item">
-            <a href="index.php?com=photo&act=man&type=banner" class="nav-link <?=$_GET['type']=='banner'?'active':''?>">
+          <li class="nav-item <?=($com=='photo' && $_GET['type']!='slideshow')?'menu-open':''?>">
+            <a href="#" class="nav-link <?=($com=='photo' && $_GET['type']!='slideshow')?'active':''?>">
               <i class="nav-icon fas fa-image"></i>
-              <p>Banner</p>
+              <p>Banner trang con <i class="right fas fa-angle-left"></i></p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="index.php?com=photo&act=man&type=banner-gioithieu" class="nav-link <?=$_GET['type']=='banner-gioithieu'?'active':''?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Banner Giới thiệu</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="index.php?com=photo&act=man&type=banner-linhvuc" class="nav-link <?=$_GET['type']=='banner-linhvuc'?'active':''?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Banner Lĩnh vực</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="index.php?com=photo&act=man&type=banner-duan" class="nav-link <?=$_GET['type']=='banner-duan'?'active':''?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Banner Dự án</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="index.php?com=photo&act=man&type=banner-tintuc" class="nav-link <?=$_GET['type']=='banner-tintuc'?'active':''?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Banner Tin tức</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="index.php?com=photo&act=man&type=banner-tuyendung" class="nav-link <?=$_GET['type']=='banner-tuyendung'?'active':''?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Banner Tuyển dụng</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="index.php?com=photo&act=man&type=banner-lienhe" class="nav-link <?=$_GET['type']=='banner-lienhe'?'active':''?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Banner Liên hệ</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="index.php?com=photo&act=man&type=inner-banner" class="nav-link <?=$_GET['type']=='inner-banner'?'active':''?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Banner Khác</p>
+                </a>
+              </li>
+            </ul>
           </li>
           <li class="nav-item">
             <a href="index.php?com=photo&act=man&type=slideshow" class="nav-link <?=$_GET['type']=='slideshow'?'active':''?>">
@@ -450,25 +518,11 @@
             </ul>
           </li>
 
-                        <li class="nav-item <?=($com=='news' || $com=='static') && $_GET['type']=='tuyen-dung'?'menu-open':''?>">
-                            <a href="#" class="nav-link <?=($com=='news' || $com=='static') && $_GET['type']=='tuyen-dung'?'active':''?>">
+                        <li class="nav-item">
+                            <a href="index.php?com=news&act=man&type=tuyen-dung" class="nav-link <?=$com=='news' && $_GET['type']=='tuyen-dung'?'active':''?>">
                                 <i class="nav-icon fas fa-user-tie"></i>
-                                <p>Tuyển dụng <i class="right fas fa-angle-left"></i></p>
+                                <p>Tuyển dụng</p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="index.php?com=static&act=capnhat&type=tuyen-dung" class="nav-link <?=$com=='static' && $_GET['type']=='tuyen-dung'?'active':''?>">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Thông tin liên hệ</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="index.php?com=news&act=man&type=tuyen-dung" class="nav-link <?=$com=='news' && $_GET['type']=='tuyen-dung'?'active':''?>">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Vị trí tuyển dụng</p>
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
 
                         <li class="nav-header">THIẾT LẬP HỆ THỐNG</li>
@@ -582,6 +636,35 @@ $(document).ready(function(){
         var deleteUrl = "index.php?com=<?=$com?>&act=delete_all&type=<?=$type?>&listid=" + ids.join(',');
         $('#btn-confirm-delete').attr('href', deleteUrl);
         $('#confirmDeleteModal').modal('show');
+    });
+
+    $('.checkbox-hienthi-banner').change(function() {
+        var id = $(this).data('id');
+        var type = $(this).data('type');
+        var value = $(this).is(':checked') ? 1 : 0;
+        var _this = $(this);
+
+        $.ajax({
+            url: 'ajax/ajax_banner.php',
+            type: 'POST',
+            data: {
+                id: id,
+                type: type,
+                value: value
+            },
+            success: function(response){
+                if(response == 1){
+                    if(value == 1) {
+                        // Uncheck others of the same type in UI
+                        $('.checkbox-hienthi-banner[data-type="' + type + '"]').not(_this).prop('checked', false);
+                    }
+                    toastr.success('Cập nhật trạng thái hiển thị thành công!');
+                } else {
+                    toastr.error('Cập nhật thất bại. Vui lòng thử lại!');
+                    _this.prop('checked', !value);
+                }
+            }
+        });
     });
 
     $('.checkbox-hienthi').change(function() {

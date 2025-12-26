@@ -1,6 +1,5 @@
-<!-- immer banner start -->
-    <section class="inner-banner pt-80 pb-95" style="background-image: url('img/banner/inner-banner.jpg');" data-overlay="7">
-        <div class="container">
+    <!-- immer banner start -->
+    <section class="inner-banner pt-80 pb-95" style="background-image: url('<?=$inner_banner_img?>');" data-overlay="7">        <div class="container">
             <div class="row z-5 align-items-center">
                 <div class="col-md-8 text-center text-md-left">
                     <h1 class="f-700 green">Lĩnh vực hoạt động</h1>

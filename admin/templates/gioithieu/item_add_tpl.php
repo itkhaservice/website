@@ -91,6 +91,7 @@
                         <input type="file" class="custom-file-input" name="file" id="file">
                         <label class="custom-file-label" for="file">Tải ảnh mới...</label>
                     </div>
+                    <small class="text-danger mt-2 d-block text-xs">Kích thước khuyến nghị: <b>800x600px</b></small>
                     <input type="hidden" name="photo_from_server" id="input-photo" value="<?=$item['photo']?>">
                 </div>
             </div>

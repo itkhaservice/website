@@ -47,27 +47,33 @@
                                     </li>
                                     <li class="<?=$com=='linh-vuc-hoat-dong'?'active':''?>">
                                         <a href="linh-vuc-hoat-dong.html">Lĩnh vực hoạt động <i class="fas fa-angle-down"></i></a>
+                                        <?php if(!empty($menu_dichvu)) { ?>
                                         <ul class="submenu">
-                                            <li><a href="linh-vuc-hoat-dong/quan-ly.html">Dịch vụ quản lý và vận hành nhà chung cư</a></li>
-                                            <li><a href="linh-vuc-hoat-dong/bao-tri.html">Dịch vụ bảo trì máy lạnh, thi công lắp đặt điện</a></li>
-                                            <li><a href="linh-vuc-hoat-dong/giu-xe.html">Dịch vụ giữ xe tháng: ôtô, xe gắn máy</a></li>
-                                            <li><a href="linh-vuc-hoat-dong/sua-chua.html">Dịch vụ sửa chữa nhà, trang trí nội thất</a></li>
-                                            <li><a href="linh-vuc-hoat-dong/bao-ve.html">Dịch vụ bảo vệ</a></li>
-                                            <li><a href="linh-vuc-hoat-dong/ve-sinh.html">Dịch vụ giặt ủi</a></li>
-                                            <li><a href="linh-vuc-hoat-dong/cay-xanh.html">Dịch vụ cây xanh</a></li>
+                                            <?php foreach($menu_dichvu as $v) { ?>
+                                                <li><a href="dich-vu/<?=$v['ten_khong_dau']?>.html"><?=$v['ten_vi']?></a></li>
+                                            <?php } ?>
                                         </ul>
+                                        <?php } ?>
                                     </li>
                                     <li class="<?=$com=='du-an'?'active':''?>">
-                                        <a href="du-an.html">Dự án</a>
+                                        <a href="du-an.html">Dự án <i class="fas fa-angle-down"></i></a>
+                                        <?php if(!empty($menu_khuvuc)) { ?>
+                                        <ul class="submenu">
+                                            <?php foreach($menu_khuvuc as $v) { ?>
+                                                <li><a href="du-an.html?id_khuvuc=<?=$v['id']?>"><?=$v['ten_vi']?></a></li>
+                                            <?php } ?>
+                                        </ul>
+                                        <?php } ?>
                                     </li>
                                     <li class="<?=$com=='tin-tuc'?'active':''?>">
                                         <a href="tin-tuc.html">Tin tức <i class="fas fa-angle-down"></i></a>
+                                        <?php if(!empty($menu_news_cat)) { ?>
                                         <ul class="submenu">
-                                            <li><a href="tin-tuc/tin-cong-ty.html">Tin công ty</a></li>
-                                            <li><a href="tin-tuc/tin-nganh.html">Tin trong ngành</a></li>
-                                            <li><a href="tin-tuc/phong-thuy.html">Kiến thức phong thủy</a></li>
-                                            <li><a href="tin-tuc/cam-nang.html">Sổ tay cư dân</a></li>
+                                            <?php foreach($menu_news_cat as $v) { ?>
+                                                <li><a href="tin-tuc/<?=$v['ten_khong_dau']?>.html"><?=$v['ten_vi']?></a></li>
+                                            <?php } ?>
                                         </ul>
+                                        <?php } ?>
                                     </li>
                                     <li class="<?=$com=='tuyen-dung'?'active':''?>"><a href="tuyen-dung.html">Tuyển dụng</a></li>
                                     <li class="<?=$com=='thu-vien-anh'?'active':''?>"><a href="thu-vien-anh.html">Thư viện ảnh</a></li>
@@ -88,7 +94,7 @@
                 </div>
 
                 <!-- Desktop/Mobile Icons -->
-                <div class="col-auto px-3 px-lg-4 icon-col d-flex align-items-center">
+                <div class="col-auto px-3 px-lg-4 icon-col d-flex align-items-center icon-col-desktop">
                     <div class="icon-links d-flex align-items-center">
                         <a href="" class="search-icon d-none d-lg-block black mr-20" data-toggle="modal" data-target="#searchModal">
                             <i class="fas fa-search"></i>
@@ -106,9 +112,7 @@
                 </div>
 
                 <!-- Mobile Menu Container -->
-                <div class="col-12">
-                    <div class="mobile-menu-3"></div>
-                </div>
+                <div class="mobile-menu-3 d-lg-none"></div>
             </div>
         </div>
 
@@ -118,9 +122,10 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <form action="#">
+                    <form action="index.php" method="get">
+                        <input type="hidden" name="com" value="search">
                         <div class="form-group relative">
-                            <input type="text" class="form-control input-search" id="search" placeholder="Tìm kiếm...">
+                            <input type="text" class="form-control input-search" name="keyword" id="search" placeholder="Tìm kiếm..." required>
                             <i class="fas fa-search transform-v-center"></i>
                         </div>
                     </form>

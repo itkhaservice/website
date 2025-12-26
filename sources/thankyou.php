@@ -1,10 +1,15 @@
-<?php if(!defined('_source')) die("Error");
+<?php 
+if(!defined('_source')) die("Error");
 
-    $title_bar = "THANK YOU";
+$title_bar = "Cảm ơn bạn";
+$title_t = "Gửi thông tin thành công";
 
-    if(!$_SESSION['formTuVan'])
-        redirect('/');
+// Session check
+if(!isset($_SESSION['form_success']) || $_SESSION['form_success'] == false){
+    // Tạm thời comment redirect để bạn có thể test giao diện
+    // redirect("index.php");
+}
 
-    $_SESSION['formTuVan'] = false;
-        
+// Reset session after viewing
+$_SESSION['form_success'] = false;
 ?>
