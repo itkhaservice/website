@@ -68,8 +68,12 @@
                                 <?php } ?>
                             </div>
                             <div class="form-group mt-3">
-                                <label class="font-weight-600">Mô tả số liệu</label>
+                                <label class="font-weight-600">Mô tả số liệu (Bên trái thống kê)</label>
                                 <textarea name="mota_solieu" id="mota_solieu" class="form-control editor shadow-none border"><?=$item['mota_solieu']?></textarea>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label class="font-weight-600">Mô tả đối tác (Bên trái logo đối tác)</label>
+                                <textarea name="mota_doitac" id="mota_doitac" class="form-control editor shadow-none border"><?=$item['mota_doitac']?></textarea>
                             </div>
                             <div class="form-group mt-3 mb-0">
                                 <label class="font-weight-600 text-danger"><i class="fab fa-youtube mr-1"></i> Link Video (Youtube)</label>
@@ -156,10 +160,10 @@
             ]
         };
         
-        var ids = ['noidung_vi', 'tamnhin', 'sumenh', 'mota_solieu'];
+        var ids = ['noidung_vi', 'tamnhin', 'sumenh', 'mota_solieu', 'mota_doitac'];
         ids.forEach(function(id) {
             if(document.getElementById(id)) {
-                CKEDITOR.replace(id, (id === 'mota_solieu') ? Object.assign({}, config, {height: 150}) : config);
+                CKEDITOR.replace(id, (id === 'mota_solieu' || id === 'mota_doitac') ? Object.assign({}, config, {height: 150}) : config);
             }
         });
     }

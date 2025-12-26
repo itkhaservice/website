@@ -8,12 +8,16 @@
                         <div class="row">
                             <div class="col-xl-7 col-md-8">
                                 <div class="slider-content-3 z-10">
-                                    <h5 class="line-head">
-                                          <?=!empty($v['mota_vi']) ? $v['mota_vi'] : 'Khaservice'?>
-                                        <span class="line  after"></span>
-                                      </h5>
-                                    <h1 class="banner-head-2 banner-head-3 black f-700 mt-15 mb-35 mt-xs-20 mb-xs-30"><?=$v['ten_vi']?></h1>
-                                    <a href="index.php?com=gioi-thieu" class="btn btn-square-border">Xem thêm<i class="fas fa-long-arrow-alt-right ml-20"></i></a>
+                                    <div class="line-head h5-custom-editor">
+                                          <?=!empty($v['mota_vi']) ? htmlspecialchars_decode($v['mota_vi']) : 'Khaservice'?>
+                                        <span class="line after"></span>
+                                    </div>
+                                    <div class="banner-head-2 banner-head-3 black f-700 mt-15 mb-35 mt-xs-20 mb-xs-30 h1-custom-editor">
+                                        <?=htmlspecialchars_decode($v['ten_vi'])?>
+                                    </div>
+                                    <?php if(!empty($v['link'])) { ?>
+                                    <a href="<?=$v['link']?>" class="btn btn-square-border">Xem thêm<i class="fas fa-long-arrow-alt-right ml-20"></i></a>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
@@ -28,10 +32,10 @@
                         <div class="row">
                             <div class="col-xl-7 col-md-8">
                                 <div class="slider-content-3 z-10">
-                                    <h5 class="line-head">
-                              1000+ Happy Clients
-                            <span class="line  after"></span>
-                          </h5>
+                                    <div class="line-head">
+                                        1000+ Happy Clients
+                                        <span class="line after"></span>
+                                    </div>
                                     <h1 class="banner-head-2 banner-head-3 black f-700 mt-15 mb-35 mt-xs-20 mb-xs-30">Let's <span class="green">Make Something Awesome Together</span> with the Right People.</h1>
                                     <a href="" class="btn btn-square-border">Learn More<i class="fas fa-long-arrow-alt-right ml-20"></i></a>
                                 </div>
@@ -64,6 +68,41 @@
             </div>
         </div>
     </section>
+    
+    <style>
+        /* Fix styles for CKEditor content in Slider */
+        .h5-custom-editor { position: relative; display: inline-block; font-size: 1.25rem; font-weight: 500; }
+        .h5-custom-editor p { margin-bottom: 0; display: inline-block; }
+        .h5-custom-editor .line { position: absolute; top: 50%; transform: translateY(-50%); }
+        
+        .h1-custom-editor { font-size: 3rem; line-height: 1.2; }
+        .h1-custom-editor p { margin-bottom: 0; }
+        
+        /* Cấu trúc Slider mới: Tự động chiều cao theo chiều rộng */
+        .silder-img {
+            height: auto !important;
+            min-height: auto !important;
+            aspect-ratio: 1920 / 750; /* Tỷ lệ vàng cho banner desktop */
+            background-size: cover !important;
+            background-position: center center !important;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 767px) {
+            /* Tự động tính chiều cao theo chiều rộng trên mobile (Tỷ lệ 16:9 chuẩn mobile) */
+            .silder-img { 
+                aspect-ratio: 16 / 9 !important;
+                background-position: center center !important;
+            }
+            
+            /* Ẩn hoàn toàn nội dung chữ trên mobile theo yêu cầu */
+            .slider-content-3 {
+                display: none !important;
+            }
+        }
+    </style>
     <!-- Slider end -->
 
     <!-- Our features start -->
@@ -95,9 +134,11 @@
                 <div class="col-lg-5">
                     <div class="ceo-video relative img-lined mx-auto shadow-1 wow fadeInLeft">
                         <img src="<?=!empty($about['photo']) ? $about['photo'] : 'img/about/ceo.jpg'?>" alt="">
-                        <!-- <div class="blob green transform-center">
-                            <a href="https://www.youtube.com/watch?v=qtQgbdmIO30" class="popup-video"> <i class="fas fa-play"></i></a>
-                        </div> -->
+                        <?php if(!empty($about['video'])) { ?>
+                        <div class="blob green transform-center">
+                            <a href="<?=$about['video']?>" class="popup-video"> <i class="fas fa-play"></i></a>
+                        </div>
+                        <?php } ?>
                     </div>
                 </div>
                 <div class="col-lg-7">
@@ -194,13 +235,26 @@
             <div class="row align-items-xl-center">
                 <div class="col-lg-6">
                     <div class="video-present relative img-lined shadow-1 bg-blue wow fadeInLeft">
-                        <img src="img/feature/office_video.jpg" class="opacity-5 img-100" alt="">
+                        <img src="<?=!empty($about['photo']) ? $about['photo'] : 'img/feature/office_video.jpg'?>" class="opacity-5 img-100" alt="">
                         <div class="video-text transform-center">
+                            <?php 
+                            if(!empty($about['video'])) { 
+                                // Xử lý link Youtube để lấy ID chuẩn, tránh lỗi popup
+                                $video_url = $about['video'];
+                                $video_id = '';
+                                
+                                // Pattern bắt link youtube các kiểu (ngắn, dài, embed...)
+                                if(preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $video_url, $match)) {
+                                    $video_id = $match[1];
+                                }
+                                
+                                // Nếu lấy được ID thì tạo link chuẩn, không thì giữ nguyên link gốc (dự phòng)
+                                $final_url = ($video_id != '') ? 'https://www.youtube.com/watch?v=' . $video_id : $video_url;
+                            ?>
                             <div class="blob green video-blob">
-                                <a href="https://www.youtube.com/watch?v=qtQgbdmIO30" class="popup-video"> <i class="fas fa-play"></i></a>
+                                <a href="<?=$final_url?>" class="popup-video"> <i class="fas fa-play"></i></a>
                             </div>
-                            <h4 class="white f-700 mt-15">Video Presentation</h4>
-                            <p class="white mt-5 mb-0">Lorem ipsum dolor sit amet</p>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>

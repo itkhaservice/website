@@ -21,7 +21,9 @@
                 <table class="table table-hover mb-0">
                     <thead>
                         <tr>
+                            <?php if(strpos($type, 'banner') === false && $type != 'doi-tac'){ ?>
                             <th style="width: 80px" class="text-center align-middle">STT</th>
+                            <?php } ?>
                             <th class="text-center align-middle">Hình ảnh</th>
                             <th style="width: 150px" class="text-center align-middle">Trạng thái</th>
                             <th style="width: 150px" class="text-center align-middle">Thao tác</th>
@@ -30,9 +32,11 @@
                     <tbody>
                         <?php if(!empty($items)) { foreach($items as $k=>$v){ ?>
                         <tr>
+                            <?php if(strpos($type, 'banner') === false && $type != 'doi-tac'){ ?>
                             <td class="text-center align-middle">
                                 <input type="number" class="form-control form-control-sm text-center update-stt mx-auto shadow-sm" value="<?=$v['stt']?>" data-id="<?=$v['id']?>" data-table="photo" style="width: 60px; border-radius: 5px;">
                             </td>
+                            <?php } ?>
                             <td class="text-center align-middle py-3">
                                 <?php if($v['photo']!=''){ ?>
                                 <div class="position-relative d-inline-block">

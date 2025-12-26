@@ -89,5 +89,15 @@ if($id || $slug){
         'last' => $total_pages,
         'url' => 'du-an.html' // URL gốc
     );
+
+    // Lấy thông tin thống kê (About Us)
+    $d->reset();
+    $d->query("select * from #_static where type='ve-chung-toi' limit 0,1");
+    $about = $d->fetch_array();
+
+    // Lấy danh sách đối tác
+    $d->reset();
+    $d->query("select ten_vi, photo, link from #_photo where type='doi-tac' and hienthi=1 order by stt asc, id desc");
+    $ds_doitac = $d->result_array();
 }
 ?>

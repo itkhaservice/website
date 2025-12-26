@@ -50,6 +50,7 @@ function save_item(){
     if(isset($_POST['sl_giaithuong'])) $data['sl_giaithuong'] = (int)$_POST['sl_giaithuong'];
     if(isset($_POST['sl_doitac'])) $data['sl_doitac'] = (int)$_POST['sl_doitac'];
     if(isset($_POST['mota_solieu'])) $data['mota_solieu'] = $_POST['mota_solieu'];
+    if(isset($_POST['mota_doitac'])) $data['mota_doitac'] = $_POST['mota_doitac'];
     if(isset($_POST['tamnhin'])) $data['tamnhin'] = $_POST['tamnhin'];
     if(isset($_POST['sumenh'])) $data['sumenh'] = $_POST['sumenh'];
     $data['type'] = $type;

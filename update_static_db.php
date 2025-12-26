@@ -1,11 +1,23 @@
 <?php
-    $conn = new mysqli('localhost', 'root', '', 'khaservice_db');
-    if ($conn->connect_error) die("Connection failed");
+session_start();
+@define ( '_lib' , './lib/');
+@define ( '_IN_ADMIN' , true );
 
-    $conn->query("ALTER TABLE table_static ADD COLUMN IF NOT EXISTS sl_khachhang int(11) DEFAULT 0");
-    $conn->query("ALTER TABLE table_static ADD COLUMN IF NOT EXISTS sl_giaithuong int(11) DEFAULT 0");
-    $conn->query("ALTER TABLE table_static ADD COLUMN IF NOT EXISTS sl_doitac int(11) DEFAULT 0");
-    $conn->query("ALTER TABLE table_static ADD COLUMN IF NOT EXISTS mota_solieu text");
+// Giả lập môi trường
+$localhost = 1;
+$_SERVER['SERVER_NAME'] = 'localhost';
 
-    echo "Cap nhat Database thanh cong!";
+include_once _lib."config.php";
+include_once _lib."class.database.php";
+
+$d = new database($config['database']);
+
+// Thêm cột mota_doitac vào bảng table_static
+$sql = "ALTER TABLE `table_static` ADD `mota_doitac` TEXT NULL DEFAULT NULL AFTER `mota_solieu`;";
+
+if($d->query($sql)){
+    echo "Thêm cột mota_doitac thành công.<br>";
+} else {
+    echo "Lỗi thêm cột hoặc cột đã tồn tại.<br>";
+}
 ?>
