@@ -8,6 +8,9 @@
   </div>
 </div>
 
+<!-- Include CKEditor -->
+<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+
 <section class="content">
     <div class="container-fluid">
         <form method="post" action="index.php?com=photo&act=save&type=<?=$type?>" enctype="multipart/form-data">
@@ -19,15 +22,32 @@
                             <h3 class="card-title font-weight-bold"><i class="fas fa-image mr-2 text-primary"></i>Chi tiết hình ảnh</h3>
                         </div>
                         <div class="card-body p-4">
-                            <?php if(strpos($type, 'banner') === false){ ?>
+                            <?php if(strpos($type, 'banner') === false && $type != 'slideshow'){ ?>
                             <div class="form-group mb-4">
-                                <label class="font-weight-600">Tiêu đề</label>
-                                <input type="text" name="ten_vi" class="form-control form-control-lg border-light bg-light" value="<?=$item['ten_vi']?>" placeholder="Nhập tiêu đề...">
+                                <label class="font-weight-600">Tên <?=$type=='doi-tac'?'đối tác':'hình ảnh'?></label>
+                                <input type="text" name="ten_vi" class="form-control form-control-lg border-light bg-light" value="<?=$item['ten_vi']?>" placeholder="Nhập tên...">
                             </div>
                             
                             <div class="form-group mb-4">
                                 <label class="font-weight-600">Link liên kết</label>
                                 <input type="text" name="link" class="form-control form-control-lg border-light bg-light" value="<?=$item['link']?>" placeholder="https://...">
+                            </div>
+                            <?php } ?>
+
+                            <?php if($type == 'slideshow'){ ?>
+                            <div class="form-group mb-4">
+                                <label class="font-weight-600 text-primary">Nội dung chính (H1 - Chữ lớn bên dưới) - Dùng CKEditor</label>
+                                <textarea name="ten_vi" id="ten_vi" class="form-control border-primary bg-light" rows="3"><?=$item['ten_vi']?></textarea>
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label class="font-weight-600 text-info">Tiêu đề nhỏ (H5 - Chữ nhỏ bên trên) - Dùng CKEditor</label>
+                                <textarea name="mota_vi" id="mota_vi" class="form-control border-light bg-light" rows="3"><?=$item['mota_vi']?></textarea>
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label class="font-weight-600">Link liên kết (Nút xem thêm)</label>
+                                <input type="text" name="link" class="form-control border-light bg-light" value="<?=$item['link']?>" placeholder="Ví dụ: index.php?com=gioi-thieu">
                             </div>
                             <?php } ?>
 
@@ -41,7 +61,12 @@
                                     <label class="custom-file-label border-light bg-light" for="file_photo">Chọn tệp từ máy tính...</label>
                                 </div>
                                 <small class="text-muted d-block bg-info-light p-2 rounded" style="background: #e7f3ff; color: #0056b3;">
-                                    <i class="fas fa-info-circle mr-1"></i> Định dạng: .jpg, .png, .webp. Kích thước khuyên dùng: <b>1920x720px</b>
+                                    <i class="fas fa-info-circle mr-1"></i> Định dạng: .jpg, .png, .webp. <br>
+                                    <?php if($type == 'slideshow') { ?>
+                                        Kích thước khuyến nghị: <b>1920x600px</b> (Tỷ lệ 3.2:1)
+                                    <?php } else { ?>
+                                        Kích thước khuyến nghị: <b>1920x720px</b> (.jpg, .png, .webp)
+                                    <?php } ?>
                                 </small>
                                 
                                 <div class="mt-4 p-3 border rounded text-center bg-white shadow-sm mx-auto" style="max-width: 500px; border-style: dashed !important; border-width: 2px !important;">
@@ -50,22 +75,17 @@
                                     <input type="hidden" name="photo_from_server" id="input-photo" value="<?=$item['photo']?>">
                                 </div>
                             </div>
-                            
-                            <?php if($type == 'slideshow'){ ?>
-                            <div class="form-group mb-4">
-                                <label class="font-weight-600">Mô tả ngắn</label>
-                                <textarea name="mota_vi" class="form-control border-light bg-light" rows="3" placeholder="Nhập mô tả cho slider..."><?=$item['mota_vi']?></textarea>
-                            </div>
-                            <?php } ?>
 
                             <div class="row">
+                                <?php if(strpos($type, 'banner') === false && $type != 'slideshow'){ ?>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="font-weight-600">Thứ tự hiển thị</label>
                                         <input type="number" name="stt" class="form-control border-light bg-light" value="<?=isset($item['stt'])?$item['stt']:1?>" style="width:120px">
                                     </div>
                                 </div>
-                                <div class="col-md-6 d-flex align-items-end">
+                                <?php } ?>
+                                <div class="<?=strpos($type, 'banner') === false && $type != 'slideshow' ? 'col-md-6' : 'col-md-12'?> d-flex align-items-end">
                                     <div class="form-group mb-2">
                                         <div class="custom-control custom-switch custom-switch-lg">
                                             <input type="checkbox" class="custom-control-input" id="hienthi" name="hienthi" <?=(!isset($item['hienthi']) || $item['hienthi']==1)?'checked':''?>> 
@@ -85,10 +105,9 @@
         </form>
     </div>
 </section>
-
 <script>
     function openBrowser(field) {
-        var dir = 'banner';
+        var dir = '<?= (strpos($type, "banner") !== false) ? "banner" : $type ?>';
         window.open('browser.php?field=' + field + '&dir=' + dir, 'Browser', 'width=1000,height=600,scrollbars=yes');
     }
 
@@ -108,4 +127,40 @@
         }
         reader.readAsDataURL(this.files[0]);
     });
+
+    <?php if($type == 'slideshow'){ ?>
+    // Sử dụng sự kiện DOMContentLoaded để đảm bảo DOM đã sẵn sàng
+    // Không phụ thuộc vào jQuery vì jQuery có thể load sau
+    document.addEventListener("DOMContentLoaded", function() {
+        if(typeof CKEDITOR !== 'undefined') {
+            var commonConfig = {
+                height: 150,
+                basicEntities: false,
+                entities: false,
+                entities_latin: false,
+                allowedContent: true,
+                versionCheck: false,
+                toolbar: [
+                    { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ] },
+                    { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+                    { name: 'styles', items: [ 'Font', 'FontSize' ] },
+                    { name: 'paragraph', items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
+                    { name: 'document', items: [ 'Source' ] }
+                ]
+            };
+
+            // CKEditor cho Nội dung chính (H1)
+            if(document.getElementById('ten_vi')) {
+                CKEDITOR.replace('ten_vi', commonConfig);
+            }
+
+            // CKEditor cho Tiêu đề nhỏ (H5)
+            if(document.getElementById('mota_vi')) {
+                CKEDITOR.replace('mota_vi', commonConfig);
+            }
+        } else {
+            console.error("CKEDITOR chưa được load!");
+        }
+    });
+    <?php } ?>
 </script>

@@ -498,7 +498,13 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="index.php?com=thuvien&act=man" class="nav-link <?=($com=='thuvien' || $com=='news_cat') && $_GET['type']=='thuvien-anh' ?'active':''?>">
+            <a href="index.php?com=photo&act=man&type=doi-tac" class="nav-link <?=$_GET['type']=='doi-tac'?'active':''?>">
+              <i class="nav-icon fas fa-handshake"></i>
+              <p>Khách hàng & Đối tác</p>
+            </a>
+          </li>
+          <li class="nav-item <?=($com=='thuvien' || ($com=='news_cat' && $_GET['type']=='thuvien-anh')) ? 'menu-open' : ''?>">
+            <a href="#" class="nav-link <?=($com=='thuvien' || ($com=='news_cat' && $_GET['type']=='thuvien-anh')) ? 'active' : ''?>">
               <i class="nav-icon fas fa-camera-retro"></i>
               <p>Thư viện ảnh <i class="right fas fa-angle-left"></i></p>
             </a>
@@ -778,44 +784,37 @@ $(document).ready(function(){
     // --- FIX SIDEBAR SCROLL POSITION ---
     function saveSidebarScroll() {
         var scrollTop = 0;
-        // Thử lấy từ OverlayScrollbars
-        var viewport = $('.main-sidebar .os-viewport');
+        var viewport = $('.main-sidebar .os-viewport'); // Plugin wrapper
         if (viewport.length > 0) {
             scrollTop = viewport.scrollTop();
         } else {
-            // Fallback cho native scroll
-            scrollTop = $('.sidebar').scrollTop();
+            scrollTop = $('.sidebar').scrollTop(); // Native
         }
-        if(scrollTop > 0) localStorage.setItem('sidebar_scroll_top', scrollTop);
+        localStorage.setItem('sidebar_scroll_top', scrollTop);
     }
 
-    // Lưu khi click vào menu
+    // Lưu khi click vào link
     $('.nav-sidebar a.nav-link').on('click', function() {
         saveSidebarScroll();
     });
 
-    // Khôi phục vị trí cuộn
+    // Khôi phục ngay lập tức
     function restoreSidebarScroll() {
         var sidebarScrollTop = localStorage.getItem('sidebar_scroll_top');
-        if (sidebarScrollTop) {
-            // Thử set cho OverlayScrollbars (nếu đã load)
+        if (sidebarScrollTop && sidebarScrollTop > 0) {
             var viewport = $('.main-sidebar .os-viewport');
             if (viewport.length > 0) {
                 viewport.scrollTop(sidebarScrollTop);
+            } else {
+                $('.sidebar').scrollTop(sidebarScrollTop);
             }
-            // Set cho native sidebar (dự phòng)
-            $('.sidebar').scrollTop(sidebarScrollTop);
         }
     }
 
-    // Gọi khôi phục ngay lập tức
     restoreSidebarScroll();
-
-    // Gọi lại sau 500ms để đảm bảo OverlayScrollbars đã init xong
-    setTimeout(restoreSidebarScroll, 500);
     
-    // Và một lần nữa sau 1s cho chắc chắn
-    setTimeout(restoreSidebarScroll, 1000);
+    // Check lại nhẹ nhàng sau 100ms để đảm bảo plugin init không reset về 0
+    setTimeout(restoreSidebarScroll, 100);
 });
 </script>
 </body>

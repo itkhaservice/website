@@ -99,35 +99,36 @@ function save_item(){
     $data['mota_vi'] = $_POST['mota_vi'];
     $data['stt'] = $_POST['stt'];
     $data['type'] = $type;
-    $data['hienthi'] = isset($_POST['hienthi']) ? 1 : 0;
-    
-    // Nếu là banner (không phải slider/đối tác) và đang bật hiển thị, thì tắt các cái khác cùng type
-    if($data['hienthi'] == 1 && strpos($type, 'banner') !== false) {
-        $d->reset();
-        $sql = "UPDATE #_photo SET hienthi = 0 WHERE type = '$type'";
-        $d->query($sql);
-    }
-
-    // Xử lý hình ảnh
-    $upload_path_physical = '../upload/banner/'; 
-    
-    // Đảm bảo thư mục tồn tại
-    if (!file_exists($upload_path_physical)) mkdir($upload_path_physical, 0777, true);
-    
-    if($photo = upload_image("file", 'jpg|png|gif|jpeg|JPG|PNG|webp|WEBP', $upload_path_physical, $file_name)){
-        $data['photo'] = 'upload/banner/' . $photo; // Lưu đường dẫn tương đối từ gốc
-        if($id){
+        $data['hienthi'] = isset($_POST['hienthi']) ? 1 : 0;
+        
+        // Nếu là banner (không phải slideshow/đối tác) và đang bật hiển thị, thì tắt các cái khác cùng type
+        if($data['hienthi'] == 1 && strpos($type, 'banner') !== false) {
             $d->reset();
-            $d->query("select photo from #_photo where id='".$id."'");
-            $row = $d->fetch_array();
-            if($row['photo'] != "" && file_exists('../'.$row['photo'])) @unlink('../'.$row['photo']);
+            $sql = "UPDATE #_photo SET hienthi = 0 WHERE type = '$type'";
+            $d->query($sql);
         }
-    } else {
-        // Nếu không tải file mới, kiểm tra ảnh chọn từ server (Browser)
-        if(isset($_POST['photo_from_server']) && $_POST['photo_from_server'] != '') {
-            $data['photo'] = str_replace('../', '', $_POST['photo_from_server']);
+    
+        // Xử lý hình ảnh
+        $folder = (strpos($type, 'banner') !== false) ? 'banner' : $type;
+        $upload_path_physical = '../upload/' . $folder . '/'; 
+        
+        // Đảm bảo thư mục tồn tại
+        if (!file_exists($upload_path_physical)) mkdir($upload_path_physical, 0777, true);
+        
+        if($photo = upload_image("file", 'jpg|png|gif|jpeg|JPG|PNG|webp|WEBP', $upload_path_physical, $file_name)){
+            $data['photo'] = 'upload/' . $folder . '/' . $photo; // Lưu đường dẫn tương đối từ gốc
+            if($id){
+                $d->reset();
+                $d->query("select photo from #_photo where id='" . $id . "'");
+                $row = $d->fetch_array();
+                if($row['photo'] != "" && file_exists('../'.$row['photo'])) @unlink('../'.$row['photo']);
+            }
+        } else {
+            // Nếu không tải file mới, kiểm tra ảnh chọn từ server (Browser)
+            if(isset($_POST['photo_from_server']) && $_POST['photo_from_server'] != '') {
+                $data['photo'] = str_replace('../', '', $_POST['photo_from_server']);
+            }
         }
-    }
     
     if($id){ // Cập nhật
         $d->reset();
