@@ -4,7 +4,7 @@
             <h1 class="m-0 text-dark" style="font-size: 1.5rem; font-weight: 700;">Cấu hình hệ thống</h1>
         </div>
         <div class="col-sm-6 text-right">
-            <button type="submit" class="btn btn-primary shadow-sm px-4 font-weight-bold" style="border-radius: 10px;"><i class="fas fa-save mr-2"></i> LƯU THIẾT LẬP</button>
+            <button type="submit" class="btn btn-sm btn-primary shadow-sm px-4 font-weight-bold" style="border-radius: 8px;"><i class="fas fa-save mr-2"></i> LƯU THIẾT LẬP</button>
         </div>
     </div>
 

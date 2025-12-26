@@ -6,6 +6,22 @@
     <!-- Header start -->
     <!-- Top Header removed as per request -->
     <header class="transperant-head header-style-3 transition-4" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 999; background: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        <style>
+            .main-menu-3 ul li a {
+                font-weight: 700 !important; /* Làm đậm chữ */
+                text-transform: uppercase; /* Viết hoa để nghiêm túc hơn */
+                font-size: 14px; /* Tinh chỉnh kích thước */
+                letter-spacing: 0.5px;
+            }
+            .main-menu-3 ul li .submenu li a {
+                font-weight: 600 !important;
+                text-transform: none; /* Submenu không cần viết hoa hết */
+                font-size: 13px;
+            }
+            .main-menu-3 ul li.active > a {
+                color: #108042 !important; /* Màu xanh thương hiệu khi active */
+            }
+        </style>
         <div class="container-fluid px-lg-5">
             <div class="row align-items-center no-gutters justify-content-between header-row">
                 <!-- Mobile Left Placeholder (to balance if needed, but we use absolute centering for logo) -->

@@ -21,8 +21,8 @@
             <h1 class="m-0 text-dark" style="font-size: 1.25rem; font-weight: 700; color: #1e293b !important;">Quản lý: <?=$title_main?></h1>
         </div>
         <div class="col-sm-6 text-right">
-            <button type="submit" class="btn btn-sm btn-save shadow-sm mr-1 px-3"><i class="fas fa-save mr-1"></i> Lưu dữ liệu</button>
-            <a href="index.php?com=<?=$com?>&act=man&type=<?=$type?>" class="btn btn-sm btn-secondary shadow-sm px-3"><i class="fas fa-undo mr-1"></i> Hủy bỏ</a>
+            <button type="submit" class="btn btn-sm btn-primary shadow-sm mr-2 px-3" style="font-weight: 600;"><i class="fas fa-save mr-1"></i> Lưu dữ liệu</button>
+            <a href="index.php?com=<?=$com?>&act=man&type=<?=$type?>" class="btn btn-sm btn-light border shadow-sm px-3 text-secondary" style="font-weight: 600;"><i class="fas fa-sign-out-alt mr-1"></i> Thoát</a>
         </div>
     </div>
 
@@ -271,7 +271,7 @@
             filebrowserUploadUrl: 'ck_upload.php?dir=' + dir,
             filebrowserImageUploadUrl: 'ck_upload.php?dir=' + dir,
             // Thêm các Plugin quan trọng cho Styles và Định dạng
-            extraPlugins: 'image,filebrowser,justify,colorbutton,font,panelbutton,floatpanel,button',
+            extraPlugins: 'image,filebrowser,justify,colorbutton,font,panelbutton,floatpanel,button,colordialog',
             stylesSet: [
                 { name: 'Ảnh rộng 100%', element: 'img', attributes: { 'class': 'img-100' } },
                 { name: 'Ảnh rộng 75%', element: 'img', attributes: { 'class': 'img-75' } },

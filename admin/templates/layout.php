@@ -10,293 +10,229 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Toastr -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <!-- Google Font: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Font: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary: #108042; /* Màu xanh mới */
+            /* Modern Palette - Khaservice Green */
+            --primary: rgb(16, 128, 66); 
+            --primary-light: rgba(16, 128, 66, 0.1);
             --secondary: #64748b;
             --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
             --info: #3b82f6;
-            --dark: #1e293b;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f172a;
             --light: #f8fafc;
+            --border-color: #e2e8f0;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
         
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f1f5f9;
             color: #334155;
+            font-size: 0.925rem;
         }
 
+        /* --- Sidebar & Header --- */
         .main-header {
-            border-bottom: 1px solid #e2e8f0;
-            background: #fff;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1039;
         }
 
         .main-sidebar {
             background: #fff;
-            box-shadow: 1px 0 10px rgba(0,0,0,0.05);
-            border-right: 1px solid #e2e8f0;
+            border-right: 1px solid var(--border-color);
             height: 100vh;
-            overflow-y: hidden; /* AdminLTE tự xử lý scroll, nhưng ta sẽ override nếu cần */
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 1040;
         }
-        /* Fix scrollbar cho sidebar */
-        .sidebar {
-            height: calc(100vh - 57px); /* Trừ đi height của header/brand */
-            overflow-y: auto;
-            scrollbar-width: thin; /* Firefox */
-            padding-bottom: 100px; /* Thêm khoảng trống lớn ở dưới */
-        }
-        .sidebar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .sidebar::-webkit-scrollbar-thumb {
-            background-color: rgba(0,0,0,0.2);
-            border-radius: 3px;
-        }
+        
         .brand-link {
-            border-bottom: 1px solid #e2e8f0 !important;
-            height: 57px; /* Cố định height để tính toán */
+            border-bottom: 1px solid var(--border-color) !important;
+            background: #fff;
+            height: 57px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+        
+        .sidebar {
+            height: calc(100vh - 57px) !important;
+            overflow-y: auto !important;
+            padding-bottom: 60px !important;
+        }
+
         .nav-sidebar .nav-link {
             color: #475569;
             font-weight: 500;
-            border-radius: 8px;
+            border-radius: 10px;
             margin-bottom: 4px;
+            padding: 0.6rem 1rem;
+            transition: all 0.2s ease;
         }
         .nav-sidebar .nav-link:hover {
-            background-color: #f1f5f9;
+            background-color: var(--primary-light);
             color: var(--primary);
         }
         .nav-sidebar .nav-link.active {
-            background-color: var(--primary);
-            color: #fff;
-            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2), 0 2px 4px -1px rgba(79, 70, 229, 0.1);
+            background-color: var(--primary) !important;
+            color: #fff !important;
+            box-shadow: 0 4px 12px rgba(16, 128, 66, 0.3) !important;
         }
+        .nav-sidebar .nav-link.active .nav-icon { color: #fff !important; }
         .nav-sidebar .nav-icon {
             color: #94a3b8;
+            font-size: 1.1rem;
+            margin-right: 0.5rem;
+            width: 1.5rem;
+            text-align: center;
         }
-        .nav-sidebar .nav-link.active .nav-icon {
-            color: #fff;
-        }
+        
         .nav-header {
             color: #94a3b8;
             font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
         }
 
-        .content-wrapper {
-            background-color: #f3f4f6;
+        /* --- Override AdminLTE Blue --- */
+        .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
+            background-color: var(--primary) !important;
         }
-        
+        .nav-treeview > .nav-item > .nav-link.active {
+            background-color: var(--primary-light) !important;
+            color: var(--primary) !important;
+        }
+
+        /* --- Card & Content --- */
         .card {
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            background: #fff;
+            transition: all 0.3s ease;
+            overflow: hidden;
             margin-bottom: 1.5rem;
         }
         .card-header {
             background-color: #fff;
             border-bottom: 1px solid #f1f5f9;
-            padding: 1.25rem;
-            border-top-left-radius: 12px !important;
-            border-top-right-radius: 12px !important;
+            padding: 1.25rem 1.5rem;
         }
         .card-title {
-            font-weight: 600;
-            color: #1e293b;
+            color: var(--dark);
+            font-size: 1.1rem;
+            font-weight: 700;
         }
+
+        /* --- Widgets (Small Box) --- */
+        .small-box {
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            background: #fff !important;
+            border: 1px solid #e2e8f0;
+        }
+        .small-box .inner { padding: 1.5rem; }
+        .small-box h3 { font-weight: 800; font-size: 2rem; color: var(--dark); }
+        .small-box p { color: #64748b; font-weight: 500; }
+        .small-box .icon { position: absolute; top: 50%; right: 1.5rem; transform: translateY(-50%); }
+        .small-box .icon i { font-size: 3rem; color: #f1f5f9; }
         
-        .table thead th {
-            border-top: none;
-            border-bottom: 2px solid #e2e8f0;
-            color: #64748b;
-            font-weight: 600;
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        .table td {
-            vertical-align: middle;
-            color: #334155;
+        .box-info { border-left: 4px solid var(--info); }
+        .box-success { border-left: 4px solid var(--primary); }
+        .box-warning { border-left: 4px solid var(--warning); }
+        .box-danger { border-left: 4px solid var(--danger); }
+        
+        .small-box-footer {
+            background: #f8fafc !important;
+            color: var(--secondary) !important;
+            padding: 0.75rem 1.5rem;
             border-top: 1px solid #f1f5f9;
+            font-weight: 600;
         }
-        
+
+        /* --- Buttons --- */
         .btn {
-            border-radius: 6px;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            box-shadow: none !important;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s;
         }
         .btn-primary {
-            background-color: var(--primary) !important;
-            border-color: var(--primary) !important;
+            background: var(--primary) !important;
+            border: none !important;
+            box-shadow: 0 4px 10px rgba(16, 128, 66, 0.2);
         }
-        .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
-            background-color: #0d6b35 !important;
-            border-color: #0d6b35 !important;
-        }
-
-        /* Outline buttons (Nút duyệt) */
-        .btn-outline-primary {
-            color: var(--primary) !important;
-            border-color: var(--primary) !important;
-        }
-        .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active {
-            background-color: var(--primary) !important;
-            border-color: var(--primary) !important;
-            color: #fff !important;
+        .btn-primary:hover {
+            background: rgb(12, 100, 52) !important;
+            transform: translateY(-1px);
         }
         
-        .card-primary.card-outline {
-            border-top: 3px solid var(--primary) !important;
+        /* --- Switch Toggle (iOS Style) --- */
+        .custom-switch { padding-left: 2.75rem !important; }
+        .custom-switch .custom-control-label::before {
+            left: -2.75rem !important;
+            width: 2.25rem !important;
+            height: 1.25rem !important;
+            border-radius: 1rem !important;
+            background-color: #cbd5e1 !important;
+            border: none !important;
         }
-        .card-primary:not(.card-outline) > .card-header {
-            background-color: var(--primary) !important;
-        }
-        
-        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-            background-color: var(--primary) !important;
-        }
-        .nav-tabs .nav-link {
-            color: #64748b;
-        }
-        .nav-tabs .nav-link:hover {
-            color: var(--primary) !important;
-        }
-        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
-            color: var(--primary) !important;
-            border-bottom: 2px solid var(--primary) !important;
-            background: transparent !important;
-            border-top: none !important;
-            border-left: none !important;
-            border-right: none !important;
-        }
-        
-        .custom-control-input:checked ~ .custom-control-label::before {
-            background-color: var(--primary) !important;
-            border-color: var(--primary) !important;
-        }
-
-        .main-footer a {
-            color: var(--primary) !important;
-        }
-        .main-footer a:hover {
-            color: #0d6b35 !important;
-            text-decoration: underline;
-        }
-
-        .text-primary {
-            color: var(--primary) !important;
-        }
-        .bg-primary {
-            background-color: var(--primary) !important;
-        }
-
-        /* Pagination & Footer Customization */
-        .card-footer {
-            border-bottom-left-radius: 12px !important;
-            border-bottom-right-radius: 12px !important;
-            padding: 1rem 1.25rem !important;
+        .custom-switch .custom-control-label::after {
+            top: 2px !important;
+            left: calc(-2.75rem + 2px) !important;
+            width: calc(1.25rem - 4px) !important;
+            height: calc(1.25rem - 4px) !important;
+            border-radius: 50% !important;
             background-color: #fff !important;
         }
-        .pagination .page-item .page-link {
-            border: 1px solid #e2e8f0;
-            color: #64748b;
-            margin: 0 2px;
-            border-radius: 6px;
-            padding: 0.4rem 0.8rem;
-            transition: all 0.2s;
-            font-size: 0.875rem;
-        }
-        .pagination .page-item .page-link:hover {
-            background-color: #f1f5f9;
-            color: var(--primary);
-            border-color: var(--primary);
-        }
-        .pagination .page-item.active .page-link {
+        .custom-switch .custom-control-input:checked ~ .custom-control-label::before {
             background-color: var(--primary) !important;
-            border-color: var(--primary) !important;
-            color: #fff !important;
-            box-shadow: 0 4px 6px -1px rgba(16, 128, 66, 0.2);
         }
-        .pagination .page-item.disabled .page-link {
-            background-color: #f8fafc;
-            color: #cbd5e1;
-            border-color: #e2e8f0;
+        .custom-switch .custom-control-input:checked ~ .custom-control-label::after {
+            transform: translateX(1rem) !important;
         }
-        
-        select.form-control-sm {
-            border-radius: 6px;
-            border: 1px solid #e2e8f0;
-            color: #334155;
-            cursor: pointer;
-        }
-        select.form-control-sm:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(16, 128, 66, 0.1);
-            outline: none;
-        }
-        .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
-            background-color: var(--primary);
+
+        /* Table */
+        .table thead th {
+            background: #f8fafc;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            border-bottom: 1px solid #e2e8f0;
         }
         
-        .form-control {
-            border-radius: 8px;
-            border: 1px solid #cbd5e1;
-            padding: 0.6rem 1rem;
-        }
-        .form-control-sm {
-            padding: 0.25rem 0.5rem !important;
-            height: auto !important;
-        }
-        .form-control:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-        }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
-<style>
-    .custom-switch-lg .custom-control-label::before {
-        height: 1.5rem;
-        width: 2.5rem;
-        border-radius: 1rem;
-    }
-    .custom-switch-lg .custom-control-label::after {
-        width: calc(1.5rem - 4px);
-        height: calc(1.5rem - 4px);
-        border-radius: 1rem;
-    }
-    .custom-switch-lg .custom-control-input:checked ~ .custom-control-label::after {
-        transform: translateX(1rem);
-    }
-    .custom-switch-lg .custom-control-label {
-        padding-left: 3rem;
-        padding-top: 0.25rem;
-    }
-    .cursor-pointer { cursor: pointer; }
-    .btn-white { background: #fff; border: 1px solid #dee2e6; color: #495057; }
-    .btn-white:hover { background: #f8f9fa; color: #212529; }
-    .table thead th { border-top: none; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.5px; color: #6c757d; }
-    .card { border-radius: 12px; box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); border: none; }
-</style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light shadow-none">
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="../index.php" target="_blank" class="nav-link">Xem website</a>
+        <a href="../index.php" target="_blank" class="nav-link font-weight-bold text-primary"><i class="fas fa-external-link-alt mr-1"></i> Xem website</a>
       </li>
     </ul>
 
@@ -304,7 +240,7 @@
       <li class="nav-item">
         <div class="user-panel d-flex align-items-center mr-3">
             <div class="image mr-2">
-              <img src="https://ui-avatars.com/api/?name=<?=$_SESSION['login']['username']?>&background=random" class="img-circle elevation-1" alt="User Image">
+              <img src="https://ui-avatars.com/api/?name=<?=$_SESSION['login']['username']?>&background=108042&color=fff" class="img-circle border" alt="User Image">
             </div>
             <div class="info">
               <a href="#" class="d-block text-dark font-weight-bold"><?=$_SESSION['login']['username']?></a>
@@ -313,7 +249,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link text-danger" href="index.php?com=logout" role="button" title="Đăng xuất">
-          <i class="fas fa-sign-out-alt"></i>
+          <i class="fas fa-power-off"></i>
         </a>
       </li>
     </ul>
@@ -321,78 +257,59 @@
 
   <aside class="main-sidebar sidebar-light-primary elevation-0">
     <a href="index.php" class="brand-link text-center">
-      <span class="brand-text font-weight-bold text-primary" style="font-size: 1.2rem;">KHASERVICE <span style="font-weight:300; color:#333;">Admin</span></span>
+      <span class="brand-text font-weight-bold text-primary" style="font-size: 1.2rem; letter-spacing:-0.5px;">KHASERVICE <span style="font-weight:300; color:#64748b;">Admin</span></span>
     </a>
 
-    <div class="sidebar mt-3">
-      <nav class="mt-2">
+    <div class="sidebar">
+      <nav class="mt-3">
         <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
           
           <li class="nav-item">
             <a href="index.php?com=dashboard" class="nav-link <?=$com=='dashboard'?'active':''?>">
-              <i class="nav-icon fas fa-chart-pie"></i>
+              <i class="nav-icon fas fa-th-large"></i>
               <p>Tổng quan</p>
             </a>
           </li>
           
-          <li class="nav-header mt-3">QUẢN LÝ KHÁCH HÀNG</li>
+          <li class="nav-header">QUẢN LÝ KHÁCH HÀNG</li>
           <li class="nav-item">
             <a href="index.php?com=contact&act=man" class="nav-link <?=$com=='contact'?'active':''?>">
-              <i class="nav-icon fas fa-address-book"></i>
+              <i class="nav-icon fas fa-envelope-open-text"></i>
               <p>Liên hệ - Đăng ký</p>
             </a>
           </li>
 
-          <li class="nav-header mt-3">TRANG TĨNH</li>
+          <li class="nav-header">NỘI DUNG CHÍNH</li>
           <li class="nav-item">
             <a href="index.php?com=static&act=capnhat&type=ve-chung-toi" class="nav-link <?=$com=='static' && $_GET['type']=='ve-chung-toi'?'active':''?>">
-              <i class="nav-icon fas fa-info-circle"></i>
+              <i class="nav-icon fas fa-fingerprint"></i>
               <p>Về chúng tôi</p>
             </a>
           </li>
-                            <li class="nav-item">
-                                <a href="index.php?com=news&act=man&type=gioi-thieu" class="nav-link <?=$com=='news' && $_GET['type']=='gioi-thieu'?'active':''?>">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Giới thiệu</p>
-                                </a>
-                            </li>
+          
           <li class="nav-item">
-            <a href="index.php?com=themanh&act=man" class="nav-link <?=$com=='themanh'?'active':''?>">
-              <i class="nav-icon fas fa-star"></i>
-              <p>Thế mạnh</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="index.php?com=giatri&act=man" class="nav-link <?=$com=='giatri'?'active':''?>">
-              <i class="nav-icon fas fa-gem"></i>
-              <p>Giá trị cốt lõi</p>
-            </a>
-          </li>
-
-          <li class="nav-header mt-3">BÀI VIẾT & DỊCH VỤ</li>
-          <li class="nav-item">
-            <a href="index.php?com=appdancu&act=man" class="nav-link <?=$com=='appdancu'?'active':''?>">
-              <i class="nav-icon fas fa-mobile-alt"></i>
-              <p>Ứng dụng cư dân</p>
+            <a href="index.php?com=news&act=man&type=gioi-thieu" class="nav-link <?=$com=='news' && $_GET['type']=='gioi-thieu'?'active':''?>">
+              <i class="nav-icon fas fa-award"></i>
+              <p>Giới thiệu bài viết</p>
             </a>
           </li>
 
           <li class="nav-item <?=($com=='news' && $_GET['type']=='tin-tuc' || ($com=='news_cat' && $_GET['type']=='tin-tuc'))?'menu-open':''?>">
             <a href="#" class="nav-link <?=($com=='news' && $_GET['type']=='tin-tuc' || ($com=='news_cat' && $_GET['type']=='tin-tuc'))?'active':''?>">
-              <i class="nav-icon fas fa-newspaper"></i>
-              <p>Quản lý tin tức <i class="right fas fa-angle-left"></i></p>
+              <i class="nav-icon fas fa-bullhorn"></i>
+              <p>Tin tức & Sự kiện <i class="right fas fa-angle-left"></i></p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="index.php?com=news_cat&act=man&type=tin-tuc" class="nav-link <?=$com=='news_cat' && $_GET['type']=='tin-tuc'?'active':''?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Danh mục tin tức</p>
+                  <i class="far fa-circle nav-icon small"></i>
+                  <p>Danh mục tin</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="index.php?com=news&act=man&type=tin-tuc" class="nav-link <?=$com=='news' && $_GET['type']=='tin-tuc'?'active':''?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Danh sách bài viết</p>
+                  <i class="far fa-circle nav-icon small"></i>
+                  <p>Tất cả bài viết</p>
                 </a>
               </li>
             </ul>
@@ -400,141 +317,56 @@
           
           <li class="nav-item">
             <a href="index.php?com=dichvu&act=man" class="nav-link <?=$com=='dichvu'?'active':''?>">
-              <i class="nav-icon fas fa-briefcase"></i>
+              <i class="nav-icon fas fa-concierge-bell"></i>
               <p>Dịch vụ</p>
             </a>
           </li>
 
           <li class="nav-item <?=($com=='du-an' || ($com=='news_cat' && $_GET['type']=='du-an'))?'menu-open':''?>">
             <a href="#" class="nav-link <?=($com=='du-an' || ($com=='news_cat' && $_GET['type']=='du-an'))?'active':''?>">
-              <i class="nav-icon fas fa-building"></i>
+              <i class="nav-icon fas fa-city"></i>
               <p>Quản lý dự án <i class="right fas fa-angle-left"></i></p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="index.php?com=news_cat&act=man&type=du-an" class="nav-link <?=$com=='news_cat' && $_GET['type']=='du-an'?'active':''?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Khu vực</p>
+                  <i class="far fa-circle nav-icon small"></i>
+                  <p>Khu vực dự án</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="index.php?com=du-an&act=man" class="nav-link <?=$com=='du-an'?'active':''?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dự án</p>
+                  <i class="far fa-circle nav-icon small"></i>
+                  <p>Danh sách dự án</p>
                 </a>
               </li>
             </ul>
           </li>
 
-          <li class="nav-item">
-            <a href="index.php?com=feedback&act=man" class="nav-link <?=$com=='feedback'?'active':''?>">
-              <i class="nav-icon fas fa-comments"></i>
-              <p>Khách hàng nói gì</p>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a href="index.php?com=staff&act=man" class="nav-link <?=$com=='staff'?'active':''?>">
-              <i class="nav-icon fas fa-users"></i>
-              <p>Đội ngũ xuất sắc</p>
-            </a>
-          </li>
-
-          <li class="nav-header mt-3">HÌNH ẢNH & GIAO DIỆN</li>
-          <li class="nav-item <?=($com=='photo' && $_GET['type']!='slideshow')?'menu-open':''?>">
-            <a href="#" class="nav-link <?=($com=='photo' && $_GET['type']!='slideshow')?'active':''?>">
-              <i class="nav-icon fas fa-image"></i>
-              <p>Banner trang con <i class="right fas fa-angle-left"></i></p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="index.php?com=photo&act=man&type=banner-gioithieu" class="nav-link <?=$_GET['type']=='banner-gioithieu'?'active':''?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Banner Giới thiệu</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="index.php?com=photo&act=man&type=banner-linhvuc" class="nav-link <?=$_GET['type']=='banner-linhvuc'?'active':''?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Banner Lĩnh vực</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="index.php?com=photo&act=man&type=banner-duan" class="nav-link <?=$_GET['type']=='banner-duan'?'active':''?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Banner Dự án</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="index.php?com=photo&act=man&type=banner-tintuc" class="nav-link <?=$_GET['type']=='banner-tintuc'?'active':''?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Banner Tin tức</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="index.php?com=photo&act=man&type=banner-tuyendung" class="nav-link <?=$_GET['type']=='banner-tuyendung'?'active':''?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Banner Tuyển dụng</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="index.php?com=photo&act=man&type=banner-lienhe" class="nav-link <?=$_GET['type']=='banner-lienhe'?'active':''?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Banner Liên hệ</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="index.php?com=photo&act=man&type=inner-banner" class="nav-link <?=$_GET['type']=='inner-banner'?'active':''?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Banner Khác</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+          <li class="nav-header">MEDIA & HÌNH ẢNH</li>
           <li class="nav-item">
             <a href="index.php?com=photo&act=man&type=slideshow" class="nav-link <?=$_GET['type']=='slideshow'?'active':''?>">
               <i class="nav-icon fas fa-images"></i>
-              <p>Slideshow</p>
+              <p>Slideshow trang chủ</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="index.php?com=thuvien&act=man" class="nav-link <?=$com=='thuvien'?'active':''?>">
+              <i class="nav-icon fas fa-camera-retro"></i>
+              <p>Thư viện ảnh</p>
             </a>
           </li>
           <li class="nav-item">
             <a href="index.php?com=photo&act=man&type=doi-tac" class="nav-link <?=$_GET['type']=='doi-tac'?'active':''?>">
               <i class="nav-icon fas fa-handshake"></i>
-              <p>Khách hàng & Đối tác</p>
+              <p>Đối tác & Khách hàng</p>
             </a>
           </li>
-          <li class="nav-item <?=($com=='thuvien' || ($com=='news_cat' && $_GET['type']=='thuvien-anh')) ? 'menu-open' : ''?>">
-            <a href="#" class="nav-link <?=($com=='thuvien' || ($com=='news_cat' && $_GET['type']=='thuvien-anh')) ? 'active' : ''?>">
-              <i class="nav-icon fas fa-camera-retro"></i>
-              <p>Thư viện ảnh <i class="right fas fa-angle-left"></i></p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="index.php?com=news_cat&act=man&type=thuvien-anh" class="nav-link <?=$com=='news_cat' && $_GET['type']=='thuvien-anh'?'active':''?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Danh mục</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="index.php?com=thuvien&act=man" class="nav-link <?=$com=='thuvien'?'active':''?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Bài viết</p>
-                </a>
-              </li>
-            </ul>
-          </li>
 
-                        <li class="nav-item">
-                            <a href="index.php?com=news&act=man&type=tuyen-dung" class="nav-link <?=$com=='news' && $_GET['type']=='tuyen-dung'?'active':''?>">
-                                <i class="nav-icon fas fa-user-tie"></i>
-                                <p>Tuyển dụng</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-header">THIẾT LẬP HỆ THỐNG</li>
+          <li class="nav-header">HỆ THỐNG</li>
           <li class="nav-item">
             <a href="index.php?com=setting" class="nav-link <?=$com=='setting'?'active':''?>">
-              <i class="nav-icon fas fa-cog"></i>
+              <i class="nav-icon fas fa-tools"></i>
               <p>Cấu hình chung</p>
             </a>
           </li>
@@ -551,270 +383,42 @@
     </section>
   </div>
 
-  <footer class="main-footer text-sm">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 5.0
-    </div>
-    <strong>Copyright &copy; 2025 <a href="#">Khaservice</a>.</strong>
+  <footer class="main-footer text-xs text-muted border-0 bg-transparent">
+    <div class="float-right d-none d-sm-block"><b>Version</b> 5.1</div>
+    <strong>Copyright &copy; 2025 <a href="#" class="text-primary">Khaservice</a>.</strong> All rights reserved.
   </footer>
 
 </div>
 
-<!-- Modal xác nhận xóa dùng chung -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content" style="border-radius: 15px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-            <div class="modal-header border-0 pt-4 px-4">
-                <h5 class="modal-title font-weight-bold" id="confirmDeleteModalLabel text-dark">Xác nhận xóa</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body px-4 text-muted">
-                Bạn có chắc chắn muốn xóa mục này? Hành động này không thể hoàn tác.
-            </div>
-            <div class="modal-footer border-0 pb-4 px-4">
-                <button type="button" class="btn btn-light px-4" data-dismiss="modal">Hủy bỏ</button>
-                <a href="#" id="btn-confirm-delete" class="btn btn-danger px-4 shadow-sm">Đồng ý xóa</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- jQuery -->
+<!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
-<!-- Toastr -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <script>
 $(document).ready(function(){
-    // Cấu hình Toastr
-    toastr.options = {
-        "closeButton": true,
-        "positionClass": "toast-top-right",
-        "timeOut": "2000"
-    };
-
-    // Xử lý hiện Modal khi bấm nút xóa
-    $(document).on('click', '.btn-delete-item', function(e) {
-        e.preventDefault();
-        var url = $(this).attr('href');
-        $('#btn-confirm-delete').attr('href', url);
-        $('#confirmDeleteModal').modal('show');
-    });
-
-    // Chọn tất cả
-    $(document).on('click', '#select-all', function(){
-        $('.select-item').prop('checked', this.checked);
-        updateSelectedCount();
-    });
-
-    // Chọn lẻ
-    $(document).on('click', '.select-item', function(){
-        updateSelectedCount();
-    });
-
-    function updateSelectedCount() {
-        var count = $('.select-item:checked').length;
-        if(count > 0) {
-            $('#selected-count').text(count).removeClass('d-none');
-        } else {
-            $('#selected-count').addClass('d-none');
-        }
-    }
-
-    // Xóa nhiều
-    $(document).on('click', '#delete-all', function(e){
-        e.preventDefault();
-        var ids = [];
-        $('.select-item:checked').each(function(){
-            ids.push($(this).val());
-        });
-
-        if(ids.length == 0){
-            toastr.warning('Vui lòng chọn ít nhất một mục để xóa!');
-            return false;
-        }
-
-        var deleteUrl = "index.php?com=<?=$com?>&act=delete_all&type=<?=$type?>&listid=" + ids.join(',');
-        $('#btn-confirm-delete').attr('href', deleteUrl);
-        $('#confirmDeleteModal').modal('show');
-    });
-
-    $('.checkbox-hienthi-banner').change(function() {
-        var id = $(this).data('id');
-        var type = $(this).data('type');
-        var value = $(this).is(':checked') ? 1 : 0;
-        var _this = $(this);
-
-        $.ajax({
-            url: 'ajax/ajax_banner.php',
-            type: 'POST',
-            data: {
-                id: id,
-                type: type,
-                value: value
-            },
-            success: function(response){
-                if(response == 1){
-                    if(value == 1) {
-                        // Uncheck others of the same type in UI
-                        $('.checkbox-hienthi-banner[data-type="' + type + '"]').not(_this).prop('checked', false);
-                    }
-                    toastr.success('Cập nhật trạng thái hiển thị thành công!');
-                } else {
-                    toastr.error('Cập nhật thất bại. Vui lòng thử lại!');
-                    _this.prop('checked', !value);
-                }
-            }
-        });
-    });
+    toastr.options = { "closeButton": true, "positionClass": "toast-top-right", "timeOut": "2000" };
 
     $('.checkbox-hienthi').change(function() {
         var id = $(this).data('id');
         var table = $(this).data('table');
+        var field = $(this).data('field') || 'hienthi';
         var value = $(this).is(':checked') ? 1 : 0;
+        var label = $(this).next('label');
 
         $.ajax({
             url: 'ajax/ajax_update.php',
             type: 'POST',
-            data: {
-                id: id,
-                table: table,
-                field: 'hienthi',
-                value: value
-            },
-            success: function(response){
-                if(response == 1){
-                    toastr.success('Cập nhật trạng thái thành công!');
-                } else {
-                    toastr.error('Cập nhật thất bại. Vui lòng thử lại!');
-                }
+            data: { id: id, table: table, field: field, value: value },
+            success: function(res){
+                if(res == 1){
+                    toastr.success('Cập nhật thành công!');
+                    if(field == 'trangthai') label.text(value == 1 ? 'Đã xem' : 'Chưa xem');
+                } else toastr.error('Thất bại!');
             }
         });
     });
-
-    $('.checkbox-noibat').change(function() {
-        var id = $(this).data('id');
-        var table = $(this).data('table');
-        var value = $(this).is(':checked') ? 1 : 0;
-
-        $.ajax({
-            url: 'ajax/ajax_update.php',
-            type: 'POST',
-            data: {
-                id: id,
-                table: table,
-                field: 'noibat',
-                value: value
-            },
-            success: function(response){
-                if(response == 1){
-                    toastr.success('Cập nhật trạng thái nổi bật thành công!');
-                } else {
-                    toastr.error('Cập nhật thất bại. Vui lòng thử lại!');
-                }
-            }
-        });
-    });
-
-    // Cập nhật số thứ tự (stt)
-    $('.update-stt').change(function() {
-        var id = $(this).data('id');
-        var table = $(this).data('table');
-        var value = $(this).val();
-
-        $.ajax({
-            url: 'ajax/ajax_update.php',
-            type: 'POST',
-            data: {
-                id: id,
-                table: table,
-                field: 'stt',
-                value: value
-            },
-            success: function(response){
-                if(response == 1){
-                    toastr.success('Cập nhật số thứ tự thành công!');
-                } else {
-                    toastr.error('Cập nhật thất bại. Vui lòng thử lại!');
-                }
-            }
-        });
-    });
-
-    // Kéo thả sắp xếp (Sortable)
-    $("#sortable-list").sortable({
-        handle: ".cursor-move",
-        placeholder: "ui-state-highlight",
-        axis: "y",
-        update: function(event, ui) {
-            var table = $(this).data('table');
-            var ids = [];
-            
-            // Cập nhật số STT hiển thị trên giao diện ngay lập tức
-            $("#sortable-list tr").each(function(index) {
-                var new_stt = index + 1;
-                $(this).find('.update-stt').val(new_stt);
-                ids.push($(this).data('id'));
-            });
-
-            // Gửi dữ liệu về server để lưu vào DB
-            $.ajax({
-                url: 'ajax/ajax_sort.php',
-                type: 'POST',
-                data: {
-                    table: table,
-                    ids: ids
-                },
-                success: function(response) {
-                    if(response == 1) {
-                        toastr.success('Đã cập nhật và lưu thứ tự mới!');
-                    } else {
-                        toastr.error('Lỗi khi lưu thứ tự vào máy chủ!');
-                    }
-                }
-            });
-        }
-    });
-
-    // --- FIX SIDEBAR SCROLL POSITION ---
-    function saveSidebarScroll() {
-        var scrollTop = 0;
-        var viewport = $('.main-sidebar .os-viewport'); // Plugin wrapper
-        if (viewport.length > 0) {
-            scrollTop = viewport.scrollTop();
-        } else {
-            scrollTop = $('.sidebar').scrollTop(); // Native
-        }
-        localStorage.setItem('sidebar_scroll_top', scrollTop);
-    }
-
-    // Lưu khi click vào link
-    $('.nav-sidebar a.nav-link').on('click', function() {
-        saveSidebarScroll();
-    });
-
-    // Khôi phục ngay lập tức
-    function restoreSidebarScroll() {
-        var sidebarScrollTop = localStorage.getItem('sidebar_scroll_top');
-        if (sidebarScrollTop && sidebarScrollTop > 0) {
-            var viewport = $('.main-sidebar .os-viewport');
-            if (viewport.length > 0) {
-                viewport.scrollTop(sidebarScrollTop);
-            } else {
-                $('.sidebar').scrollTop(sidebarScrollTop);
-            }
-        }
-    }
-
-    restoreSidebarScroll();
-    
-    // Check lại nhẹ nhàng sau 100ms để đảm bảo plugin init không reset về 0
-    setTimeout(restoreSidebarScroll, 100);
 });
 </script>
 </body>

@@ -95,9 +95,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer bg-light border-0 py-3 px-4 d-flex justify-content-between">
-                            <button type="submit" class="btn btn-primary px-5 shadow-sm"><i class="fas fa-save mr-2"></i>CẬP NHẬT</button>
-                            <a href="index.php?com=photo&act=man&type=<?=$type?>" class="btn btn-outline-secondary px-4">Quay lại <i class="fas fa-arrow-right ml-1"></i></a>
+                        <div class="card-footer bg-white border-top py-3 px-4 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-sm btn-primary shadow-sm mr-2 px-3" style="font-weight: 600;"><i class="fas fa-save mr-1"></i> Lưu dữ liệu</button>
+                            <a href="index.php?com=photo&act=man&type=<?=$type?>" class="btn btn-sm btn-light border shadow-sm px-3 text-secondary" style="font-weight: 600;"><i class="fas fa-sign-out-alt mr-1"></i> Thoát</a>
                         </div>
                     </div>
                 </div>

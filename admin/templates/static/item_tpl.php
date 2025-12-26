@@ -5,8 +5,8 @@
             <h1 class="m-0 text-dark" style="font-size: 1.25rem; font-weight: 700; color: #1e293b !important;"><?=$title_main?></h1>
         </div>
         <div class="col-sm-6 text-right mt-2 mt-md-0">
-            <button type="submit" class="btn btn-sm btn-save shadow-sm mr-1 px-3"><i class="fas fa-save mr-1"></i> Lưu dữ liệu</button>
-            <a href="index.php?com=static&act=capnhat&type=<?=$type?>" class="btn btn-sm btn-secondary shadow-sm px-3"><i class="fas fa-undo mr-1"></i> Hủy bỏ</a>
+            <button type="submit" class="btn btn-sm btn-primary shadow-sm mr-2 px-3" style="font-weight: 600;"><i class="fas fa-save mr-1"></i> Lưu dữ liệu</button>
+            <a href="index.php?com=dashboard" class="btn btn-sm btn-light border shadow-sm px-3 text-secondary" style="font-weight: 600;"><i class="fas fa-sign-out-alt mr-1"></i> Thoát</a>
         </div>
     </div>
 
@@ -133,7 +133,7 @@
     .font-weight-600 { font-weight: 600; font-size: 0.9rem; color: #444; }
 </style>
 
-<script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
 <script>
     function loadStaticCKEditor() {
         if (typeof CKEDITOR === 'undefined') {
@@ -149,7 +149,8 @@
             filebrowserUploadUrl: 'ck_upload.php?dir=vechungtoi',
             filebrowserImageUploadUrl: 'ck_upload.php?dir=vechungtoi',
             removeDialogTabs: '',
-            extraPlugins: 'image,filebrowser',
+            // Thêm plugin màu sắc, font, căn lề
+            extraPlugins: 'image,filebrowser,justify,colorbutton,font,panelbutton,floatpanel',
             
             // Thêm các kiểu trình bày nhanh cho ảnh
             stylesSet: [

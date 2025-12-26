@@ -84,7 +84,7 @@
                         </td>
                         <td class="text-center border-left">
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input checkbox-trangthai" id="trangthai-<?=$v['id']?>" data-id="<?=$v['id']?>" data-table="contact" <?=($v['trangthai']==1)?'checked':''?>>
+                                <input type="checkbox" class="custom-control-input checkbox-hienthi" id="trangthai-<?=$v['id']?>" data-id="<?=$v['id']?>" data-table="contact" data-field="trangthai" <?=($v['trangthai']==1)?'checked':''?>>
                                 <label class="custom-control-label small cursor-pointer" for="trangthai-<?=$v['id']?>"><?=($v['trangthai']==1)?'Đã xem':'Chưa xem'?></label>
                             </div>
                         </td>
@@ -141,34 +141,3 @@
     .text-split-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .flex-center { display: flex; align-items: center; justify-content: center; }
 </style>
-
-<script>
-$(document).ready(function(){
-    // Cập nhật trạng thái đã xem qua AJAX
-    $('.checkbox-trangthai').change(function() {
-        var id = $(this).data('id');
-        var table = $(this).data('table');
-        var value = $(this).is(':checked') ? 1 : 0;
-        var label = $(this).next('label');
-
-        $.ajax({
-            url: 'ajax/ajax_update.php',
-            type: 'POST',
-            data: {
-                id: id,
-                table: table,
-                field: 'trangthai',
-                value: value
-            },
-            success: function(response){
-                if(response == 1){
-                    label.text(value == 1 ? 'Đã xem' : 'Chưa xem');
-                    toastr.success('Cập nhật trạng thái thành công!');
-                } else {
-                    toastr.error('Cập nhật thất bại!');
-                }
-            }
-        });
-    });
-});
-</script>

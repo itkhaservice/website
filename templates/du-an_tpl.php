@@ -90,16 +90,27 @@
                         $link = 'du-an/' . ($v['ten_khong_dau']!='' ? $v['ten_khong_dau'] : 'bai-viet-'.$v['id']) . '.html';
                     ?>
                     <div class="item">
-                        <div class="price-each relative img-lined text-center wow fadeInUp" style="background: url('<?=$img_src?>') center center / cover no-repeat; min-height: 480px;">
-                            <!-- Overlay -->
-                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.7) 100%); z-index: 6;"></div>
-                            
-                            <div class="price-head z-8 underlined">
+                        <div class="project-corporate-card bg-white wow fadeInUp">
+                            <div class="project-thumb">
+                                <a href="<?=$link?>">
+                                    <img src="<?=$img_src?>" alt="<?=$v['ten_vi']?>">
+                                </a>
                                 <?php if(!empty($v['ten_khuvuc'])) { ?>
-                                    <span class="badge badge-success px-3 py-2 mt-3 shadow" style="background-color: #108042; font-size: 12px; font-weight: 600; text-transform: uppercase;"><?=$v['ten_khuvuc']?></span>
+                                <span class="location-badge">
+                                    <i class="fas fa-map-marker-alt"></i> <?=$v['ten_khuvuc']?>
+                                </span>
                                 <?php } ?>
                             </div>
-                            <a href="<?=$link?>" class="btn btn-round wide mt-10 z-8 text-uppercase" title="<?=$v['ten_vi']?>"><?=$v['ten_vi']?></a>
+                            <div class="project-body">
+                                <h4 class="project-title">
+                                    <a href="<?=$link?>"><?=$v['ten_vi']?></a>
+                                </h4>
+                                <div class="project-line"></div>
+                                <div class="project-footer d-flex justify-content-between align-items-center">
+                                    <span class="text-muted text-sm text-uppercase font-weight-bold">Chi tiết dự án</span>
+                                    <a href="<?=$link?>" class="btn-arrow-link"><i class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <?php } ?>
@@ -203,7 +214,116 @@
 <!-- Client logos area end -->
 
 <style>
-    .price-each:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important; }
+    /* Corporate Project Card Style */
+    .project-corporate-card {
+        border: 1px solid #e5e5e5;
+        transition: all 0.4s ease;
+        position: relative;
+        background: #fff;
+        height: 100%;
+    }
+    
+    .project-corporate-card:hover {
+        box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+        transform: translateY(-5px);
+        border-color: transparent;
+    }
+
+    .project-thumb {
+        position: relative;
+        overflow: hidden;
+        height: 240px;
+    }
+    
+    .project-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+    
+    .project-corporate-card:hover .project-thumb img {
+        transform: scale(1.05);
+    }
+
+    .location-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(255, 255, 255, 0.95);
+        color: #333;
+        padding: 5px 12px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        z-index: 10;
+    }
+    .location-badge i { color: #108042; margin-right: 5px; }
+
+    .project-body {
+        padding: 25px;
+        text-align: left;
+        position: relative;
+    }
+    
+    .project-title {
+        margin-bottom: 15px;
+        min-height: 3em;
+    }
+    
+    .project-title a {
+        color: #222;
+        font-weight: 700;
+        font-size: 18px;
+        text-transform: uppercase;
+        line-height: 1.4;
+        transition: color 0.3s;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .project-corporate-card:hover .project-title a {
+        color: #108042;
+    }
+
+    .project-line {
+        width: 40px;
+        height: 3px;
+        background-color: #e5e5e5;
+        margin-bottom: 20px;
+        transition: width 0.4s ease, background-color 0.4s ease;
+    }
+    
+    .project-corporate-card:hover .project-line {
+        width: 100%;
+        background-color: #108042;
+    }
+
+    .btn-arrow-link {
+        width: 35px;
+        height: 35px;
+        border: 1px solid #e5e5e5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: #999;
+        transition: all 0.3s;
+    }
+    
+    .project-corporate-card:hover .btn-arrow-link {
+        background-color: #108042;
+        border-color: #108042;
+        color: #fff;
+    }
+    
+    .text-sm { font-size: 12px; letter-spacing: 0.5px; }
+
     .nice-select-reset { border-radius: 20px !important; height: 45px; line-height: 45px; }
     .stat-description p, .partner-description p { color: inherit; margin-bottom: 10px; }
     .stat-description, .partner-description { font-size: 1.1rem; }
