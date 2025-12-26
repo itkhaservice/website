@@ -13,18 +13,60 @@
     </div>
 </section>
 
+<!-- Project List Area & Filter -->
+<section class="project-filter-area bg-light-white pt-50 pb-50">
+    <div class="container">
+        <div class="row mb-40">
+            <div class="col-lg-12">
+                <div class="bg-white p-4 shadow-sm rounded-lg border-0 d-flex flex-wrap align-items-center justify-content-between">
+                    <h4 class="mb-0 text-dark font-weight-bold d-none d-md-block mr-4">Bộ lọc dự án</h4>
+                    
+                    <form action="du-an.html" method="GET" class="d-flex flex-wrap flex-grow-1 justify-content-end align-items-center search-form">
+                        <!-- Lọc theo loại -->
+                        <div class="form-group mb-2 mb-md-0 mr-md-2">
+                            <select name="type_filter" class="form-control rounded-pill border-light bg-light nice-select-reset" onchange="this.form.submit()">
+                                <option value="">Tất cả dự án</option>
+                                <option value="noibat" <?=isset($_GET['type_filter']) && $_GET['type_filter']=='noibat' ? 'selected' : ''?>>Dự án tiêu biểu</option>
+                            </select>
+                        </div>
+
+                        <!-- Lọc theo khu vực -->
+                        <div class="form-group mb-2 mb-md-0 mr-md-2">
+                            <select name="id_khuvuc" class="form-control rounded-pill border-light bg-light nice-select-reset" onchange="this.form.submit()">
+                                <option value="0">Toàn bộ khu vực</option>
+                                <?php if(!empty($ds_khuvuc)) { foreach($ds_khuvuc as $k){ ?>
+                                    <option value="<?=$k['id']?>" <?=isset($_GET['id_khuvuc']) && $_GET['id_khuvuc']==$k['id'] ? 'selected' : ''?>><?=$k['ten_vi']?></option>
+                                <?php }} ?>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group mb-0 position-relative" style="min-width: 200px;">
+                            <input type="text" name="keyword" class="form-control rounded-pill pl-4 pr-5 border-light bg-light" placeholder="Tìm tên dự án..." value="<?=isset($_GET['keyword'])?$_GET['keyword']:''?>">
+                            <button type="submit" class="btn position-absolute text-muted" style="right: 5px; top: 0; background: none; border: none;"><i class="fas fa-search"></i></button>
+                        </div>
+                        
+                        <?php if(isset($_GET['keyword']) || (isset($_GET['id_khuvuc']) && $_GET['id_khuvuc']>0) || !empty($_GET['type_filter'])) { ?>
+                            <a href="du-an.html" class="btn btn-sm btn-light text-danger font-weight-bold ml-2 rounded-pill"><i class="fas fa-times mr-1"></i> Xóa lọc</a>
+                        <?php } ?>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Pricing area start (Project Slider) -->
-<section class="pricong-area bg-light-white pt-95 pb-100">
+<section class="pricong-area bg-light-white pb-100">
     <div class="container">
         <div class="row align-items-end text-center text-lg-left mb-45">
             <div class="col-lg-7 text-center text-lg-left">
                 <div class="fancy-head left-al wow fadeInLeft">
                     <h5 class="line-head mb-15">
                         <span class="line before d-lg-none"></span>
-                        Dự án
+                        Danh sách
                         <span class="line after"></span>
                     </h5>
-                    <h1>Dự Án Tiêu Biểu</h1>
+                    <h1><?=isset($_GET['type_filter']) && $_GET['type_filter']=='noibat' ? 'Dự Án Tiêu Biểu' : 'Các Dự Án Của Chúng Tôi'?></h1>
                 </div>
             </div>
             <div class="col-lg-5 mt-md-25 text-lg-right">
@@ -38,9 +80,6 @@
                 </div>
             </div>
         </div>
-        
-        <!-- Filter Bar (Giữ lại để lọc nếu cần, nhưng style gọn hơn hoặc ẩn nếu không cần thiết. Tạm thời ẩn để giống mẫu) -->
-        <!-- <div class="row mb-40"> ... </div> -->
 
         <div class="row">
             <div class="col-xl-12">
@@ -67,7 +106,8 @@
                 </div>
                 <?php } else { ?>
                     <div class="text-center py-5">
-                        <p class="text-muted">Đang cập nhật dự án...</p>
+                        <p class="text-muted">Không tìm thấy dự án nào phù hợp với bộ lọc.</p>
+                        <a href="du-an.html" class="btn btn-primary rounded-pill">Xem tất cả dự án</a>
                     </div>
                 <?php } ?>
             </div>
@@ -82,9 +122,9 @@
         <div class="row align-items-center">
             <div class="col-lg-6 z-5 text-center text-lg-left wow fadeIn">
                 <div class="exp-cta pr-50 pr-lg-00">
-                    <p class="white mb-55 mb-md-30 pr-60 pr-md-00">
-                        <?=!empty($about['mota_solieu']) ? $about['mota_solieu'] : 'Chúng tôi tự hào mang đến giải pháp quản lý vận hành chuyên nghiệp.'?>
-                    </p>
+                    <div class="white mb-55 mb-md-30 pr-60 pr-md-00 stat-description">
+                        <?=!empty($about['mota_solieu']) ? htmlspecialchars_decode($about['mota_solieu']) : 'Chúng tôi tự hào mang đến giải pháp quản lý vận hành chuyên nghiệp.'?>
+                    </div>
                     <a href="linh-vuc-hoat-dong.html" class="btn btn-square ">
                         Lĩnh vực hoạt động
                         <i class="fas fa-long-arrow-alt-right ml-20"></i>
@@ -136,10 +176,10 @@
                             Khách hàng của chúng tôi
                           <span class="line after"></span>
                         </h5>
-                        <h1 class="mb-15">Được tin tưởng bởi các Tập đoàn lớn</h1>
+                        <div class="mb-35 pr-45 pr-md-00 partner-description">
+                            <?=!empty($about['mota_doitac']) ? htmlspecialchars_decode($about['mota_doitac']) : 'Được tin tưởng bởi các Tập đoàn lớn. Sự hài lòng của khách hàng là thước đo thành công của chúng tôi.'?>
+                        </div>
                     </div>
-                    <p class="mb-35 pr-45 pr-md-00">Sự hài lòng của khách hàng là thước đo thành công của chúng tôi.</p>
-                    <!-- <a href="" class="btn btn-square">Xem tất cả<i class="fas fa-long-arrow-alt-right ml-20"></i></a> -->
                 </div>
             </div>
             <div class="col-lg-6 mt-md-60 offset-xl-1 offset-lg-0">
@@ -164,4 +204,12 @@
 
 <style>
     .price-each:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important; }
+    .nice-select-reset { border-radius: 20px !important; height: 45px; line-height: 45px; }
+    .stat-description p, .partner-description p { color: inherit; margin-bottom: 10px; }
+    .stat-description, .partner-description { font-size: 1.1rem; }
+    @media (max-width: 767px) {
+        .search-form { justify-content: center !important; }
+        .search-form .form-group { width: 100%; }
+        .search-form .btn-light { margin-top: 10px; width: 100%; }
+    }
 </style>

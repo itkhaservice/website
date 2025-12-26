@@ -61,6 +61,10 @@ if($id || $slug){
         $where .= " and #_duan.id_khuvuc = " . (int)$_GET['id_khuvuc'];
     }
 
+    if(isset($_GET['type_filter']) && $_GET['type_filter'] == 'noibat'){
+        $where .= " and #_duan.noibat = 1";
+    }
+
     // Đếm tổng số để phân trang
     $d->reset();
     $d->query("select count(id) as num from #_duan where $where");
