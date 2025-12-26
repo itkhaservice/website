@@ -41,12 +41,35 @@ switch($act){
 }
 
 function get_items(){
-    global $d, $items, $type;
+    global $d, $items, $type, $paging, $curPage, $perPage;
     
+    // Xử lý phân trang
+    $curPage = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+    if($curPage < 1) $curPage = 1;
+    
+    $perPage = 5; // Cố định 5 hình mỗi trang theo yêu cầu
+    $startpoint = ($curPage * $perPage) - $perPage;
+
     $d->reset();
-    $sql = "select * from #_photo where type='$type' order by stt asc, id desc";
+    $sql_count = "select count(id) as num from #_photo where type='$type'";
+    $d->query($sql_count);
+    $row_count = $d->fetch_array();
+    $total_items = $row_count['num'];
+
+    $d->reset();
+    $sql = "select * from #_photo where type='$type' order by stt asc, id desc limit $startpoint, $perPage";
     $d->query($sql);
     $items = $d->result_array();
+
+    // Tính tổng số trang
+    $total_pages = ceil($total_items / $perPage);
+    $paging = array(
+        'total' => $total_items,
+        'per_page' => $perPage,
+        'current' => $curPage,
+        'last' => $total_pages,
+        'url' => "index.php?com=photo&act=man&type=$type"
+    );
 }
 
 function get_item(){

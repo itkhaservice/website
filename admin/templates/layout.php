@@ -774,6 +774,22 @@ $(document).ready(function(){
             });
         }
     });
+
+    // --- FIX SIDEBAR SCROLL POSITION ---
+    // Lưu vị trí cuộn của sidebar khi người dùng cuộn hoặc click
+    $('.main-sidebar .os-viewport').scroll(function() {
+        localStorage.setItem('sidebar_scroll_top', $(this).scrollTop());
+    });
+
+    $('.nav-link').click(function() {
+        localStorage.setItem('sidebar_scroll_top', $('.main-sidebar .os-viewport').scrollTop());
+    });
+
+    // Khôi phục vị trí cuộn ngay khi load xong
+    var sidebarScrollTop = localStorage.getItem('sidebar_scroll_top');
+    if (sidebarScrollTop) {
+        $('.main-sidebar .os-viewport').scrollTop(sidebarScrollTop);
+    }
 });
 </script>
 </body>

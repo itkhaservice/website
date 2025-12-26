@@ -65,6 +65,30 @@
                     </tbody>
                 </table>
             </div>
+            
+            <?php if(isset($paging) && $paging['total'] > 0) { ?>
+            <div class="card-footer clearfix">
+                <div class="float-left">
+                    Hiển thị <?=$paging['per_page']?> dòng / trang. Tổng: <strong><?=$paging['total']?></strong>
+                </div>
+                <ul class="pagination pagination-sm m-0 float-right">
+                    <?php if($paging['current'] > 1) { ?>
+                        <li class="page-item"><a class="page-link" href="<?=$paging['url']?>&p=1"><i class="fas fa-angle-double-left"></i></a></li>
+                        <li class="page-item"><a class="page-link" href="<?=$paging['url']?>&p=<?=$paging['current']-1?>"><i class="fas fa-angle-left"></i></a></li>
+                    <?php } ?>
+                    
+                    <?php for($i=1; $i<=$paging['last']; $i++) { 
+                        if($i == 1 || $i == $paging['last'] || ($i >= $paging['current'] - 2 && $i <= $paging['current'] + 2)) { ?>
+                        <li class="page-item <?=($i==$paging['current'])?'active':''?>"><a class="page-link" href="<?=$paging['url']?>&p=<?=$i?>"><?=$i?></a></li>
+                    <?php } elseif($i == 2 || $i == $paging['last'] - 1) { echo '<li class="page-item disabled"><span class="page-link">...</span></li>'; } } ?>
+                    
+                    <?php if($paging['current'] < $paging['last']) { ?>
+                        <li class="page-item"><a class="page-link" href="<?=$paging['url']?>&p=<?=$paging['current']+1?>"><i class="fas fa-angle-right"></i></a></li>
+                        <li class="page-item"><a class="page-link" href="<?=$paging['url']?>&p=<?=$paging['last']?>"><i class="fas fa-angle-double-right"></i></a></li>
+                    <?php } ?>
+                </ul>
+            </div>
+            <?php } ?>
         </div>
     </div>
 </section>
