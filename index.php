@@ -81,6 +81,7 @@ if($source!="") include _source.$source.".php";
 <html lang="en">
 
 <head>
+    <base href="<?=$base_url?>">
     <title><?=($title_bar!='')?$title_bar:$row_setting['title']?></title>
     <meta charset="utf-8">
     <meta name="description" content="">

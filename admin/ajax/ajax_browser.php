@@ -1,8 +1,8 @@
 <?php
 session_start();
-// Bật báo lỗi để debug nếu cần, nhưng sẽ tắt ở cuối tệp để tránh hỏng JSON
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+// Tắt báo lỗi trực tiếp để tránh hỏng chuỗi JSON trả về
+error_reporting(0);
+ini_set('display_errors', 0);
 
 if(!isset($_SESSION['admin_logined']) || $_SESSION['admin_logined'] !== true){
     header('Content-Type: application/json');
@@ -73,25 +73,27 @@ if($action == 'rename' && isset($_POST['old_name']) && isset($_POST['new_name'])
 }
 
 // 5. Liệt kê (List)
-$items = scandir($target_dir);
+$items = @scandir($target_dir);
 $folders = [];
 $files = [];
 
-foreach ($items as $item) {
-    if ($item == '.' || $item == '..') continue;
-    
-    $full_path = $target_dir . DIRECTORY_SEPARATOR . $item;
-    
-    // Tạo path tương đối để hiển thị
-    $rel_path = trim(str_replace($root_path, '', $full_path), DIRECTORY_SEPARATOR);
-    $rel_path = str_replace('\\', '/', $rel_path);
+if($items) {
+    foreach ($items as $item) {
+        if ($item == '.' || $item == '..') continue;
+        
+        $full_path = $target_dir . DIRECTORY_SEPARATOR . $item;
+        
+        // Tạo path tương đối để hiển thị
+        $rel_path = trim(str_replace($root_path, '', $full_path), DIRECTORY_SEPARATOR);
+        $rel_path = str_replace('\\', '/', $rel_path);
 
-    if (is_dir($full_path)) {
-        $folders[] = ['name' => $item, 'path' => $rel_path];
-    } else {
-        $ext = strtolower(pathinfo($item, PATHINFO_EXTENSION));
-        if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'])) {
-            $files[] = ['name' => $item, 'path' => $rel_path, 'url' => '../upload/' . $rel_path];
+        if (is_dir($full_path)) {
+            $folders[] = ['name' => $item, 'path' => $rel_path];
+        } else {
+            $ext = strtolower(pathinfo($item, PATHINFO_EXTENSION));
+            if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'])) {
+                $files[] = ['name' => $item, 'path' => $rel_path, 'url' => '../upload/' . $rel_path];
+            }
         }
     }
 }

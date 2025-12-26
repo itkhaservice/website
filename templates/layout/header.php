@@ -7,15 +7,21 @@
     <!-- Top Header removed as per request -->
     <header class="transperant-head header-style-3 transition-4" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 999; background: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
         <div class="container-fluid px-lg-5">
-            <div class="row align-items-center no-gutters justify-content-center">
-                <div class="col-auto px-4">
-                    <div class="logo transition-4">
+            <div class="row align-items-center no-gutters justify-content-between header-row">
+                <!-- Mobile Left Placeholder (to balance if needed, but we use absolute centering for logo) -->
+                <div class="col-auto d-lg-none" style="width: 40px;"></div>
+
+                <!-- Logo Section -->
+                <div class="col-auto px-lg-4 logo-col">
+                    <div class="logo transition-4 text-center">
                         <a href="index.php">
                             <img src="<?=$row_setting['logoRectangle']?>" class="transition-4" alt="logo" style="max-height: 60px;">
                         </a>
                     </div>
                 </div>
-                <div class="col-auto px-4">
+
+                <!-- Desktop Menu -->
+                <div class="col-auto px-4 d-none d-lg-block">
                     <div class="d-flex align-items-center">
                         <div class="menu-links links-type-3">
                             <nav class="main-menu main-menu-3">
@@ -72,7 +78,7 @@
                                         <a href="#">Phần mềm QLVH</a>
                                         <ul class="submenu">
                                             <li><a href="#" target="_blank">Link phần mềm quản lý</a></li>
-                                            <li><a href="#" target="_blank">Nội dung giới thiệu về App Dân Cư</a></li>
+                                            <li><a href="noi-dung-gioi-thieu-app-dan-cu.html">Nội dung giới thiệu về App Dân Cư</a></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -80,20 +86,26 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-auto px-4">
+
+                <!-- Desktop/Mobile Icons -->
+                <div class="col-auto px-3 px-lg-4 icon-col d-flex align-items-center">
                     <div class="icon-links d-flex align-items-center">
-                        <a href="" class="search-icon d-none d-sm-block black mr-20" data-toggle="modal" data-target="#searchModal">
+                        <a href="" class="search-icon d-none d-lg-block black mr-20" data-toggle="modal" data-target="#searchModal">
                             <i class="fas fa-search"></i>
                         </a>
-                        <div class="btn btn-round d-none d-sm-block blob-small btn-dropdown">
+                        <div class="btn btn-round d-none d-lg-block blob-small btn-dropdown">
                             <span>Phần mềm QLVH <i class="fas fa-angle-down mr-5"></i></span>
                             <ul class="submenu">
                                 <li><a href="#" target="_blank">Link phần mềm quản lý</a></li>
                                 <li><a href="noi-dung-gioi-thieu-app-dan-cu.html">Nội dung giới thiệu về App Dân Cư</a></li>
                             </ul>
                         </div>
+                        <!-- Mobile Menu Reveal Placeholder -->
+                        <div class="d-lg-none mobile-menu-reveal-placeholder" style="width: 40px; height: 40px;"></div>
                     </div>
                 </div>
+
+                <!-- Mobile Menu Container -->
                 <div class="col-12">
                     <div class="mobile-menu-3"></div>
                 </div>

@@ -91,6 +91,21 @@
         background-color: #fff;
         height: 63px;
     }
+    /* Reset mobile positioning for desktop */
+    .logo-col {
+        position: static !important;
+        transform: none !important;
+        width: auto !important;
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+    .icon-col {
+        position: static !important;
+        transform: none !important;
+    }
+    .header-row {
+        height: auto !important;
+    }
 }
 
 
@@ -192,7 +207,7 @@
         opacity: 0;
     }
     .icon-links {
-        margin-right: 65px !important;
+        margin-right: 0 !important;
     }
     .slide-div .owl-dots {
         bottom: -60px;
@@ -255,42 +270,85 @@
         max-width: 100%;
     }
     .header-style-3 .icon-links {
-        margin-right: 50px;
+        margin-right: 0;
     }
     .mobile-menu-3 a.meanmenu-reveal {
-        margin-top: -67px;
+        margin-top: 0;
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        z-index: 1001;
+        padding: 10px;
+        background: transparent !important;
     }
-    .mobile-menu-3.mean-container .meanmenu-reveal {
-        padding-right: 0px;
+    .mobile-menu-3.mean-container .mean-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: transparent;
+        min-height: 0;
+        padding: 0;
+        z-index: 1000;
     }
-    .top-header .language {
-        padding-right: 0px;
+    .mobile-menu-3.mean-container .mean-nav {
+        margin-top: 70px; /* Header height */
+        background: #ffffff;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        overflow-x: hidden;
     }
-    .slider-content-3 {
-        padding-top: 143px;
+    .mobile-menu-3.mean-container .mean-nav ul li a {
+        color: #333;
+        border-top: 1px solid #eee;
+        text-transform: none;
+        font-weight: 500;
+        padding: 12px 20px;
+        font-family: 'Montserrat', sans-serif !important;
     }
-    .banner-head-3 {
-        font-size: 30px;
+    .mobile-menu-3.mean-container .mean-nav ul li a.mean-expand {
+        background: rgba(0,0,0,0.05);
+        border-left: 1px solid #eee !important;
+        border-bottom: none !important;
+        height: 25px;
+        width: 25px;
+        line-height: 25px;
+        margin-top: 1px;
     }
-    .icon-box-border {
-        text-align: left;
+    .mobile-menu-3.mean-container .mean-nav ul li a:hover {
+        background: #f9f9f9;
+        color: #108042;
     }
-    .counts-type-3 {
-        border: none;
+    .mobile-menu-3.mean-container a.meanmenu-reveal span {
+        background: #108042;
+        height: 3px;
+        margin-top: 4px;
+        display: block;
     }
-    .price-each-2.active {
-        padding: 30px 35px;
+    .logo-col {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: auto;
+        padding: 0 !important;
     }
-    .quote-icon {
-        max-width: 99px;
-        margin: auto;
-        margin-top: 60px;
+    .header-row {
+        height: 70px;
+        position: relative;
     }
-    .testimonial-3-slide .owl-dots {
-        text-align: center;
+    .mobile-left-icons {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
     }
-    h1 {
-        font-size: 37px;
+    .icon-col {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
     }
     .mean-container .mean-bar {
         position: absolute;
@@ -439,6 +497,13 @@
         max-width: 100%;
         margin: auto;
     }
+    .copyright {
+        text-align: center;
+    }
+    .copyright .text-right {
+        text-align: center !important;
+        margin-top: 15px;
+    }
 }
 
 
@@ -469,17 +534,17 @@
         font-size: 18px;
     }
     .transperant-head {
-        height: auto;
+        height: 70px;
     }
     .logo img {
         max-width: 141px;
-        margin: 20px 0px;
+        margin: 0;
     }
     .mean-container a.meanmenu-reveal {
-        margin-top: -61px;
+        margin-top: 0;
     }
     .mobile-menu-2.mean-container .mean-bar a.meanmenu-reveal {
-        margin-top: -70px;
+        margin-top: 0;
     }
     .line-head .line {
         display: none;
@@ -735,7 +800,8 @@
 /*end*/
 
 
-/*
-::::::::::::::::::::::::::::::::::::::::::::::::::::
-Custom media queries
+/* Custom media queries
 */
+@media only screen and (min-width: 1400px) {
+    .flex-center-cmng {
+

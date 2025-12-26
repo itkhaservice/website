@@ -39,7 +39,7 @@
                         <h1 class="f-700 lh-13 mt-5 mb-10"><?=$row_detail['ten_vi']?></h1>
                         
                         <div class="content-main mt-20">
-                            <?=$row_detail['noidung_vi']?>
+                            <?=clearContent($row_detail['noidung_vi'])?>
                         </div>
 
                         <!-- Share buttons removed for simplicity or can be added back -->

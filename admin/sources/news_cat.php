@@ -4,6 +4,9 @@ if(!defined('_source')) die("Error");
 $act = (isset($_REQUEST['act'])) ? addslashes($_REQUEST['act']) : "man";
 $type = (isset($_REQUEST['type'])) ? addslashes($_REQUEST['type']) : "tin-tuc";
 
+// Tự động xác định Bảng
+$table_db = ($type == 'du-an') ? 'khuvuc' : 'news_cat';
+
 switch($type){
     case 'du-an': $title_main = "Khu vực"; break;
     default: $title_main = "Danh mục"; break;
@@ -32,24 +35,24 @@ switch($act){
 }
 
 function get_items(){
-    global $d, $items, $type;
+    global $d, $items, $type, $table_db;
     $d->reset();
-    $sql = "select * from #_news_cat where type='$type' order by stt asc, id desc";
+    $sql = "select * from #_$table_db where type='$type' order by stt asc, id desc";
     $d->query($sql);
     $items = $d->result_array();
 }
 
 function get_item(){
-    global $d, $item, $type;
+    global $d, $item, $type, $table_db;
     $id = (int)$_GET['id'];
     $d->reset();
-    $sql = "select * from #_news_cat where id='$id'";
+    $sql = "select * from #_$table_db where id='$id'";
     $d->query($sql);
     $item = $d->fetch_array();
 }
 
 function save_item(){
-    global $d, $type;
+    global $d, $type, $table_db;
     if(empty($_POST)) transfer("Không nhận được dữ liệu", "index.php?com=news_cat&act=man&type=".$type);
     $id = (int)$_POST['id'];
 
@@ -60,21 +63,21 @@ function save_item(){
 
     if($id){
         $d->reset();
-        $d->setTable('news_cat');
+        $d->setTable($table_db);
         $d->setWhere('id', $id);
         if($d->update($data)) redirect("index.php?com=news_cat&act=man&type=".$type);
     }else{
         $d->reset();
-        $d->setTable('news_cat');
+        $d->setTable($table_db);
         if($d->insert($data)) redirect("index.php?com=news_cat&act=man&type=".$type);
     }
 }
 
 function delete_item(){
-    global $d, $type;
+    global $d, $type, $table_db;
     $id = (int)$_GET['id'];
     $d->reset();
-    $d->setTable('news_cat');
+    $d->setTable($table_db);
     $d->setWhere('id', $id);
     $d->delete();
     redirect("index.php?com=news_cat&act=man&type=".$type);

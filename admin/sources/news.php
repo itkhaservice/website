@@ -11,23 +11,23 @@ $table_db = 'news'; // Default table
 switch($com){
     case 'themanh': 
     case 'the-manh':
-        $table_db = 'themanh'; $title_main = "Thế mạnh"; break;
+        $table_db = 'themanh'; $title_main = "Thế mạnh"; $folder_upload = 'themanh'; break;
     case 'giatri': 
-        $table_db = 'giatri'; $title_main = "Giá trị cốt lõi"; break;
+        $table_db = 'giatri'; $title_main = "Giá trị cốt lõi"; $folder_upload = 'giatri'; break;
     case 'feedback': 
-        $table_db = 'feedback'; $title_main = "Khách hàng nói gì"; break;
+        $table_db = 'feedback'; $title_main = "Khách hàng nói gì"; $folder_upload = 'feedback'; break;
     case 'staff': 
-        $table_db = 'staff'; $title_main = "Đội ngũ xuất sắc"; break;
+        $table_db = 'staff'; $title_main = "Đội ngũ xuất sắc"; $folder_upload = 'nhanvien'; break;
     case 'dichvu': 
-        $table_db = 'dichvu'; $title_main = "Dịch vụ"; break;
+        $table_db = 'dichvu'; $title_main = "Dịch vụ"; $folder_upload = 'dichvu'; break;
     case 'appdancu': 
-        $table_db = 'news'; $type = 'app-dan-cu'; $title_main = "Ứng dụng cư dân"; break;
+        $table_db = 'news'; $type = 'app-dan-cu'; $title_main = "Ứng dụng cư dân"; $folder_upload = 'news'; break;
     case 'thuvien': 
-        $table_db = 'news'; $type = 'thuvien-anh'; $title_main = "Thư viện ảnh"; break;
+        $table_db = 'thuvien'; $type = 'thuvien-anh'; $title_main = "Thư viện ảnh"; $folder_upload = 'thuvien'; break;
     case 'du-an': 
-        $table_db = 'news'; $type = 'du-an'; $title_main = "Dự án"; break;
+        $table_db = 'duan'; $type = 'du-an'; $title_main = "Dự án"; $folder_upload = 'duan'; break;
     case 'gioi-thieu': 
-        $table_db = 'gioithieu'; $type = 'gioi-thieu'; $title_main = "Giới thiệu"; break;
+        $table_db = 'gioithieu'; $type = 'gioi-thieu'; $title_main = "Giới thiệu"; $folder_upload = 'gioithieu'; break;
     case 'news': // tin-tuc
     default:
         if($type=='gioi-thieu'){
@@ -40,6 +40,7 @@ switch($com){
             $table_db = 'news'; 
             if($type=='') $type = 'tin-tuc'; 
             $title_main = "Tin tức"; 
+            $folder_upload = 'news';
         }
         break;
 }
@@ -50,6 +51,16 @@ switch($act){
         $template = ($type=='gioi-thieu' || $type=='tuyen-dung') ? "gioithieu/items" : "news/items";
         break;
     case "add":
+        if($com == 'du-an'){
+            $d->reset();
+            $d->query("select id, ten_vi from #_khuvuc order by stt asc, id desc");
+            $regions = $d->result_array();
+        }
+        if($type == 'tin-tuc'){
+            $d->reset();
+            $d->query("select id, ten_vi from #_news_cat where type='tin-tuc' order by stt asc, id desc");
+            $categories = $d->result_array();
+        }
         $template = ($type=='gioi-thieu' || $type=='tuyen-dung') ? "gioithieu/item_add" : "news/item_add";
         break;
     case "edit":
@@ -71,8 +82,22 @@ switch($act){
 }
 
 function get_items(){
-    global $d, $items, $type, $table_db, $paging, $curPage, $perPage;
+    global $d, $items, $type, $table_db, $paging, $curPage, $perPage, $regions, $com, $categories;
     
+    // Lấy danh sách khu vực để lọc cho module dự án
+    if($com == 'du-an'){
+        $d->reset();
+        $d->query("select id, ten_vi from #_khuvuc order by stt asc, id desc");
+        $regions = $d->result_array();
+    }
+
+    // Lấy danh sách danh mục để lọc cho module tin tức
+    if($type == 'tin-tuc'){
+        $d->reset();
+        $d->query("select id, ten_vi from #_news_cat where type='tin-tuc' order by stt asc, id desc");
+        $categories = $d->result_array();
+    }
+
     // Xử lý phân trang
     $curPage = isset($_GET['p']) ? (int)$_GET['p'] : 1;
     if($curPage < 1) $curPage = 1;
@@ -82,7 +107,30 @@ function get_items(){
     
     $d->reset();
     $where = "";
-    if($table_db == 'news' && $type != "") $where = " where type='$type'";
+    $where_table = ($com == 'du-an') ? 'table_duan.' : (($table_db == 'news') ? 'table_news.' : (($table_db == 'thuvien') ? 'table_thuvien.' : ''));
+
+    if($table_db == 'duan') $where = " where table_duan.type='$type'";
+
+    // Xử lý tìm kiếm theo từ khóa
+    if(isset($_GET['keyword']) && $_GET['keyword'] != ''){
+        $keyword = addslashes($_GET['keyword']);
+        $where .= ($where == "") ? " where " : " and ";
+        $where .= " " . $where_table . "ten_vi LIKE '%$keyword%' ";
+    }
+
+    // Xử lý lọc theo khu vực (Dự án)
+    if(isset($_GET['id_khuvuc']) && (int)$_GET['id_khuvuc'] > 0){
+        $id_khuvuc = (int)$_GET['id_khuvuc'];
+        $where .= ($where == "") ? " where " : " and ";
+        $where .= " " . $where_table . "id_khuvuc = '$id_khuvuc' ";
+    }
+
+    // Xử lý lọc theo danh mục (Tin tức)
+    if(isset($_GET['id_cat']) && (int)$_GET['id_cat'] > 0){
+        $id_cat = (int)$_GET['id_cat'];
+        $where .= ($where == "") ? " where " : " and ";
+        $where .= " " . $where_table . "id_cat = '$id_cat' ";
+    }
     
     // Đếm tổng số bản ghi
     $d->query("select count(id) as num from #_$table_db $where");
@@ -90,7 +138,14 @@ function get_items(){
     $total_items = $row_count['num'];
     
     // Lấy dữ liệu theo trang
-    $sql = "select * from #_$table_db $where order by stt asc, id asc limit $startpoint, $perPage";
+    $d->reset();
+    if($com == 'du-an'){
+        $sql = "select #_duan.*, #_khuvuc.ten_vi as ten_khuvuc from #_duan left join #_khuvuc on #_duan.id_khuvuc = #_khuvuc.id $where order by #_duan.stt asc, #_duan.id asc limit $startpoint, $perPage";
+    } elseif($table_db == 'news' && $type == 'tin-tuc') {
+        $sql = "select #_news.*, #_news_cat.ten_vi as ten_danhmuc from #_news left join #_news_cat on #_news.id_cat = #_news_cat.id $where order by #_news.stt asc, #_news.id desc limit $startpoint, $perPage";
+    } else {
+        $sql = "select * from #_$table_db $where order by stt asc, id asc limit $startpoint, $perPage";
+    }
     $d->query($sql);
     $items = $d->result_array();
     
@@ -105,11 +160,25 @@ function get_items(){
 }
 
 function get_item(){
-    global $d, $item, $table_db;
+    global $d, $item, $table_db, $regions, $categories;
     $id = isset($_GET['id']) ? (int)$_GET['id'] : "";
     if(!$id)
         transfer("Không tìm thấy dữ liệu", "index.php?com=".$_GET['com']."&act=man&type=".$_GET['type']);
     
+    // Lấy danh sách khu vực nếu là module dự án
+    if($_GET['com'] == 'du-an'){
+        $d->reset();
+        $d->query("select id, ten_vi from #_khuvuc order by stt asc, id desc");
+        $regions = $d->result_array();
+    }
+
+    // Lấy danh sách danh mục nếu là module tin tức
+    if($_GET['type'] == 'tin-tuc'){
+        $d->reset();
+        $d->query("select id, ten_vi from #_news_cat where type='tin-tuc' order by stt asc, id desc");
+        $categories = $d->result_array();
+    }
+
     $d->reset();
     $sql = "select * from #_$table_db where id='".$id."'";
     $d->query($sql);
@@ -125,7 +194,7 @@ function save_item(){
     $id = isset($_POST['id']) ? (int)$_POST['id'] : "";
     
     $data['ten_vi'] = $_POST['ten_vi'];
-    if(isset($_POST['ten_khong_dau'])) $data['ten_khong_dau'] = ($_POST['ten_khong_dau']!='') ? $_POST['ten_khong_dau'] : changeTitle($_POST['ten_vi']);
+    $data['ten_khong_dau'] = ($_POST['ten_khong_dau']!='') ? $_POST['ten_khong_dau'] : changeTitle($_POST['ten_vi']);
     if(isset($_POST['mota_vi'])) $data['mota_vi'] = $_POST['mota_vi'];
     
     // Các trường chung
@@ -141,26 +210,32 @@ function save_item(){
     // Các trường đặc thù
     if(isset($_POST['chucvu'])) $data['chucvu'] = $_POST['chucvu'];
     if(isset($_POST['rating'])) $data['rating'] = (int)$_POST['rating'];
+    if(isset($_POST['id_khuvuc'])) $data['id_khuvuc'] = (int)$_POST['id_khuvuc'];
     if(isset($_POST['id_cat'])) $data['id_cat'] = (int)$_POST['id_cat'];
     
-    // Cột type chỉ dành cho bảng news
-    if($table_db == 'news') {
-        $data['type'] = $type;
+    // Xử lý nổi bật cho các bảng có cột này
+    if(in_array($table_db, ['news', 'duan'])) {
         $data['noibat'] = isset($_POST['noibat']) ? 1 : 0;
+    }
+
+    // Cột type chỉ dành cho bảng duan (vẫn còn dùng type)
+    if($table_db == 'duan') {
+        $data['type'] = $type;
     }
 
     // Xử lý hình ảnh
     $file_name = fns_Rand_digit(0,9,12);
     
     // 1. Xác định đường dẫn vật lý để upload (Admin đang ở thư mục /admin/ nên cần ../)
-    $upload_path_physical = '../upload/' . $table_db . '/';
+    $upload_dir = (isset($folder_upload) && $folder_upload != '') ? $folder_upload : $table_db;
+    $upload_path_physical = '../upload/' . $upload_dir . '/';
     if (!file_exists($upload_path_physical)) mkdir($upload_path_physical, 0777, true);
 
     // 2. Ưu tiên file tải lên mới từ máy tính
     if(isset($_FILES['file']) && $_FILES['file']['name'] != ''){
         if($photo = upload_image("file", 'jpg|png|gif|jpeg|JPG|PNG|webp|WEBP', $upload_path_physical, $file_name)){
             // Lưu vào DB đường dẫn tương đối tính từ gốc website
-            $data['photo'] = 'upload/' . $table_db . '/' . $photo;
+            $data['photo'] = 'upload/' . $upload_dir . '/' . $photo;
             
             if($id){
                 $d->reset(); $d->query("select photo from #_$table_db where id='$id'");

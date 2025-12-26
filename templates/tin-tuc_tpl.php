@@ -29,7 +29,10 @@
                             <div class="blog-grid bg-light-white transition-4 mb-30">
                                 <div class="blog-grid-image relative">
                                     <a href="index.php?com=tin-tuc&id=<?=$v['id']?>">
-                                        <img src="<?=!empty($v['photo']) ? $v['photo'] : 'img/blog/blog-grid1.jpg'?>" alt="<?=$v['ten_vi']?>">
+                                        <?php 
+                                            $img_src = (!empty($v['photo']) && file_exists($v['photo'])) ? $v['photo'] : 'https://placehold.co/600x400/ebebeb/666666?text=No+Image';
+                                        ?>
+                                        <img src="<?=$img_src?>" alt="<?=$v['ten_vi']?>" style="width: 100%; height: 250px; object-fit: cover;">
                                     </a>
                                     <div class="blog-date-2 text-center bg-green">
                                         <h2 class="day white mb-0 fs-28 mt-10 f-900"><?=date('d', $v['ngaytao'])?></h2>
@@ -90,7 +93,10 @@
                             <?php if(!empty($ds_sidebar)) { foreach($ds_sidebar as $v) { ?>
                             <a href="index.php?com=tin-tuc&id=<?=$v['id']?>" class="popular-post d-flex align-items-center">
                                 <div class="popular-post-img mr-20">
-                                    <img src="<?=!empty($v['photo']) ? $v['photo'] : 'img/blog/pplr-1.png'?>" alt="" style="width:70px; height:70px; object-fit:cover;">
+                                    <?php 
+                                        $img_sidebar = (!empty($v['photo']) && file_exists($v['photo'])) ? $v['photo'] : 'https://placehold.co/100x100/ebebeb/666666?text=New';
+                                    ?>
+                                    <img src="<?=$img_sidebar?>" alt="" style="width:70px; height:70px; object-fit:cover;">
                                     <div class="full-cover bg-green-op-8 transition-4">
                                         <i class="fas fa-external-link-alt transform-center"></i>
                                     </div>

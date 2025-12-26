@@ -22,10 +22,25 @@
     <!-- portfolio deetails area start -->
     <section class="case-details pt-90 pb-100">
         <div class="container">
+            <div class="row mb-40">
+                <div class="col-lg-12">
+                    <div class="d-flex align-items-center flex-wrap">
+                        <?php if(!empty($row_detail['ten_khuvuc'])) { ?>
+                            <span class="badge badge-success px-3 py-2 mr-3" style="background-color: #108042; font-size: 14px;"><?=$row_detail['ten_khuvuc']?></span>
+                        <?php } ?>
+                        
+                        <div class="text-warning fs-18">
+                            <?php for($i=1; $i<=5; $i++) { ?>
+                                <i class="<?=($i<=$row_detail['rating'])?'fas':'far'?> fa-star"></i>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="content-main">
-                        <?=$row_detail['noidung_vi']?>
+                        <?=clearContent($row_detail['noidung_vi'])?>
                     </div>
                 </div>
             </div>
@@ -61,9 +76,9 @@
                 </div>
                 <div class="col-xl-8 col-lg-7 text-center text-lg-right z-5">
                     <a href="mailto:<?=$row_setting['email']?>" class="btn btn-square-white mr-20 mr-xs-00 d-block d-sm-inline-block mb-xs-15 wow fadeInUp">
-                        <i class="fas fa-envelope mr-15"></i><?=$row_setting['email']?>
+                        <i class="fas fa-envelope mr-15" style="font-size: 0.85em;"></i><?=$row_setting['email']?>
                     </a>
-                    <a href="tel:<?=$row_setting['hotline']?>" class="btn btn-square-green d-block d-sm-inline-block blob-small wow fadeInUp">
+                    <a href="tel:<?=str_replace(' ', '', $row_setting['hotline'])?>" class="btn btn-square-green d-block d-sm-inline-block blob-small wow fadeInUp">
                         <i class="fas fa-phone mr-15"></i><?=$row_setting['hotline']?>
                     </a>
                 </div>

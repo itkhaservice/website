@@ -39,7 +39,9 @@
                 <div class="col-xl-4 col-md-6 mb-30">
                     <div class="price-each relative img-lined text-center wow fadeInUp" style="background: url('<?=!empty($v['photo']) ? $v['photo'] : 'img/price/lan-phuong-mhbr-tower-keenlandcomvn-1.jpg'?>') center center / cover no-repeat; height:300px;">
                         <div class="price-head z-8 underlined">
-                            <!-- Icon or overlay if needed -->
+                            <?php if(!empty($v['ten_khuvuc'])) { ?>
+                                <span class="badge badge-success px-3 py-2 mt-3 shadow" style="background-color: #108042; font-size: 13px; font-weight: 600; text-transform: uppercase;"><?=$v['ten_khuvuc']?></span>
+                            <?php } ?>
                         </div>
                         <a href="index.php?com=du-an&id=<?=$v['id']?>" class="btn btn-round wide mt-10 z-8"><?=$v['ten_vi']?></a>
                     </div>
@@ -61,9 +63,9 @@
                 </div>
                 <div class="col-xl-8 col-lg-7 text-center text-lg-right z-5">
                     <a href="mailto:<?=$row_setting['email']?>" class="btn btn-square-white mr-20 mr-xs-00 d-block d-sm-inline-block mb-xs-15 wow fadeInUp">
-                        <i class="fas fa-envelope mr-15"></i><?=$row_setting['email']?>
+                        <i class="fas fa-envelope mr-15" style="font-size: 0.85em;"></i><?=$row_setting['email']?>
                     </a>
-                    <a href="tel:<?=$row_setting['hotline']?>" class="btn btn-square-green d-block d-sm-inline-block blob-small wow fadeInUp">
+                    <a href="tel:<?=str_replace(' ', '', $row_setting['hotline'])?>" class="btn btn-square-green d-block d-sm-inline-block blob-small wow fadeInUp">
                         <i class="fas fa-phone mr-15"></i><?=$row_setting['hotline']?>
                     </a>
                 </div>

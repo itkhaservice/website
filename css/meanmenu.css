@@ -55,6 +55,8 @@ a.meanmenu-reveal {
 	width: 100%;
 	background: #0c1923;
 	margin-top: 44px;
+	max-height: 80vh;
+	overflow-y: auto;
 }
 
 .mean-container .mean-nav ul {

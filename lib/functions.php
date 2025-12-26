@@ -2,6 +2,12 @@
 #
 #	$id_connect : ket noi database
 #
+function clearContent($html) {
+	// Chuyển ../upload/ thành upload/ để hiển thị đúng ở frontend
+	$html = str_replace('../upload/', 'upload/', $html);
+	return $html;
+}
+
 function magic_quote($str, $id_connect=false)	
 {	
 	if (is_array($str))

@@ -93,7 +93,7 @@
                         <p class="mb-0">© 2025 KHASERVICE. All rights reserved.</p>
                     </div>
                     <div class="col-xl-4 text-right">
-                        <a href="" class="btn scroll-btn f-right flex-center z-25 opacity-0">
+                        <a href="#" class="scroll-btn">
                             <i class="fas fa-arrow-up"></i>
                         </a>
                     </div>

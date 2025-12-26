@@ -352,12 +352,54 @@
               <p>Ứng dụng cư dân</p>
             </a>
           </li>
+
+          <li class="nav-item <?=($com=='news' && $_GET['type']=='tin-tuc' || ($com=='news_cat' && $_GET['type']=='tin-tuc'))?'menu-open':''?>">
+            <a href="#" class="nav-link <?=($com=='news' && $_GET['type']=='tin-tuc' || ($com=='news_cat' && $_GET['type']=='tin-tuc'))?'active':''?>">
+              <i class="nav-icon fas fa-newspaper"></i>
+              <p>Quản lý tin tức <i class="right fas fa-angle-left"></i></p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="index.php?com=news_cat&act=man&type=tin-tuc" class="nav-link <?=$com=='news_cat' && $_GET['type']=='tin-tuc'?'active':''?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Danh mục tin tức</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="index.php?com=news&act=man&type=tin-tuc" class="nav-link <?=$com=='news' && $_GET['type']=='tin-tuc'?'active':''?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Danh sách bài viết</p>
+                </a>
+              </li>
+            </ul>
+          </li>
           
           <li class="nav-item">
             <a href="index.php?com=dichvu&act=man" class="nav-link <?=$com=='dichvu'?'active':''?>">
               <i class="nav-icon fas fa-briefcase"></i>
               <p>Dịch vụ</p>
             </a>
+          </li>
+
+          <li class="nav-item <?=($com=='du-an' || ($com=='news_cat' && $_GET['type']=='du-an'))?'menu-open':''?>">
+            <a href="#" class="nav-link <?=($com=='du-an' || ($com=='news_cat' && $_GET['type']=='du-an'))?'active':''?>">
+              <i class="nav-icon fas fa-building"></i>
+              <p>Quản lý dự án <i class="right fas fa-angle-left"></i></p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="index.php?com=news_cat&act=man&type=du-an" class="nav-link <?=$com=='news_cat' && $_GET['type']=='du-an'?'active':''?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Khu vực</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="index.php?com=du-an&act=man" class="nav-link <?=$com=='du-an'?'active':''?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Dự án</p>
+                </a>
+              </li>
+            </ul>
           </li>
 
           <li class="nav-item">
@@ -507,7 +549,22 @@ $(document).ready(function(){
     // Chọn tất cả
     $(document).on('click', '#select-all', function(){
         $('.select-item').prop('checked', this.checked);
+        updateSelectedCount();
     });
+
+    // Chọn lẻ
+    $(document).on('click', '.select-item', function(){
+        updateSelectedCount();
+    });
+
+    function updateSelectedCount() {
+        var count = $('.select-item:checked').length;
+        if(count > 0) {
+            $('#selected-count').text(count).removeClass('d-none');
+        } else {
+            $('#selected-count').addClass('d-none');
+        }
+    }
 
     // Xóa nhiều
     $(document).on('click', '#delete-all', function(e){
@@ -544,6 +601,30 @@ $(document).ready(function(){
             success: function(response){
                 if(response == 1){
                     toastr.success('Cập nhật trạng thái thành công!');
+                } else {
+                    toastr.error('Cập nhật thất bại. Vui lòng thử lại!');
+                }
+            }
+        });
+    });
+
+    $('.checkbox-noibat').change(function() {
+        var id = $(this).data('id');
+        var table = $(this).data('table');
+        var value = $(this).is(':checked') ? 1 : 0;
+
+        $.ajax({
+            url: 'ajax/ajax_update.php',
+            type: 'POST',
+            data: {
+                id: id,
+                table: table,
+                field: 'noibat',
+                value: value
+            },
+            success: function(response){
+                if(response == 1){
+                    toastr.success('Cập nhật trạng thái nổi bật thành công!');
                 } else {
                     toastr.error('Cập nhật thất bại. Vui lòng thử lại!');
                 }

@@ -39,6 +39,7 @@ function save_item(){
     $data['tiktok'] = $_POST['tiktok'];
     $data['youtube'] = $_POST['youtube'];
     $data['youtubeInfo'] = $_POST['youtubeInfo'];
+    $data['video_intro'] = $_POST['video_intro'];
     $data['google_map'] = $_POST['google_map'];
     $data['description'] = $_POST['description'];
     

@@ -216,11 +216,11 @@
                         </div>
                         <div class="feature-list wow fadeInRight">
                             <ul class="feature-list-all">
-                                <?php for($i=3; $i<count($ds_tieuchi); $i++) { $v = $ds_tieuchi[$i]; ?>
+                                <?php if(!empty($ds_tieuchi)) { foreach($ds_tieuchi as $k => $v) { ?>
                                 <li class="mb-20">
                                     <div class="d-flex align-items-center justify-content-lg-start justify-content-center text-lg-left text-center">
                                         <div class="feature-num mr-25">
-                                            <span class="flex-center bg-light-white"><?=sprintf("%02d", $i-2)?></span>
+                                            <span class="flex-center bg-light-white"><?=sprintf("%02d", $k+1)?></span>
                                         </div>
                                         <div class="feature-detail">
                                             <h5 class="f-700"><?=$v['ten_vi']?></h5>
@@ -228,7 +228,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                <?php } ?>
+                                <?php } } ?>
                             </ul>
                         </div>
                     </div>
@@ -370,13 +370,13 @@
                     <div class="owl-carousel price-slider">
                         <?php if(!empty($ds_duan)) { foreach($ds_duan as $v) { ?>
                         <div class="item">
-                            <div class="price-each relative img-lined text-center wow fadeInUp" style="background: url('<?=!empty($v['photo']) ? $v['photo'] : 'img/price/lan-phuong-mhbr-tower-keenlandcomvn-1.jpg'?>') center center / cover no-repeat;">
+                            <div class="price-each relative img-lined text-center wow fadeInUp" style="background: url('<?=($v['photo']!='' && file_exists($v['photo'])) ? $v['photo'] : 'https://placehold.co/600x400/ebebeb/666666?text=No+Image'?>') center center / cover no-repeat;">
                                 <div class="price-head z-8 underlined">
-                                    <div class="price-icon relative flex-center">
-                                        <img src="img/price/price1.png" alt="">
-                                    </div>
+                                    <?php if(!empty($v['ten_khuvuc'])) { ?>
+                                        <span class="badge badge-success px-3 py-2 mt-3 shadow" style="background-color: #108042; font-size: 12px; font-weight: 600; text-transform: uppercase;"><?=$v['ten_khuvuc']?></span>
+                                    <?php } ?>
                                 </div>
-                                <a href="du-an/<?=$v['ten_khong_dau']?>.html" class="btn btn-round wide mt-10 z-8 text-uppercase"><?=$v['ten_vi']?></a>
+                                <a href="index.php?com=du-an&id=<?=$v['id']?>" class="btn btn-round wide mt-10 z-8 text-uppercase"><?=$v['ten_vi']?></a>
                             </div>
                         </div>
                         <?php }} ?>
@@ -409,7 +409,10 @@
                         <div class="item">
                             <div class="testimonial-div text-center">
                                 <div class="client-image">
-                                    <img src="<?=!empty($v['photo']) ? $v['photo'] : 'img/testimonial/client1.jpg'?>" class="mt-10 mb-45 rounded-circle shadow-sm" style="width:70px; height:70px; object-fit:cover; margin: auto;" alt="<?=$v['ten_vi']?>">
+                                    <?php 
+                                        $img_src = (!empty($v['photo']) && file_exists($v['photo'])) ? $v['photo'] : 'https://ui-avatars.com/api/?name='.urlencode($v['ten_vi']).'&background=ebebeb&color=666666&size=100';
+                                    ?>
+                                    <img src="<?=$img_src?>" class="mt-10 mb-45 rounded-circle shadow-sm" style="width:70px; height:70px; object-fit:cover; margin: auto;" alt="<?=$v['ten_vi']?>">
                                 </div>
                                 <div class="client-texts">
                                     <h3 class="green mb-20 f-700 italic">“<?=$v['mota_vi']?>”</h3>
@@ -450,14 +453,17 @@
                         </div>
                         <?php if(!empty($ds_tintuc)) { foreach($ds_tintuc as $v) { ?>
                         <div class="each-blog pb-25 mb-25 d-flex align-items-center">
-                            <div class="blog-date text-center transition-4 bg-light-white mr-30" style="width: 100px; height: 80px; overflow: hidden;">
-                                <img src="<?=!empty($v['photo']) ? $v['photo'] : 'img/blog/blog-grid1-ms.jpg'?>" alt="<?=$v['ten_vi']?>" style="width: 100%; height: 100%; object-fit: cover;" />
+                            <div class="blog-date text-center transition-4 bg-light-white mr-30" style="width: 100px; height: 80px; overflow: hidden; border-radius: 8px; flex-shrink: 0;">
+                                <?php 
+                                    $img_src = (!empty($v['photo']) && file_exists($v['photo'])) ? $v['photo'] : 'https://placehold.co/400x300/ebebeb/666666?text=Khaservice';
+                                ?>
+                                <img src="<?=$img_src?>" alt="<?=$v['ten_vi']?>" style="width: 100%; height: 100%; object-fit: cover;" />
                             </div>
                             <div class="blog-text">
-                                <h6>
-                                    <a href="tin-tuc/<?=$v['ten_khong_dau']?>.html" class="f-700 text-split-2"><?=$v['ten_vi']?></a>
+                                <h6 style="margin-bottom: 5px;">
+                                    <a href="index.php?com=tin-tuc&id=<?=$v['id']?>" class="f-700 text-split-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.8em; line-height: 1.4em;"><?=$v['ten_vi']?></a>
                                 </h6>
-                                <p class="f-500 mb-0"><?=date('d/m/Y', $v['ngaytao'])?> / Tin tức</p>
+                                <p class="f-500 mb-0 small text-muted"><?=date('d/m/Y', $v['ngaytao'])?> / <?=($v['ten_danhmuc']!='')?$v['ten_danhmuc']:'Tin tức'?></p>
                             </div>
                         </div>
                         <?php }} ?>

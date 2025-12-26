@@ -99,6 +99,10 @@
                                 <input type="text" name="youtube" class="form-control" value="<?=$item['youtube']?>">
                             </div>
                             <div class="form-group">
+                                <label class="font-weight-bold text-success"><i class="fas fa-play-circle mr-1"></i> Video trang giới thiệu (link Youtube)</label>
+                                <input type="text" name="video_intro" class="form-control border-success shadow-none" value="<?=$item['video_intro']?>" placeholder="https://www.youtube.com/watch?v=...">
+                            </div>
+                            <div class="form-group">
                                 <label class="font-weight-bold"><i class="fas fa-info-circle text-info mr-1"></i> Thông tin Youtube (youtubeInfo)</label>
                                 <input type="text" name="youtubeInfo" class="form-control" value="<?=$item['youtubeInfo']?>">
                             </div>

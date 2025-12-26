@@ -27,6 +27,19 @@
                 <div class="col-lg-6">
                     <div class="relative img-lined bg-blue mx-auto shadow-1 mb-md-30">
                         <img src="<?=$row_detail['photo']?>" alt="<?=$row_detail['ten_vi']?>" class="w-100">
+                        <?php 
+                            if(!empty($row_setting['video_intro'])) { 
+                                $video_url = $row_setting['video_intro'];
+                                // Đảm bảo link sạch để popup nhận diện đúng
+                                if(strpos($video_url, '&') !== false) {
+                                    $video_parts = explode('&', $video_url);
+                                    $video_url = $video_parts[0];
+                                }
+                        ?>
+                            <div class="blob green transform-center">
+                                <a href="<?=$video_url?>" class="popup-video"> <i class="fas fa-play"></i></a>
+                            </div>
+                        <?php } ?>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -35,13 +48,18 @@
                 <?php } ?>
                     <div class="about-text text-center text-lg-left">
                         <div class="fancy-head left-al mb-10">
-                            <h5 class="line-head mb-10">
+                            <h5 class="line-head mb-15">
                                 <span class="line before d-lg-none"></span>
-                                    Về chúng tôi
+                                    Giới thiệu
                                 <span class="line after"></span>
                             </h5>
-                            <h1><?=$row_detail['mota_vi']?></h1>
+                            <h1><?=$row_detail['ten_vi']?></h1>
                         </div>
+                        <?php if(!empty($row_detail['mota_vi'])) { ?>
+                            <div class="short-desc mb-30 font-weight-bold italic" style="font-size: 1.1rem; color: #555; border-left: 4px solid #108042; padding-left: 20px;">
+                                <?=$row_detail['mota_vi']?>
+                            </div>
+                        <?php } ?>
                         <div class="description content-main">
                             <?=$row_detail['noidung_vi']?>
                         </div>
@@ -156,7 +174,10 @@
                                 <div class="client-2-img d-flex align-items-center justify-content-md-start justify-content-center">
                                     <div class="img-div mr-30 pb-10">
                                         <div class="client-image">
-                                            <img src="<?=!empty($v['photo']) ? $v['photo'] : 'img/testimonial/client1.jpg'?>" class=" rounded-circle" alt="">
+                                            <?php 
+                                                $img_src = (!empty($v['photo']) && file_exists($v['photo'])) ? $v['photo'] : 'https://ui-avatars.com/api/?name='.urlencode($v['ten_vi']).'&background=ebebeb&color=666666&size=100';
+                                            ?>
+                                            <img src="<?=$img_src?>" class="rounded-circle shadow-sm" style="width:70px; height:70px; object-fit:cover;" alt="<?=$v['ten_vi']?>">
                                         </div>
                                     </div>
                                     <div class="client-text-2 mb-10">
@@ -185,9 +206,9 @@
                 </div>
                 <div class="col-xl-8 col-lg-7 text-center text-lg-right z-5">
                     <a href="mailto:<?=$row_setting['email']?>" class="btn btn-square-white mr-20 mr-xs-00 d-block d-sm-inline-block mb-xs-15 wow fadeInUp">
-                        <i class="fas fa-envelope mr-15"></i><?=$row_setting['email']?>
+                        <i class="fas fa-envelope mr-15" style="font-size: 0.85em;"></i><?=$row_setting['email']?>
                     </a>
-                    <a href="tel:<?=$row_setting['hotline']?>" class="btn btn-square-green d-block d-sm-inline-block blob-small wow fadeInUp">
+                    <a href="tel:<?=str_replace(' ', '', $row_setting['hotline'])?>" class="btn btn-square-green d-block d-sm-inline-block blob-small wow fadeInUp">
                         <i class="fas fa-phone mr-15"></i><?=$row_setting['hotline']?>
                     </a>
                 </div>
