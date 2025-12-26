@@ -776,20 +776,46 @@ $(document).ready(function(){
     });
 
     // --- FIX SIDEBAR SCROLL POSITION ---
-    // Lưu vị trí cuộn của sidebar khi người dùng cuộn hoặc click
-    $('.main-sidebar .os-viewport').scroll(function() {
-        localStorage.setItem('sidebar_scroll_top', $(this).scrollTop());
-    });
-
-    $('.nav-link').click(function() {
-        localStorage.setItem('sidebar_scroll_top', $('.main-sidebar .os-viewport').scrollTop());
-    });
-
-    // Khôi phục vị trí cuộn ngay khi load xong
-    var sidebarScrollTop = localStorage.getItem('sidebar_scroll_top');
-    if (sidebarScrollTop) {
-        $('.main-sidebar .os-viewport').scrollTop(sidebarScrollTop);
+    function saveSidebarScroll() {
+        var scrollTop = 0;
+        // Thử lấy từ OverlayScrollbars
+        var viewport = $('.main-sidebar .os-viewport');
+        if (viewport.length > 0) {
+            scrollTop = viewport.scrollTop();
+        } else {
+            // Fallback cho native scroll
+            scrollTop = $('.sidebar').scrollTop();
+        }
+        if(scrollTop > 0) localStorage.setItem('sidebar_scroll_top', scrollTop);
     }
+
+    // Lưu khi click vào menu
+    $('.nav-sidebar a.nav-link').on('click', function() {
+        saveSidebarScroll();
+    });
+
+    // Khôi phục vị trí cuộn
+    function restoreSidebarScroll() {
+        var sidebarScrollTop = localStorage.getItem('sidebar_scroll_top');
+        if (sidebarScrollTop) {
+            // Thử set cho OverlayScrollbars (nếu đã load)
+            var viewport = $('.main-sidebar .os-viewport');
+            if (viewport.length > 0) {
+                viewport.scrollTop(sidebarScrollTop);
+            }
+            // Set cho native sidebar (dự phòng)
+            $('.sidebar').scrollTop(sidebarScrollTop);
+        }
+    }
+
+    // Gọi khôi phục ngay lập tức
+    restoreSidebarScroll();
+
+    // Gọi lại sau 500ms để đảm bảo OverlayScrollbars đã init xong
+    setTimeout(restoreSidebarScroll, 500);
+    
+    // Và một lần nữa sau 1s cho chắc chắn
+    setTimeout(restoreSidebarScroll, 1000);
 });
 </script>
 </body>
