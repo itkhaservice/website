@@ -461,10 +461,10 @@
 $(document).ready(function(){
     toastr.options = { "closeButton": true, "positionClass": "toast-top-right", "timeOut": "2000" };
 
-    $('.checkbox-hienthi').change(function() {
+    $('.checkbox-hienthi, .checkbox-noibat').change(function() {
         var id = $(this).data('id');
         var table = $(this).data('table');
-        var field = $(this).data('field') || 'hienthi';
+        var field = $(this).hasClass('checkbox-noibat') ? 'noibat' : ($(this).data('field') || 'hienthi');
         var value = $(this).is(':checked') ? 1 : 0;
         var label = $(this).next('label');
 

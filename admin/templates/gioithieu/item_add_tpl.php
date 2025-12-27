@@ -102,9 +102,13 @@
                         <label class="font-weight-600">Số thứ tự</label>
                         <input type="number" name="stt" class="form-control" value="<?=isset($item['stt'])?$item['stt']:1?>">
                     </div>
-                    <div class="custom-control custom-switch">
+                    <div class="custom-control custom-switch mb-2">
                         <input type="checkbox" class="custom-control-input" id="hienthi" name="hienthi" <?=(!isset($item['hienthi']) || $item['hienthi']==1)?'checked':''?>>
                         <label class="custom-control-label" for="hienthi">Hiển thị</label>
+                    </div>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="noibat" name="noibat" <?=(isset($item['noibat']) && $item['noibat']==1)?'checked':''?>>
+                        <label class="custom-control-label" for="noibat">Nổi bật (Hiện trên menu)</label>
                     </div>
                 </div>
             </div>

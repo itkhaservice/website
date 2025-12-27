@@ -35,19 +35,27 @@ if (typeof CKEDITOR !== 'undefined') {
                 
                 // Kiểm tra xem đối tượng đang chọn có phải là ảnh không
                 if (element && element.is('img')) {
-                    nativeEvent.preventDefault(); // Ngăn cuộn trang
+                    // 1. CHẶN TRIỆT ĐỂ SỰ KIỆN CUỘN
+                    nativeEvent.preventDefault();
+                    if(nativeEvent.stopPropagation) nativeEvent.stopPropagation();
+                    event.data.preventDefault(); // CKEditor prevent
+
+                    // 2. KHÓA VỊ TRÍ MÀN HÌNH (SCROLL LOCKING)
+                    // Lưu vị trí cuộn hiện tại trước khi resize
+                    var win = editor.window.$;
+                    var doc = editor.document.$;
+                    var scrollTop = win.pageYOffset || doc.documentElement.scrollTop;
+                    var scrollLeft = win.pageXOffset || doc.documentElement.scrollLeft;
 
                     // Xác định chiều lăn (lên/xuống)
-                    // deltaY < 0 là lăn lên (phóng to), deltaY > 0 là lăn xuống (thu nhỏ)
                     var delta = Math.sign(nativeEvent.deltaY) * -1; 
-                    var step = 5; // Số pixel thay đổi mỗi nấc lăn (tăng giảm độ nhạy ở đây)
+                    var step = 10; // Tăng độ nhạy lên 1 chút cho mượt
                     
-                    // Lấy kích thước hiện tại (ưu tiên style width, nếu không có lấy attribute width hoặc clientWidth)
+                    // Lấy kích thước hiện tại
                     var currentWidthStr = element.getStyle('width');
                     var currentWidth = 0;
 
                     if (currentWidthStr && currentWidthStr.indexOf('%') !== -1) {
-                        // Nếu đang là %, chuyển đổi tạm sang px dựa trên cha hoặc lấy clientWidth
                         currentWidth = element.$.clientWidth;
                     } else {
                         currentWidth = parseInt(currentWidthStr) || parseInt(element.getAttribute('width')) || element.$.clientWidth;
@@ -56,17 +64,24 @@ if (typeof CKEDITOR !== 'undefined') {
                     // Tính kích thước mới
                     var newWidth = currentWidth + (delta * step);
                     
-                    // Giới hạn nhỏ nhất là 20px để không bị mất ảnh
+                    // Giới hạn nhỏ nhất là 20px
                     if (newWidth > 20) {
                         element.setStyle('width', newWidth + 'px');
-                        element.setStyle('height', 'auto'); // Giữ tỷ lệ
+                        element.setStyle('height', 'auto');
                         
-                        // Xóa các class định dạng chiều rộng cứng (nếu có) để style inline có tác dụng
+                        // Xóa các class định dạng
                         element.removeClass('img-100');
                         element.removeClass('img-75');
                         element.removeClass('img-50');
                         element.removeClass('img-25');
+
+                        // 3. KHÔI PHỤC VỊ TRÍ CUỘN (Chống nhảy hình)
+                        // Ép trình duyệt giữ nguyên vị trí scroll bất chấp thay đổi layout
+                        win.scrollTo(scrollLeft, scrollTop);
                     }
+                    
+                    // return false để CKEditor không xử lý tiếp event
+                    return false;
                 }
             }
         });

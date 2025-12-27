@@ -58,6 +58,7 @@
                         <th style="width: 80px" class="text-center text-uppercase font-weight-800 small text-muted">STT</th>
                         <th style="width: 80px" class="text-center text-uppercase font-weight-800 small text-muted">ID</th>
                         <th class="text-uppercase font-weight-800 small text-muted">Tiêu đề bài viết</th>
+                        <th style="width: 100px" class="text-center text-uppercase font-weight-800 small text-muted border-left">Nổi bật</th>
                         <th style="width: 120px" class="text-center text-uppercase font-weight-800 small text-muted border-left">Hiển thị</th>
                         <th style="width: 120px" class="text-center text-uppercase font-weight-800 small text-muted border-left">Thao tác</th>
                     </tr>
@@ -86,6 +87,12 @@
                                     $display_date = ($v['ngaysua'] > 0) ? $v['ngaysua'] : $v['ngaytao'];
                                     echo ($display_date > 0) ? date('d/m/Y H:i', $display_date) : date('d/m/Y H:i'); 
                                 ?>
+                            </div>
+                        </td>
+                        <td class="text-center border-left">
+                            <div class="custom-control custom-switch custom-switch-md">
+                                <input type="checkbox" class="custom-control-input checkbox-noibat" id="noibat-<?=$v['id']?>" data-id="<?=$v['id']?>" data-table="<?=$table_db?>" <?=($v['noibat']==1)?'checked':''?>>
+                                <label class="custom-control-label" for="noibat-<?=$v['id']?>"></label>
                             </div>
                         </td>
                         <td class="text-center border-left">

@@ -241,7 +241,7 @@ function save_item(){
     if(isset($_POST['id_cat'])) $data['id_cat'] = (int)$_POST['id_cat'];
     
     // Xử lý nổi bật cho các bảng có cột này
-    if(in_array($table_db, ['news', 'duan', 'thuvien'])) {
+    if(in_array($table_db, ['news', 'duan', 'thuvien', 'gioithieu'])) {
         $data['noibat'] = isset($_POST['noibat']) ? 1 : 0;
     }
 

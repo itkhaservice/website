@@ -47,7 +47,8 @@
                                     </li>
                                     <?php
                                         $d->reset();
-                                        $sql = "select ten_vi, ten_khong_dau, id from #_gioithieu where hienthi=1 order by stt asc, id asc";
+                                        // Chỉ lấy bài viết Nổi bật (noibat=1) để hiển thị lên menu
+                                        $sql = "select ten_vi, ten_khong_dau, id from #_gioithieu where hienthi=1 and noibat=1 order by stt asc, id asc";
                                         $d->query($sql);
                                         $ds_gioithieu = $d->result_array();
                                     ?>
