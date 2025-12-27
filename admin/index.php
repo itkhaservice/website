@@ -44,6 +44,7 @@ switch($com){
         $template = "contact/items";
         break;
     case 'news':
+    case 'tuyendung':
     case 'themanh':
     case 'giatri':
     case 'feedback':

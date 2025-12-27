@@ -257,7 +257,7 @@
 
   <aside class="main-sidebar sidebar-light-primary elevation-0">
     <a href="index.php" class="brand-link text-center">
-      <span class="brand-text font-weight-bold text-primary" style="font-size: 1.2rem; letter-spacing:-0.5px;">KHASERVICE <span style="font-weight:300; color:#64748b;">Admin</span></span>
+      <span class="brand-text font-weight-bold text-primary" style="font-size: 1.2rem; letter-spacing:-0.5px;">KHASERVICE <span style="font-weight:300; color:#64748b;"></span></span>
     </a>
 
     <div class="sidebar">
@@ -284,6 +284,20 @@
             <a href="index.php?com=static&act=capnhat&type=ve-chung-toi" class="nav-link <?=$com=='static' && $_GET['type']=='ve-chung-toi'?'active':''?>">
               <i class="nav-icon fas fa-fingerprint"></i>
               <p>Về chúng tôi</p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="index.php?com=themanh&act=man" class="nav-link <?=$com=='themanh'?'active':''?>">
+              <i class="nav-icon fas fa-bolt"></i>
+              <p>Thế mạnh</p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="index.php?com=giatri&act=man" class="nav-link <?=$com=='giatri'?'active':''?>">
+              <i class="nav-icon fas fa-gem"></i>
+              <p>Giá trị cốt lõi</p>
             </a>
           </li>
           
@@ -322,6 +336,13 @@
             </a>
           </li>
 
+          <li class="nav-item">
+            <a href="index.php?com=tuyendung&act=man&type=tuyen-dung" class="nav-link <?=$com=='tuyendung'?'active':''?>">
+              <i class="nav-icon fas fa-user-tie"></i>
+              <p>Tuyển dụng</p>
+            </a>
+          </li>
+
           <li class="nav-item <?=($com=='du-an' || ($com=='news_cat' && $_GET['type']=='du-an'))?'menu-open':''?>">
             <a href="#" class="nav-link <?=($com=='du-an' || ($com=='news_cat' && $_GET['type']=='du-an'))?'active':''?>">
               <i class="nav-icon fas fa-city"></i>
@@ -350,17 +371,53 @@
               <p>Slideshow trang chủ</p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="index.php?com=thuvien&act=man" class="nav-link <?=$com=='thuvien'?'active':''?>">
+          <li class="nav-item <?=($com=='thuvien' || ($com=='news_cat' && $_GET['type']=='thuvien-anh'))?'menu-open':''?>">
+            <a href="#" class="nav-link <?=($com=='thuvien' || ($com=='news_cat' && $_GET['type']=='thuvien-anh'))?'active':''?>">
               <i class="nav-icon fas fa-camera-retro"></i>
-              <p>Thư viện ảnh</p>
+              <p>Thư viện ảnh <i class="right fas fa-angle-left"></i></p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="index.php?com=news_cat&act=man&type=thuvien-anh" class="nav-link <?=$com=='news_cat' && $_GET['type']=='thuvien-anh'?'active':''?>">
+                  <i class="far fa-circle nav-icon small"></i>
+                  <p>Danh mục thư viện</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="index.php?com=thuvien&act=man" class="nav-link <?=$com=='thuvien'?'active':''?>">
+                  <i class="far fa-circle nav-icon small"></i>
+                  <p>Danh sách thư viện</p>
+                </a>
+              </li>
+            </ul>
           </li>
           <li class="nav-item">
             <a href="index.php?com=photo&act=man&type=doi-tac" class="nav-link <?=$_GET['type']=='doi-tac'?'active':''?>">
               <i class="nav-icon fas fa-handshake"></i>
               <p>Đối tác & Khách hàng</p>
             </a>
+          </li>
+          <li class="nav-item">
+            <a href="index.php?com=feedback&act=man" class="nav-link <?=$com=='feedback'?'active':''?>">
+              <i class="nav-icon fas fa-comment-dots"></i>
+              <p>Khách hàng nói gì</p>
+            </a>
+          </li>
+
+          <li class="nav-item <?=($com=='photo' && strpos($_GET['type'], 'banner') !== false)?'menu-open':''?>">
+            <a href="#" class="nav-link <?=($com=='photo' && strpos($_GET['type'], 'banner') !== false)?'active':''?>">
+              <i class="nav-icon fas fa-pager"></i>
+              <p>Quản lý Banner <i class="right fas fa-angle-left"></i></p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item"><a href="index.php?com=photo&act=man&type=banner-gioithieu" class="nav-link <?=$_GET['type']=='banner-gioithieu'?'active':''?>"><i class="far fa-circle nav-icon small"></i><p>Banner Giới thiệu</p></a></li>
+              <li class="nav-item"><a href="index.php?com=photo&act=man&type=banner-linhvuc" class="nav-link <?=$_GET['type']=='banner-linhvuc'?'active':''?>"><i class="far fa-circle nav-icon small"></i><p>Banner Lĩnh vực</p></a></li>
+              <li class="nav-item"><a href="index.php?com=photo&act=man&type=banner-duan" class="nav-link <?=$_GET['type']=='banner-duan'?'active':''?>"><i class="far fa-circle nav-icon small"></i><p>Banner Dự án</p></a></li>
+              <li class="nav-item"><a href="index.php?com=photo&act=man&type=banner-tintuc" class="nav-link <?=$_GET['type']=='banner-tintuc'?'active':''?>"><i class="far fa-circle nav-icon small"></i><p>Banner Tin tức</p></a></li>
+              <li class="nav-item"><a href="index.php?com=photo&act=man&type=banner-tuyendung" class="nav-link <?=$_GET['type']=='banner-tuyendung'?'active':''?>"><i class="far fa-circle nav-icon small"></i><p>Banner Tuyển dụng</p></a></li>
+              <li class="nav-item"><a href="index.php?com=photo&act=man&type=banner-lienhe" class="nav-link <?=$_GET['type']=='banner-lienhe'?'active':''?>"><i class="far fa-circle nav-icon small"></i><p>Banner Liên hệ</p></a></li>
+              <li class="nav-item"><a href="index.php?com=photo&act=man&type=inner-banner" class="nav-link <?=$_GET['type']=='inner-banner'?'active':''?>"><i class="far fa-circle nav-icon small"></i><p>Banner Khác</p></a></li>
+            </ul>
           </li>
 
           <li class="nav-header">HỆ THỐNG</li>
