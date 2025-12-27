@@ -67,7 +67,7 @@
 
     <style>
         .content-main { text-align: justify; font-size: 16px; line-height: 1.8; color: #333; }
-        .content-main img { max-width: 100% !important; height: auto !important; border-radius: 8px; margin: 20px 0; }
+        .content-main img { max-width: 100% !important; height: auto !important; border-radius: 8px; margin: 20px auto; display: block; }
         .content-main table { width: 100% !important; border-collapse: collapse; margin: 20px 0; }
         .content-main table td, .content-main table th { padding: 12px; border: 1px solid #eee; }
         .content-main p { margin-bottom: 20px; }

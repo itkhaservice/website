@@ -8,7 +8,10 @@
     </div>
 </div>
 
-<?php if($com == 'du-an' || $com == 'news' || $com == 'staff' || $com == 'thuvien') { ?>
+<?php 
+$show_filters = in_array($com, ['du-an', 'news', 'staff', 'thuvien', 'dichvu', 'themanh', 'giatri', 'feedback', 'appdancu']);
+if($show_filters) { 
+?>
 <div class="card mb-4 border-0 shadow-sm" style="border-radius: 15px; background: #fff;">
     <div class="card-body py-3 px-4">
         <div class="row align-items-center">
@@ -128,7 +131,13 @@
                         <?php } ?>
                         <td class="py-3">
                             <div class="font-weight-bold text-dark mb-1" style="font-size: 0.95rem;"><?=$v['ten_vi']?></div>
-                            <div class="text-muted small"><i class="far fa-calendar-alt mr-1"></i> <?=($v['ngaytao'] > 0) ? date('d/m/Y', $v['ngaytao']) : 'Chưa rõ'?></div>
+                            <div class="text-muted small">
+                                <i class="far fa-calendar-alt mr-1"></i> 
+                                <?php 
+                                    $display_date = ($v['ngaysua'] > 0) ? $v['ngaysua'] : $v['ngaytao'];
+                                    echo ($display_date > 0) ? date('d/m/Y H:i', $display_date) : date('d/m/Y H:i'); 
+                                ?>
+                            </div>
                         </td>
                         <?php if($com=='du-an' || ($com=='news' && $type=='tin-tuc') || $com=='dichvu'){ 
                             if($com=='du-an') {

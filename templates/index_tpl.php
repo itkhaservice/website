@@ -8,10 +8,12 @@
                         <div class="row">
                             <div class="col-xl-7 col-md-8">
                                 <div class="slider-content-3 z-10">
+                                    <?php if(!empty($v['mota_vi'])) { ?>
                                     <div class="line-head h5-custom-editor">
-                                          <?=!empty($v['mota_vi']) ? htmlspecialchars_decode($v['mota_vi']) : 'Khaservice'?>
+                                          <?=htmlspecialchars_decode($v['mota_vi'])?>
                                         <span class="line after"></span>
                                     </div>
+                                    <?php } ?>
                                     <div class="banner-head-2 banner-head-3 black f-700 mt-15 mb-35 mt-xs-20 mb-xs-30 h1-custom-editor">
                                         <?=htmlspecialchars_decode($v['ten_vi'])?>
                                     </div>
@@ -117,7 +119,7 @@
                         </div>
                         <div class="icon-text">
                             <h5 class="f-700"><?=$v['ten_vi']?></h5>
-                            <p style="text-align: justify;"><?=$v['mota_vi']?></p>
+                            <p class="text-justify"><?=$v['mota_vi']?></p>
                         </div>
                     </div>
                 </div>
@@ -151,10 +153,10 @@
                             </h5>
                             <h1><?=$about['ten_vi']?></h1>
                         </div>
-                        <div class="description" style="text-align: justify;">
+                        <div class="description content-main mb-20">
                             <?=$about['noidung_vi']?>
                         </div>
-                        <p><a href="index.php?com=gioi-thieu">Xem thêm</a></p>
+                        <p><a href="index.php?com=gioi-thieu" class="btn-more-link">Xem thêm</a></p>
                         
                         <div class="hr-line mb-30 mt-30"></div>
                         <div class="row">
@@ -210,7 +212,7 @@
                         </div>
                         <div class="service-text-3 transition-4 mt-15 z-10">
                             <h4 class="f-700 mb-10 text-split-3" style="min-height: 4.5em;"><?=$v['ten_vi']?></h4>
-                            <p class="mb-20 text-split-3" style="min-height: 4.5em;"><?=strip_tags($v['noidung_vi'])?></p>
+                            <div class="mb-20 text-split-3 text-justify text-white-50" style="min-height: 4.5em;"><?=strip_tags($v['noidung_vi'])?></div>
                             <a href="dich-vu/<?=$v['ten_khong_dau']?>.html" class="btn btn-border-blue mb-30">
                                 Xem thêm<i class="fas fa-long-arrow-alt-right ml-15"></i>
                             </a>
@@ -278,7 +280,7 @@
                                         </div>
                                         <div class="feature-detail">
                                             <h5 class="f-700"><?=$v['ten_vi']?></h5>
-                                            <p style="text-align: justify;"><?=$v['mota_vi']?></p>
+                                            <p class="text-justify"><?=$v['mota_vi']?></p>
                                         </div>
                                     </div>
                                 </li>
@@ -602,7 +604,7 @@
                                 </div>
                                 <div class="client-texts">
                                     <h3 class="green mb-20 f-700 italic">“<?=$v['mota_vi']?>”</h3>
-                                    <p class="white mb-20"><?=strip_tags($v['noidung_vi'])?></p>
+                                    <div class="white mb-20 text-justify"><?=strip_tags($v['noidung_vi'])?></div>
                                 </div>
                                 <div class="client-info">
                                     <ul class="stars-rate" data-starsactive="<?=$v['rating']?>">
@@ -718,7 +720,7 @@
                             <h1>Đăng ký nhận tin từ chúng tôi</h1>
                         </div>
                         <div class="subscribe-cotnent z-10">
-                            <p class="mb-45">Những tin tưc mới nhất sẽ được chúng tôi cập nhật đến bạn quá email nếu bạn để lại cho chúng tôi thông tin và email liên hệ và chúng hoàn toàn tự động. Chúng tôi cam kết không sữ dụng email của bạn vào mục đích nào khác.</p>
+                            <p class="mb-45 text-justify">Những tin tưc mới nhất sẽ được chúng tôi cập nhật đến bạn quá email nếu bạn để lại cho chúng tôi thông tin và email liên hệ và chúng hoàn toàn tự động. Chúng tôi cam kết không sữ dụng email của bạn vào mục đích nào khác.</p>
                             <form action="#">
                                 <div class="form-group relative mb-30">
                                     <input type="text" class="form-control input-white" id="name2" placeholder="Họ & Tên">

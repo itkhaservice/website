@@ -72,7 +72,7 @@
     
     <style>
         .content-main { text-align: justify; }
-        .content-main img { max-width: 100% !important; height: auto !important; }
+        .content-main img { max-width: 100% !important; height: auto !important; margin: 20px auto; display: block; }
         .content-main table { width: 100% !important; }
         @media (max-width: 767px) {
             .inner-banner { padding: 40px 0 !important; }

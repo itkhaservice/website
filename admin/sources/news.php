@@ -109,7 +109,12 @@ function get_items(){
     
     $d->reset();
     $where = "";
-    $where_table = ($com == 'du-an') ? 'table_duan.' : (($table_db == 'news') ? 'table_news.' : (($table_db == 'thuvien') ? 'table_thuvien.' : ''));
+    $where_table = "";
+    if($com == 'du-an') $where_table = 'table_duan.';
+    elseif($table_db == 'news') $where_table = 'table_news.';
+    elseif($table_db == 'thuvien') $where_table = 'table_thuvien.';
+    elseif($table_db == 'dichvu') $where_table = 'table_dichvu.';
+    elseif($table_db == 'tuyendung') $where_table = 'table_tuyendung.';
 
     if($table_db == 'duan') $where = " where table_duan.type='$type'";
 
