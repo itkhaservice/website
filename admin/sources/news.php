@@ -47,6 +47,19 @@ switch($com){
         break;
 }
 
+// Global variable for template use
+$dir_upload = 'news'; // Default
+if($com == 'thuvien') $dir_upload = 'thuvien';
+elseif($com == 'du-an') $dir_upload = 'duan';
+elseif($com == 'staff') $dir_upload = 'nhanvien';
+elseif($com == 'themanh') $dir_upload = 'themanh';
+elseif($com == 'giatri') $dir_upload = 'giatri';
+elseif($com == 'feedback') $dir_upload = 'feedback';
+elseif($com == 'dichvu') $dir_upload = 'dichvu';
+elseif($type == 'gioi-thieu') $dir_upload = 'gioithieu';
+elseif($type == 'tuyen-dung') $dir_upload = 'tuyendung';
+elseif($com == 'appdancu') $dir_upload = 'news';
+
 switch($act){
     case "man":
         get_items();

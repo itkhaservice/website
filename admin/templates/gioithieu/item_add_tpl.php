@@ -121,21 +121,21 @@
 </style>
 
 <script>
+    var uploadDir = '<?=($com=="tuyendung" || $_GET["type"]=="tuyen-dung") ? "tuyendung" : "gioithieu"?>';
+
     function startCKEditor() {
         if (typeof CKEDITOR === 'undefined') {
             setTimeout(startCKEditor, 100);
             return;
         }
-
-        var dir = 'gioithieu';
         
         if (document.getElementById('noidung_vi')) {
             CKEDITOR.replace('noidung_vi', {
                 height: 500,
-                filebrowserBrowseUrl: 'browser.php?dir=' + dir,
-                filebrowserImageBrowseUrl: 'browser.php?dir=' + dir,
-                filebrowserUploadUrl: 'ck_upload.php?dir=' + dir,
-                filebrowserImageUploadUrl: 'ck_upload.php?dir=' + dir,
+                filebrowserBrowseUrl: 'browser.php?dir=' + uploadDir,
+                filebrowserImageBrowseUrl: 'browser.php?dir=' + uploadDir,
+                filebrowserUploadUrl: 'ck_upload.php?dir=' + uploadDir,
+                filebrowserImageUploadUrl: 'ck_upload.php?dir=' + uploadDir,
                 removeDialogTabs: '',
                 extraPlugins: 'image,filebrowser',
                 
@@ -163,8 +163,7 @@
     startCKEditor();
 
     function openBrowser(field) {
-        var dir = 'gioithieu';
-        window.open('browser.php?field=' + field + '&dir=' + dir, 'Browser', 'width=1000,height=600');
+        window.open('browser.php?field=' + field + '&dir=' + uploadDir, 'Browser', 'width=1000,height=600');
     }
 
     function updateImagePath(field, path) {

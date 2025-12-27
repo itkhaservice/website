@@ -251,7 +251,7 @@
 <script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
 
 <script>
-    var dir = '<?=isset($folder_upload)?$folder_upload:$table_db?>';
+    var dir = '<?=$dir_upload?>';
 
     function initCK(id, h) {
         if(!document.getElementById(id)) return;
