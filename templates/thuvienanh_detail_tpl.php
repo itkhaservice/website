@@ -32,16 +32,16 @@
             </div>
         </div>
 
-        <div class="row popup-gallery">
+        <div class="row" id="lightgallery">
             <?php if(!empty($ds_photo)) { foreach($ds_photo as $v) { ?>
-            <div class="col-xl-3 col-lg-4 col-md-6 mb-30">
-                <div class="gallery-item-detail bg-white p-2 rounded shadow-sm overflow-hidden transition-4">
-                    <a href="<?=$v['photo']?>" title="<?=$row_detail['ten_vi']?>" class="d-block relative overflow-hidden group">
+            <div class="col-xl-3 col-lg-4 col-md-6 mb-30" data-src="<?=$v['photo']?>" data-sub-html="<h4><?=$row_detail['ten_vi']?></h4>">
+                <div class="gallery-item-detail bg-white p-2 rounded shadow-sm overflow-hidden transition-4 cursor-pointer">
+                    <div class="d-block relative overflow-hidden group">
                         <img src="<?=$v['photo']?>" alt="<?=$row_detail['ten_vi']?>" class="w-100 img-thumbnail-custom transition-4">
                         <div class="img-overlay-zoom flex-center">
-                            <i class="fas fa-search-plus text-white fs-30"></i>
+                            <i class="fas fa-expand text-white fs-30"></i>
                         </div>
-                    </a>
+                    </div>
                 </div>
             </div>
             <?php }} else { ?>
@@ -60,37 +60,44 @@
     </div>
 </section>
 
+<!-- LightGallery CSS/JS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/css/lightgallery-bundle.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/lightgallery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/zoom/lg-zoom.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/thumbnail/lg-thumbnail.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/pager/lg-pager.min.js"></script>
+
 <style>
     .border-left-primary { border-left: 5px solid #108042; }
-    .gallery-item-detail:hover { transform: scale(1.03); box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; }
-    .img-thumbnail-custom { height: 200px; width: 100%; object-fit: cover; border-radius: 4px; }
+    .gallery-item-detail:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important; }
+    .img-thumbnail-custom { height: 220px; width: 100%; object-fit: cover; border-radius: 8px; }
     .img-overlay-zoom {
         position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(16, 128, 66, 0.6);
-        opacity: 0; transition: 0.3s;
+        background: rgba(16, 128, 66, 0.7);
+        opacity: 0; transition: all 0.4s ease;
     }
     .group:hover .img-overlay-zoom { opacity: 1; }
-    .group:hover img { transform: scale(1.1); }
+    .group:hover img { transform: scale(1.15); }
+    
+    /* Custom LightGallery dots */
+    .lg-pager-cont { bottom: 20px !important; }
+    .lg-pager-cont .lg-pager { width: 10px !important; height: 10px !important; border: 1px solid #fff !important; margin: 0 5px !important; }
+    .lg-pager-cont .lg-pager.active { background: #fff !important; transform: scale(1.2); }
 </style>
 
 <script>
-    $(document).ready(function() {
-        $('.popup-gallery').magnificPopup({
-            delegate: 'a',
-            type: 'image',
-            tLoading: 'Đang tải ảnh #%curr%...',
-            mainClass: 'mfp-img-mobile',
-            gallery: {
-                enabled: true,
-                navigateByImgClick: true,
-                preload: [0,1] // Will preload 0 - before current, and 1 after the current image
-            },
-            image: {
-                tError: '<a href="%url%">Ảnh #%curr%</a> không thể hiển thị.',
-                titleSrc: function(item) {
-                    return item.el.attr('title');
-                }
-            }
+    document.addEventListener('DOMContentLoaded', function() {
+        lightGallery(document.getElementById('lightgallery'), {
+            plugins: [lgZoom, lgThumbnail, lgPager],
+            speed: 500,
+            mode: 'lg-fade',
+            download: false,
+            counter: true,
+            mousewheel: true,
+            swipeThreshold: 50,
+            enableDrag: true,
+            enableSwipe: true,
+            pager: true // Bật các dấu chấm tròn (dots) phân trang
         });
     });
 </script>
