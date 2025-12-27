@@ -31,6 +31,8 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
         .view-grid .item-info-detail { font-size: 10px; color: #64748b; line-height: 1.2; }
         .view-grid .item-checkbox { position: absolute; top: 15px; left: 15px; z-index: 10; transform: scale(1.2); cursor: pointer; display: none; }
         .view-grid .item-card:hover .item-checkbox, .view-grid .item-checkbox:checked { display: block; }
+        .view-grid .item-actions { position: absolute; top: 5px; right: 5px; opacity: 0; transition: 0.2s; z-index: 5; }
+        .view-grid .item-card:hover .item-actions { opacity: 1; }
 
         .view-list .item-wrapper { display: block; }
         .view-list .item-card { display: flex; align-items: center; padding: 10px 15px; border-radius: 10px; border: 1px solid transparent; cursor: pointer; transition: 0.2s; margin-bottom: 5px; }
@@ -40,7 +42,7 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
         .view-list .item-name { font-size: 14px; font-weight: 600; flex: 1; }
         .view-list .item-meta { font-size: 13px; color: #64748b; width: 150px; text-align: left; }
         .view-list .item-checkbox { margin-right: 15px; transform: scale(1.2); }
-        .view-list .item-actions { width: 100px; text-align: right; }
+        .view-list .item-actions { width: 120px; text-align: right; }
 
         .breadcrumb { border-radius: 10px; background: #f8fafc; border: 1px solid #f1f5f9; }
         .breadcrumb-item { cursor: pointer; color: var(--primary); font-weight: 600; font-size: 13px; }
@@ -72,7 +74,7 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
                     <button class="btn btn-light btn-sm" onclick="sortItems('date')" title="Mới nhất"><i class="fas fa-calendar-alt"></i></button>
                 </div>
                 <div class="view-toggle btn-group mr-3 shadow-sm">
-                    <button class="btn btn-light btn-sm active" onclick="switchView('grid')" id="btn-grid"><i class="fas fa-th-large"></i></button>
+                    <button class="btn btn-light btn-sm" onclick="switchView('grid')" id="btn-grid"><i class="fas fa-th-large"></i></button>
                     <button class="btn btn-light btn-sm" onclick="switchView('list')" id="btn-list"><i class="fas fa-list"></i></button>
                 </div>
                 <div class="d-flex shadow-sm rounded overflow-hidden">
@@ -130,7 +132,7 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
         $('#loader').show();
         currentDir = dir;
         $.ajax({
-            url: 'ajax/ajax_browser.php',
+            url: 'ajax/media_manager.php',
             type: 'GET',
             data: { act: 'list', dir: dir },
             dataType: 'json',
@@ -147,7 +149,6 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
         var folders = [...rawData.folders];
         var files = [...rawData.files];
 
-        // Sorting
         var compare = (a, b) => {
             var valA = a[sortField];
             var valB = b[sortField];
@@ -179,29 +180,33 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
 
     function getItemHtml(item, isFolder) {
         var checkbox = `<input type="checkbox" class="item-checkbox" data-name="${item.name}" onclick="event.stopPropagation(); updateSelectionUI();">`;
+        var onClick = isFolder ? `loadFolder('${item.path}')` : `selectFile('${item.path}')`;
+        
         if(currentView === 'grid') {
             return `<div class="browser-item">
                 ${checkbox}
-                <div class="item-card shadow-xs" onclick="isFolder ? loadFolder('${item.path}') : selectFile('${item.path}')">
+                <div class="item-card shadow-xs" onclick="${onClick}">
                     <div class="item-thumb">${isFolder ? '<i class="fas fa-folder fa-3x text-warning"></i>' : `<img src="${item.url}?v=${Date.now()}" onerror="this.src='https://placehold.co/150x150?text=File'">`}</div>
                     <span class="item-name" title="${item.name}">${item.name}</span>
                     <div class="item-info-detail">${item.size}</div>
                     <div class="item-info-detail">${item.date}</div>
                     <div class="item-actions">
-                        <button class="btn btn-xs btn-white text-danger border shadow-sm" onclick="event.stopPropagation(); deleteItem('${item.name}', ${isFolder})" title="Xóa"><i class="fas fa-trash-alt"></i></button>
+                        <button class="btn btn-xs btn-white text-info border mr-1" onclick="event.stopPropagation(); renameItem('${item.name}')" title="Đổi tên"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-xs btn-white text-danger border" onclick="event.stopPropagation(); deleteItem('${item.name}', ${isFolder})" title="Xóa"><i class="fas fa-trash-alt"></i></button>
                     </div>
                 </div>
             </div>`;
         } else {
             return `<div class="browser-item">
-                <div class="item-card shadow-xs" onclick="isFolder ? loadFolder('${item.path}') : selectFile('${item.path}')">
+                <div class="item-card shadow-xs" onclick="${onClick}">
                     ${checkbox}
                     <div class="item-thumb">${isFolder ? '<i class="fas fa-folder fa-2x text-warning"></i>' : `<img src="${item.url}?v=${Date.now()}" onerror="this.src='https://placehold.co/150x150?text=File'">`}</div>
                     <div class="item-name">${item.name}</div>
                     <div class="item-meta">${item.size}</div>
                     <div class="item-meta">${item.date}</div>
                     <div class="item-actions">
-                        <button class="btn btn-xs btn-outline-danger" onclick="event.stopPropagation(); deleteItem('${item.name}', ${isFolder})" title="Xóa"><i class="fas fa-trash-alt"></i></button>
+                        <button class="btn btn-xs btn-white text-info border mr-1" onclick="event.stopPropagation(); renameItem('${item.name}')" title="Đổi tên"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-xs btn-white text-danger border" onclick="event.stopPropagation(); deleteItem('${item.name}', ${isFolder})" title="Xóa"><i class="fas fa-trash-alt"></i></button>
                     </div>
                 </div>
             </div>`;
@@ -243,8 +248,23 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
             inputValidator: (value) => { if (!value) return 'Vui lòng nhập tên thư mục!' }
         }).then((result) => {
             if (result.isConfirmed) {
-                $.post('ajax/ajax_browser.php?act=mkdir&dir=' + currentDir, { name: result.value }, function(res) {
+                $.post('ajax/media_manager.php?act=mkdir&dir=' + currentDir, { name: result.value }, function(res) {
                     if(res.status == 1) { loadFolder(currentDir); Swal.fire({ icon: 'success', title: 'Đã tạo!', timer: 1000, showConfirmButton: false }); } 
+                    else { Swal.fire({ icon: 'error', title: 'Lỗi', text: res.msg }); }
+                }, 'json');
+            }
+        });
+    }
+
+    function renameItem(oldName) {
+        Swal.fire({
+            title: 'Đổi tên', input: 'text', inputValue: oldName, showCancelButton: true,
+            confirmButtonText: 'Cập nhật', cancelButtonText: 'Hủy', confirmButtonColor: '#108042',
+            inputValidator: (value) => { if (!value || value === oldName) return 'Vui lòng nhập tên mới khác tên cũ!' }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.post('ajax/media_manager.php?act=rename&dir=' + currentDir, { old_name: oldName, new_name: result.value }, function(res) {
+                    if(res.status == 1) { loadFolder(currentDir); Swal.fire({ icon: 'success', title: 'Đã đổi tên!', timer: 1000, showConfirmButton: false }); } 
                     else { Swal.fire({ icon: 'error', title: 'Lỗi', text: res.msg }); }
                 }, 'json');
             }
@@ -253,10 +273,10 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
 
     function deleteItem(name, isFolder) {
         Swal.fire({
-            title: 'Xác nhận xóa?', text: 'Hành động này không thể khôi phục!', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', confirmButtonText: 'Đồng ý', cancelButtonText: 'Hủy'
+            title: 'Xác nhận xóa?', text: isFolder ? 'Toàn bộ nội dung thư mục sẽ bị xóa!' : 'Hành động này không thể khôi phục!', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', confirmButtonText: 'Đồng ý', cancelButtonText: 'Hủy'
         }).then((result) => {
             if (result.isConfirmed) {
-                $.post('ajax/ajax_browser.php?act=delete&dir=' + currentDir, { file: name }, function(res) {
+                $.post('ajax/media_manager.php?act=delete&dir=' + currentDir, { file: name }, function(res) {
                     if(res.status == 1) { loadFolder(currentDir); Swal.fire({ icon: 'success', title: 'Đã xóa!', timer: 1000, showConfirmButton: false }); } 
                     else { Swal.fire({ icon: 'error', title: 'Lỗi', text: res.msg }); }
                 }, 'json');
@@ -268,12 +288,12 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
         var files = []; $('.item-checkbox:checked').each(function() { files.push($(this).data('name')); });
         if(files.length === 0) return;
         Swal.fire({
-            title: 'Xóa ' + files.length + ' mục đã chọn?', text: 'Toàn bộ tệp và thư mục sẽ bị xóa vĩnh viễn!', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', confirmButtonText: 'Xóa tất cả', cancelButtonText: 'Quay lại'
+            title: 'Xóa ' + files.length + ' mục đã chọn?', text: 'Dữ liệu sẽ bị xóa vĩnh viễn!', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', confirmButtonText: 'Xóa tất cả', cancelButtonText: 'Quay lại'
         }).then((result) => {
             if (result.isConfirmed) {
-                $.post('ajax/ajax_browser.php?act=delete_multiple&dir=' + currentDir, { files: files }, function(res) {
+                $.post('ajax/media_manager.php?act=delete_multiple&dir=' + currentDir, { files: files }, function(res) {
                     loadFolder(currentDir);
-                    Swal.fire({ icon: 'success', title: 'Hoàn tất!', text: 'Đã xóa thành công ' + res.success + ' mục.' });
+                    Swal.fire({ icon: 'success', title: 'Hoàn tất!', text: 'Đã xóa thành công.' });
                 }, 'json');
             }
         });
@@ -283,12 +303,12 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
     $('#upload-input').change(function() {
         var files = this.files; if(files.length === 0) return;
         Swal.fire({ title: 'Đang tải lên...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
-        var count = 0; var hasError = false; var inputObj = $(this);
+        var count = 0; var total = files.length; var hasError = false; var inputObj = $(this);
         function uploadOneByOne(index) {
-            if(index >= files.length) { loadFolder(currentDir); Swal.close(); inputObj.val(''); if(hasError) Swal.fire({ icon: 'warning', title: 'Lưu ý', text: 'Một số tệp tải lên thất bại.' }); return; }
+            if(index >= total) { loadFolder(currentDir); Swal.close(); inputObj.val(''); if(hasError) Swal.fire({ icon: 'warning', title: 'Lưu ý', text: 'Một số tệp tải lên thất bại.' }); return; }
             var formData = new FormData(); formData.append('file', files[index]);
             $.ajax({
-                url: 'ajax/ajax_browser.php?act=upload&dir=' + currentDir, type: 'POST', data: formData, processData: false, contentType: false, dataType: 'json',
+                url: 'ajax/media_manager.php?act=upload&dir=' + currentDir, type: 'POST', data: formData, processData: false, contentType: false, dataType: 'json',
                 success: function(res) { if(res.status == 0) hasError = true; },
                 error: function() { hasError = true; },
                 complete: function() { uploadOneByOne(index + 1); }
@@ -297,7 +317,10 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
         uploadOneByOne(0);
     });
 
-    $(document).ready(function() { loadFolder(currentDir); });
+    $(document).ready(function() { 
+        switchView(currentView);
+        loadFolder(currentDir); 
+    });
 </script>
 </body>
 </html>
