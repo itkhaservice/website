@@ -106,9 +106,10 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
 <div class="sticky-bottom-bar" id="bulk-actions-bar">
     <span class="mr-4"><i class="fas fa-check-circle mr-2 text-success"></i>Đã chọn <strong id="selected-count">0</strong> mục</span>
     <div class="btn-group">
-        <button class="btn btn-outline-light btn-sm rounded-pill px-3 mr-2" onclick="addToClipboard('copy')"><i class="fas fa-copy mr-1"></i>Copy</button>
-        <button class="btn btn-outline-light btn-sm rounded-pill px-3 mr-2" onclick="addToClipboard('move')"><i class="fas fa-cut mr-1"></i>Di chuyển</button>
-        <button class="btn btn-danger btn-sm rounded-pill px-3" onclick="bulkDelete()"><i class="fas fa-trash-alt mr-1"></i>Xóa</button>
+        <button class="btn btn-outline-light btn-sm rounded-pill px-3 mr-2" id="btn-bulk-copy" onclick="addToClipboard('copy')"><i class="fas fa-copy mr-1"></i>Copy</button>
+        <button class="btn btn-outline-light btn-sm rounded-pill px-3 mr-2" id="btn-bulk-move" onclick="addToClipboard('move')"><i class="fas fa-cut mr-1"></i>Di chuyển</button>
+        <button class="btn btn-outline-light btn-sm rounded-pill px-3 mr-2 text-success" id="btn-bulk-restore" onclick="bulkRestore()" style="display:none;"><i class="fas fa-trash-restore mr-1"></i>Khôi phục</button>
+        <button class="btn btn-danger btn-sm rounded-pill px-3" id="btn-bulk-delete" onclick="bulkDelete()"><i class="fas fa-trash-alt mr-1"></i>Xóa</button>
     </div>
     <button class="btn btn-link btn-sm text-white ml-2" onclick="deselectAll()">Hủy</button>
 </div>
@@ -121,7 +122,7 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
     var targetField = '<?=$field?>';
     var ckFuncNum = '<?=$ckFuncNum?>';
     var currentView = localStorage.getItem('browser_view') || 'grid';
-    var rawData = { folders: [], files: [] };
+    var rawData = { folders: [], files: [], is_trash: false };
     var sortField = 'name';
     var sortOrder = 1;
     
@@ -156,14 +157,30 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
                 renderContent();
                 updateBreadcrumb(dir);
                 updateClipboardUI();
+                updateToolbarUI();
             },
             complete: function() { $('#loader').hide(); }
         });
     }
 
+    function updateToolbarUI() {
+        if (rawData.is_trash) {
+            $('#btn-upload').hide();
+            $('button[onclick="createNewFolder()"]').hide();
+            $('#trash-indicator').show();
+            $('h5').html('<i class="fas fa-trash-alt mr-2 text-danger"></i>Thùng rác');
+        } else {
+            $('#btn-upload').show();
+            $('button[onclick="createNewFolder()"]').show();
+            $('#trash-indicator').hide();
+            $('h5').html('<i class="fas fa-images mr-2 text-success"></i>Media Browser');
+        }
+    }
+
     function renderContent() {
         var folders = [...rawData.folders];
         var files = [...rawData.files];
+        var isTrash = rawData.is_trash;
 
         var compare = (a, b) => {
             var valA = a[sortField];
@@ -187,34 +204,56 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
             </div>`;
         }
 
-        folders.forEach(function(f) { html += getItemHtml(f, true); });
-        files.forEach(function(f) { html += getItemHtml(f, false); });
+        folders.forEach(function(f) { html += getItemHtml(f, true, isTrash); });
+        files.forEach(function(f) { html += getItemHtml(f, false, isTrash); });
 
         $('#browser-content').html(html || '<div class="col-12 text-center text-muted py-5"><img src="https://cdn-icons-png.flaticon.com/512/4076/4076432.png" style="width:64px; opacity:0.2; margin-bottom:15px;"><p>Thư mục trống</p></div>');
         updateSelectionUI();
     }
 
-    function getItemHtml(item, isFolder) {
-        var checkbox = `<input type="checkbox" class="item-checkbox" data-name="${item.name}" onclick="event.stopPropagation(); updateSelectionUI();">`;
-        var onClick = isFolder ? `loadFolder('${item.path}')` : `selectFile('${item.path}')`;
+    function getItemHtml(item, isFolder, isTrash) {
+        var isTrashFolderItem = (item.name === 'trash' && !isTrash && isFolder);
+        var checkbox = isTrashFolderItem ? '' : `<input type="checkbox" class="item-checkbox" data-name="${item.name}" onclick="event.stopPropagation(); updateSelectionUI();">`;
+        var onClick = isFolder ? `loadFolder('${item.path}')` : (isTrash ? '' : `selectFile('${item.path}')`);
         
-        var actions = `
-            <div class="item-actions">
-                <button class="btn-action-mini text-primary" onclick="event.stopPropagation(); singleClipboard('${item.name}', 'copy')" title="Copy"><i class="fas fa-copy"></i></button>
-                <button class="btn-action-mini text-info" onclick="event.stopPropagation(); singleClipboard('${item.name}', 'move')" title="Di chuyển"><i class="fas fa-cut"></i></button>
-                <button class="btn-action-mini text-warning" onclick="event.stopPropagation(); renameItem('${item.name}')" title="Đổi tên"><i class="fas fa-edit"></i></button>
-                <button class="btn-action-mini text-danger" onclick="event.stopPropagation(); deleteItem('${item.name}', ${isFolder})" title="Xóa"><i class="fas fa-trash-alt"></i></button>
-            </div>
-        `;
+        var actions = '';
+        if (isTrash) {
+            // Trash Actions
+            actions = `
+                <div class="item-actions">
+                    <button class="btn-action-mini text-success" onclick="event.stopPropagation(); restoreItem('${item.name}')" title="Khôi phục"><i class="fas fa-trash-restore"></i></button>
+                    <button class="btn-action-mini text-danger" onclick="event.stopPropagation(); deleteItem('${item.name}', ${isFolder}, true)" title="Xóa vĩnh viễn"><i class="fas fa-times"></i></button>
+                </div>
+            `;
+        } else if (isTrashFolderItem) {
+            actions = ``; // No actions on the Trash folder itself from outside
+        } else {
+            // Normal Actions
+            actions = `
+                <div class="item-actions">
+                    <button class="btn-action-mini text-primary" onclick="event.stopPropagation(); singleClipboard('${item.name}', 'copy')" title="Copy"><i class="fas fa-copy"></i></button>
+                    <button class="btn-action-mini text-info" onclick="event.stopPropagation(); singleClipboard('${item.name}', 'move')" title="Di chuyển"><i class="fas fa-cut"></i></button>
+                    <button class="btn-action-mini text-warning" onclick="event.stopPropagation(); renameItem('${item.name}')" title="Đổi tên"><i class="fas fa-edit"></i></button>
+                    <button class="btn-action-mini text-danger" onclick="event.stopPropagation(); deleteItem('${item.name}', ${isFolder}, false)" title="Xóa"><i class="fas fa-trash-alt"></i></button>
+                </div>
+            `;
+        }
+
+        var icon = isFolder ? '<i class="fas fa-folder fa-3x text-warning"></i>' : `<img src="${item.url}?v=${Date.now()}" onerror="this.src='https://placehold.co/150x150?text=File'">`;
+        if (isTrashFolderItem) icon = '<i class="fas fa-trash-alt fa-3x text-danger"></i>';
+
+        // Original Path info for trash items
+        var metaInfo = isTrash && item.original_path ? `<div class="item-info-detail text-muted" style="font-size:9px;">Từ: ${item.original_path}</div>` : '';
 
         if(currentView === 'grid') {
             return `<div class="browser-item">
                 ${checkbox}
                 <div class="item-card shadow-xs" onclick="${onClick}">
-                    <div class="item-thumb">${isFolder ? '<i class="fas fa-folder fa-3x text-warning"></i>' : `<img src="${item.url}?v=${Date.now()}" onerror="this.src='https://placehold.co/150x150?text=File'">`}</div>
+                    <div class="item-thumb">${icon}</div>
                     <span class="item-name" title="${item.name}">${item.name}</span>
                     <div class="item-info-detail">${item.size}</div>
                     <div class="item-info-detail">${item.date}</div>
+                    ${metaInfo}
                     ${actions}
                 </div>
             </div>`;
@@ -222,8 +261,11 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
             return `<div class="browser-item">
                 <div class="item-card shadow-xs" onclick="${onClick}">
                     ${checkbox}
-                    <div class="item-thumb">${isFolder ? '<i class="fas fa-folder fa-2x text-warning"></i>' : `<img src="${item.url}?v=${Date.now()}" onerror="this.src='https://placehold.co/150x150?text=File'">`}</div>
-                    <div class="item-name">${item.name}</div>
+                    <div class="item-thumb" style="${isTrashFolderItem?'color:#dc3545':''}">${isFolder ? (isTrashFolderItem ? '<i class="fas fa-trash-alt fa-2x"></i>' : '<i class="fas fa-folder fa-2x text-warning"></i>') : `<img src="${item.url}?v=${Date.now()}" onerror="this.src='https://placehold.co/150x150?text=File'">`}</div>
+                    <div class="item-name">
+                        ${item.name}
+                        ${isTrash && item.original_path ? `<div class="text-muted small" style="font-size:10px;">Gốc: ${item.original_path}</div>` : ''}
+                    </div>
                     <div class="item-meta">${item.size}</div>
                     <div class="item-meta">${item.date}</div>
                     ${actions}
@@ -235,8 +277,24 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
     function updateSelectionUI() {
         var count = $('.item-checkbox:checked').length;
         $('#selected-count').text(count);
-        if(count > 0) $('#bulk-actions-bar').css('display', 'flex');
-        else $('#bulk-actions-bar').hide();
+        
+        if(count > 0) {
+            $('#bulk-actions-bar').css('display', 'flex');
+            // Update Bulk Actions based on Mode
+            if (rawData.is_trash) {
+                $('#btn-bulk-copy').hide();
+                $('#btn-bulk-move').hide();
+                $('#btn-bulk-restore').show();
+                $('#btn-bulk-delete').html('<i class="fas fa-times mr-1"></i>Xóa vĩnh viễn');
+            } else {
+                $('#btn-bulk-copy').show();
+                $('#btn-bulk-move').show();
+                $('#btn-bulk-restore').hide();
+                $('#btn-bulk-delete').html('<i class="fas fa-trash-alt mr-1"></i>Xóa');
+            }
+        } else {
+            $('#bulk-actions-bar').hide();
+        }
         $('#select-all-main').prop('checked', count > 0 && count === $('.item-checkbox').length);
     }
 
@@ -247,7 +305,12 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
         var parts = dir.split('/').filter(Boolean);
         var html = '<li class="breadcrumb-item" onclick="loadFolder(\'\')"><i class="fas fa-home mr-1"></i>upload</li>';
         var currentPath = '';
-        parts.forEach(function(p) { currentPath += (currentPath ? '/' : '') + p; html += `<li class="breadcrumb-item" onclick="loadFolder('${currentPath}')">${p}</li>`; });
+        parts.forEach(function(p) { 
+            currentPath += (currentPath ? '/' : '') + p; 
+            var label = p;
+            if (p === 'trash') label = 'Thùng rác';
+            html += `<li class="breadcrumb-item" onclick="loadFolder('${currentPath}')">${label}</li>`; 
+        });
         $('#path-breadcrumb').html(html);
     }
 
@@ -318,7 +381,7 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
         }, 'json');
     }
 
-    // --- BASIC ACTIONS ---
+    // --- ACTIONS ---
     function createNewFolder() {
         Swal.fire({
             title: 'Tạo thư mục mới', input: 'text', inputPlaceholder: 'Nhập tên thư mục...', showCancelButton: true,
@@ -349,9 +412,18 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
         });
     }
 
-    function deleteItem(name, isFolder) {
+    function deleteItem(name, isFolder, isPermanent) {
+        var msg = isPermanent ? 'Dữ liệu sẽ bị xóa VĨNH VIỄN và KHÔNG THỂ khôi phục!' : 'Dữ liệu sẽ được chuyển vào thùng rác.';
+        var confirmBtn = isPermanent ? 'Xóa Vĩnh Viễn' : 'Chuyển vào thùng rác';
+        
         Swal.fire({
-            title: 'Xác nhận xóa?', text: isFolder ? 'Toàn bộ nội dung thư mục sẽ bị xóa!' : 'Hành động này không thể khôi phục!', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', confirmButtonText: 'Đồng ý', cancelButtonText: 'Hủy'
+            title: isPermanent ? 'Xóa vĩnh viễn?' : 'Xóa tệp tin?',
+            text: msg,
+            icon: isPermanent ? 'warning' : 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            confirmButtonText: confirmBtn,
+            cancelButtonText: 'Hủy'
         }).then((result) => {
             if (result.isConfirmed) {
                 $.post('ajax/media_manager.php?act=delete&dir=' + currentDir, { file: name }, function(res) {
@@ -362,11 +434,22 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
         });
     }
 
+    function restoreItem(name) {
+        $.post('ajax/media_manager.php?act=restore&dir=' + currentDir, { file: name }, function(res) {
+            if(res.status == 1) { loadFolder(currentDir); Swal.fire({ icon: 'success', title: 'Đã khôi phục!', timer: 1000, showConfirmButton: false }); }
+            else { Swal.fire({ icon: 'error', title: 'Lỗi', text: res.msg }); }
+        }, 'json');
+    }
+
     function bulkDelete() {
         var files = []; $('.item-checkbox:checked').each(function() { files.push($(this).data('name')); });
         if(files.length === 0) return;
+        
+        var isTrash = rawData.is_trash;
+        var msg = isTrash ? 'Dữ liệu sẽ bị xóa VĨNH VIỄN!' : 'Các mục đã chọn sẽ chuyển vào thùng rác.';
+        
         Swal.fire({
-            title: 'Xóa ' + files.length + ' mục đã chọn?', text: 'Dữ liệu sẽ bị xóa vĩnh viễn!', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', confirmButtonText: 'Xóa tất cả', cancelButtonText: 'Quay lại'
+            title: 'Xóa ' + files.length + ' mục?', text: msg, icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', confirmButtonText: isTrash ? 'Xóa Vĩnh Viễn' : 'Xóa', cancelButtonText: 'Quay lại'
         }).then((result) => {
             if (result.isConfirmed) {
                 $.post('ajax/media_manager.php?act=delete_multiple&dir=' + currentDir, { files: files }, function(res) {
@@ -375,6 +458,16 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
                 }, 'json');
             }
         });
+    }
+    
+    function bulkRestore() {
+        var files = []; $('.item-checkbox:checked').each(function() { files.push($(this).data('name')); });
+        if(files.length === 0) return;
+        
+        $.post('ajax/media_manager.php?act=restore_multiple&dir=' + currentDir, { files: files }, function(res) {
+            loadFolder(currentDir);
+            Swal.fire({ icon: 'success', title: 'Hoàn tất!', text: 'Đã khôi phục thành công.' });
+        }, 'json');
     }
 
     $('#btn-upload').click(function() { $('#upload-input').trigger('click'); });
