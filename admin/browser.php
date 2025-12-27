@@ -20,7 +20,6 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
         .browser-container { background: #fff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); min-height: calc(100vh - 40px); padding: 25px; border: 1px solid #e2e8f0; position: relative; }
         .browser-toolbar { background: #fff; border-bottom: 1px solid #f1f5f9; padding-bottom: 20px; margin-bottom: 20px; }
         
-        /* View Modes */
         .view-grid .item-wrapper { display: flex; flex-wrap: wrap; margin: 0 -10px; }
         .view-grid .browser-item { width: 12.5%; padding: 10px; position: relative; }
         .view-grid .item-card { border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; transition: 0.2s; cursor: pointer; background: #fff; height: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; }
@@ -31,25 +30,28 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
         .view-grid .item-info-detail { font-size: 10px; color: #64748b; line-height: 1.2; }
         .view-grid .item-checkbox { position: absolute; top: 15px; left: 15px; z-index: 10; transform: scale(1.2); cursor: pointer; display: none; }
         .view-grid .item-card:hover .item-checkbox, .view-grid .item-checkbox:checked { display: block; }
-        .view-grid .item-actions { position: absolute; top: 5px; right: 5px; opacity: 0; transition: 0.2s; z-index: 5; }
-        .view-grid .item-card:hover .item-actions { opacity: 1; }
+        .view-grid .item-actions { position: absolute; top: 5px; right: 5px; opacity: 0; transition: 0.2s; z-index: 5; display: flex; }
 
         .view-list .item-wrapper { display: block; }
-        .view-list .item-card { display: flex; align-items: center; padding: 10px 15px; border-radius: 10px; border: 1px solid transparent; cursor: pointer; transition: 0.2s; margin-bottom: 5px; }
+        .view-list .item-card { display: flex; align-items: center; padding: 10px 15px; border-radius: 10px; border: 1px solid transparent; cursor: pointer; transition: 0.2s; margin-bottom: 5px; position: relative; }
         .view-list .item-card:hover { background: #f1f5f9; border-color: #e2e8f0; }
         .view-list .item-thumb { width: 40px; height: 40px; margin-right: 15px; display: flex; align-items: center; justify-content: center; }
         .view-list .item-thumb img { width: 40px; height: 40px; object-fit: cover; border-radius: 6px; }
         .view-list .item-name { font-size: 14px; font-weight: 600; flex: 1; }
         .view-list .item-meta { font-size: 13px; color: #64748b; width: 150px; text-align: left; }
         .view-list .item-checkbox { margin-right: 15px; transform: scale(1.2); }
-        .view-list .item-actions { width: 120px; text-align: right; }
+        .view-list .item-actions { width: 150px; text-align: right; display: flex; justify-content: flex-end; }
+
+        .btn-action-mini { width: 24px; height: 24px; padding: 0; font-size: 10px; display: flex; align-items: center; justify-content: center; border-radius: 4px; background: #fff; border: 1px solid #e2e8f0; margin-left: 2px; }
+        .btn-action-mini:hover { background: #f8fafc; color: var(--primary); border-color: var(--primary); }
 
         .breadcrumb { border-radius: 10px; background: #f8fafc; border: 1px solid #f1f5f9; }
         .breadcrumb-item { cursor: pointer; color: var(--primary); font-weight: 600; font-size: 13px; }
         .breadcrumb-item + .breadcrumb-item::before { content: "\f105"; font-family: "Font Awesome 5 Free"; font-weight: 900; padding: 0 10px; color: #cbd5e1; }
         
         .sticky-bottom-bar { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: #fff; padding: 12px 25px; border-radius: 50px; display: none; z-index: 1000; box-shadow: 0 10px 25px rgba(0,0,0,0.2); align-items: center; }
-        
+        .clipboard-status { background: #3b82f6; color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 12px; margin-right: 15px; display: none; align-items: center; }
+
         @media (max-width: 1400px) { .view-grid .browser-item { width: 16.66%; } }
         @media (max-width: 1100px) { .view-grid .browser-item { width: 20%; } }
         @media (max-width: 768px) { .view-grid .browser-item { width: 33.33%; } .view-list .item-meta { display: none; } }
@@ -60,11 +62,17 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
 <div class="browser-container">
     <div class="browser-toolbar">
         <div class="row align-items-center">
-            <div class="col-lg-4 col-md-6 d-flex align-items-center mb-3 mb-md-0">
+            <div class="col-lg-4 d-flex align-items-center mb-3 mb-lg-0">
                 <h5 class="mb-0 font-weight-bold mr-3"><i class="fas fa-images mr-2 text-success"></i>Media Browser</h5>
                 <div id="loader" class="spinner-border spinner-border-sm text-success" style="display:none;"></div>
             </div>
-            <div class="col-lg-8 col-md-6 text-right d-flex justify-content-end align-items-center flex-wrap">
+            <div class="col-lg-8 text-right d-flex justify-content-end align-items-center flex-wrap">
+                <div id="clipboard-info" class="clipboard-status">
+                    <i class="fas fa-paste mr-2"></i> <span id="clipboard-text"></span>
+                    <button class="btn btn-success btn-sm ml-3 py-0 px-3 rounded-pill" onclick="pasteFromClipboard()">DÁN VÀO ĐÂY</button>
+                    <button class="btn btn-link btn-sm text-white ml-1 p-0" onclick="clearClipboard()"><i class="fas fa-times-circle"></i></button>
+                </div>
+
                 <div class="custom-control custom-checkbox mr-4 d-flex align-items-center">
                     <input type="checkbox" class="custom-control-input" id="select-all-main">
                     <label class="custom-control-label font-weight-bold text-sm" for="select-all-main">Chọn tất cả</label>
@@ -74,7 +82,7 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
                     <button class="btn btn-light btn-sm" onclick="sortItems('date')" title="Mới nhất"><i class="fas fa-calendar-alt"></i></button>
                 </div>
                 <div class="view-toggle btn-group mr-3 shadow-sm">
-                    <button class="btn btn-light btn-sm" onclick="switchView('grid')" id="btn-grid"><i class="fas fa-th-large"></i></button>
+                    <button class="btn btn-light btn-sm active" onclick="switchView('grid')" id="btn-grid"><i class="fas fa-th-large"></i></button>
                     <button class="btn btn-light btn-sm" onclick="switchView('list')" id="btn-list"><i class="fas fa-list"></i></button>
                 </div>
                 <div class="d-flex shadow-sm rounded overflow-hidden">
@@ -97,7 +105,11 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
 
 <div class="sticky-bottom-bar" id="bulk-actions-bar">
     <span class="mr-4"><i class="fas fa-check-circle mr-2 text-success"></i>Đã chọn <strong id="selected-count">0</strong> mục</span>
-    <button class="btn btn-danger btn-sm rounded-pill px-4" onclick="bulkDelete()"><i class="fas fa-trash-alt mr-2"></i>Xóa vĩnh viễn</button>
+    <div class="btn-group">
+        <button class="btn btn-outline-light btn-sm rounded-pill px-3 mr-2" onclick="addToClipboard('copy')"><i class="fas fa-copy mr-1"></i>Copy</button>
+        <button class="btn btn-outline-light btn-sm rounded-pill px-3 mr-2" onclick="addToClipboard('move')"><i class="fas fa-cut mr-1"></i>Di chuyển</button>
+        <button class="btn btn-danger btn-sm rounded-pill px-3" onclick="bulkDelete()"><i class="fas fa-trash-alt mr-1"></i>Xóa</button>
+    </div>
     <button class="btn btn-link btn-sm text-white ml-2" onclick="deselectAll()">Hủy</button>
 </div>
 
@@ -112,6 +124,9 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
     var rawData = { folders: [], files: [] };
     var sortField = 'name';
     var sortOrder = 1;
+    
+    // Clipboard State
+    var clipboard = JSON.parse(localStorage.getItem('browser_clipboard')) || { action: null, files: [], sourceDir: '' };
 
     function switchView(view) {
         currentView = view;
@@ -140,6 +155,7 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
                 rawData = data;
                 renderContent();
                 updateBreadcrumb(dir);
+                updateClipboardUI();
             },
             complete: function() { $('#loader').hide(); }
         });
@@ -182,6 +198,15 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
         var checkbox = `<input type="checkbox" class="item-checkbox" data-name="${item.name}" onclick="event.stopPropagation(); updateSelectionUI();">`;
         var onClick = isFolder ? `loadFolder('${item.path}')` : `selectFile('${item.path}')`;
         
+        var actions = `
+            <div class="item-actions">
+                <button class="btn-action-mini text-primary" onclick="event.stopPropagation(); singleClipboard('${item.name}', 'copy')" title="Copy"><i class="fas fa-copy"></i></button>
+                <button class="btn-action-mini text-info" onclick="event.stopPropagation(); singleClipboard('${item.name}', 'move')" title="Di chuyển"><i class="fas fa-cut"></i></button>
+                <button class="btn-action-mini text-warning" onclick="event.stopPropagation(); renameItem('${item.name}')" title="Đổi tên"><i class="fas fa-edit"></i></button>
+                <button class="btn-action-mini text-danger" onclick="event.stopPropagation(); deleteItem('${item.name}', ${isFolder})" title="Xóa"><i class="fas fa-trash-alt"></i></button>
+            </div>
+        `;
+
         if(currentView === 'grid') {
             return `<div class="browser-item">
                 ${checkbox}
@@ -190,10 +215,7 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
                     <span class="item-name" title="${item.name}">${item.name}</span>
                     <div class="item-info-detail">${item.size}</div>
                     <div class="item-info-detail">${item.date}</div>
-                    <div class="item-actions">
-                        <button class="btn btn-xs btn-white text-info border mr-1" onclick="event.stopPropagation(); renameItem('${item.name}')" title="Đổi tên"><i class="fas fa-edit"></i></button>
-                        <button class="btn btn-xs btn-white text-danger border" onclick="event.stopPropagation(); deleteItem('${item.name}', ${isFolder})" title="Xóa"><i class="fas fa-trash-alt"></i></button>
-                    </div>
+                    ${actions}
                 </div>
             </div>`;
         } else {
@@ -204,10 +226,7 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
                     <div class="item-name">${item.name}</div>
                     <div class="item-meta">${item.size}</div>
                     <div class="item-meta">${item.date}</div>
-                    <div class="item-actions">
-                        <button class="btn btn-xs btn-white text-info border mr-1" onclick="event.stopPropagation(); renameItem('${item.name}')" title="Đổi tên"><i class="fas fa-edit"></i></button>
-                        <button class="btn btn-xs btn-white text-danger border" onclick="event.stopPropagation(); deleteItem('${item.name}', ${isFolder})" title="Xóa"><i class="fas fa-trash-alt"></i></button>
-                    </div>
+                    ${actions}
                 </div>
             </div>`;
         }
@@ -222,7 +241,6 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
     }
 
     function deselectAll() { $('.item-checkbox').prop('checked', false); updateSelectionUI(); }
-
     $('#select-all-main').change(function() { $('.item-checkbox').prop('checked', this.checked); updateSelectionUI(); });
 
     function updateBreadcrumb(dir) {
@@ -241,6 +259,66 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
         }
     }
 
+    // --- CLIPBOARD LOGIC (Intelligent Copy/Move) ---
+    function addToClipboard(action) {
+        var files = [];
+        $('.item-checkbox:checked').each(function() { files.push($(this).data('name')); });
+        if(files.length === 0) return;
+        clipboard = { action: action, files: files, sourceDir: currentDir };
+        localStorage.setItem('browser_clipboard', JSON.stringify(clipboard));
+        deselectAll();
+        updateClipboardUI();
+        Swal.fire({ icon: 'info', title: 'Đã ghi nhớ ' + files.length + ' mục', text: 'Hãy chuyển đến thư mục đích và nhấn nút [Dán vào đây]', timer: 2000, showConfirmButton: false });
+    }
+
+    function singleClipboard(name, action) {
+        clipboard = { action: action, files: [name], sourceDir: currentDir };
+        localStorage.setItem('browser_clipboard', JSON.stringify(clipboard));
+        updateClipboardUI();
+        Swal.fire({ icon: 'info', title: 'Đã ghi nhớ 1 mục', text: 'Hãy chuyển đến thư mục đích và nhấn nút [Dán vào đây]', timer: 1500, showConfirmButton: false });
+    }
+
+    function updateClipboardUI() {
+        if(clipboard.action && clipboard.files.length > 0) {
+            $('#clipboard-text').text('Đang giữ ' + clipboard.files.length + ' mục (' + (clipboard.action == 'copy' ? 'Copy' : 'Di chuyển') + ')');
+            $('#clipboard-info').css('display', 'flex');
+        } else {
+            $('#clipboard-info').hide();
+        }
+    }
+
+    function clearClipboard() {
+        clipboard = { action: null, files: [], sourceDir: '' };
+        localStorage.removeItem('browser_clipboard');
+        updateClipboardUI();
+    }
+
+    function pasteFromClipboard() {
+        if(!clipboard.action) return;
+        if(currentDir === clipboard.sourceDir && clipboard.action === 'move') {
+            Swal.fire({ icon: 'warning', title: 'Lưu ý', text: 'Thư mục đích trùng với thư mục nguồn!' });
+            return;
+        }
+
+        Swal.fire({ title: 'Đang xử lý...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+        
+        var act = (clipboard.action === 'copy' ? 'copy_multiple' : 'move_multiple');
+        $.post('ajax/media_manager.php?act=' + act + '&dir=' + clipboard.sourceDir, { 
+            files: clipboard.files, 
+            dest_dir: currentDir 
+        }, function(res) {
+            Swal.close();
+            if(res.status == 1) {
+                loadFolder(currentDir);
+                if(clipboard.action === 'move') clearClipboard(); // Xóa sau khi di chuyển thành công
+                Swal.fire({ icon: 'success', title: 'Thành công!', text: 'Đã dán ' + res.success + ' mục vào thư mục này.', timer: 2000, showConfirmButton: false });
+            } else {
+                Swal.fire({ icon: 'error', title: 'Lỗi', text: res.msg });
+            }
+        }, 'json');
+    }
+
+    // --- BASIC ACTIONS ---
     function createNewFolder() {
         Swal.fire({
             title: 'Tạo thư mục mới', input: 'text', inputPlaceholder: 'Nhập tên thư mục...', showCancelButton: true,
@@ -249,7 +327,7 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
         }).then((result) => {
             if (result.isConfirmed) {
                 $.post('ajax/media_manager.php?act=mkdir&dir=' + currentDir, { name: result.value }, function(res) {
-                    if(res.status == 1) { loadFolder(currentDir); Swal.fire({ icon: 'success', title: 'Đã tạo!', timer: 1000, showConfirmButton: false }); } 
+                    if(res.status == 1) { loadFolder(currentDir); Swal.fire({ icon: 'success', title: 'Đã tạo!', timer: 1000, showConfirmButton: false }); }
                     else { Swal.fire({ icon: 'error', title: 'Lỗi', text: res.msg }); }
                 }, 'json');
             }
@@ -260,11 +338,11 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
         Swal.fire({
             title: 'Đổi tên', input: 'text', inputValue: oldName, showCancelButton: true,
             confirmButtonText: 'Cập nhật', cancelButtonText: 'Hủy', confirmButtonColor: '#108042',
-            inputValidator: (value) => { if (!value || value === oldName) return 'Vui lòng nhập tên mới khác tên cũ!' }
+            inputValidator: (value) => { if (!value || value === oldName) return 'Vui lòng nhập tên mới!' }
         }).then((result) => {
             if (result.isConfirmed) {
                 $.post('ajax/media_manager.php?act=rename&dir=' + currentDir, { old_name: oldName, new_name: result.value }, function(res) {
-                    if(res.status == 1) { loadFolder(currentDir); Swal.fire({ icon: 'success', title: 'Đã đổi tên!', timer: 1000, showConfirmButton: false }); } 
+                    if(res.status == 1) { loadFolder(currentDir); Swal.fire({ icon: 'success', title: 'Đã đổi tên!', timer: 1000, showConfirmButton: false }); }
                     else { Swal.fire({ icon: 'error', title: 'Lỗi', text: res.msg }); }
                 }, 'json');
             }
@@ -277,7 +355,7 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
         }).then((result) => {
             if (result.isConfirmed) {
                 $.post('ajax/media_manager.php?act=delete&dir=' + currentDir, { file: name }, function(res) {
-                    if(res.status == 1) { loadFolder(currentDir); Swal.fire({ icon: 'success', title: 'Đã xóa!', timer: 1000, showConfirmButton: false }); } 
+                    if(res.status == 1) { loadFolder(currentDir); Swal.fire({ icon: 'success', title: 'Đã xóa!', timer: 1000, showConfirmButton: false }); }
                     else { Swal.fire({ icon: 'error', title: 'Lỗi', text: res.msg }); }
                 }, 'json');
             }
@@ -307,8 +385,7 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
         function uploadOneByOne(index) {
             if(index >= total) { loadFolder(currentDir); Swal.close(); inputObj.val(''); if(hasError) Swal.fire({ icon: 'warning', title: 'Lưu ý', text: 'Một số tệp tải lên thất bại.' }); return; }
             var formData = new FormData(); formData.append('file', files[index]);
-            $.ajax({
-                url: 'ajax/media_manager.php?act=upload&dir=' + currentDir, type: 'POST', data: formData, processData: false, contentType: false, dataType: 'json',
+            $.ajax({ url: 'ajax/media_manager.php?act=upload&dir=' + currentDir, type: 'POST', data: formData, processData: false, contentType: false, dataType: 'json',
                 success: function(res) { if(res.status == 0) hasError = true; },
                 error: function() { hasError = true; },
                 complete: function() { uploadOneByOne(index + 1); }
