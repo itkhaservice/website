@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="font-weight-bold">Email Tuyển dụng</label>
+                                        <label class="font-weight-bold text-info">Email 2 (Tuyển dụng)</label>
                                         <input type="email" name="email2" class="form-control" value="<?=$item['email2']?>">
                                     </div>
                                 </div>
@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="font-weight-bold text-danger">Hotline Tuyển dụng</label>
+                                        <label class="font-weight-bold text-danger">Hotline 2 (Tuyển dụng)</label>
                                         <input type="text" name="hotline2" class="form-control font-weight-bold text-danger" value="<?=$item['hotline2']?>">
                                     </div>
                                 </div>
