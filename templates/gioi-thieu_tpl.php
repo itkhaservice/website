@@ -61,7 +61,7 @@
                             </div>
                         <?php } ?>
                         <div class="description content-main">
-                            <?=$row_detail['noidung_vi']?>
+                            <?=str_replace('src="../upload/', 'src="upload/', $row_detail['noidung_vi'])?>
                         </div>
                     </div>
                 </div>

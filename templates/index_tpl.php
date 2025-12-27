@@ -204,17 +204,17 @@
             <div class="row">
                 <?php if(!empty($ds_dichvu)) { foreach($ds_dichvu as $k=>$v){ ?>
                 <div class="col-xl-3 col-md-6 text-center mb-4">
-                    <div class="service-list-3 shadow-2 transition-4 img-lined z-5 no-mar wow zoomIn h-100">
+                    <div class="service-list-3 shadow-2 transition-4 img-lined z-5 no-mar wow zoomIn h-100 bg-white p-4">
                         <div class="service-icon-wrapper z-10 mx-auto mb-3">
                             <img src="<?=!empty($v['photo']) ? $v['photo'] : 'img/service/'.(($k%4)+1).'.png'?>" 
                                  onerror="this.src='img/feature/icon1.png';" 
                                  style="width:100%; max-width:100px; height:80px; object-fit:contain;" alt="<?=$v['ten_vi']?>">
                         </div>
-                        <div class="service-text-3 transition-4 mt-15 z-10">
-                            <h4 class="f-700 mb-10 text-split-3" style="min-height: 4.5em;"><?=$v['ten_vi']?></h4>
-                            <div class="mb-20 text-split-3 text-justify text-white-50" style="min-height: 4.5em;"><?=strip_tags($v['noidung_vi'])?></div>
-                            <a href="dich-vu/<?=$v['ten_khong_dau']?>.html" class="btn btn-border-blue mb-30">
-                                Xem thêm<i class="fas fa-long-arrow-alt-right ml-15"></i>
+                        <div class="service-text-3 transition-4 mt-10 z-10">
+                            <h4 class="f-700 mb-15 text-split-2 green" style="min-height: 2.8em; font-size: 18px;"><?=$v['ten_vi']?></h4>
+                            <div class="mb-25 text-split-3 text-muted text-justify" style="min-height: 4.5em; font-size: 14px; line-height: 1.6;"><?=strip_tags($v['noidung_vi'])?></div>
+                            <a href="dich-vu/<?=$v['ten_khong_dau']?>.html" class="btn btn-border-blue mb-10 px-4 rounded-pill">
+                                XEM CHI TIẾT<i class="fas fa-long-arrow-alt-right ml-15"></i>
                             </a>
                             <span class="bg-green undeline-3"></span>
                         </div>

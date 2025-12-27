@@ -20,6 +20,58 @@ if (typeof CKEDITOR !== 'undefined') {
         '.img-25{width:25%;}'
     );
 
+    // --- TÍNH NĂNG MỚI: Alt + Scroll để resize ảnh ---
+    CKEDITOR.on('instanceReady', function(ev) {
+        var editor = ev.editor;
+        
+        // Lắng nghe sự kiện lăn chuột trên document của editor
+        editor.document.on('wheel', function(event) {
+            var nativeEvent = event.data.$; // Lấy event gốc
+            
+            // Kiểm tra nếu phím Alt đang được giữ
+            if (nativeEvent.altKey) {
+                var selection = editor.getSelection();
+                var element = selection.getSelectedElement();
+                
+                // Kiểm tra xem đối tượng đang chọn có phải là ảnh không
+                if (element && element.is('img')) {
+                    nativeEvent.preventDefault(); // Ngăn cuộn trang
+
+                    // Xác định chiều lăn (lên/xuống)
+                    // deltaY < 0 là lăn lên (phóng to), deltaY > 0 là lăn xuống (thu nhỏ)
+                    var delta = Math.sign(nativeEvent.deltaY) * -1; 
+                    var step = 5; // Số pixel thay đổi mỗi nấc lăn (tăng giảm độ nhạy ở đây)
+                    
+                    // Lấy kích thước hiện tại (ưu tiên style width, nếu không có lấy attribute width hoặc clientWidth)
+                    var currentWidthStr = element.getStyle('width');
+                    var currentWidth = 0;
+
+                    if (currentWidthStr && currentWidthStr.indexOf('%') !== -1) {
+                        // Nếu đang là %, chuyển đổi tạm sang px dựa trên cha hoặc lấy clientWidth
+                        currentWidth = element.$.clientWidth;
+                    } else {
+                        currentWidth = parseInt(currentWidthStr) || parseInt(element.getAttribute('width')) || element.$.clientWidth;
+                    }
+
+                    // Tính kích thước mới
+                    var newWidth = currentWidth + (delta * step);
+                    
+                    // Giới hạn nhỏ nhất là 20px để không bị mất ảnh
+                    if (newWidth > 20) {
+                        element.setStyle('width', newWidth + 'px');
+                        element.setStyle('height', 'auto'); // Giữ tỷ lệ
+                        
+                        // Xóa các class định dạng chiều rộng cứng (nếu có) để style inline có tác dụng
+                        element.removeClass('img-100');
+                        element.removeClass('img-75');
+                        element.removeClass('img-50');
+                        element.removeClass('img-25');
+                    }
+                }
+            }
+        });
+    });
+
     // Định nghĩa Templates (Lưới ảnh)
     CKEDITOR.on('instanceCreated', function(event) {
         var editor = event.editor;

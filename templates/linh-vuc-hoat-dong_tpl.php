@@ -42,7 +42,7 @@
                                  style="width:100%; max-width:100px; height:80px; object-fit:contain;" alt="<?=$v['ten_vi']?>">
                         </div>
                         <div class="service-text-3 transition-4 mt-10 z-10">
-                            <h4 class="f-700 mb-15 text-split-2" style="min-height: 2.8em; font-size: 18px; color: #1e293b;"><?=$v['ten_vi']?></h4>
+                            <h4 class="f-700 mb-15 text-split-2 green" style="min-height: 2.8em; font-size: 18px;"><?=$v['ten_vi']?></h4>
                             <p class="mb-25 text-split-3 text-muted text-justify" style="min-height: 4.5em; font-size: 14px; line-height: 1.6;"><?=strip_tags($v['noidung_vi'])?></p>
                             <a href="dich-vu/<?=$v['ten_khong_dau']?>.html" class="btn btn-border-blue mb-10 px-4 rounded-pill">
                                 XEM CHI TIẾT<i class="fas fa-long-arrow-alt-right ml-15"></i>

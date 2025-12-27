@@ -50,7 +50,7 @@
                 <div class="col-xl-8 col-lg-7">
                     <div class="career-left">
                         <div class="content-main">
-                            <?=$row_detail['noidung_vi']?>
+                            <?=clearContent($row_detail['noidung_vi'])?>
                         </div>
 
                         <style>
