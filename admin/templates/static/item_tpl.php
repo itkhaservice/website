@@ -133,44 +133,19 @@
     .font-weight-600 { font-weight: 600; font-size: 0.9rem; color: #444; }
 </style>
 
-<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
 <script>
-    function loadStaticCKEditor() {
-        if (typeof CKEDITOR === 'undefined') {
-            setTimeout(loadStaticCKEditor, 100);
+    // Hàm chờ load thư viện Common
+    function waitCK() {
+        if (typeof initKhaServiceCKEditor === 'undefined') {
+            setTimeout(waitCK, 100);
             return;
         }
-        var config = {
-            height: 400,
-            language: 'vi',
-            versionCheck: false,
-            filebrowserBrowseUrl: 'browser.php?dir=vechungtoi',
-            filebrowserImageBrowseUrl: 'browser.php?dir=vechungtoi',
-            filebrowserUploadUrl: 'ck_upload.php?dir=vechungtoi',
-            filebrowserImageUploadUrl: 'ck_upload.php?dir=vechungtoi',
-            removeDialogTabs: '',
-            // Thêm plugin màu sắc, font, căn lề
-            extraPlugins: 'image,filebrowser,justify,colorbutton,font,panelbutton,floatpanel',
-            
-            // Thêm các kiểu trình bày nhanh cho ảnh
-            stylesSet: [
-                { name: 'Ảnh rộng 100%', element: 'img', attributes: { 'class': 'img-100' } },
-                { name: 'Ảnh rộng 75%', element: 'img', attributes: { 'class': 'img-75' } },
-                { name: 'Ảnh rộng 50%', element: 'img', attributes: { 'class': 'img-50' } },
-                { name: 'Ảnh rộng 25%', element: 'img', attributes: { 'class': 'img-25' } }
-            ]
-        };
-        
-        var ids = ['noidung_vi', 'tamnhin', 'sumenh', 'mota_solieu', 'mota_doitac'];
-        ids.forEach(function(id) {
-            if(document.getElementById(id)) {
-                CKEDITOR.replace(id, (id === 'mota_solieu' || id === 'mota_doitac') ? Object.assign({}, config, {height: 150}) : config);
-            }
-        });
+        initKhaServiceCKEditor(
+            ['noidung_vi', 'tamnhin', 'sumenh', 'mota_solieu', 'mota_doitac'], 
+            'vechungtoi'
+        );
     }
-    
-    // Gọi khởi tạo
-    loadStaticCKEditor();
+    waitCK();
 
     function openBrowser(field) {
         window.open('browser.php?field=' + field + '&dir=vechungtoi', 'Browser', 'width=1000,height=600');

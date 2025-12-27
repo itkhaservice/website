@@ -8,8 +8,7 @@
   </div>
 </div>
 
-<!-- Include CKEditor -->
-<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+<!-- CKEditor is loaded in layout -->
 
 <section class="content">
     <div class="container-fluid">
@@ -129,38 +128,26 @@
     });
 
     <?php if($type == 'slideshow'){ ?>
-    // Sử dụng sự kiện DOMContentLoaded để đảm bảo DOM đã sẵn sàng
-    // Không phụ thuộc vào jQuery vì jQuery có thể load sau
-    document.addEventListener("DOMContentLoaded", function() {
-        if(typeof CKEDITOR !== 'undefined') {
-            var commonConfig = {
-                height: 150,
-                basicEntities: false,
-                entities: false,
-                entities_latin: false,
-                allowedContent: true,
-                versionCheck: false,
-                toolbar: [
-                    { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ] },
-                    { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-                    { name: 'styles', items: [ 'Font', 'FontSize' ] },
-                    { name: 'paragraph', items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
-                    { name: 'document', items: [ 'Source' ] }
-                ]
-            };
+    // Sử dụng cấu hình chung nhưng ghi đè toolbar đơn giản cho Slideshow
+    var slideshowConfig = {
+        height: 150,
+        toolbar: [
+            { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ] },
+            { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+            { name: 'styles', items: [ 'Font', 'FontSize' ] },
+            { name: 'paragraph', items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
+            { name: 'document', items: [ 'Source' ] },
+            { name: 'insert', items: ['SpecialChar'] } // Vẫn cho phép ký tự đặc biệt
+        ]
+    };
 
-            // CKEditor cho Nội dung chính (H1)
-            if(document.getElementById('ten_vi')) {
-                CKEDITOR.replace('ten_vi', commonConfig);
-            }
-
-            // CKEditor cho Tiêu đề nhỏ (H5)
-            if(document.getElementById('mota_vi')) {
-                CKEDITOR.replace('mota_vi', commonConfig);
-            }
-        } else {
-            console.error("CKEDITOR chưa được load!");
+    function waitCK() {
+        if (typeof initKhaServiceCKEditor === 'undefined') {
+            setTimeout(waitCK, 100);
+            return;
         }
-    });
+        initKhaServiceCKEditor(['ten_vi', 'mota_vi'], 'slideshow', slideshowConfig);
+    }
+    waitCK();
     <?php } ?>
 </script>

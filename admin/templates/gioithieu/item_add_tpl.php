@@ -1,5 +1,4 @@
-<!-- Import CKEditor -->
-<script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+<!-- Import CKEditor done in layout -->
 
 <!-- Header -->
 <form method="post" action="index.php?com=<?=$com?>&act=save&type=<?=$type?>" enctype="multipart/form-data">
@@ -120,47 +119,18 @@
     .font-weight-600 { font-weight: 600; }
 </style>
 
+<!-- CKEditor loaded in layout -->
 <script>
     var uploadDir = '<?=($com=="tuyendung" || $_GET["type"]=="tuyen-dung") ? "tuyendung" : "gioithieu"?>';
 
-    function startCKEditor() {
-        if (typeof CKEDITOR === 'undefined') {
-            setTimeout(startCKEditor, 100);
+    function waitCK() {
+        if (typeof initKhaServiceCKEditor === 'undefined') {
+            setTimeout(waitCK, 100);
             return;
         }
-        
-        if (document.getElementById('noidung_vi')) {
-            CKEDITOR.replace('noidung_vi', {
-                height: 500,
-                filebrowserBrowseUrl: 'browser.php?dir=' + uploadDir,
-                filebrowserImageBrowseUrl: 'browser.php?dir=' + uploadDir,
-                filebrowserUploadUrl: 'ck_upload.php?dir=' + uploadDir,
-                filebrowserImageUploadUrl: 'ck_upload.php?dir=' + uploadDir,
-                removeDialogTabs: '',
-                extraPlugins: 'image,filebrowser',
-                
-                // Thêm các kiểu trình bày nhanh cho ảnh
-                stylesSet: [
-                    { name: 'Ảnh rộng 100%', element: 'img', attributes: { 'class': 'img-100' } },
-                    { name: 'Ảnh rộng 75%', element: 'img', attributes: { 'class': 'img-75' } },
-                    { name: 'Ảnh rộng 50%', element: 'img', attributes: { 'class': 'img-50' } },
-                    { name: 'Ảnh rộng 25%', element: 'img', attributes: { 'class': 'img-25' } }
-                ],
-                
-                versionCheck: false
-            });
-        }
-
-        if (document.getElementById('mota_vi')) {
-            CKEDITOR.replace('mota_vi', {
-                height: 200,
-                toolbar: [['Bold', 'Italic', 'Underline', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink']],
-                versionCheck: false
-            });
-        }
+        initKhaServiceCKEditor(['noidung_vi', 'mota_vi'], uploadDir);
     }
-
-    startCKEditor();
+    waitCK();
 
     function openBrowser(field) {
         window.open('browser.php?field=' + field + '&dir=' + uploadDir, 'Browser', 'width=1000,height=600');

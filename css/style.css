@@ -3613,3 +3613,50 @@ ul li:last-child .icon-round-box-icon {
     flex-grow: 0;
     flex-shrink: 0;
 }
+/* --- CKEditor Photo Grid --- */
+.photo-grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -10px;
+    width: 100%;
+    clear: both;
+}
+
+.photo-grid .grid-item {
+    padding: 0 10px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.photo-grid img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Grid 2 Columns */
+.photo-grid-2 .grid-item {
+    width: 50%;
+}
+
+/* Grid 4 Columns */
+.photo-grid-4 .grid-item {
+    width: 25%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .photo-grid-4 .grid-item {
+        width: 50%; /* On tablets, 4 cols become 2 cols */
+    }
+}
+
+@media (max-width: 480px) {
+    .photo-grid-2 .grid-item,
+    .photo-grid-4 .grid-item {
+        width: 100%; /* On mobile, stack all */
+    }
+}
+

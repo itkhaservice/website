@@ -453,6 +453,10 @@
 <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+<!-- CKEditor Common -->
+<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+<script src="ckeditor_common.js"></script>
+
 <script>
 $(document).ready(function(){
     toastr.options = { "closeButton": true, "positionClass": "toast-top-right", "timeOut": "2000" };

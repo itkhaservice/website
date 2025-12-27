@@ -247,74 +247,30 @@
     .font-weight-600 { font-weight: 600; color: #475569; }
 </style>
 
-<!-- Sử dụng bản FULL để đảm bảo có đầy đủ Plugin -->
-<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
-
+<!-- CKEditor is loaded in layout -->
 <script>
-    var dir = '<?=$dir_upload?>';
+    var com = '<?=$com?>';
+    // Mapping thư mục upload theo module
+    var dir = com; 
+    if(com === 'news') dir = 'news';
+    if(com === 'news_cat') dir = 'news';
+    if(com === 'du-an') dir = 'duan';
+    if(com === 'dichvu') dir = 'dichvu';
+    if(com === 'tuyendung') dir = 'tuyendung';
+    if(com === 'themanh') dir = 'themanh';
+    if(com === 'giatri') dir = 'giatri';
+    if(com === 'staff') dir = 'staff';
+    if(com === 'feedback') dir = 'feedback';
+    if(com === 'appdancu') dir = 'caidat';
 
-    function initCK(id, h) {
-        if(!document.getElementById(id)) return;
-        
-        // Xóa instance cũ nếu tồn tại để tránh lỗi
-        if (CKEDITOR.instances[id]) {
-            CKEDITOR.instances[id].destroy(true);
-        }
-
-        var editor = CKEDITOR.replace(id, {
-            height: h,
-            language: 'vi',
-            allowedContent: true,
-            versionCheck: false,
-            filebrowserBrowseUrl: 'browser.php?dir=' + dir,
-            filebrowserImageBrowseUrl: 'browser.php?dir=' + dir,
-            filebrowserUploadUrl: 'ck_upload.php?dir=' + dir,
-            filebrowserImageUploadUrl: 'ck_upload.php?dir=' + dir,
-            // Thêm các Plugin quan trọng cho Styles và Định dạng
-            extraPlugins: 'image,filebrowser,justify,colorbutton,font,panelbutton,floatpanel,button,colordialog',
-            stylesSet: [
-                { name: 'Ảnh rộng 100%', element: 'img', attributes: { 'class': 'img-100' } },
-                { name: 'Ảnh rộng 75%', element: 'img', attributes: { 'class': 'img-75' } },
-                { name: 'Ảnh rộng 50%', element: 'img', attributes: { 'class': 'img-50' } }
-            ]
-        });
-
-        // Tính năng Alt + Lăn chuột
-        editor.on('instanceReady', function() {
-            var editable = editor.editable();
-            editable.attachListener(editable, 'wheel', function(evt) {
-                var target = evt.data.getTarget();
-                if (target.is('img') && (evt.data.$.altKey || evt.data.$.ctrlKey)) {
-                    evt.data.preventDefault();
-                    var currentWidth = parseInt(target.$.style.width) || target.$.width || 100;
-                    if(currentWidth > 100) currentWidth = 100;
-                    var step = evt.data.$.deltaY > 0 ? -5 : 5;
-                    var newWidth = currentWidth + step;
-                    if (newWidth >= 10 && newWidth <= 100) {
-                        target.setStyle('width', newWidth + '%');
-                        target.setStyle('height', 'auto');
-                        target.removeAttribute('width');
-                        target.removeAttribute('height');
-                    }
-                }
-            });
-        });
-    }
-
-    // Cơ chế khởi tạo cưỡng bức (Force Init)
-    function forceInitEditors() {
-        if (typeof CKEDITOR === 'undefined') {
-            setTimeout(forceInitEditors, 200);
+    function waitCK() {
+        if (typeof initKhaServiceCKEditor === 'undefined') {
+            setTimeout(waitCK, 100);
             return;
         }
-        initCK('noidung_vi', 450);
-        if('<?=in_array($com, ["news", "du-an", "dichvu"])?>') {
-            initCK('mota_vi', 150);
-        }
+        initKhaServiceCKEditor(['noidung_vi', 'mota_vi'], dir);
     }
-
-    // Chạy ngay khi file được nạp xong
-    forceInitEditors();
+    waitCK();
 
     function openBrowser(field) {
         window.open('browser.php?field=' + field + '&dir=' + dir, 'Browser', 'width=1000,height=600');
@@ -325,6 +281,12 @@
         var preview = document.getElementById('preview-' + field);
         if(input) input.value = path;
         if(preview) preview.src = '../' + path;
+        
+        // Hỗ trợ trường hợp ID input là 'photo' (không có prefix)
+        if(field === 'photo') {
+             if(document.getElementById('input-photo')) document.getElementById('input-photo').value = path;
+             if(document.getElementById('preview-photo')) document.getElementById('preview-photo').src = '../' + path;
+        }
     }
 
     document.addEventListener('change', function(e) {
