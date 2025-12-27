@@ -27,7 +27,8 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
         .view-grid .item-card:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
         .view-grid .item-thumb { width: 100%; height: 90px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; border-radius: 8px; overflow: hidden; background: #f8fafc; }
         .view-grid .item-thumb img { width: 100%; height: 100%; object-fit: cover; }
-        .view-grid .item-name { font-size: 11px; font-weight: 600; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .view-grid .item-name { font-size: 12px; font-weight: 700; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 2px; }
+        .view-grid .item-info-detail { font-size: 10px; color: #64748b; line-height: 1.2; }
         .view-grid .item-checkbox { position: absolute; top: 15px; left: 15px; z-index: 10; transform: scale(1.2); cursor: pointer; display: none; }
         .view-grid .item-card:hover .item-checkbox, .view-grid .item-checkbox:checked { display: block; }
 
@@ -184,6 +185,11 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
                 <div class="item-card shadow-xs" onclick="isFolder ? loadFolder('${item.path}') : selectFile('${item.path}')">
                     <div class="item-thumb">${isFolder ? '<i class="fas fa-folder fa-3x text-warning"></i>' : `<img src="${item.url}?v=${Date.now()}" onerror="this.src='https://placehold.co/150x150?text=File'">`}</div>
                     <span class="item-name" title="${item.name}">${item.name}</span>
+                    <div class="item-info-detail">${item.size}</div>
+                    <div class="item-info-detail">${item.date}</div>
+                    <div class="item-actions">
+                        <button class="btn btn-xs btn-white text-danger border shadow-sm" onclick="event.stopPropagation(); deleteItem('${item.name}', ${isFolder})" title="Xóa"><i class="fas fa-trash-alt"></i></button>
+                    </div>
                 </div>
             </div>`;
         } else {
