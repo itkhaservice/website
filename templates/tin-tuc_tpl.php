@@ -43,8 +43,7 @@
                                 <div class="blog-grid-text">
                                     <h5 class="f-700 fs-19 mb-5 lh-15"><a href="<?=$link_v?>"><?=$v['ten_vi']?></a></h5>
                                     <ul class="blog-by-detail mb-5">
-                                        <li><a href="">By <span class="green">Admin</span> </a></li>
-                                        <li><a href="">Tin tức </a></li>
+                                        <li><a href="javascript:void(0)"><strong><em><?=($v['ten_danhmuc']!='')?$v['ten_danhmuc']:'Tin tức'?></em></strong></a></li>
                                     </ul>
                                     <div class="hr-1 opacity-1 mt-10 mb-10"></div>
                                     <p class="mb-0"><?=substr(strip_tags($v['mota_vi']), 0, 100)?>...</p>

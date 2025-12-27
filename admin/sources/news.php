@@ -151,6 +151,18 @@ function get_items(){
         $where .= ($where == "") ? " where " : " and ";
         $where .= " " . $where_table . "id_cat = '$id_cat' ";
     }
+
+    // Xử lý lọc theo khoảng thời gian
+    if(isset($_GET['tungay']) && $_GET['tungay'] != ''){
+        $tungay = strtotime($_GET['tungay'] . ' 00:00:00');
+        $where .= ($where == "") ? " where " : " and ";
+        $where .= " " . $where_table . "ngaytao >= '$tungay' ";
+    }
+    if(isset($_GET['denngay']) && $_GET['denngay'] != ''){
+        $denngay = strtotime($_GET['denngay'] . ' 23:59:59');
+        $where .= ($where == "") ? " where " : " and ";
+        $where .= " " . $where_table . "ngaytao <= '$denngay' ";
+    }
     
     // Đếm tổng số bản ghi
     $d->query("select count(id) as num from #_$table_db $where");
@@ -221,7 +233,9 @@ function save_item(){
     $id = isset($_POST['id']) ? (int)$_POST['id'] : "";
     
     $data['ten_vi'] = $_POST['ten_vi'];
-    $data['ten_khong_dau'] = ($_POST['ten_khong_dau']!='') ? $_POST['ten_khong_dau'] : changeTitle($_POST['ten_vi']);
+    if(!in_array($table_db, ['feedback', 'themanh', 'giatri'])) {
+        $data['ten_khong_dau'] = ($_POST['ten_khong_dau']!='') ? $_POST['ten_khong_dau'] : changeTitle($_POST['ten_vi']);
+    }
     if(isset($_POST['mota_vi'])) $data['mota_vi'] = $_POST['mota_vi'];
     
     // Các trường chung
@@ -240,6 +254,11 @@ function save_item(){
     if(isset($_POST['id_khuvuc'])) $data['id_khuvuc'] = (int)$_POST['id_khuvuc'];
     if(isset($_POST['id_cat'])) $data['id_cat'] = (int)$_POST['id_cat'];
     
+    // Xử lý ngày tháng nếu có
+    if(isset($_POST['ngaytao']) && $_POST['ngaytao'] != '') {
+        $data['ngaytao'] = strtotime($_POST['ngaytao']);
+    }
+
     // Xử lý nổi bật cho các bảng có cột này
     if(in_array($table_db, ['news', 'duan', 'thuvien', 'gioithieu'])) {
         $data['noibat'] = isset($_POST['noibat']) ? 1 : 0;
@@ -257,7 +276,7 @@ function save_item(){
     if (!file_exists($upload_path_physical)) mkdir($upload_path_physical, 0777, true);
 
     if(isset($_FILES['file']) && $_FILES['file']['name'] != ''){
-        if($photo = upload_image("file", 'jpg|png|gif|jpeg|JPG|PNG|webp|WEBP', $upload_path_physical, $file_name)){
+        if($photo = upload_image("file", 'jpg|png|gif|jpeg|JPG|PNG|webp|WEBP|jfif|JFIF', $upload_path_physical, $file_name)){
             $data['photo'] = 'upload/' . $upload_dir . '/' . $photo;
             if($id){
                 $d->reset(); $d->query("select photo from #_$table_db where id='$id'");
@@ -278,17 +297,14 @@ function save_item(){
         $d->setWhere('id', $id);
         $d->update($data);
     }else{
-        $data['ngaytao'] = time();
+        if(!isset($data['ngaytao'])) $data['ngaytao'] = time();
         $d->insert($data);
-        // Lấy ID vừa chèn bằng mysqli_insert_id từ connection của class database
         $id = mysqli_insert_id($d->db);
     }
 
     // XỬ LÝ MULTI-PHOTO GALLERY (Cho Thư viện ảnh)
     if($com == 'thuvien' && $id > 0){
-        // Đảm bảo thư mục tồn tại trước khi upload gallery
-        if (!file_exists($upload_path_physical)) mkdir($upload_path_physical, 0777, true);
-        
+        // ... (phần code gallery)
         if (isset($_FILES['files'])) {
             for($i=0; $i<count($_FILES['files']['name']); $i++) {
                 if ($_FILES['files']['name'][$i] != '') {
@@ -299,7 +315,7 @@ function save_item(){
                     $_FILES['file_temp']['size'] = $_FILES['files']['size'][$i];
                     
                     $file_name_gallery = fns_Rand_digit(0,9,12) . "_" . $i;
-                    if($photo_gallery = upload_image("file_temp", 'jpg|png|gif|jpeg|JPG|PNG|webp|WEBP', $upload_path_physical, $file_name_gallery)){
+                    if($photo_gallery = upload_image("file_temp", 'jpg|png|gif|jpeg|JPG|PNG|webp|WEBP|jfif|JFIF', $upload_path_physical, $file_name_gallery)){
                         $data_gallery['photo'] = 'upload/' . $upload_dir . '/' . $photo_gallery;
                         $data_gallery['id_main'] = $id;
                         $data_gallery['stt'] = (int)$_POST['stt_gallery'][$i];
@@ -312,7 +328,6 @@ function save_item(){
             }
         }
         
-        // Xử lý xóa ảnh trong gallery
         if(isset($_POST['delete_gallery']) && !empty($_POST['delete_gallery'])){
             foreach($_POST['delete_gallery'] as $id_gal){
                 $d->reset(); $d->query("select photo from #_thuvien_photo where id='$id_gal'");
@@ -327,7 +342,7 @@ function save_item(){
         }
     }
 
-    redirect("index.php?com=$com&act=man&type=$type");
+    transfer("Lưu dữ liệu thành công", "index.php?com=$com&act=man&type=$type");
 }
 
 function delete_item(){
@@ -344,7 +359,7 @@ function delete_item(){
         $d->setTable($table_db);
         $d->setWhere('id', $id);
         if($d->delete())
-            redirect("index.php?com=$com&act=man&type=$type");
+            transfer("Xóa dữ liệu thành công", "index.php?com=$com&act=man&type=$type");
         else
             transfer("Xóa dữ liệu bị lỗi", "index.php?com=$com&act=man&type=$type");
     }else{
@@ -355,17 +370,20 @@ function delete_item(){
 function delete_all_item(){
     global $d, $type, $table_db, $com;
     $listid = explode(",",$_GET['listid']);
+    $success = 0;
     foreach($listid as $id){
         $id = (int)$id;
-        $d->reset(); $d->query("select photo from #_$table_db where id='$id'");
-        $row = $d->fetch_array();
-        if($row['photo'] != "") @unlink($row['photo']);
-        
-        $d->reset();
-        $d->setTable($table_db);
-        $d->setWhere('id', $id);
-        $d->delete();
+        if($id > 0) {
+            $d->reset(); $d->query("select photo from #_$table_db where id='$id'");
+            $row = $d->fetch_array();
+            if(!empty($row['photo']) && file_exists('../'.$row['photo'])) @unlink('../'.$row['photo']);
+            
+            $d->reset();
+            $d->setTable($table_db);
+            $d->setWhere('id', $id);
+            if($d->delete()) $success++;
+        }
     }
-    redirect("index.php?com=$com&act=man&type=$type");
+    transfer("Đã xóa thành công $success mục", "index.php?com=$com&act=man&type=$type");
 }
 ?>

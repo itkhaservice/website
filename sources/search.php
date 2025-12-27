@@ -15,7 +15,7 @@ $startpoint = ($page * $per_page) - $per_page;
 
 // Tìm kiếm trong 3 bảng chính: Tin tức, Dự án, Dịch vụ (Union)
 $sql_count = "SELECT count(id) as num FROM (
-    SELECT id FROM #_news WHERE hienthi=1 AND ten_vi LIKE '%$keyword%'
+    SELECT id FROM #_news WHERE hienthi=1 AND ngaytao <= ".time()." AND ten_vi LIKE '%$keyword%'
     UNION ALL
     SELECT id FROM #_duan WHERE hienthi=1 AND ten_vi LIKE '%$keyword%'
     UNION ALL
@@ -27,7 +27,7 @@ $row_num = $d->fetch_array();
 $total_items = $row_num['num'];
 $total_pages = ceil($total_items / $per_page);
 
-$sql_data = "SELECT id, ten_vi, ten_khong_dau, photo, mota_vi, ngaytao, 'tin-tuc' as source_type FROM #_news WHERE hienthi=1 AND ten_vi LIKE '%$keyword%'
+$sql_data = "SELECT id, ten_vi, ten_khong_dau, photo, mota_vi, ngaytao, 'tin-tuc' as source_type FROM #_news WHERE hienthi=1 AND ngaytao <= ".time()." AND ten_vi LIKE '%$keyword%'
     UNION ALL
     SELECT id, ten_vi, ten_khong_dau, photo, mota_vi, ngaytao, 'du-an' as source_type FROM #_duan WHERE hienthi=1 AND ten_vi LIKE '%$keyword%'
     UNION ALL

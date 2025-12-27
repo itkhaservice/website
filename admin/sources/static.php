@@ -82,6 +82,6 @@ function save_item(){
         $d->setTable('static');
         $d->insert($data);
     }
-    redirect("index.php?com=static&act=capnhat&type=".$type);
+    transfer("Cập nhật dữ liệu thành công", "index.php?com=static&act=capnhat&type=".$type);
 }
 ?>

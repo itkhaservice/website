@@ -449,9 +449,11 @@
 
 <!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- CKEditor Common -->
 <script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
@@ -459,7 +461,37 @@
 
 <script>
 $(document).ready(function(){
-    toastr.options = { "closeButton": true, "positionClass": "toast-top-right", "timeOut": "2000" };
+    toastr.options = { "closeButton": true, "positionClass": "toast-top-right", "timeOut": "3000", "progressBar": true };
+
+    <?php if(!empty($_SESSION['transfer_msg'])) { ?>
+        toastr.success('<?=$_SESSION['transfer_msg']?>');
+        <?php unset($_SESSION['transfer_msg']); ?>
+    <?php } ?>
+
+    // Cập nhật STT bằng kéo thả (Sortable)
+    if($("#sortable-list").length > 0) {
+        $("#sortable-list").sortable({
+            handle: ".cursor-move",
+            placeholder: "ui-state-highlight",
+            axis: "y",
+            update: function(event, ui) {
+                var table = $(this).data("table");
+                var listid = $(this).sortable("toArray", { attribute: "data-id" });
+                
+                $.ajax({
+                    url: 'ajax/ajax_sort.php',
+                    type: 'POST',
+                    data: { table: table, listid: listid },
+                    success: function(res) {
+                        toastr.success('Đã cập nhật thứ tự hiển thị');
+                    },
+                    error: function() {
+                        toastr.error('Lỗi khi cập nhật thứ tự');
+                    }
+                });
+            }
+        });
+    }
 
     $('.checkbox-hienthi, .checkbox-noibat').change(function() {
         var id = $(this).data('id');
@@ -477,6 +509,28 @@ $(document).ready(function(){
                     toastr.success('Cập nhật thành công!');
                     if(field == 'trangthai') label.text(value == 1 ? 'Đã xem' : 'Chưa xem');
                 } else toastr.error('Thất bại!');
+            }
+        });
+    });
+
+    // Xác nhận xóa bằng SweetAlert2
+    $(document).on('click', '.btn-delete-item', function(e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        
+        Swal.fire({
+            title: 'Xác nhận xóa?',
+            text: "Dữ liệu sau khi xóa sẽ không thể khôi phục!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#108042',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Đồng ý, xóa ngay!',
+            cancelButtonText: 'Hủy bỏ',
+            borderRadius: '15px'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url;
             }
         });
     });

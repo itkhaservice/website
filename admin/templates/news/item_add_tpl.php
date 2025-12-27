@@ -6,7 +6,7 @@
         'giatri' => ['ten', 'mota', 'photo', 'stt', 'hienthi'],
         'feedback' => ['ten', 'chucvu', 'mota', 'noidung', 'photo', 'rating', 'stt', 'hienthi'],
         'dichvu' => ['ten', 'slug', 'mota', 'noidung', 'photo', 'noibat', 'stt', 'hienthi', 'seo'],
-        'news' => ['ten', 'slug', 'id_cat', 'mota', 'noidung', 'photo', 'noibat', 'stt', 'hienthi', 'seo'],
+        'news' => ['ten', 'slug', 'id_cat', 'mota', 'noidung', 'photo', 'noibat', 'stt', 'hienthi', 'seo', 'ngaytao'],
         'du-an' => ['ten', 'slug', 'id_khuvuc', 'mota', 'noidung', 'photo', 'noibat', 'rating', 'stt', 'hienthi', 'seo'],
     ];
 
@@ -64,7 +64,7 @@
                             <div class="form-group mb-4">
                                 <label class="font-weight-600">Chọn nhiều hình ảnh</label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="files[]" id="gallery-files" multiple accept="image/*">
+                                    <input type="file" class="custom-file-input" name="files[]" id="gallery-files" multiple accept="image/*, .jfif">
                                     <label class="custom-file-label" for="gallery-files">Chọn các tệp ảnh từ máy tính...</label>
                                 </div>
                                 <small class="text-muted mt-2 d-block font-italic">Nhấn giữ phím <b>Ctrl</b> để chọn nhiều tệp cùng lúc.</small>
@@ -207,10 +207,10 @@
                     <?php $img_src = ($item['photo'] != '' && file_exists('../'.$item['photo'])) ? '../'.$item['photo'] : 'https://placehold.co/300x300?text=No+Image'; ?>
                     <img id="preview-photo" src="<?=$img_src?>" class="img-fluid rounded mb-3 shadow-xs border" style="max-height: 150px; cursor: pointer;" onclick="openBrowser('photo')">
                     <div class="custom-file text-left text-xs">
-                        <input type="file" class="custom-file-input" name="file" id="file">
+                        <input type="file" class="custom-file-input" name="file" id="file" accept="image/*, .jfif">
                         <label class="custom-file-label" for="file">Tải ảnh mới...</label>
                     </div>
-                    <small class="text-danger mt-2 d-block">Kích thước khuyến nghị: <b><?=$size_info?></b> (.jpg, .png, .webp)</small>
+                    <small class="text-danger mt-2 d-block">Kích thước khuyến nghị: <b><?=$size_info?></b> (.jpg, .png, .webp, .jfif)</small>
                     <input type="hidden" name="photo_from_server" id="input-photo" value="<?=$item['photo']?>">
                 </div>
             </div>
@@ -219,6 +219,14 @@
             <div class="card mb-4 shadow-sm border-0" style="border-radius: 12px;">
                 <div class="card-header bg-white font-weight-bold py-3 text-xs uppercase">Thiết lập</div>
                 <div class="card-body">
+                    <?php if(in_array('ngaytao', $fields)) { 
+                        $ngaytao_val = isset($item['ngaytao']) ? date('Y-m-d\TH:i', $item['ngaytao']) : date('Y-m-d\TH:i');
+                    ?>
+                    <div class="form-group">
+                        <label class="font-weight-600 small">Ngày hiển thị</label>
+                        <input type="datetime-local" name="ngaytao" class="form-control form-control-sm" value="<?=$ngaytao_val?>">
+                    </div>
+                    <?php } ?>
                     <div class="form-group">
                         <label class="font-weight-600 small">Số thứ tự</label>
                         <input type="number" name="stt" class="form-control form-control-sm" value="<?=isset($item['stt'])?$item['stt']:1?>" style="width: 80px;">
@@ -293,6 +301,19 @@
         if(e.target && e.target.classList.contains('custom-file-input')) {
             var fileName = e.target.value.split("\\").pop();
             if(e.target.nextElementSibling) e.target.nextElementSibling.innerHTML = fileName;
+        }
+
+        // Preview cho ảnh chính
+        if(e.target && e.target.id === 'file') {
+            var preview = document.getElementById('preview-photo');
+            var file = e.target.files[0];
+            if(file) {
+                var reader = new FileReader();
+                reader.onload = function(re) {
+                    if(preview) preview.src = re.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
         }
 
         // Preview cho Multi Upload Gallery

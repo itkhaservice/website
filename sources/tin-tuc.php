@@ -7,7 +7,7 @@ $cat_slug = (isset($_GET['type'])) ? addslashes($_GET['type']) : "";
 if($id){
     // CHI TIẾT TIN TỨC
     $d->reset();
-    $where = "hienthi=1";
+    $where = "hienthi=1 and ngaytao <= ".time();
     if(is_numeric($id)) $where .= " and id='$id'";
     else $where .= " and ten_khong_dau='$id'";
     
@@ -30,16 +30,16 @@ if($id){
     
     // Tin liên quan
     $d->reset();
-    $d->query("select * from #_news where id<>'".$row_detail['id']."' and hienthi=1 order by ngaytao desc limit 0,5");
+    $d->query("select * from #_news where id<>'".$row_detail['id']."' and hienthi=1 and ngaytao <= ".time()." order by ngaytao desc limit 0,5");
     $ds_khac = $d->result_array();
     
 } else {
     // DANH SÁCH TIN TỨC (Có thể lọc theo danh mục hoặc tìm kiếm)
-    $where = " where hienthi=1 ";
+    $where = " where n.hienthi=1 and n.ngaytao <= ".time()." ";
     
     if(isset($_GET['keyword']) && $_GET['keyword'] != ''){
         $keyword = addslashes($_GET['keyword']);
-        $where .= " and ten_vi LIKE '%$keyword%'";
+        $where .= " and n.ten_vi LIKE '%$keyword%'";
     }
 
     if($cat_slug != ""){
@@ -47,7 +47,7 @@ if($id){
         $d->query("select id, ten_vi from #_news_cat where ten_khong_dau='$cat_slug' limit 0,1");
         $row_cat = $d->fetch_array();
         if(!empty($row_cat)){
-            $where .= " and id_cat='".$row_cat['id']."' ";
+            $where .= " and n.id_cat='".$row_cat['id']."' ";
             $title_bar = $row_cat['ten_vi'];
         }
     } else {
@@ -62,13 +62,13 @@ if($id){
 
     // Đếm tổng số để phân trang
     $d->reset();
-    $d->query("select count(id) as num from #_news $where");
+    $d->query("select count(n.id) as num from #_news n $where");
     $row_num = $d->fetch_array();
     $total_items = $row_num['num'];
     $total_pages = ceil($total_items / $per_page);
 
     $d->reset();
-    $d->query("select * from #_news $where order by ngaytao desc limit $startpoint, $per_page");
+    $d->query("select n.*, c.ten_vi as ten_danhmuc from #_news n left join #_news_cat c on n.id_cat = c.id $where order by n.ngaytao desc limit $startpoint, $per_page");
     $ds_tintuc = $d->result_array();
     
     // Tạo mảng phân trang cho View
@@ -85,11 +85,11 @@ if($id){
 
 // Lấy danh sách tin mới nhất cho Sidebar
 $d->reset();
-$d->query("select * from #_news where hienthi=1 order by ngaytao desc limit 0,5");
+$d->query("select * from #_news where hienthi=1 and ngaytao <= ".time()." order by ngaytao desc limit 0,5");
 $ds_sidebar = $d->result_array();
 
 // Lấy danh sách danh mục và đếm số bài viết
 $d->reset();
-$d->query("select c.ten_vi, c.ten_khong_dau, c.id, (select count(id) from #_news where id_cat=c.id and hienthi=1) as so_bai from #_news_cat c where c.hienthi=1 and c.type='tin-tuc' order by c.stt asc, c.id desc");
+$d->query("select c.ten_vi, c.ten_khong_dau, c.id, (select count(id) from #_news where id_cat=c.id and hienthi=1 and ngaytao <= ".time().") as so_bai from #_news_cat c where c.hienthi=1 and c.type='tin-tuc' order by c.stt asc, c.id desc");
 $ds_danhmuc_sidebar = $d->result_array();
 ?>

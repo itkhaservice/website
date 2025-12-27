@@ -44,10 +44,7 @@
                         <div class="icon-box-content">
                             <h5 class="f-700 fs-19 mb-10">Phone & Hotline</h5>
                             <p class="mb-0">Tel: <?=$row_setting['dienthoai']?></p>
-                            <p class="mb-0">Hotline 1: <?=$row_setting['hotline']?></p>
-                            <?php if(!empty($row_setting['hotline2'])) { ?>
-                                <p class="mb-0">Hotline 2: <?=$row_setting['hotline2']?></p>
-                            <?php } ?>
+                            <p class="mb-0">Hotline: <?=$row_setting['hotline']?></p>
                         </div>
                     </div>
                 </div>
@@ -61,10 +58,7 @@
                         </div>
                         <div class="icon-box-content">
                             <h5 class="f-700 fs-19 mb-10">Email</h5>
-                            <p class="mb-0">Email 1: <?=$row_setting['email']?></p>
-                            <?php if(!empty($row_setting['email2'])) { ?>
-                                <p class="mb-0">Email 2: <?=$row_setting['email2']?></p>
-                            <?php } ?>
+                            <p class="mb-0">Email: <?=$row_setting['email']?></p>
                         </div>
                     </div>
                 </div>

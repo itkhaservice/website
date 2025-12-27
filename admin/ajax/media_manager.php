@@ -154,7 +154,7 @@ if ($action === 'upload' && isset($_FILES['file'])) {
     
     $file = $_FILES['file'];
     $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-    if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'])) {
+    if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'jfif'])) {
         $new_name = time() . '_' . rand(100, 999) . '.' . $ext;
         if (move_uploaded_file($file['tmp_name'], $target_dir . DIRECTORY_SEPARATOR . $new_name)) {
             echo json_encode(['status' => 1]);
@@ -343,11 +343,10 @@ if ($action === 'list') {
                 'size' => '-',
                 'original_path' => $original_path
             ];
-        } else {
-            $ext = strtolower(pathinfo($item, PATHINFO_EXTENSION));
-            if (in_array($ext, ['jpg','jpeg','png','gif','webp','svg'])) {
-                $fsize = filesize($full);
-                $files[] = [
+                    } else {
+                    $ext = strtolower(pathinfo($item, PATHINFO_EXTENSION));
+                    if (in_array($ext, ['jpg','jpeg','png','gif','webp','svg','jfif'])) {
+                        $fsize = filesize($full);                $files[] = [
                     'name' => $item, 
                     'path' => $rel, 
                     'url' => '../upload/' . $rel,

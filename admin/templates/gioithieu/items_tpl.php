@@ -10,20 +10,18 @@
 
 <div class="card mb-4 border-0 shadow-sm" style="border-radius: 15px; background: #fff;">
     <div class="card-body py-3 px-4">
-        <div class="row align-items-center">
-            <div class="col-lg-4 col-md-6 mb-2 mb-md-0">
-                <div class="input-group input-group-sm border-0 bg-light rounded-pill px-3 py-1">
-                    <input type="text" id="keyword" class="form-control border-0 bg-transparent shadow-none" placeholder="Tìm kiếm theo tiêu đề..." value="<?=$_GET['keyword']?>">
-                    <div class="input-group-append">
-                        <span class="text-muted flex-center"><i class="fas fa-search"></i></span>
-                    </div>
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-4 col-md-6 mb-2 mb-lg-0">
+                <div class="search-group d-flex align-items-center bg-light rounded-pill px-3 py-1" style="height: 42px;">
+                    <i class="fas fa-search text-muted mr-2"></i>
+                    <input type="text" id="keyword" class="form-control border-0 bg-transparent shadow-none" placeholder="Tìm kiếm tên bài viết..." value="<?=isset($_GET['keyword'])?$_GET['keyword']:''?>" style="font-size: 14px;">
                 </div>
             </div>
             
-            <div class="col-lg-8 col-md-6 d-flex align-items-center justify-content-md-end">
-                <button class="btn btn-sm btn-dark px-4 rounded-pill shadow-sm" type="button" onclick="onSearch()" style="background: #1e293b;"><i class="fas fa-filter mr-1"></i> Lọc dữ liệu</button>
-                <?php if($_GET['keyword'] != '') { ?>
-                    <a href="index.php?com=<?=$com?>&act=man&type=<?=$type?>" class="btn btn-sm text-danger font-weight-bold ml-3" title="Xóa tất cả bộ lọc"><i class="fas fa-sync-alt mr-1"></i> Làm mới</a>
+            <div class="col-lg-2 col-md-4 d-flex align-items-center justify-content-md-start">
+                <button class="btn btn-sm btn-dark px-4 rounded-pill shadow-sm" type="button" onclick="onSearch()" style="background: #1e293b; height: 42px;"><i class="fas fa-filter mr-1"></i> Lọc</button>
+                <?php if(isset($_GET['keyword']) && $_GET['keyword'] != '') { ?>
+                    <a href="index.php?com=<?=$com?>&act=man&type=<?=$type?>" class="btn btn-sm text-danger font-weight-bold ml-3" title="Xóa bộ lọc"><i class="fas fa-sync-alt"></i></a>
                 <?php } ?>
             </div>
         </div>
@@ -50,17 +48,17 @@
                     <tr style="background: #f8fafc; border-bottom: 1px solid #f1f5f9;">
                         <th style="width: 50px" class="text-center py-3">
                             <div class="custom-control custom-checkbox ml-1">
-                                <input type="checkbox" class="custom-control-input" id="select-all">
-                                <label class="custom-control-label" for="select-all"></label>
+                                <input type="checkbox" class="custom-control-input cursor-pointer" id="select-all">
+                                <label class="custom-control-label cursor-pointer" for="select-all"></label>
                             </div>
                         </th>
                         <th style="width: 40px" class="text-center"></th>
-                        <th style="width: 80px" class="text-center text-uppercase font-weight-800 small text-muted">STT</th>
-                        <th style="width: 80px" class="text-center text-uppercase font-weight-800 small text-muted">ID</th>
-                        <th class="text-uppercase font-weight-800 small text-muted">Tiêu đề bài viết</th>
-                        <th style="width: 100px" class="text-center text-uppercase font-weight-800 small text-muted border-left">Nổi bật</th>
-                        <th style="width: 120px" class="text-center text-uppercase font-weight-800 small text-muted border-left">Hiển thị</th>
-                        <th style="width: 120px" class="text-center text-uppercase font-weight-800 small text-muted border-left">Thao tác</th>
+                        <th style="width: 80px" class="text-center text-uppercase font-weight-bold small text-muted">STT</th>
+                        <th style="width: 80px" class="text-center text-uppercase font-weight-bold small text-muted">ID</th>
+                        <th class="text-uppercase font-weight-bold small text-muted">Tiêu đề bài viết</th>
+                        <th style="width: 100px" class="text-center text-uppercase font-weight-bold small text-muted border-left">Nổi bật</th>
+                        <th style="width: 120px" class="text-center text-uppercase font-weight-bold small text-muted border-left">Hiển thị</th>
+                        <th style="width: 120px" class="text-center text-uppercase font-weight-bold small text-muted border-left">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody id="sortable-list" data-table="<?=$table_db?>">
@@ -68,15 +66,15 @@
                     <tr data-id="<?=$v['id']?>" class="ui-sortable-handle align-middle">
                         <td class="text-center py-3">
                             <div class="custom-control custom-checkbox ml-1">
-                                <input type="checkbox" class="custom-control-input select-item" id="select-<?=$v['id']?>" value="<?=$v['id']?>">
-                                <label class="custom-control-label" for="select-<?=$v['id']?>"></label>
+                                <input type="checkbox" class="custom-control-input select-item cursor-pointer" id="select-<?=$v['id']?>" value="<?=$v['id']?>">
+                                <label class="custom-control-label cursor-pointer" for="select-<?=$v['id']?>"></label>
                             </div>
                         </td>
                         <td class="text-center cursor-move text-muted">
-                            <i class="fas fa-grip-vertical opacity-20"></i>
+                            <i class="fas fa-grip-vertical opacity-25"></i>
                         </td>
                         <td class="text-center">
-                            <input type="number" class="form-control form-control-sm text-center update-stt mx-auto border-0 bg-light font-weight-bold" value="<?=($v['stt']!='')?$v['stt']:0?>" data-id="<?=$v['id']?>" data-table="<?=$table_db?>" style="width: 50px; border-radius: 6px;">
+                            <input type="number" class="form-control form-control-sm text-center update-stt mx-auto border-0 bg-light" value="<?=($v['stt']!='')?$v['stt']:0?>" data-id="<?=$v['id']?>" data-table="<?=$table_db?>" style="width: 50px; border-radius: 8px; font-weight: 600;">
                         </td>
                         <td class="text-center"><span class="badge badge-light px-2 py-1 text-muted border" style="font-weight: 500;">#<?=$v['id']?></span></td>
                         <td class="py-3">
@@ -91,25 +89,25 @@
                         </td>
                         <td class="text-center border-left">
                             <div class="custom-control custom-switch custom-switch-md">
-                                <input type="checkbox" class="custom-control-input checkbox-noibat" id="noibat-<?=$v['id']?>" data-id="<?=$v['id']?>" data-table="<?=$table_db?>" <?=($v['noibat']==1)?'checked':''?>>
-                                <label class="custom-control-label" for="noibat-<?=$v['id']?>"></label>
+                                <input type="checkbox" class="custom-control-input checkbox-noibat cursor-pointer" id="noibat-<?=$v['id']?>" data-id="<?=$v['id']?>" data-table="<?=$table_db?>" <?=($v['noibat']==1)?'checked':''?>>
+                                <label class="custom-control-label cursor-pointer" for="noibat-<?=$v['id']?>"></label>
                             </div>
                         </td>
                         <td class="text-center border-left">
-                            <div class="custom-control custom-switch custom-switch-md">
-                                <input type="checkbox" class="custom-control-input checkbox-hienthi" id="hienthi-<?=$v['id']?>" data-id="<?=$v['id']?>" data-table="<?=$table_db?>" <?=($v['hienthi']==1)?'checked':''?>>
-                                <label class="custom-control-label" for="hienthi-<?=$v['id']?>"></label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input checkbox-hienthi cursor-pointer" id="hienthi-<?=$v['id']?>" data-id="<?=$v['id']?>" data-table="<?=$table_db?>" <?=($v['hienthi']==1)?'checked':''?>>
+                                <label class="custom-control-label cursor-pointer" for="hienthi-<?=$v['id']?>"></label>
                             </div>
                         </td>
                         <td class="text-center border-left">
                             <div class="btn-group shadow-xs rounded">
                                 <a href="index.php?com=<?=$com?>&act=edit&type=<?=$type?>&id=<?=$v['id']?>" class="btn btn-sm btn-white text-primary border-right" title="Sửa bài viết"><i class="fas fa-edit"></i></a>
-                                <a href="index.php?com=<?=$com?>&act=delete&type=<?=$type?>&id=<?=$v['id']?>" class="btn btn-sm btn-white text-danger btn-delete-item" title="Xóa mục này"><i class="fas fa-trash-alt"></i></a>
+                                <a href="index.php?com=<?=$com?>&act=delete&type=<?=$type?>&id=<?=$v['id']?>" class="btn btn-sm btn-white text-danger btn-delete-item" title="Xóa bài viết"><i class="fas fa-trash-alt"></i></a>
                             </div>
                         </td>
                     </tr>
                     <?php }} else { ?>
-                    <tr><td colspan="12" class="text-center py-5 text-muted">Chưa có dữ liệu nào trong danh sách này.</td></tr>
+                    <tr><td colspan="10" class="text-center py-5 text-muted">Chưa có dữ liệu nào trong danh sách này.</td></tr>
                     <?php } ?>
                 </tbody>
             </table>
@@ -147,18 +145,104 @@
 </div>
 
 <style>
-    .btn-save { background-color: #108042; color: #fff; border: none; font-weight: 600; border-radius: 8px; }
-    .btn-save:hover { background-color: #0d6a36; color: #fff; box-shadow: 0 4px 12px rgba(16, 128, 66, 0.2); }
+    .btn-save { background: #108042; color: #fff; border: none; font-weight: 600; border-radius: 8px; transition: all 0.3s ease; }
+    .btn-save:hover { background: #0d6a36; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(16, 128, 66, 0.2); color: #fff; text-decoration: none; }
+    .card { border-radius: 16px !important; border: none !important; box-shadow: 0 10px 30px rgba(0,0,0,0.04) !important; }
+    .table thead th { background: #f8fafc; color: #64748b; font-size: 11px; letter-spacing: 1px; border-top: none; padding: 15px; border-bottom: 1px solid #f1f5f9; }
+    .table tbody td { vertical-align: middle !important; padding: 18px 15px; border-top: 1px solid #f1f5f9; }
+    .table tbody tr:hover { background-color: #f8fafc !important; }
     .cursor-move { cursor: grab; }
-    .cursor-move:active { cursor: grabbing; }
-    .ui-sortable-handle:hover { background-color: #fcfdfe !important; }
-    .ui-sortable-helper { background: #fff !important; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: table !important; }
-    .bg-light { background-color: #f1f5f9 !important; }
-    .font-weight-800 { font-weight: 800; }
-    .opacity-20 { opacity: 0.2; }
     .btn-white { background: #fff; border: 1px solid #f1f5f9; }
-    .btn-white:hover { background: #f8fafc; }
-    .pagination .page-link { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; color: #64748b; font-weight: 600; }
-    .pagination .page-item.active .page-link { background: #108042 !important; color: #fff !important; box-shadow: 0 4px 10px rgba(16, 128, 66, 0.2); }
-    .flex-center { display: flex; align-items: center; justify-content: center; }
+    .btn-white:hover { background: #f8fafc; color: #108042; }
+    .search-group { border: 1px solid transparent; transition: 0.3s; }
+    .search-group:focus-within { background: #fff !important; border-color: #108042; box-shadow: 0 0 0 3px rgba(16, 128, 66, 0.1); }
 </style>
+
+<script>
+    $(document).ready(function() {
+        // Chọn tất cả
+        $(document).on('change', '#select-all', function() {
+            var status = $(this).is(':checked');
+            $('.select-item').prop('checked', status);
+            updateSelectedCount();
+        });
+
+        // Chọn từng mục
+        $(document).on('change', '.select-item', function() {
+            updateSelectedCount();
+            $('#select-all').prop('checked', $('.select-item:checked').length === $('.select-item').length);
+        });
+
+        function updateSelectedCount() {
+            var count = $('.select-item:checked').length;
+            if(count > 0) {
+                $('#selected-count').text(count).removeClass('d-none');
+                $('#delete-all').removeClass('btn-outline-danger bg-white border-0').addClass('btn-danger text-white shadow-sm');
+            } else {
+                $('#selected-count').addClass('d-none');
+                $('#delete-all').addClass('btn-outline-danger bg-white border-0').removeClass('btn-danger text-white shadow-sm');
+            }
+        }
+
+        // Xóa nhiều mục
+        $('#delete-all').on('click', function(e) {
+            e.preventDefault();
+            var listid = "";
+            $('.select-item:checked').each(function() { listid += $(this).val() + ","; });
+            listid = listid.slice(0, -1);
+            
+            if(listid == "") {
+                Swal.fire({ icon: 'info', title: 'Thông báo', text: 'Bạn chưa chọn bài viết nào để xóa!', confirmButtonColor: '#108042' });
+                return false;
+            }
+
+            Swal.fire({
+                title: 'Xác nhận xóa?',
+                text: "Dữ liệu sau khi xóa sẽ không thể khôi phục!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#108042',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Đồng ý, xóa ngay!',
+                cancelButtonText: 'Hủy bỏ'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "index.php?com=<?=$com?>&act=delete_all&type=<?=$type?>&listid=" + listid;
+                }
+            });
+        });
+
+        // Cập nhật STT nhanh
+        $(document).on('change', '.update-stt', function() {
+            var id = $(this).data('id');
+            var table = $(this).data('table');
+            var value = $(this).val();
+            $.ajax({
+                url: 'ajax/ajax_update.php',
+                type: 'POST',
+                data: {id: id, table: table, value: value, field: 'stt'},
+                success: function(res) {
+                    if(res == 1) toastr.success('Đã cập nhật số thứ tự');
+                    else toastr.error('Lỗi cập nhật');
+                }
+            });
+        });
+
+        // Cập nhật Hiển thị/Nổi bật nhanh
+        $(document).on('change', '.checkbox-hienthi, .checkbox-noibat', function() {
+            var id = $(this).data('id');
+            var table = $(this).data('table');
+            var field = $(this).hasClass('checkbox-hienthi') ? 'hienthi' : 'noibat';
+            var value = $(this).is(':checked') ? 1 : 0;
+            $.ajax({
+                url: 'ajax/ajax_update.php',
+                type: 'POST',
+                data: {id: id, table: table, value: value, field: field},
+                success: function(res) {
+                    if(res == 1) toastr.success('Đã cập nhật trạng thái');
+                    else toastr.error('Lỗi cập nhật');
+                }
+            });
+        });
+    });
+</script>

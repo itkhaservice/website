@@ -16,23 +16,21 @@
 <!-- Project List Area & Filter -->
 <section class="project-filter-area bg-light-white pt-50 pb-50">
     <div class="container">
-        <div class="row mb-40">
+        <div class="row">
             <div class="col-lg-12">
-                <div class="bg-white p-4 shadow-sm rounded-lg border-0 d-flex flex-wrap align-items-center justify-content-between">
-                    <h4 class="mb-0 text-dark font-weight-bold d-none d-md-block mr-4">Bộ lọc dự án</h4>
-                    
-                    <form action="du-an.html" method="GET" class="d-flex flex-wrap flex-grow-1 justify-content-end align-items-center search-form">
+                <div class="bg-white p-3 shadow-sm rounded-pill border-0">
+                    <form action="du-an.html" method="GET" id="filter-project-form" class="row align-items-center justify-content-center no-gutters">
                         <!-- Lọc theo loại -->
-                        <div class="form-group mb-2 mb-md-0 mr-md-2">
-                            <select name="type_filter" class="form-control rounded-pill border-light bg-light nice-select-reset" onchange="this.form.submit()">
+                        <div class="col-lg-2 col-md-4 px-2 mb-2 mb-lg-0">
+                            <select name="type_filter" class="form-control rounded-pill border-0 bg-light px-4 custom-select-web ajax-filter-select">
                                 <option value="">Tất cả dự án</option>
                                 <option value="noibat" <?=isset($_GET['type_filter']) && $_GET['type_filter']=='noibat' ? 'selected' : ''?>>Dự án tiêu biểu</option>
                             </select>
                         </div>
 
                         <!-- Lọc theo khu vực -->
-                        <div class="form-group mb-2 mb-md-0 mr-md-2">
-                            <select name="id_khuvuc" class="form-control rounded-pill border-light bg-light nice-select-reset" onchange="this.form.submit()">
+                        <div class="col-lg-2 col-md-4 px-2 mb-2 mb-lg-0">
+                            <select name="id_khuvuc" class="form-control rounded-pill border-0 bg-light px-4 custom-select-web ajax-filter-select">
                                 <option value="0">Toàn bộ khu vực</option>
                                 <?php if(!empty($ds_khuvuc)) { foreach($ds_khuvuc as $k){ ?>
                                     <option value="<?=$k['id']?>" <?=isset($_GET['id_khuvuc']) && $_GET['id_khuvuc']==$k['id'] ? 'selected' : ''?>><?=$k['ten_vi']?></option>
@@ -40,14 +38,21 @@
                             </select>
                         </div>
                         
-                        <div class="form-group mb-0 position-relative" style="min-width: 200px;">
-                            <input type="text" name="keyword" class="form-control rounded-pill pl-4 pr-5 border-light bg-light" placeholder="Tìm tên dự án..." value="<?=isset($_GET['keyword'])?$_GET['keyword']:''?>">
-                            <button type="submit" class="btn position-absolute text-muted" style="right: 5px; top: 0; background: none; border: none;"><i class="fas fa-search"></i></button>
+                        <!-- Ô tìm kiếm -->
+                        <div class="col-lg-4 col-md-8 px-2 mb-2 mb-lg-0">
+                            <div class="position-relative">
+                                <input type="text" name="keyword" class="form-control rounded-pill pl-4 pr-5 border-0 bg-light custom-input-web" placeholder="Tìm tên dự án..." value="<?=isset($_GET['keyword'])?$_GET['keyword']:''?>">
+                                <button type="submit" class="btn position-absolute text-muted" style="right: 15px; top: 50%; transform: translateY(-50%); background: none; border: none; padding: 0;"><i class="fas fa-search"></i></button>
+                            </div>
                         </div>
                         
-                        <?php if(isset($_GET['keyword']) || (isset($_GET['id_khuvuc']) && $_GET['id_khuvuc']>0) || !empty($_GET['type_filter'])) { ?>
-                            <a href="du-an.html" class="btn btn-sm btn-light text-danger font-weight-bold ml-2 rounded-pill"><i class="fas fa-times mr-1"></i> Xóa lọc</a>
-                        <?php } ?>
+                        <!-- Nút hành động -->
+                        <div class="col-lg-2 col-md-4 px-2 d-flex align-items-center justify-content-center">
+                            <button type="submit" class="btn btn-green-web rounded-pill px-4 shadow-sm w-100 font-weight-bold">TÌM KIẾM</button>
+                            <?php if(isset($_GET['keyword']) || (isset($_GET['id_khuvuc']) && $_GET['id_khuvuc']>0) || !empty($_GET['type_filter'])) { ?>
+                                <a href="du-an.html" class="btn btn-link text-danger p-0 ml-3" title="Xóa lọc"><i class="fas fa-sync-alt"></i></a>
+                            <?php } ?>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -56,8 +61,11 @@
 </section>
 
 <!-- Pricing area start (Project Slider) -->
-<section class="pricong-area bg-light-white pb-100">
-    <div class="container">
+<section class="pricong-area bg-light-white pb-100 position-relative">
+    <div id="loader-filter" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.7); z-index:100; justify-content:center; align-items:center; border-radius:20px;">
+        <div class="spinner-border text-success" role="status"><span class="sr-only">Loading...</span></div>
+    </div>
+    <div class="container" id="project-results-container">
         <div class="row align-items-end text-center text-lg-left mb-45">
             <div class="col-lg-7 text-center text-lg-left">
                 <div class="fancy-head left-al wow fadeInLeft">
@@ -82,7 +90,7 @@
         </div>
 
         <div class="row">
-            <div class="col-xl-12">
+            <div class="col-xl-12" id="project-results">
                 <?php if(!empty($ds_duan)) { ?>
                 <div class="owl-carousel price-slider">
                     <?php foreach($ds_duan as $v){ 
@@ -105,6 +113,11 @@
                                 <h4 class="project-title">
                                     <a href="<?=$link?>"><?=$v['ten_vi']?></a>
                                 </h4>
+                                <?php if(!empty($v['mota_vi'])) { ?>
+                                    <p class="project-desc text-muted mb-15">
+                                        <?=substr(strip_tags($v['mota_vi']), 0, 150)?>
+                                    </p>
+                                <?php } ?>
                                 <div class="project-line"></div>
                                 <div class="project-footer d-flex justify-content-between align-items-center">
                                     <span class="text-muted text-sm text-uppercase font-weight-bold">Chi tiết dự án</span>
@@ -115,16 +128,93 @@
                     </div>
                     <?php } ?>
                 </div>
-                <?php } else { ?>
-                    <div class="text-center py-5">
-                        <p class="text-muted">Không tìm thấy dự án nào phù hợp với bộ lọc.</p>
-                        <a href="du-an.html" class="btn btn-primary rounded-pill">Xem tất cả dự án</a>
-                    </div>
-                <?php } ?>
+                <?php } else {
+                    echo "                    <div class=\"text-center py-5\">\n                        <p class=\"text-muted\">Không tìm thấy dự án nào phù hợp với bộ lọc.</p>\n                        <a href=\"du-an.html\" class=\"btn btn-primary rounded-pill\">Xem tất cả dự án</a>\n                    </div>\n";
+                } ?>
             </div>
         </div>
     </div>
 </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('filter-project-form');
+        const results = document.getElementById('project-results');
+        const container = document.getElementById('project-results-container');
+        const loader = document.getElementById('loader-filter');
+
+        function initPlugins() {
+            // Re-init Owl Carousel
+            var priceSlide = $('.price-slider');
+            priceSlide.owlCarousel({
+                loop: priceSlide.find('.item').length > 3,
+                margin: 30,
+                autoplay: true,
+                autoplayTimeout: 5000,
+                nav: false,
+                dots: false,
+                responsive: {
+                    0: { items: 1 },
+                    600: { items: 1 },
+                    992: { items: 3 },
+                    1200: { items: 3 }
+                }
+            });
+
+            // Re-init nav buttons
+            $('.pricong-area .nav-price-left').off('click').on('click', function (e) {
+                e.preventDefault();
+                priceSlide.trigger('prev.owl.carousel');
+            });
+            $('.pricong-area .nav-price-right').off('click').on('click', function (e) {
+                e.preventDefault();
+                priceSlide.trigger('next.owl.carousel');
+            });
+
+            // Re-init WOW
+            if(typeof WOW !== 'undefined') {
+                new WOW().init();
+            }
+        }
+
+        function filterProjects() {
+            const formData = new FormData(form);
+            const params = new URLSearchParams(formData).toString();
+            const url = 'du-an.html?' + params;
+
+            loader.style.display = 'flex';
+            
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newResults = doc.getElementById('project-results').innerHTML;
+                    results.innerHTML = newResults;
+                    
+                    // Update URL without reload
+                    window.history.pushState({}, '', url);
+                    
+                    // Re-init plugins
+                    initPlugins();
+                })
+                .catch(error => console.error('Error:', error))
+                .finally(() => {
+                    loader.style.display = 'none';
+                });
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            filterProjects();
+        });
+
+        // Trigger on select change
+        document.querySelectorAll('.ajax-filter-select').forEach(select => {
+            select.addEventListener('change', filterProjects);
+        });
+    });
+</script>
 <!-- Pricing area end -->
 
 <!-- Experience Cta start (Company Stats) -->
@@ -270,8 +360,8 @@
     }
     
     .project-title {
-        margin-bottom: 15px;
-        min-height: 3em;
+        margin-bottom: 8px;
+        min-height: auto; /* Bỏ min-height cố định để thu hẹp khoảng cách */
     }
     
     .project-title a {
@@ -279,16 +369,29 @@
         font-weight: 700;
         font-size: 18px;
         text-transform: uppercase;
-        line-height: 1.4;
+        line-height: 1.3;
         transition: color 0.3s;
         display: -webkit-box;
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
         overflow: hidden;
+        min-height: 1.3em; /* Giảm xuống 1 dòng */
     }
     
     .project-corporate-card:hover .project-title a {
         color: #108042;
+    }
+
+    .project-desc {
+        font-size: 14px;
+        line-height: 1.6;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        min-height: 3.2em;
+        color: #333 !important; /* Chuyển sang màu đen */
+        font-style: italic; /* In nghiêng */
     }
 
     .project-line {

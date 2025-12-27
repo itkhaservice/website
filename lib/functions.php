@@ -408,11 +408,10 @@ function redirect($url=''){
 	echo '<script language="javascript">window.location = "'.$url.'" </script>';
 	exit();
 }
-function transfer($msg,$page="index.html")
+function transfer($msg,$page="index.php")
 {
-	 $showtext = $msg;
-	 $page_transfer = $page;
-	 include("./templates/transfer_tpl.php");
+	 $_SESSION['transfer_msg'] = $msg;
+	 redirect($page);
 	 exit();
 }
 

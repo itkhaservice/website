@@ -43,7 +43,7 @@ $ds_tieuchi = $d->result_array();
 
 // 9. Tin tức nổi bật (Lấy tin có noibat=1)
 $d->reset();
-$d->query("select a.*, b.ten_vi as ten_danhmuc from #_news a left join #_news_cat b on a.id_cat = b.id where a.hienthi=1 and a.noibat=1 order by a.ngaytao desc limit 0,3");
+$d->query("select a.*, b.ten_vi as ten_danhmuc from #_news a left join #_news_cat b on a.id_cat = b.id where a.hienthi=1 and a.noibat=1 and a.ngaytao <= ".time()." order by a.ngaytao desc limit 0,3");
 $ds_tintuc = $d->result_array();
 
 // 10. Thư viện ảnh nổi bật
