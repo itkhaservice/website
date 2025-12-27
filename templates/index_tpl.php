@@ -205,10 +205,10 @@
                 <?php if(!empty($ds_dichvu)) { foreach($ds_dichvu as $k=>$v){ ?>
                 <div class="col-xl-3 col-md-6 text-center mb-4">
                     <div class="service-list-3 shadow-2 transition-4 img-lined z-5 no-mar wow zoomIn h-100">
-                        <div class="icon-bg-white flex-center z-10">
+                        <div class="service-icon-wrapper z-10 mx-auto mb-3">
                             <img src="<?=!empty($v['photo']) ? $v['photo'] : 'img/service/'.(($k%4)+1).'.png'?>" 
                                  onerror="this.src='img/feature/icon1.png';" 
-                                 style="width:70px; height:70px; object-fit:contain;" alt="<?=$v['ten_vi']?>">
+                                 style="width:100%; max-width:100px; height:80px; object-fit:contain;" alt="<?=$v['ten_vi']?>">
                         </div>
                         <div class="service-text-3 transition-4 mt-15 z-10">
                             <h4 class="f-700 mb-10 text-split-3" style="min-height: 4.5em;"><?=$v['ten_vi']?></h4>

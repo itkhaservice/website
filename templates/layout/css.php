@@ -86,6 +86,67 @@
             border: 1px solid #f1f5f9 !important;
             margin-top: 30px;
         }
+
+        /* --- Service Hover Effect --- */
+        .service-list-3 { position: relative; overflow: hidden; z-index: 1; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); border-radius: 15px; }
+        .service-icon-wrapper {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+        .service-icon-wrapper:before, .service-icon-wrapper:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80px;
+            height: 80px;
+            border: 3px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .service-list-3:hover .service-icon-wrapper:before {
+            animation: radiate 1.2s infinite;
+        }
+        .service-list-3:hover .service-icon-wrapper:after {
+            animation: radiate 1.2s infinite 0.4s;
+        }
+        @keyframes radiate {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
+        }
+        .service-list-3:hover { 
+            transform: translateY(-12px); 
+            box-shadow: 0 20px 40px rgba(9, 188, 138, 0.25) !important; 
+            background-color: #09bc8a !important; 
+        }
+        .service-list-3:hover .service-text-3 h4 { color: #fff !important; }
+        .service-list-3:hover .service-text-3 p { color: rgba(255, 255, 255, 0.95) !important; }
+        .service-list-3:hover .text-muted { color: rgba(255, 255, 255, 0.9) !important; }
+        .service-list-3:hover .text-white-50 { color: rgba(255, 255, 255, 0.8) !important; }
+        .service-list-3:hover .btn-border-blue { background: #fff !important; color: #09bc8a !important; border-color: #fff !important; }
+        .service-list-3:hover .undeline-3 { width: 100% !important; left: 0 !important; background: #fff !important; }
+        
+        /* Sync with Index behavior */
+        .service-list-3 .undeline-3 {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 4px;
+            transition: all 0.4s ease;
+            background: #108042 !important;
+        }
+
         .pagination-footer .text-muted { color: #64748b !important; font-size: 13px; font-weight: 500; }
         .pagination-footer strong { color: #1e293b !important; }
 
