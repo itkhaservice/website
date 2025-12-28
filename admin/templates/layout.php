@@ -371,25 +371,11 @@
               <p>Slideshow trang chủ</p>
             </a>
           </li>
-          <li class="nav-item <?=($com=='thuvien' || ($com=='news_cat' && $_GET['type']=='thuvien-anh'))?'menu-open':''?>">
-            <a href="#" class="nav-link <?=($com=='thuvien' || ($com=='news_cat' && $_GET['type']=='thuvien-anh'))?'active':''?>">
+              <li class="nav-item">
+            <a href="index.php?com=thuvien&act=man" class="nav-link <?=$com=='thuvien'?'active':''?>">
               <i class="nav-icon fas fa-camera-retro"></i>
-              <p>Thư viện ảnh <i class="right fas fa-angle-left"></i></p>
+              <p>Thư viện ảnh</p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="index.php?com=news_cat&act=man&type=thuvien-anh" class="nav-link <?=$com=='news_cat' && $_GET['type']=='thuvien-anh'?'active':''?>">
-                  <i class="far fa-circle nav-icon small"></i>
-                  <p>Danh mục thư viện</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="index.php?com=thuvien&act=man" class="nav-link <?=$com=='thuvien'?'active':''?>">
-                  <i class="far fa-circle nav-icon small"></i>
-                  <p>Danh sách thư viện</p>
-                </a>
-              </li>
-            </ul>
           </li>
           <li class="nav-item">
             <a href="index.php?com=photo&act=man&type=doi-tac" class="nav-link <?=$_GET['type']=='doi-tac'?'active':''?>">

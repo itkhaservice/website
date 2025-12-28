@@ -95,8 +95,8 @@
         </div>
         <?php } ?>
 
-        <!-- Danh mục (Nếu có) -->
-        <?php if($type == 'tin-tuc' || $type == 'thuvien-anh') { ?>
+        <!-- Danh mục (Chỉ Tin tức) -->
+        <?php if($type == 'tin-tuc') { ?>
         <div class="col-lg-2 col-md-4 mb-2">
             <select id="id_cat" class="form-control filter-input" onchange="onSearch()">
                 <option value="0">Danh mục</option>
@@ -195,10 +195,11 @@
                     <td>
                         <a href="index.php?com=<?=$com?>&act=edit&type=<?=$type?>&id=<?=$v['id']?>" class="text-dark font-weight-bold text-decoration-none" style="font-size: 15px; display:block; margin-bottom: 4px;"><?=$v['ten_vi']?></a>
                         <div class="text-muted small">
-                            <?php if($com == 'news' && $type == 'tin-tuc') { ?>
-                                <span class="mr-3"><i class="far fa-clock"></i> <?=date('d/m/Y', $v['ngaytao'])?></span>
-                                <?php if($v['ten_danhmuc']) { ?>
-                                    <span class="text-primary"><i class="fas fa-folder-open"></i> <?=$v['ten_danhmuc']?></span>
+                            <?php if(($com == 'news' && $type == 'tin-tuc') || $com == 'thuvien') { ?>
+                                <span class="mr-3"><i class="far fa-clock"></i> Cập nhật: <?=($v['ngaysua'] > 0) ? date('d/m/Y H:i', $v['ngaysua']) : date('d/m/Y H:i', $v['ngaytao'])?></span>
+                                <span><i class="far fa-calendar-plus"></i> Đăng: <?=date('d/m/Y', $v['ngaytao'])?></span>
+                                <?php if(isset($v['ten_danhmuc']) && $v['ten_danhmuc']) { ?>
+                                    <span class="text-primary ml-2"><i class="fas fa-folder-open"></i> <?=$v['ten_danhmuc']?></span>
                                 <?php } ?>
                             <?php } else { ?>
                                 <i class="far fa-clock"></i> <?=date('d/m/Y H:i', ($v['ngaysua']>0?$v['ngaysua']:$v['ngaytao']))?>

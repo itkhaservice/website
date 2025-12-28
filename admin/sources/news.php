@@ -106,8 +106,8 @@ function get_items(){
         $regions = $d->result_array();
     }
 
-    // Lấy danh sách danh mục để lọc cho module tin tức hoặc thư viện
-    if($type == 'tin-tuc' || $type == 'thuvien-anh'){
+    // Lấy danh sách danh mục để lọc cho module tin tức
+    if($type == 'tin-tuc'){
         $d->reset();
         $d->query("select id, ten_vi from #_news_cat where type='$type' order by stt asc, id desc");
         $categories = $d->result_array();
@@ -324,6 +324,23 @@ function save_item(){
                         $d->setTable('thuvien_photo');
                         $d->insert($data_gallery);
                     }
+                }
+            }
+        }
+
+        // Xử lý ảnh chọn từ Server (Browser)
+        if(isset($_POST['files_server']) && !empty($_POST['files_server'])){
+            foreach($_POST['files_server'] as $key => $file_path){
+                if($file_path != ''){
+                    // Đường dẫn từ browser trả về thường là upload/..., ta cần đảm bảo nó sạch
+                    $data_gallery_server['photo'] = str_replace('../', '', $file_path);
+                    $data_gallery_server['id_main'] = $id;
+                    $data_gallery_server['stt'] = (int)$_POST['stt_server'][$key];
+                    $data_gallery_server['hienthi'] = 1;
+                    
+                    $d->reset();
+                    $d->setTable('thuvien_photo');
+                    $d->insert($data_gallery_server);
                 }
             }
         }

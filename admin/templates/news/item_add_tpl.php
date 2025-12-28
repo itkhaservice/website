@@ -63,11 +63,16 @@
                         <div class="tab-pane fade" id="album" role="tabpanel">
                             <div class="form-group mb-4">
                                 <label class="font-weight-600">Chọn nhiều hình ảnh</label>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="files[]" id="gallery-files" multiple accept="image/*, .jfif">
-                                    <label class="custom-file-label" for="gallery-files">Chọn các tệp ảnh từ máy tính...</label>
+                                <div class="d-flex align-items-center">
+                                    <div class="custom-file mr-3" style="max-width: 400px;">
+                                        <input type="file" class="custom-file-input" name="files[]" id="gallery-files" multiple accept="image/*, .jfif">
+                                        <label class="custom-file-label" for="gallery-files">Tải ảnh từ máy tính...</label>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-primary shadow-sm font-weight-bold" onclick="openBrowser('gallery')">
+                                        <i class="fas fa-folder-open mr-1"></i> Chọn từ Server
+                                    </button>
                                 </div>
-                                <small class="text-muted mt-2 d-block font-italic">Nhấn giữ phím <b>Ctrl</b> để chọn nhiều tệp cùng lúc.</small>
+                                <small class="text-muted mt-2 d-block font-italic">Nhấn giữ phím <b>Ctrl</b> để chọn nhiều tệp cùng lúc (khi tải từ máy).</small>
                             </div>
                             
                             <div id="gallery-preview" class="row">
@@ -285,6 +290,23 @@
     }
 
     function updateImagePath(field, path) {
+        // Xử lý khi chọn ảnh cho Gallery (Multi Upload)
+        if(field === 'gallery') {
+            var preview = document.getElementById('gallery-preview');
+            // Tạo ID ngẫu nhiên cho block
+            var randId = Math.floor(Math.random() * 10000);
+            var html = '<div class="col-md-3 col-sm-4 col-6 mb-4 text-center" id="gal-item-'+randId+'">' +
+                       '<div class="bg-light p-2 rounded border shadow-xs border-primary position-relative">' +
+                       '<img src="../' + path + '" class="img-fluid rounded mb-2" style="height: 120px; object-fit: cover;">' +
+                       '<input type="hidden" name="files_server[]" value="' + path + '">' +
+                       '<input type="number" name="stt_server[]" class="form-control form-control-sm text-center mb-2 mx-auto" value="1" style="width: 60px;">' +
+                       '<button type="button" class="btn btn-xs btn-danger" onclick="document.getElementById(\'gal-item-'+randId+'\').remove()">Bỏ chọn</button>' +
+                       '</div></div>';
+            preview.insertAdjacentHTML('beforeend', html);
+            toastr.success('Đã thêm ảnh vào danh sách chờ');
+            return;
+        }
+
         var input = document.getElementById('input-' + field);
         var preview = document.getElementById('preview-' + field);
         if(input) input.value = path;
