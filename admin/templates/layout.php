@@ -483,10 +483,18 @@ $(document).ready(function(){
                     type: 'POST',
                     data: { table: table, listid: listid },
                     success: function(res) {
-                        toastr.success('Đã cập nhật thứ tự hiển thị');
+                        if(res == "1") {
+                            toastr.success('Đã cập nhật thứ tự hiển thị');
+                            // Cập nhật lại số hiển thị trên ô input STT
+                            $('#sortable-list tr').each(function(index) {
+                                $(this).find('.update-stt').val(index + 1);
+                            });
+                        } else {
+                            toastr.error('Có lỗi xảy ra khi lưu thứ tự');
+                        }
                     },
                     error: function() {
-                        toastr.error('Lỗi khi cập nhật thứ tự');
+                        toastr.error('Lỗi kết nối server');
                     }
                 });
             }

@@ -1,31 +1,49 @@
 <?php
 session_start();
-@define ( '_lib' , '../../lib/');
-@define ( '_IN_ADMIN' , true );
+error_reporting(0);
 
-// Giả lập môi trường cho config
-$localhost = 1;
-$_SERVER['SERVER_NAME'] = 'localhost';
+@define ( '_lib' , '../../lib/');
+@define ( '_source' , '../../sources/');
+
+// Check localhost
+$localhost = 0;
+if($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0.1') $localhost = 1;
 
 include_once _lib."config.php";
 include_once _lib."class.database.php";
-
-if(!isset($_SESSION['admin_logined']) || $_SESSION['admin_logined'] !== true) die("0");
+include_once _lib."functions.php";
 
 $d = new database($config['database']);
 
-$table = isset($_POST['table']) ? addslashes($_POST['table']) : "";
-$ids = isset($_POST['ids']) ? $_POST['ids'] : [];
+// Kiểm tra đăng nhập
+if(!isset($_SESSION['admin_logined']) || $_SESSION['admin_logined'] !== true){
+    die("0");
+}
 
-if($table != "" && !empty($ids)){
-    // Cập nhật số STT lần lượt 1, 2, 3... dựa trên mảng gửi lên
-    foreach($ids as $index => $id){
-        $new_stt = $index + 1;
-        $d->reset();
-        $d->setTable($table);
-        $d->setWhere('id', (int)$id);
-        $data['stt'] = $new_stt;
-        $d->update($data);
+$table = isset($_POST['table']) ? (string)$_POST['table'] : "";
+$listid = isset($_POST['listid']) ? $_POST['listid'] : null;
+
+// Validate tên bảng để tránh SQL Injection cơ bản (chỉ cho phép chữ cái, số và gạch dưới)
+if(!preg_match('/^[a-zA-Z0-9_]+$/', $table)){
+    die("Invalid table");
+}
+
+if($table != "" && !empty($listid) && is_array($listid)){
+    // Duyệt qua mảng ID gửi lên. 
+    // Mảng này đã được sắp xếp theo thứ tự mới từ giao diện kéo thả
+    $count = 1;
+    foreach($listid as $id){
+        $id = (int)$id;
+        if($id > 0){
+            $data['stt'] = $count;
+            
+            $d->reset();
+            $d->setTable($table);
+            $d->setWhere('id', $id);
+            $d->update($data);
+            
+            $count++;
+        }
     }
     echo "1";
 } else {
