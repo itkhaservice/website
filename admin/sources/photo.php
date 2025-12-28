@@ -172,4 +172,22 @@ function delete_item(){
         transfer("Không nhận được dữ liệu", "index.php?com=photo&act=man&type=".$type);
     }
 }
+
+function delete_all_item(){
+    global $d, $type;
+    $listid = explode(",",$_GET['listid']);
+    foreach($listid as $id){
+        $id = (int)$id;
+        $d->reset();
+        $d->query("select photo from #_photo where id='".$id."'");
+        $row = $d->fetch_array();
+        if($row['photo'] != "") @unlink($row['photo']);
+        
+        $d->reset();
+        $d->setTable('photo');
+        $d->setWhere('id', $id);
+        $d->delete();
+    }
+    redirect("index.php?com=photo&act=man&type=".$type);
+}
 ?>

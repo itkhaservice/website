@@ -112,91 +112,126 @@
 </style>
 
 <script>
-    $(document).ready(function() {
-        // Chọn tất cả
-        $(document).on('change', '#select-all', function() {
-            var status = $(this).is(':checked');
-            $('.select-item').prop('checked', status);
-            updateSelectedCount();
-        });
+    document.addEventListener('DOMContentLoaded', function() {
+        // Vanilla JS for Select All Logic to avoid jQuery loading order issues
+        const selectAllCheckbox = document.getElementById('select-all');
+        const deleteAllButton = document.getElementById('delete-all');
+        const selectedCountSpan = document.getElementById('selected-count');
 
-        // Chọn từng mục
-        $(document).on('change', '.select-item', function() {
-            updateSelectedCount();
-            var allChecked = ($('.select-item:checked').length === $('.select-item').length);
-            $('#select-all').prop('checked', allChecked);
-        });
-
-        function updateSelectedCount() {
-            var count = $('.select-item:checked').length;
-            if(count > 0) {
-                $('#selected-count').text(count).removeClass('d-none');
-                $('#delete-all').removeClass('btn-outline-danger bg-white border-0').addClass('btn-danger text-white shadow-sm');
+        function updateActions() {
+            const checkedItems = document.querySelectorAll('.select-item:checked');
+            const count = checkedItems.length;
+            selectedCountSpan.textContent = count;
+            
+            if (count > 0) {
+                selectedCountSpan.classList.remove('d-none');
+                deleteAllButton.classList.remove('btn-outline-danger', 'bg-white', 'border-0');
+                deleteAllButton.classList.add('btn-danger', 'text-white', 'shadow-sm');
             } else {
-                // Return to neutral state
-                $('#selected-count').addClass('d-none');
-                $('#delete-all').addClass('btn-outline-danger bg-white border-0').removeClass('btn-danger text-white shadow-sm');
+                selectedCountSpan.classList.add('d-none');
+                deleteAllButton.classList.add('btn-outline-danger', 'bg-white', 'border-0');
+                deleteAllButton.classList.remove('btn-danger', 'text-white', 'shadow-sm');
             }
         }
 
-        // Xóa nhiều mục
-        $('#delete-all').on('click', function(e) {
-            e.preventDefault();
-            var listid = "";
-            $('.select-item:checked').each(function() { listid += $(this).val() + ","; });
-            listid = listid.slice(0, -1);
-            
-            if(listid == "") {
-                Swal.fire({ icon: 'info', title: 'Thông báo', text: 'Bạn chưa chọn mục nào để xóa!', confirmButtonColor: '#108042' });
-                return false;
+        if (selectAllCheckbox) {
+            selectAllCheckbox.addEventListener('change', function() {
+                const isChecked = this.checked;
+                const checkboxes = document.querySelectorAll('.select-item');
+                checkboxes.forEach(cb => {
+                    cb.checked = isChecked;
+                });
+                updateActions();
+            });
+        }
+
+        // Event delegation for .select-item
+        document.querySelector('tbody').addEventListener('change', function(e) {
+            if (e.target.classList.contains('select-item')) {
+                const totalItems = document.querySelectorAll('.select-item').length;
+                const checkedItems = document.querySelectorAll('.select-item:checked').length;
+                if (selectAllCheckbox) {
+                    selectAllCheckbox.checked = (totalItems > 0 && totalItems === checkedItems);
+                }
+                updateActions();
             }
-
-            Swal.fire({
-                title: 'Xác nhận xóa?',
-                text: "Dữ liệu sau khi xóa sẽ không thể khôi phục!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#108042',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Đồng ý, xóa ngay!',
-                cancelButtonText: 'Hủy bỏ'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "index.php?com=<?=$com?>&act=delete_all&type=<?=$type?>&listid=" + listid;
-                }
-            });
         });
 
-        // Cập nhật STT nhanh
-        $(document).on('change', '.update-stt', function() {
-            var id = $(this).data('id');
-            var table = $(this).data('table');
-            var value = $(this).val();
-            $.ajax({
-                url: 'ajax/ajax_update.php',
-                type: 'POST',
-                data: {id: id, table: table, value: value, field: 'stt'},
-                success: function(res) {
-                    if(res == 1) toastr.success('Đã cập nhật số thứ tự');
-                    else toastr.error('Lỗi cập nhật');
+        if (deleteAllButton) {
+            deleteAllButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                const checkedItems = document.querySelectorAll('.select-item:checked');
+                if (checkedItems.length === 0) {
+                    // Fallback alert if SweetAlert not loaded
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({ icon: 'info', title: 'Thông báo', text: 'Bạn chưa chọn mục nào để xóa!', confirmButtonColor: '#108042' });
+                    } else {
+                        alert('Bạn chưa chọn mục nào để xóa!');
+                    }
+                    return;
                 }
-            });
-        });
 
-        // Cập nhật Hiển thị nhanh (Dùng delegation để chắc chắn nhận sự kiện)
-        $(document).on('change', '.checkbox-hienthi', function() {
-            var id = $(this).data('id');
-            var table = $(this).data('table');
-            var value = $(this).is(':checked') ? 1 : 0;
-            $.ajax({
-                url: 'ajax/ajax_update.php',
-                type: 'POST',
-                data: {id: id, table: table, value: value, field: 'hienthi'},
-                success: function(res) {
-                    if(res == 1) toastr.success('Đã cập nhật trạng thái');
-                    else toastr.error('Lỗi cập nhật');
+                let listid = [];
+                checkedItems.forEach(cb => listid.push(cb.value));
+
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        title: 'Xóa ' + checkedItems.length + ' mục đã chọn?',
+                        text: "Dữ liệu sau khi xóa sẽ không thể khôi phục!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#108042',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Đồng ý, xóa ngay!',
+                        cancelButtonText: 'Hủy bỏ'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "index.php?com=<?=$com?>&act=delete_all&type=<?=$type?>&listid=" + listid.join(',');
+                        }
+                    });
+                } else {
+                    if (confirm('Xóa ' + checkedItems.length + ' mục đã chọn? Hành động này không thể hoàn tác!')) {
+                        window.location.href = "index.php?com=<?=$com?>&act=delete_all&type=<?=$type?>&listid=" + listid.join(',');
+                    }
                 }
             });
-        });
+        }
+    });
+
+    // jQuery dependent code (loaded later) for AJAX
+    window.addEventListener('load', function() {
+        if (typeof $ !== 'undefined') {
+            // Cập nhật STT nhanh
+            $(document).on('change', '.update-stt', function() {
+                var id = $(this).data('id');
+                var table = $(this).data('table');
+                var value = $(this).val();
+                $.ajax({
+                    url: 'ajax/ajax_update.php',
+                    type: 'POST',
+                    data: {id: id, table: table, value: value, field: 'stt'},
+                    success: function(res) {
+                        if(res == 1) toastr.success('Đã cập nhật số thứ tự');
+                        else toastr.error('Lỗi cập nhật');
+                    }
+                });
+            });
+
+            // Cập nhật Hiển thị nhanh
+            $(document).on('change', '.checkbox-hienthi', function() {
+                var id = $(this).data('id');
+                var table = $(this).data('table');
+                var value = $(this).is(':checked') ? 1 : 0;
+                $.ajax({
+                    url: 'ajax/ajax_update.php',
+                    type: 'POST',
+                    data: {id: id, table: table, value: value, field: 'hienthi'},
+                    success: function(res) {
+                        if(res == 1) toastr.success('Đã cập nhật trạng thái');
+                        else toastr.error('Lỗi cập nhật');
+                    }
+                });
+            });
+        }
     });
 </script>

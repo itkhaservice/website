@@ -22,6 +22,9 @@
                         <li class="nav-item">
                             <a class="nav-link" id="tabs-map-tab" data-toggle="pill" href="#tabs-map" role="tab"><i class="fas fa-map-marker-alt mr-1"></i> Bản đồ</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="tabs-app-tab" data-toggle="pill" href="#tabs-app" role="tab"><i class="fas fa-laptop-code mr-1"></i> Phần mềm</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="card-body bg-white">
@@ -133,6 +136,18 @@
                                     </div>
                                 </div>
                             <?php } ?>
+                        </div>
+
+                        <!-- Tab Phần mềm -->
+                        <div class="tab-pane fade" id="tabs-app" role="tabpanel">
+                            <div class="form-group">
+                                <label class="font-weight-bold"><i class="fas fa-external-link-alt text-primary mr-1"></i> Link phần mềm quản lý (Header)</label>
+                                <input type="text" name="link_phanmem" class="form-control" value="<?=$item['link_phanmem']?>" placeholder="https://...">
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold"><i class="fas fa-info-circle text-info mr-1"></i> Link giới thiệu App dân cư</label>
+                                <input type="text" name="link_gioithieu_app" class="form-control" value="<?=$item['link_gioithieu_app']?>" placeholder="https://...">
+                            </div>
                         </div>
                     </div>
                 </div>

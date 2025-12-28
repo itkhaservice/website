@@ -44,6 +44,8 @@ function save_item(){
     $data['video_intro'] = $_POST['video_intro'];
     $data['google_map'] = $_POST['google_map'];
     $data['description'] = $_POST['description'];
+    $data['link_phanmem'] = $_POST['link_phanmem'];
+    $data['link_gioithieu_app'] = $_POST['link_gioithieu_app'];
     
     // Xử lý hình ảnh
     $file_name = fns_Rand_digit(0,9,12);

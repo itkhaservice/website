@@ -141,3 +141,59 @@
     .text-split-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .flex-center { display: flex; align-items: center; justify-content: center; }
 </style>
+
+<script>
+    $(document).ready(function() {
+        // Select All
+        $('#select-all').click(function() {
+            var isChecked = $(this).prop('checked');
+            $('.select-item').prop('checked', isChecked);
+            updateSelectedCount();
+        });
+
+        // Select Item
+        $('.select-item').click(function() {
+            var allChecked = $('.select-item').length === $('.select-item:checked').length;
+            $('#select-all').prop('checked', allChecked);
+            updateSelectedCount();
+        });
+
+        function updateSelectedCount() {
+            var count = $('.select-item:checked').length;
+            if(count > 0) {
+                $('#selected-count').text(count).removeClass('d-none');
+                $('#delete-all').removeClass('disabled').attr('href', '#');
+            } else {
+                $('#selected-count').addClass('d-none');
+                $('#delete-all').addClass('disabled');
+            }
+        }
+
+        // Delete All Action
+        $('#delete-all').click(function(e) {
+            e.preventDefault();
+            var count = $('.select-item:checked').length;
+            if(count === 0) return;
+
+            var listid = [];
+            $('.select-item:checked').each(function() {
+                listid.push($(this).val());
+            });
+
+            Swal.fire({
+                title: 'Xóa ' + count + ' mục đã chọn?',
+                text: "Dữ liệu sẽ không thể khôi phục!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Đồng ý xóa!',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'index.php?com=contact&act=delete_all&listid=' + listid.join(',');
+                }
+            });
+        });
+    });
+</script>

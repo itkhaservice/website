@@ -2042,4 +2042,3 @@ function upload_images($file, $extension, $folder, $newname = '', $max_file = 99
 
     return false;
 }
-?>

@@ -211,4 +211,3 @@ class database{
 		return $str;
 	}
 }
-?>

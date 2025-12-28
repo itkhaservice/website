@@ -35,5 +35,3 @@ $d->reset();
 $d->query("select count(id) as num from #_dichvu where hienthi=1");
 $row_dichvu = $d->fetch_array();
 $count_dichvu = $row_dichvu['num'];
-
-?>

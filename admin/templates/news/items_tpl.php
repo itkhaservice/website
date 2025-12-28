@@ -162,6 +162,10 @@
                     <?php if($type != 'gioi-thieu') { ?>
                         <th style="width: 90px" class="text-center align-middle text-uppercase text-muted small font-weight-bold">Hình</th>
                     <?php } ?>
+                    <?php if($com == 'du-an') { ?>
+                        <th style="width: 150px" class="align-middle text-uppercase text-muted small font-weight-bold">Khu vực</th>
+                        <th style="width: 250px" class="align-middle text-uppercase text-muted small font-weight-bold">Mô tả ngắn</th>
+                    <?php } ?>
                     <th>THÔNG TIN</th>
                     <?php if($com=='du-an' || ($com=='news' && $type=='tin-tuc') || $com=='dichvu') { ?>
                         <th style="width: 100px" class="text-center">NỔI BẬT</th>
@@ -189,6 +193,18 @@
                     <td class="text-center">
                         <div class="thumb-img-wrapper">
                             <img src="../<?=$v['photo']?>" class="thumb-img" onerror="this.src='https://placehold.co/100x100?text=IMG'">
+                        </div>
+                    </td>
+                    <?php } ?>
+                    <?php if($com == 'du-an') { ?>
+                    <td class="align-middle">
+                        <span class="badge badge-info px-2 py-1 shadow-sm" style="font-size: 0.85rem; background-color: #17a2b8; color: white;">
+                            <?=($v['ten_khuvuc']) ? $v['ten_khuvuc'] : 'Chưa chọn'?>
+                        </span>
+                    </td>
+                    <td class="align-middle">
+                        <div class="text-muted text-split-2" style="font-size: 0.85rem; max-width: 250px;">
+                            <?=($v['mota_vi'] != '') ? strip_tags($v['mota_vi']) : '<em>(Chưa có mô tả)</em>'?>
                         </div>
                     </td>
                     <?php } ?>
@@ -273,92 +289,102 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Logic Chọn tất cả (Vanilla JS)
-        const selectAll = document.getElementById('select-all');
-        const selectItems = document.querySelectorAll('.select-item');
-        const selectedCount = document.getElementById('selected-count');
-        const deleteAllBtn = document.getElementById('delete-all');
+        // Vanilla JS for Select All Logic to avoid jQuery loading order issues
+        const selectAllCheckbox = document.getElementById('select-all');
+        const deleteAllButton = document.getElementById('delete-all');
+        const selectedCountSpan = document.getElementById('selected-count');
 
         function updateActions() {
-            const count = document.querySelectorAll('.select-item:checked').length;
-            selectedCount.textContent = count;
-            if(count > 0) {
-                deleteAllBtn.disabled = false;
-                deleteAllBtn.classList.remove('btn-outline-danger');
-                deleteAllBtn.classList.add('btn-danger', 'text-white', 'shadow-sm');
+            const checkedItems = document.querySelectorAll('.select-item:checked');
+            const count = checkedItems.length;
+            selectedCountSpan.textContent = count;
+            
+            if (count > 0) {
+                deleteAllButton.disabled = false;
+                deleteAllButton.classList.remove('btn-outline-danger');
+                deleteAllButton.classList.add('btn-danger', 'text-white', 'shadow-sm');
             } else {
-                deleteAllBtn.disabled = true;
-                deleteAllBtn.classList.add('btn-outline-danger');
-                deleteAllBtn.classList.remove('btn-danger', 'text-white', 'shadow-sm');
+                deleteAllButton.disabled = true;
+                deleteAllButton.classList.add('btn-outline-danger');
+                deleteAllButton.classList.remove('btn-danger', 'text-white', 'shadow-sm');
             }
         }
 
-        if(selectAll) {
-            selectAll.addEventListener('change', function() {
+        if (selectAllCheckbox) {
+            selectAllCheckbox.addEventListener('change', function() {
                 const isChecked = this.checked;
-                selectItems.forEach(item => item.checked = isChecked);
+                const checkboxes = document.querySelectorAll('.select-item');
+                checkboxes.forEach(cb => {
+                    cb.checked = isChecked;
+                });
                 updateActions();
             });
         }
 
-        selectItems.forEach(item => {
-            item.addEventListener('change', function() {
+        // Event delegation for .select-item
+        document.querySelector('.card-table').addEventListener('change', function(e) {
+            if (e.target.classList.contains('select-item')) {
+                const totalItems = document.querySelectorAll('.select-item').length;
+                const checkedItems = document.querySelectorAll('.select-item:checked').length;
+                if (selectAllCheckbox) {
+                    selectAllCheckbox.checked = (totalItems > 0 && totalItems === checkedItems);
+                }
                 updateActions();
-                if(selectAll) selectAll.checked = (document.querySelectorAll('.select-item:checked').length === selectItems.length);
-            });
+            }
         });
 
-        if(deleteAllBtn) {
-            deleteAllBtn.addEventListener('click', function() {
-                let listid = "";
-                document.querySelectorAll('.select-item:checked').forEach(item => listid += item.value + ",");
-                listid = listid.slice(0, -1);
-                
-                // Sử dụng hàm confirm mặc định hoặc SweetAlert nếu có
-                if(typeof Swal !== 'undefined') {
+        if (deleteAllButton) {
+            deleteAllButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                const checkedItems = document.querySelectorAll('.select-item:checked');
+                if (checkedItems.length === 0) return;
+
+                let listid = [];
+                checkedItems.forEach(cb => listid.push(cb.value));
+
+                // Check for SweetAlert2 availability (loaded in layout)
+                if (typeof Swal !== 'undefined') {
                     Swal.fire({
-                        title: 'Xác nhận xóa?',
-                        text: "Dữ liệu sẽ bị xóa vĩnh viễn!",
+                        title: 'Xóa ' + checkedItems.length + ' mục đã chọn?',
+                        text: "Dữ liệu sẽ không thể khôi phục!",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#d33',
                         cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Xóa ngay',
+                        confirmButtonText: 'Đồng ý xóa!',
                         cancelButtonText: 'Hủy'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.location.href = "index.php?com=<?=$com?>&act=delete_all&type=<?=$type?>&listid=" + listid;
+                            window.location.href = 'index.php?com=<?=$com?>&act=delete_all&type=<?=$type?>&listid=' + listid.join(',');
                         }
                     });
                 } else {
-                    if(confirm("Bạn có chắc chắn muốn xóa " + selectedCount.textContent + " mục đã chọn?")) {
-                        window.location.href = "index.php?com=<?=$com?>&act=delete_all&type=<?=$type?>&listid=" + listid;
+                    if (confirm('Xóa ' + checkedItems.length + ' mục đã chọn? Hành động này không thể hoàn tác!')) {
+                        window.location.href = 'index.php?com=<?=$com?>&act=delete_all&type=<?=$type?>&listid=' + listid.join(',');
                     }
                 }
             });
         }
     });
 
-    // Các hàm cần jQuery load sau
+    // jQuery dependent code (loaded later)
     window.addEventListener('load', function() {
-        if (typeof $ === 'undefined') return;
-
-        // AJAX Cập nhật STT nhanh
-        $(document).on('change', '.update-stt', function() {
-            var id = $(this).data('id');
-            var table = $(this).data('table');
-            var value = $(this).val();
-            $.ajax({
-                url: 'ajax/ajax_update.php',
-                type: 'POST',
-                data: {id: id, table: table, value: value, field: 'stt'},
-                success: function(res) {
-                    if(res == 1) toastr.success('Đã cập nhật STT');
-                    else toastr.error('Lỗi cập nhật');
-                }
+        if (typeof $ !== 'undefined') {
+            // AJAX Cập nhật STT nhanh
+            $(document).on('change', '.update-stt', function() {
+                var id = $(this).data('id');
+                var table = $(this).data('table');
+                var value = $(this).val();
+                $.ajax({
+                    url: 'ajax/ajax_update.php',
+                    type: 'POST',
+                    data: {id: id, table: table, value: value, field: 'stt'},
+                    success: function(res) {
+                        if(res == 1) toastr.success('Đã cập nhật STT');
+                        else toastr.error('Lỗi cập nhật');
+                    }
+                });
             });
-        });
-        
-        // Sự kiện checkbox-hienthi đã có ở layout.php, không cần viết lại để tránh duplicate
+        }
     });
 </script>

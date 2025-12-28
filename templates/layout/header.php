@@ -98,10 +98,10 @@
                                         <a href="lien-he.html">Liên hệ</a>
                                     </li>
                                     <li class="d-block d-lg-none">
-                                        <a href="#">Phần mềm QLVH</a>
+                                        <a href="javascript:void(0)">Phần mềm QLVH</a>
                                         <ul class="submenu">
-                                            <li><a href="#" target="_blank">Link phần mềm quản lý</a></li>
-                                            <li><a href="noi-dung-gioi-thieu-app-dan-cu.html">Nội dung giới thiệu về App Dân Cư</a></li>
+                                            <li><a href="<?=$row_setting['link_phanmem']?>" target="_blank">Link phần mềm quản lý</a></li>
+                                            <li><a href="<?=$row_setting['link_gioithieu_app']?>">Nội dung giới thiệu về App Dân Cư</a></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -119,8 +119,8 @@
                         <div class="btn btn-round d-none d-lg-block blob-small btn-dropdown">
                             <span>Phần mềm QLVH <i class="fas fa-angle-down mr-5"></i></span>
                             <ul class="submenu">
-                                <li><a href="#" target="_blank">Link phần mềm quản lý</a></li>
-                                <li><a href="noi-dung-gioi-thieu-app-dan-cu.html">Nội dung giới thiệu về App Dân Cư</a></li>
+                                <li><a href="<?=$row_setting['link_phanmem']?>" target="_blank">Link phần mềm quản lý</a></li>
+                                <li><a href="<?=$row_setting['link_gioithieu_app']?>">Nội dung giới thiệu về App Dân Cư</a></li>
                             </ul>
                         </div>
                         <!-- Mobile Menu Reveal Placeholder -->

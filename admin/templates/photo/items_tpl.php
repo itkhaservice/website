@@ -4,6 +4,7 @@
     </div>
     <div class="col-md-6 col-sm-12 text-center text-md-right mt-3 mt-md-0">
         <a href="index.php?com=photo&act=add&type=<?=$type?>" class="btn btn-sm btn-save shadow-sm mr-2 px-3 py-2"><i class="fas fa-plus-circle mr-1"></i> Thêm mới</a>
+        <a href="#" id="delete-all" class="btn btn-sm btn-outline-danger shadow-sm px-3 py-2 border-0 bg-white"><i class="fas fa-trash-alt mr-1"></i> Xóa mục chọn <span id="selected-count" class="badge badge-danger ml-1 d-none">0</span></a>
     </div>
 </div>
 
@@ -13,7 +14,14 @@
             <table class="table table-hover mb-0">
                 <thead>
                     <tr style="background: #f8fafc; border-bottom: 1px solid #f1f5f9;">
+                        <th style="width: 50px" class="text-center py-3">
+                            <div class="custom-control custom-checkbox ml-1">
+                                <input type="checkbox" class="custom-control-input cursor-pointer" id="select-all">
+                                <label class="custom-control-label cursor-pointer" for="select-all"></label>
+                            </div>
+                        </th>
                         <?php if(strpos($type, 'banner') === false){ ?>
+                        <th style="width: 40px" class="text-center"></th>
                         <th style="width: 80px" class="text-center text-uppercase font-weight-800 small text-muted py-3">STT</th>
                         <?php } ?>
                         <th style="width: 150px" class="text-center text-uppercase font-weight-800 small text-muted">Hình ảnh</th>
@@ -27,7 +35,16 @@
                 <tbody id="sortable-list" data-table="photo">
                     <?php if(!empty($items)) { foreach($items as $k=>$v){ ?>
                     <tr data-id="<?=$v['id']?>" class="align-middle">
+                        <td class="text-center py-3">
+                            <div class="custom-control custom-checkbox ml-1">
+                                <input type="checkbox" class="custom-control-input select-item cursor-pointer" id="select-<?=$v['id']?>" value="<?=$v['id']?>">
+                                <label class="custom-control-label cursor-pointer" for="select-<?=$v['id']?>"></label>
+                            </div>
+                        </td>
                         <?php if(strpos($type, 'banner') === false){ ?>
+                        <td class="text-center cursor-move text-muted" title="Kéo thả để sắp xếp">
+                            <i class="fas fa-grip-vertical opacity-25"></i>
+                        </td>
                         <td class="text-center">
                             <input type="number" class="form-control form-control-sm text-center update-stt mx-auto border-0 bg-light font-weight-bold" value="<?=($v['stt']!='')?$v['stt']:0?>" data-id="<?=$v['id']?>" data-table="photo" style="width: 50px; border-radius: 6px;">
                         </td>
@@ -98,4 +115,131 @@
     .btn-white:hover { background: #f8fafc; }
     .pagination .page-link { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; color: #64748b; font-weight: 600; }
     .pagination .page-item.active .page-link { background: #108042 !important; color: #fff !important; box-shadow: 0 4px 10px rgba(16, 128, 66, 0.2); }
+    .cursor-move { cursor: grab; }
+    .cursor-move:active { cursor: grabbing; }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Vanilla JS for Select All Logic to avoid jQuery loading order issues
+        const selectAllCheckbox = document.getElementById('select-all');
+        const deleteAllButton = document.getElementById('delete-all');
+        const selectedCountSpan = document.getElementById('selected-count');
+
+        function updateActions() {
+            const checkedItems = document.querySelectorAll('.select-item:checked');
+            const count = checkedItems.length;
+            selectedCountSpan.textContent = count;
+            
+            if (count > 0) {
+                selectedCountSpan.classList.remove('d-none');
+                deleteAllButton.classList.remove('btn-outline-danger', 'bg-white', 'border-0');
+                deleteAllButton.classList.add('btn-danger', 'text-white', 'shadow-sm');
+            } else {
+                selectedCountSpan.classList.add('d-none');
+                deleteAllButton.classList.add('btn-outline-danger', 'bg-white', 'border-0');
+                deleteAllButton.classList.remove('btn-danger', 'text-white', 'shadow-sm');
+            }
+        }
+
+        if (selectAllCheckbox) {
+            selectAllCheckbox.addEventListener('change', function() {
+                const isChecked = this.checked;
+                const checkboxes = document.querySelectorAll('.select-item');
+                checkboxes.forEach(cb => {
+                    cb.checked = isChecked;
+                });
+                updateActions();
+            });
+        }
+
+        // Event delegation for .select-item
+        document.querySelector('tbody').addEventListener('change', function(e) {
+            if (e.target.classList.contains('select-item')) {
+                const totalItems = document.querySelectorAll('.select-item').length;
+                const checkedItems = document.querySelectorAll('.select-item:checked').length;
+                if (selectAllCheckbox) {
+                    selectAllCheckbox.checked = (totalItems > 0 && totalItems === checkedItems);
+                }
+                updateActions();
+            }
+        });
+
+        if (deleteAllButton) {
+            deleteAllButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                const checkedItems = document.querySelectorAll('.select-item:checked');
+                if (checkedItems.length === 0) {
+                    // Fallback alert if SweetAlert not loaded
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({ icon: 'info', title: 'Thông báo', text: 'Bạn chưa chọn mục nào để xóa!', confirmButtonColor: '#108042' });
+                    } else {
+                        alert('Bạn chưa chọn mục nào để xóa!');
+                    }
+                    return;
+                }
+
+                let listid = [];
+                checkedItems.forEach(cb => listid.push(cb.value));
+
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        title: 'Xóa ' + checkedItems.length + ' mục đã chọn?',
+                        text: "Dữ liệu sau khi xóa sẽ không thể khôi phục!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#108042',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Đồng ý, xóa ngay!',
+                        cancelButtonText: 'Hủy bỏ'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "index.php?com=<?=$com?>&act=delete_all&type=<?=$type?>&listid=" + listid.join(',');
+                        }
+                    });
+                } else {
+                    if (confirm('Xóa ' + checkedItems.length + ' mục đã chọn? Hành động này không thể hoàn tác!')) {
+                        window.location.href = "index.php?com=<?=$com?>&act=delete_all&type=<?=$type?>&listid=" + listid.join(',');
+                    }
+                }
+            });
+        }
+    });
+
+    // jQuery dependent code (loaded later) for AJAX
+    window.addEventListener('load', function() {
+        if (typeof $ !== 'undefined') {
+            // Cập nhật STT nhanh
+            $(document).on('change', '.update-stt', function() {
+                var id = $(this).data('id');
+                var table = $(this).data('table');
+                var value = $(this).val();
+                $.ajax({
+                    url: 'ajax/ajax_update.php',
+                    type: 'POST',
+                    data: {id: id, table: table, value: value, field: 'stt'},
+                    success: function(res) {
+                        if(res == 1) toastr.success('Đã cập nhật số thứ tự');
+                        else toastr.error('Lỗi cập nhật');
+                    }
+                });
+            });
+
+            // Cập nhật Hiển thị nhanh
+            $(document).on('change', '.checkbox-hienthi', function() {
+                var id = $(this).data('id');
+                var table = $(this).data('table');
+                var value = $(this).is(':checked') ? 1 : 0;
+                $.ajax({
+                    url: 'ajax/ajax_update.php',
+                    type: 'POST',
+                    data: {id: id, table: table, value: value, field: 'hienthi'},
+                    success: function(res) {
+                        if(res == 1) toastr.success('Đã cập nhật trạng thái');
+                        else toastr.error('Lỗi cập nhật');
+                    }
+                });
+            });
+        }
+    });
+</script>

@@ -74,6 +74,7 @@ function delete_item(){
         $d->setTable('contact');
         $d->setWhere('id', $id);
         $d->delete();
+        $_SESSION['transfer_msg'] = "Xóa dữ liệu thành công!";
         redirect("index.php?com=contact&act=man");
     }
 }
@@ -88,6 +89,7 @@ function delete_all_item(){
         $d->setWhere('id', $id);
         $d->delete();
     }
+    $_SESSION['transfer_msg'] = "Xóa dữ liệu thành công!";
     redirect("index.php?com=contact&act=man");
 }
 ?>
