@@ -48,13 +48,6 @@
             
             <div class="row align-items-center mt-50">
                 <div class="col-md-6 text-center text-md-left">
-                    <div class="d-flex share-case justify-content-center justify-content-md-start">
-                        <p class="fs-16 mr-20 mb-0">Chia sẻ:</p>
-                        <ul class="social-icons black mb-sm-30">
-                            <li><a href="https://www.facebook.com/sharer/sharer.php?u=<?=getCurrentPageURL()?>" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
-                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                        </ul>
-                    </div>
                 </div>
                 <div class="col-md-6 text-center text-md-right">
                     <div class="next-prev-caser">

@@ -29,11 +29,7 @@
                             <span class="badge badge-success px-3 py-2 mr-3" style="background-color: #108042; font-size: 14px;"><?=$row_detail['ten_khuvuc']?></span>
                         <?php } ?>
                         
-                        <div class="text-warning fs-18">
-                            <?php for($i=1; $i<=5; $i++) { ?>
-                                <i class="<?=($i<=$row_detail['rating'])?'fas':'far'?> fa-star"></i>
-                            <?php } ?>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -63,13 +59,6 @@
             
             <div class="row align-items-center mt-50">
                 <div class="col-md-6 text-center text-md-left">
-                    <div class="d-flex share-case justify-content-center justify-content-md-start">
-                        <p class="fs-16 mr-20 mb-0">Chia sẻ:</p>
-                        <ul class="social-icons black mb-sm-30">
-                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                        </ul>
-                    </div>
                 </div>
                 <div class="col-md-6 text-center text-md-right">
                     <div class="next-prev-caser">

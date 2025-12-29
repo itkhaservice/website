@@ -63,7 +63,7 @@
                 }
 
                 /* Ẩn mục Trang chủ (icon ngôi nhà) trên mobile cho gọn */
-                .mobile-menu-3.mean-container .mean-nav ul li:first-child {
+                .mobile-menu-3.mean-container .mean-nav > ul > li:first-child {
                     display: none !important;
                 }
             }
