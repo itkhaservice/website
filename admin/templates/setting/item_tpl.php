@@ -10,9 +10,9 @@
 
     <div class="row">
         <div class="col-md-9">
-            <div class="card card-primary card-outline card-outline-tabs border-0 shadow-sm">
-                <div class="card-header p-0 border-bottom-0">
-                    <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+            <div class="card card-primary card-outline card-outline-tabs border-0 shadow-sm mb-4">
+                <div class="card-header p-0 border-bottom-0" style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+                    <ul class="nav nav-tabs flex-nowrap text-nowrap" id="custom-tabs-four-tab" role="tablist" style="min-width: max-content;">
                         <li class="nav-item">
                             <a class="nav-link active" id="tabs-info-tab" data-toggle="pill" href="#tabs-info" role="tab"><i class="fas fa-info-circle mr-1"></i> Thông tin công ty</a>
                         </li>

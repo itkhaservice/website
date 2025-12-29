@@ -93,9 +93,9 @@
 
         /* Responsive adjustments */
         @media (max-width: 767px) {
-            /* Tự động tính chiều cao theo chiều rộng trên mobile (Tỷ lệ 16:9 chuẩn mobile) */
+            /* Tự động tính chiều cao theo tỷ lệ ảnh gốc để không bị mất hình (1920x750) */
             .silder-img { 
-                aspect-ratio: 16 / 9 !important;
+                aspect-ratio: 1920 / 750 !important;
                 background-position: center center !important;
             }
             
@@ -262,9 +262,8 @@
                 </div>
                 <div class="col-lg-6 ">
                     <div class="feature-all mt-md-60">
-                        <div class="fancy-head left-al text-left text-md-center text-lg-left mb-30 wow fadeInDown">
+                        <div class="fancy-head left-al text-left mb-30 wow fadeInDown">
                             <h5 class="line-head mb-15">
-                                <span class="line before d-sm-none d-md-block d-lg-none"></span>
                                 TẠI SAO CHỌN CHÚNG TÔI?
                                 <span class="line after"></span>
                             </h5>
@@ -274,7 +273,7 @@
                             <ul class="feature-list-all">
                                 <?php if(!empty($ds_tieuchi)) { foreach($ds_tieuchi as $k => $v) { ?>
                                 <li class="mb-20">
-                                    <div class="d-flex align-items-center justify-content-lg-start justify-content-center text-lg-left text-center">
+                                    <div class="d-flex align-items-center justify-content-start text-left">
                                         <div class="feature-num mr-25">
                                             <span class="flex-center bg-light-white"><?=sprintf("%02d", $k+1)?></span>
                                         </div>

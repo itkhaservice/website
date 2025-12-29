@@ -12,5 +12,5 @@
     <script src="js/wow.min.js"></script>
     <script src="js/isotope.pkgd.min.js"></script>
     <script src="js/jquery.meanmenu.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=<?=time()?>"></script>
     <!-- JS Files end -->

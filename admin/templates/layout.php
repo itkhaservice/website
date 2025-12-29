@@ -69,10 +69,12 @@
             justify-content: center;
         }
         
+        /* Fix Chrome iOS Toolbar hiding content */
         .sidebar {
-            height: calc(100vh - 57px) !important;
+            height: calc(100dvh - 57px) !important; /* Dùng dvh thay vì vh */
             overflow-y: auto !important;
-            padding-bottom: 60px !important;
+            padding-bottom: 150px !important; /* Tăng khoảng trống dưới cùng lên 150px */
+            -webkit-overflow-scrolling: touch;
         }
 
         .nav-sidebar .nav-link {
@@ -253,6 +255,47 @@
         
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        /* --- Responsive Optimization --- */
+        @media (max-width: 768px) {
+            .main-header {
+                padding: 0 5px;
+            }
+            .content-wrapper {
+                padding: 15px 10px !important; /* Tăng padding để không bị sát mép */
+                margin-left: 0 !important;
+            }
+            .card-body {
+                padding: 15px !important;
+            }
+            .nav-tabs .nav-link {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+            /* Đảm bảo sidebar không che khuất khi trượt */
+            .sidebar-open .content-wrapper {
+                transform: translateX(250px);
+                transition: transform 0.3s ease;
+            }
+            /* Nút bấm to hơn trên mobile để dễ chạm */
+            .btn-sm, .btn {
+                padding: 10px 15px !important;
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+        
+        /* Safe Area cho iPhone có tai thỏ */
+        @supports (padding: env(safe-area-inset-bottom)) {
+            .main-footer {
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+            .content-wrapper {
+                padding-bottom: calc(20px + env(safe-area-inset-bottom)) !important;
+            }
+        }
     </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">

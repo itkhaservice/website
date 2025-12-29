@@ -3,10 +3,6 @@ session_start();
 @define ( '_lib' , '../../lib/');
 @define ( '_IN_ADMIN' , true );
 
-// Giả lập môi trường cho config
-$localhost = 1;
-$_SERVER['SERVER_NAME'] = 'localhost';
-
 if (file_exists(_lib."config.php")) {
     include_once _lib."config.php";
     include_once _lib."class.database.php";

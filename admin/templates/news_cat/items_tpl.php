@@ -55,6 +55,7 @@
                         <th style="width: 40px" class="text-center"></th>
                         <th style="width: 80px" class="text-center text-uppercase font-weight-bold small text-muted">STT</th>
                         <th class="text-uppercase font-weight-bold small text-muted">Tên danh mục</th>
+                        <th class="text-uppercase font-weight-bold small text-muted">Đường dẫn (Slug)</th>
                         <th style="width: 120px" class="text-center text-uppercase font-weight-bold small text-muted border-left">Hiển thị</th>
                         <th style="width: 120px" class="text-center text-uppercase font-weight-bold small text-muted border-left">Thao tác</th>
                     </tr>
@@ -76,6 +77,13 @@
                         </td>
                         <td>
                             <div class="font-weight-bold text-dark" style="font-size: 1rem;"><?=$v['ten_vi']?></div>
+                        </td>
+                        <td>
+                            <?php if($v['ten_khong_dau'] != '') { ?>
+                                <span class="text-muted small font-italic"><?=$v['ten_khong_dau']?></span>
+                            <?php } else { ?>
+                                <span class="badge badge-danger">Chưa có link</span>
+                            <?php } ?>
                         </td>
                         <td class="text-center border-left">
                             <div class="custom-control custom-switch">

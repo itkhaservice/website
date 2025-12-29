@@ -1,0 +1,45 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Chặn truy cập trực tiếp vào các file hệ thống
+    RewriteRule ^\.htaccess$ - [F]
+
+    # Giới thiệu
+    RewriteRule ^gioi-thieu.html$ index.php?com=gioi-thieu [QSA,L]
+    RewriteRule ^gioi-thieu/([^/]+).html$ index.php?com=gioi-thieu&id=$1 [QSA,L]
+
+    # Lĩnh vực hoạt động
+    RewriteRule ^linh-vuc-hoat-dong.html$ index.php?com=linh-vuc-hoat-dong [QSA,L]
+    RewriteRule ^linh-vuc-hoat-dong/([^/]+).html$ index.php?com=linh-vuc-hoat-dong&type=$1 [QSA,L]
+    RewriteRule ^dich-vu/([^/]+).html$ index.php?com=linh-vuc-hoat-dong&id=$1 [QSA,L]
+
+    # Dự án
+    RewriteRule ^du-an.html$ index.php?com=du-an [QSA,L]
+    RewriteRule ^du-an/khu-vuc/([^/]+).html$ index.php?com=du-an&khuvuc=$1 [QSA,L]
+    RewriteRule ^du-an/([^/]+).html$ index.php?com=du-an&id=$1 [QSA,L]
+
+    # Tin tức
+    RewriteRule ^tin-tuc.html$ index.php?com=tin-tuc [QSA,L]
+    RewriteRule ^tin-tuc/([^/]+).html$ index.php?com=tin-tuc&type=$1 [QSA,L]
+    RewriteRule ^tin-tuc/chi-tiet/([^/]+).html$ index.php?com=tin-tuc&id=$1 [QSA,L]
+
+    # Tuyển dụng
+    RewriteRule ^tuyen-dung.html$ index.php?com=tuyen-dung [QSA,L]
+    RewriteRule ^tuyen-dung/([^/]+).html$ index.php?com=tuyen-dung&id=$1 [QSA,L]
+
+    # Thư viện ảnh
+    RewriteRule ^thu-vien-anh.html$ index.php?com=thu-vien-anh [QSA,L]
+    RewriteRule ^thu-vien-anh/([^/]+).html$ index.php?com=thu-vien-anh&id=$1 [QSA,L]
+
+    # Liên hệ
+    RewriteRule ^lien-he.html$ index.php?com=lien-he [QSA,L]
+
+    # Cảm ơn
+    RewriteRule ^thank-you.html$ index.php?com=thank-you [QSA,L]
+
+    # 404 Error page
+    ErrorDocument 404 /404.html
+    RewriteRule ^404.html$ index.php?com=404 [QSA,L]
+
+</IfModule>

@@ -57,7 +57,19 @@ if($id || $slug){
         $where .= " and #_duan.ten_vi LIKE '%$keyword%'";
     }
     
-    if(isset($_GET['id_khuvuc']) && (int)$_GET['id_khuvuc'] > 0){
+    // Xử lý lọc theo Slug Khu vực (SEO)
+    if(isset($_GET['khuvuc']) && $_GET['khuvuc'] != ''){
+        $slug_khuvuc = addslashes($_GET['khuvuc']);
+        $d->reset();
+        $d->query("select id from #_khuvuc where ten_khong_dau='$slug_khuvuc' limit 0,1");
+        $row_slug_kv = $d->fetch_array();
+        if(!empty($row_slug_kv)){
+            $where .= " and #_duan.id_khuvuc = " . $row_slug_kv['id'];
+            $_GET['id_khuvuc'] = $row_slug_kv['id']; // Gán lại để hiển thị selected trong dropdown
+        }
+    }
+    // Xử lý lọc theo ID Khu vực (Legacy/Filter Form)
+    else if(isset($_GET['id_khuvuc']) && (int)$_GET['id_khuvuc'] > 0){
         $where .= " and #_duan.id_khuvuc = " . (int)$_GET['id_khuvuc'];
     }
 

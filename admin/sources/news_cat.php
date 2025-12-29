@@ -60,6 +60,13 @@ function save_item(){
     $id = (int)$_POST['id'];
 
     $data['ten_vi'] = $_POST['ten_vi'];
+    $data['ten_khong_dau'] = ($_POST['ten_khong_dau']!='') ? changeTitle($_POST['ten_khong_dau']) : changeTitle($_POST['ten_vi']);
+    
+    // SEO Fields
+    $data['title'] = $_POST['title'];
+    $data['keywords'] = $_POST['keywords'];
+    $data['description'] = $_POST['description'];
+    
     $data['stt'] = $_POST['stt'];
     $data['hienthi'] = isset($_POST['hienthi']) ? 1 : 0;
     $data['type'] = $type;

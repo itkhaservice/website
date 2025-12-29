@@ -65,29 +65,29 @@
             loop: true,
             autoplay: true,
             autoplayTimeout: 5000,
-            animateOut: 'fadeOut',
-            animateIn: 'fadeIn',
+            // animateOut: 'fadeOut', // Tắt fade để vuốt mượt hơn
+            // animateIn: 'fadeIn',
             smartSpeed: 450,
             dotsContainer: '.dots-slider',
             margin: 0,
             nav: false,
             navText: ["<i class='fas fa-angle-double-left'></i>", "<i class='fas fa-angle-double-right'></i>"],
             dots: true,
-            touchDrag: false,
-            mouseDrag: false,
+            touchDrag: true, // Bật vuốt cảm ứng
+            mouseDrag: true, // Bật kéo chuột
             responsive: {
                 0: {
                     items: 1,
-                    dots: false
+                    dots: true // Bật dots trên mobile
                 },
                 600: {
                     items: 1,
-                    dots: false
+                    dots: true // Bật dots trên tablet nhỏ
                 },
                 991: {
                     items: 1,
                     nav: false,
-                    dots: false
+                    dots: true // Bật dots trên tablet lớn
                 },
                 993: {
                     items: 1,

@@ -33,7 +33,7 @@ $row_setting = $d->fetch_array();
 
 // Global Queries (Menu)
 $d->reset();
-$d->query("select ten_vi, id from #_khuvuc where hienthi=1 order by stt asc");
+$d->query("select ten_vi, ten_khong_dau, id from #_khuvuc where hienthi=1 order by stt asc");
 $menu_khuvuc = $d->result_array();
 
 $d->reset();

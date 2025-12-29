@@ -1,4 +1,4 @@
-    <!-- Preloader start -->
+<!-- Preloader start -->
     <div class="loader-page flex-center">
         <img src="img/loader.gif" alt="">
     </div>
@@ -21,6 +21,53 @@
             .main-menu-3 ul li.active > a {
                 color: #108042 !important; /* Màu xanh thương hiệu khi active */
             }
+
+            /* --- FIX MOBILE MENU EXPAND BUTTON --- */
+            @media (max-width: 991px) {
+                /* Đồng nhất chiều cao toàn bộ dòng menu là 40px */
+                .mobile-menu-3.mean-container .mean-nav ul li a {
+                    padding: 0 15px !important;
+                    line-height: 40px !important;
+                    height: 40px !important;
+                    font-size: 13px !important;
+                }
+
+                /* Chỉnh nút + / - khớp khít với dòng menu */
+                .mobile-menu-3.mean-container .mean-nav ul li a.mean-expand {
+                    height: 40px !important;
+                    line-height: 40px !important;
+                    width: 40px !important;
+                    padding: 0 !important;
+                    text-align: center !important;
+                    border: none !important;
+                    border-left: 1px solid rgba(0,0,0,0.05) !important;
+                    background: transparent !important;
+                    top: 0 !important;
+                    right: 0 !important;
+                }
+
+                /* Padding bên phải cho text để không bị nút đè */
+                .mobile-menu-3.mean-container .mean-nav ul li a:not(.mean-expand) {
+                    padding-right: 45px !important;
+                }
+
+                /* Thụt lề cho menu con để nhận biết cấp bậc */
+                .mobile-menu-3.mean-container .mean-nav ul li li a {
+                    padding-left: 30px !important; /* Menu cấp 2 */
+                    background: #fdfdfd !important;
+                    font-size: 12.5px !important;
+                    font-weight: 500 !important;
+                }
+                .mobile-menu-3.mean-container .mean-nav ul li li li a {
+                    padding-left: 45px !important; /* Menu cấp 3 */
+                }
+
+                /* Ẩn mục Trang chủ (icon ngôi nhà) trên mobile cho gọn */
+                .mobile-menu-3.mean-container .mean-nav ul li:first-child {
+                    display: none !important;
+                }
+            }
+        </style>
         </style>
         <div class="container-fluid px-lg-5">
             <div class="row align-items-center no-gutters justify-content-between header-row">
@@ -76,8 +123,10 @@
                                         <a href="du-an.html">Dự án <i class="fas fa-angle-down"></i></a>
                                         <?php if(!empty($menu_khuvuc)) { ?>
                                         <ul class="submenu">
-                                            <?php foreach($menu_khuvuc as $v) { ?>
-                                                <li><a href="du-an.html?id_khuvuc=<?=$v['id']?>"><?=$v['ten_vi']?></a></li>
+                                            <?php foreach($menu_khuvuc as $v) { 
+                                                $link_kv = ($v['ten_khong_dau']!='') ? 'du-an/khu-vuc/'.$v['ten_khong_dau'].'.html' : 'du-an.html?id_khuvuc='.$v['id'];
+                                            ?>
+                                                <li><a href="<?=$link_kv?>"><?=$v['ten_vi']?></a></li>
                                             <?php } ?>
                                         </ul>
                                         <?php } ?>

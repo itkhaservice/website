@@ -30,10 +30,12 @@
 
                         <!-- Lọc theo khu vực -->
                         <div class="col-lg-2 col-md-4 px-2 mb-2 mb-lg-0">
-                            <select name="id_khuvuc" class="form-control rounded-pill border-0 bg-light px-4 custom-select-web ajax-filter-select">
-                                <option value="0">Toàn bộ khu vực</option>
-                                <?php if(!empty($ds_khuvuc)) { foreach($ds_khuvuc as $k){ ?>
-                                    <option value="<?=$k['id']?>" <?=isset($_GET['id_khuvuc']) && $_GET['id_khuvuc']==$k['id'] ? 'selected' : ''?>><?=$k['ten_vi']?></option>
+                            <select name="id_khuvuc" id="select-khuvuc" class="form-control rounded-pill border-0 bg-light px-4 custom-select-web">
+                                <option value="0" data-url="du-an.html">Toàn bộ khu vực</option>
+                                <?php if(!empty($ds_khuvuc)) { foreach($ds_khuvuc as $k){ 
+                                    $link_kv = 'du-an/khu-vuc/' . $k['ten_khong_dau'] . '.html';
+                                ?>
+                                    <option value="<?=$k['id']?>" data-url="<?=$link_kv?>" <?=isset($_GET['id_khuvuc']) && $_GET['id_khuvuc']==$k['id'] ? 'selected' : ''?>><?=$k['ten_vi']?></option>
                                 <?php }} ?>
                             </select>
                         </div>
@@ -209,9 +211,30 @@
             filterProjects();
         });
 
-        // Trigger on select change
+        // Xử lý riêng cho Dropdown Khu vực để chuyển hướng SEO Friendly
+        const selectKhuvuc = document.getElementById('select-khuvuc');
+        if(selectKhuvuc){
+            selectKhuvuc.addEventListener('change', function(){
+                // Nếu chỉ lọc theo khu vực (không có keyword, không có loại) -> Chuyển hướng link đẹp
+                const keyword = document.querySelector('input[name="keyword"]').value;
+                const type = document.querySelector('select[name="type_filter"]').value;
+                
+                if(keyword === '' && type === ''){
+                    const selectedOption = this.options[this.selectedIndex];
+                    const url = selectedOption.getAttribute('data-url');
+                    if(url) window.location.href = url;
+                } else {
+                    // Nếu đang kết hợp lọc -> Dùng AJAX bình thường
+                    filterProjects();
+                }
+            });
+        }
+
+        // Trigger on select change (cho các select khác trừ khu vực đã xử lý riêng)
         document.querySelectorAll('.ajax-filter-select').forEach(select => {
-            select.addEventListener('change', filterProjects);
+            if(select.id !== 'select-khuvuc') {
+                select.addEventListener('change', filterProjects);
+            }
         });
     });
 </script>

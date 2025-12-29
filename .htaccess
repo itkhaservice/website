@@ -16,6 +16,7 @@
 
     # Dự án
     RewriteRule ^du-an.html$ index.php?com=du-an [QSA,L]
+    RewriteRule ^du-an/khu-vuc/([^/]+).html$ index.php?com=du-an&khuvuc=$1 [QSA,L]
     RewriteRule ^du-an/([^/]+).html$ index.php?com=du-an&id=$1 [QSA,L]
 
     # Tin tức
