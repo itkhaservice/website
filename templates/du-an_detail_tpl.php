@@ -43,16 +43,113 @@
                         </div>
                     <?php } ?>
 
-                    <div class="content-main">
+                    <div class="content-main" id="lightgallery-project">
                         <?=clearContent($row_detail['noidung_vi'])?>
                     </div>
 
+                    <!-- LightGallery CSS/JS -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/css/lightgallery-bundle.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/lightgallery.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/zoom/lg-zoom.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/thumbnail/lg-thumbnail.min.js"></script>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const container = document.getElementById('lightgallery-project');
+                            if(!container) return;
+
+                            // 1. Xử lý dàn hàng ngang cho các đoạn văn có nhiều ảnh
+                            const paragraphs = container.querySelectorAll('p');
+                            paragraphs.forEach(p => {
+                                const imgs = p.querySelectorAll('img');
+                                if(imgs.length > 1) {
+                                    p.classList.add('img-flex-row');
+                                }
+                            });
+
+                            // 2. Bọc ảnh vào thẻ <a> để LightGallery hoạt động
+                            const contentImages = container.querySelectorAll('img');
+                            contentImages.forEach(img => {
+                                if(img.naturalWidth > 50 || img.offsetWidth > 50) {
+                                    const src = img.getAttribute('src');
+                                    const wrapper = document.createElement('a');
+                                    wrapper.className = 'lg-item-wrapper';
+                                    wrapper.setAttribute('data-src', src);
+                                    wrapper.style.cursor = 'zoom-in';
+                                    wrapper.style.display = 'block';
+                                    
+                                    img.parentNode.insertBefore(wrapper, img);
+                                    wrapper.appendChild(img);
+                                }
+                            });
+
+                            // 3. Khởi tạo LightGallery
+                            lightGallery(container, {
+                                selector: '.lg-item-wrapper',
+                                plugins: [lgZoom, lgThumbnail],
+                                speed: 500,
+                                mode: 'lg-fade',
+                                download: false,
+                                counter: true,
+                                enableDrag: true,
+                                enableSwipe: true
+                            });
+                        });
+                    </script>
+
                     <style>
                         .content-main { text-align: justify; font-size: 16px; line-height: 1.8; color: #333; }
-                        .content-main img { max-width: 100% !important; height: auto !important; border-radius: 8px; margin: 20px auto; display: block; }
                         .content-main table { width: 100% !important; border-collapse: collapse; margin: 20px 0; }
                         .content-main table td, .content-main table th { padding: 12px; border: 1px solid #eee; }
                         .content-main p { margin-bottom: 20px; }
+
+                        /* Container chứa các ảnh dàn hàng ngang */
+                        .img-flex-row { 
+                            display: flex !important;
+                            flex-direction: row !important;
+                            flex-wrap: nowrap !important;
+                            justify-content: center !important;
+                            align-items: flex-start !important;
+                            gap: 15px !important;
+                            margin: 30px 0 !important;
+                            width: 100% !important;
+                        }
+                        
+                        /* Wrapper thẻ <a> bao quanh ảnh */
+                        .lg-item-wrapper {
+                            flex: 1 1 0% !important;
+                            max-width: 100%;
+                        }
+
+                        .lg-item-wrapper img { 
+                            width: 100% !important;
+                            height: auto !important;
+                            border-radius: 8px;
+                            object-fit: cover;
+                            display: block;
+                        }
+
+                        /* Ảnh đơn lẻ (không nằm trong flex-row) */
+                        .content-main p:not(.img-flex-row) .lg-item-wrapper {
+                            display: block !important;
+                            margin: 20px auto;
+                            max-width: fit-content;
+                        }
+                        .content-main p:not(.img-flex-row) .lg-item-wrapper img {
+                            width: auto !important;
+                            max-width: 100%;
+                        }
+
+                        @media (max-width: 767px) {
+                            .img-flex-row { 
+                                flex-direction: column !important;
+                                gap: 15px !important;
+                            }
+                            .lg-item-wrapper { 
+                                width: 100% !important;
+                                flex: none !important;
+                            }
+                        }
                     </style>
                 </div>
             </div>

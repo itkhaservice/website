@@ -60,9 +60,103 @@
                                 <?=$row_detail['mota_vi']?>
                             </div>
                         <?php } ?>
-                        <div class="description content-main">
+                        <div class="description content-main" id="lightgallery-about">
                             <?=str_replace('src="../upload/', 'src="upload/', $row_detail['noidung_vi'])?>
                         </div>
+
+                        <!-- LightGallery CSS/JS -->
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/css/lightgallery-bundle.min.css">
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/lightgallery.min.js"></script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/zoom/lg-zoom.min.js"></script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/thumbnail/lg-thumbnail.min.js"></script>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const container = document.getElementById('lightgallery-about');
+                                if(!container) return;
+
+                                // 1. Xử lý dàn hàng ngang cho các đoạn văn có nhiều ảnh
+                                const paragraphs = container.querySelectorAll('p');
+                                paragraphs.forEach(p => {
+                                    const imgs = p.querySelectorAll('img');
+                                    if(imgs.length > 1) {
+                                        p.classList.add('img-flex-row');
+                                    }
+                                });
+
+                                // 2. Bọc ảnh vào thẻ <a> để LightGallery hoạt động
+                                const contentImages = container.querySelectorAll('img');
+                                contentImages.forEach(img => {
+                                    if(img.naturalWidth > 50 || img.offsetWidth > 50) {
+                                        const src = img.getAttribute('src');
+                                        const wrapper = document.createElement('a');
+                                        wrapper.className = 'lg-item-wrapper';
+                                        wrapper.setAttribute('data-src', src);
+                                        wrapper.style.cursor = 'zoom-in';
+                                        wrapper.style.display = 'block';
+                                        
+                                        img.parentNode.insertBefore(wrapper, img);
+                                        wrapper.appendChild(img);
+                                    }
+                                });
+
+                                // 3. Khởi tạo LightGallery
+                                lightGallery(container, {
+                                    selector: '.lg-item-wrapper',
+                                    plugins: [lgZoom, lgThumbnail],
+                                    speed: 500,
+                                    mode: 'lg-fade',
+                                    download: false,
+                                    counter: true,
+                                    enableDrag: true,
+                                    enableSwipe: true
+                                });
+                            });
+                        </script>
+
+                        <style>
+                            /* LightGallery Custom Styles */
+                            .img-flex-row { 
+                                display: flex !important;
+                                flex-direction: row !important;
+                                flex-wrap: nowrap !important;
+                                justify-content: center !important;
+                                align-items: flex-start !important;
+                                gap: 15px !important;
+                                margin: 30px 0 !important;
+                                width: 100% !important;
+                            }
+                            .lg-item-wrapper {
+                                flex: 1 1 0% !important;
+                                max-width: 100%;
+                            }
+                            .lg-item-wrapper img { 
+                                width: 100% !important;
+                                height: auto !important;
+                                border-radius: 8px;
+                                object-fit: cover;
+                                display: block;
+                            }
+                            .content-main p:not(.img-flex-row) .lg-item-wrapper {
+                                display: block !important;
+                                margin: 20px auto;
+                                max-width: fit-content;
+                            }
+                            .content-main p:not(.img-flex-row) .lg-item-wrapper img {
+                                width: auto !important;
+                                max-width: 100%;
+                            }
+                            @media (max-width: 767px) {
+                                .img-flex-row { 
+                                    flex-direction: column !important;
+                                    gap: 15px !important;
+                                }
+                                .lg-item-wrapper { 
+                                    width: 100% !important;
+                                    flex: none !important;
+                                }
+                            }
+                        </style>
                     </div>
                 </div>
             </div>
