@@ -1,1 +1,0 @@
-<?php  if(!defined('_source')) die("Error");$noiDung = db_fetch_array("about","id_cat = 1");$titlePage = $title_bar = $noiDung["ten_$lang"];$titlePage = "Giới thiệu về <b>RES</b>";$bc[_home] = "index.html";$bc[$titlePage] = "ve-chung-toi.html";$template = "about";?>
