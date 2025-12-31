@@ -48,9 +48,34 @@
     .custom-pagination .page-item.active .page-link { background-color: #28a745; color: #fff; box-shadow: 0 2px 5px rgba(40, 167, 69, 0.3); }
     .custom-pagination .page-link:hover:not(.active) { background-color: #e9ecef; color: #28a745; }
     .page-info { font-size: 14px; color: #6c757d; }
+    
+    /* Loading Overlay */
+    .table-loading-overlay {
+        position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(255, 255, 255, 0.7); z-index: 10;
+        display: flex; justify-content: center; align-items: center;
+        border-radius: 8px; backdrop-filter: blur(1px);
+    }
 </style>
 
 <?php
+    // Helper function để tạo URL phân trang giữ nguyên bộ lọc
+    function get_admin_paging_url($page, $per_page_val = null) {
+        global $com, $type, $perPage;
+        $params = $_GET;
+        $params['com'] = $com;
+        $params['act'] = 'man';
+        $params['type'] = $type;
+        $params['p'] = $page;
+        $params['per_page'] = ($per_page_val) ? $per_page_val : $perPage;
+        
+        // Loại bỏ các tham số không cần thiết nếu có
+        unset($params['id']);
+        unset($params['listid']);
+        
+        return 'index.php?' . http_build_query($params);
+    }
+    
     $show_filters = in_array($com, ['du-an', 'news', 'staff', 'thuvien', 'dichvu', 'themanh', 'giatri', 'feedback', 'appdancu']);
 ?>
 
@@ -146,7 +171,7 @@
 <?php } ?>
 
 <!-- Bảng Dữ liệu -->
-<div class="card-table">
+<div class="card-table position-relative" id="ajax-table-container">
     <div class="table-responsive">
         <table class="table table-custom mb-0">
             <thead>
@@ -254,7 +279,7 @@
     <div class="pagination-wrapper">
         <div class="page-info mb-2 mb-md-0">
             Hiển thị 
-            <select class="form-control-sm border shadow-none mx-1" style="width: 55px; display:inline-block; border-radius:4px" onchange="window.location.href='index.php?com=<?=$com?>&act=man&type=<?=$type?>&per_page=' + this.value;">
+            <select class="form-control-sm border shadow-none mx-1" style="width: 55px; display:inline-block; border-radius:4px" onchange="loadTableAjax('<?=get_admin_paging_url(1)?>&per_page=' + this.value)">
                 <?php foreach([5, 10, 20, 50, 100] as $p) { ?>
                     <option value="<?=$p?>" <?=($perPage==$p)?'selected':''?>><?=$p?></option>
                 <?php } ?>
@@ -266,18 +291,18 @@
         <nav>
             <ul class="pagination custom-pagination m-0">
                 <li class="page-item <?=($paging['current']<=1)?'disabled':''?>">
-                    <a class="page-link" href="index.php?com=<?=$com?>&act=man&type=<?=$type?>&per_page=<?=$perPage?>&p=<?=$paging['current']-1?>">
+                    <a class="page-link" href="<?=get_admin_paging_url($paging['current']-1)?>">
                         <i class="fas fa-chevron-left fa-xs"></i>
                     </a>
                 </li>
                 <?php for($i=1; $i<=$paging['last']; $i++) { 
                     if($i == 1 || $i == $paging['last'] || ($i >= $paging['current'] - 1 && $i <= $paging['current'] + 1)) { ?>
                     <li class="page-item <?=($i==$paging['current'])?'active':''?>">
-                        <a class="page-link" href="index.php?com=<?=$com?>&act=man&type=<?=$type?>&per_page=<?=$perPage?>&p=<?=$i?>"><?=$i?></a>
+                        <a class="page-link" href="<?=get_admin_paging_url($i)?>"><?=$i?></a>
                     </li>
                 <?php } elseif($i == 2 || $i == $paging['last'] - 1) { echo '<li class="page-item disabled"><span class="page-link">...</span></li>'; } } ?>
                 <li class="page-item <?=($paging['current']>=$paging['last'])?'disabled':''?>">
-                    <a class="page-link" href="index.php?com=<?=$com?>&act=man&type=<?=$type?>&per_page=<?=$perPage?>&p=<?=$paging['current']+1?>">
+                    <a class="page-link" href="<?=get_admin_paging_url($paging['current']+1)?>">
                         <i class="fas fa-chevron-right fa-xs"></i>
                     </a>
                 </li>
@@ -288,6 +313,49 @@
 </div>
 
 <script>
+    // AJAX Pagination Script
+    function loadTableAjax(url) {
+        if(!url) return;
+        
+        // 1. Show Loading
+        var $container = $('#ajax-table-container');
+        var $overlay = $('<div class="table-loading-overlay"><div class="spinner-border text-primary" role="status"></div></div>');
+        $container.append($overlay);
+
+        // 2. Fetch Data
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(data) {
+                // 3. Parse and Replace
+                var $html = $(data);
+                var $newContent = $html.find('#ajax-table-container').html();
+                
+                if($newContent) {
+                    $container.html($newContent);
+                    
+                    // 4. Update URL
+                    window.history.pushState(null, '', url);
+                    
+                    // 5. Scroll slightly up if needed
+                    $('html, body').animate({
+                        scrollTop: $container.offset().top - 100
+                    }, 400);
+                } else {
+                    window.location.href = url; // Fallback
+                }
+            },
+            error: function() { window.location.href = url; }
+        });
+    }
+
+    // Bind click event for pagination links (Delegation)
+    $(document).on('click', '.custom-pagination .page-link', function(e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        loadTableAjax(url);
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
         // Vanilla JS for Select All Logic to avoid jQuery loading order issues
         const selectAllCheckbox = document.getElementById('select-all');

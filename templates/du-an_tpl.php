@@ -18,41 +18,42 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="bg-white p-3 shadow-sm rounded-pill border-0">
-                    <form action="du-an.html" method="GET" id="filter-project-form" class="row align-items-center justify-content-center no-gutters">
+                <div class="bg-white p-3 shadow-sm border-0 filter-box">
+                    <form action="du-an.html" method="GET" id="filter-project-form" class="row align-items-center justify-content-between">
                         <!-- Lọc theo loại -->
-                        <div class="col-lg-2 col-md-4 px-2 mb-2 mb-lg-0">
-                            <select name="type_filter" class="form-control rounded-pill border-0 bg-light px-4 custom-select-web ajax-filter-select">
+                        <div class="col-lg-3 col-md-6 px-2 mb-2 mb-lg-0">
+                            <select name="type_filter" class="form-control rounded-pill border-0 bg-light px-4 custom-select-web ajax-filter-select w-100">
                                 <option value="">Tất cả dự án</option>
                                 <option value="noibat" <?=isset($_GET['type_filter']) && $_GET['type_filter']=='noibat' ? 'selected' : ''?>>Dự án tiêu biểu</option>
                             </select>
                         </div>
 
                         <!-- Lọc theo khu vực -->
-                        <div class="col-lg-2 col-md-4 px-2 mb-2 mb-lg-0">
-                            <select name="id_khuvuc" id="select-khuvuc" class="form-control rounded-pill border-0 bg-light px-4 custom-select-web">
-                                <option value="0" data-url="du-an.html">Toàn bộ khu vực</option>
+                        <div class="col-lg-3 col-md-6 px-2 mb-2 mb-lg-0">
+                            <select name="khuvuc" id="select-khuvuc" class="form-control rounded-pill border-0 bg-light px-4 custom-select-web w-100">
+                                <option value="" data-url="du-an.html">Toàn bộ khu vực</option>
                                 <?php if(!empty($ds_khuvuc)) { foreach($ds_khuvuc as $k){ 
                                     $link_kv = 'du-an/khu-vuc/' . $k['ten_khong_dau'] . '.html';
+                                    $is_selected = (isset($_GET['khuvuc']) && $_GET['khuvuc']==$k['ten_khong_dau']) || (isset($_GET['id_khuvuc']) && $_GET['id_khuvuc']==$k['id']);
                                 ?>
-                                    <option value="<?=$k['id']?>" data-url="<?=$link_kv?>" <?=isset($_GET['id_khuvuc']) && $_GET['id_khuvuc']==$k['id'] ? 'selected' : ''?>><?=$k['ten_vi']?></option>
+                                    <option value="<?=$k['ten_khong_dau']?>" data-url="<?=$link_kv?>" <?=$is_selected ? 'selected' : ''?>><?=$k['ten_vi']?></option>
                                 <?php }} ?>
                             </select>
                         </div>
                         
                         <!-- Ô tìm kiếm -->
                         <div class="col-lg-4 col-md-8 px-2 mb-2 mb-lg-0">
-                            <div class="position-relative">
-                                <input type="text" name="keyword" class="form-control rounded-pill pl-4 pr-5 border-0 bg-light custom-input-web" placeholder="Tìm tên dự án..." value="<?=isset($_GET['keyword'])?$_GET['keyword']:''?>">
+                            <div class="position-relative w-100">
+                                <input type="text" name="keyword" class="form-control rounded-pill pl-4 pr-5 border-0 bg-light custom-input-web w-100" placeholder="Tìm tên dự án..." value="<?=isset($_GET['keyword'])?$_GET['keyword']:''?>">
                                 <button type="submit" class="btn position-absolute text-muted" style="right: 15px; top: 50%; transform: translateY(-50%); background: none; border: none; padding: 0;"><i class="fas fa-search"></i></button>
                             </div>
                         </div>
                         
                         <!-- Nút hành động -->
-                        <div class="col-lg-2 col-md-4 px-2 d-flex align-items-center justify-content-center">
-                            <button type="submit" class="btn btn-green-web rounded-pill px-4 shadow-sm w-100 font-weight-bold">TÌM KIẾM</button>
+                        <div class="col-lg-2 col-md-4 px-2 d-flex align-items-center justify-content-center filter-actions">
+                            <button type="submit" class="btn btn-green-web rounded-pill px-3 shadow-sm w-100 font-weight-bold text-nowrap">TÌM KIẾM</button>
                             <?php if(isset($_GET['keyword']) || (isset($_GET['id_khuvuc']) && $_GET['id_khuvuc']>0) || !empty($_GET['type_filter'])) { ?>
-                                <a href="du-an.html" class="btn btn-link text-danger p-0 ml-3" title="Xóa lọc"><i class="fas fa-sync-alt"></i></a>
+                                <a href="du-an.html" class="btn btn-link text-danger p-0 ml-2" title="Xóa lọc"><i class="fas fa-sync-alt"></i></a>
                             <?php } ?>
                         </div>
                     </form>
@@ -130,9 +131,16 @@
                     </div>
                     <?php } ?>
                 </div>
-                <?php } else {
-                    echo "                    <div class=\"text-center py-5\">\n                        <p class=\"text-muted\">Không tìm thấy dự án nào phù hợp với bộ lọc.</p>\n                        <a href=\"du-an.html\" class=\"btn btn-primary rounded-pill\">Xem tất cả dự án</a>\n                    </div>\n";
-                } ?>
+                <?php } else { ?>
+                    <div class="text-center py-5 no-results-box">
+                        <div class="mb-4">
+                            <i class="fas fa-folder-open fa-4x text-light-grey" style="color: #e5e5e5;"></i>
+                        </div>
+                        <h4 class="text-muted mb-3">Không tìm thấy dự án nào phù hợp với bộ lọc.</h4>
+                        <p class="text-muted mb-4">Vui lòng thử lại với từ khóa khác hoặc thay đổi tiêu chí lọc.</p>
+                        <a href="du-an.html" class="btn btn-green-web rounded-pill px-5 shadow-sm font-weight-bold">XEM TẤT CẢ DỰ ÁN</a>
+                    </div>
+                <?php } ?>
             </div>
         </div>
     </div>
@@ -142,36 +150,37 @@
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('filter-project-form');
         const results = document.getElementById('project-results');
-        const container = document.getElementById('project-results-container');
         const loader = document.getElementById('loader-filter');
 
         function initPlugins() {
             // Re-init Owl Carousel
             var priceSlide = $('.price-slider');
-            priceSlide.owlCarousel({
-                loop: priceSlide.find('.item').length > 3,
-                margin: 30,
-                autoplay: true,
-                autoplayTimeout: 5000,
-                nav: false,
-                dots: false,
-                responsive: {
-                    0: { items: 1 },
-                    600: { items: 1 },
-                    992: { items: 3 },
-                    1200: { items: 3 }
-                }
-            });
-
-            // Re-init nav buttons
-            $('.pricong-area .nav-price-left').off('click').on('click', function (e) {
-                e.preventDefault();
-                priceSlide.trigger('prev.owl.carousel');
-            });
-            $('.pricong-area .nav-price-right').off('click').on('click', function (e) {
-                e.preventDefault();
-                priceSlide.trigger('next.owl.carousel');
-            });
+            if(priceSlide.length){
+                priceSlide.owlCarousel({
+                    loop: priceSlide.find('.item').length > 3,
+                    margin: 30,
+                    autoplay: true,
+                    autoplayTimeout: 5000,
+                    nav: false,
+                    dots: false,
+                    responsive: {
+                        0: { items: 1 },
+                        600: { items: 1 },
+                        992: { items: 3 },
+                        1200: { items: 3 }
+                    }
+                });
+                
+                // Re-init nav buttons
+                $('.pricong-area .nav-price-left').off('click').on('click', function (e) {
+                    e.preventDefault();
+                    priceSlide.trigger('prev.owl.carousel');
+                });
+                $('.pricong-area .nav-price-right').off('click').on('click', function (e) {
+                    e.preventDefault();
+                    priceSlide.trigger('next.owl.carousel');
+                });
+            }
 
             // Re-init WOW
             if(typeof WOW !== 'undefined') {
@@ -184,58 +193,56 @@
             const params = new URLSearchParams(formData).toString();
             const url = 'du-an.html?' + params;
 
-            loader.style.display = 'flex';
+            if(loader) loader.style.display = 'flex';
             
             fetch(url)
                 .then(response => response.text())
                 .then(html => {
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, 'text/html');
-                    const newResults = doc.getElementById('project-results').innerHTML;
-                    results.innerHTML = newResults;
+                    const newResults = doc.getElementById('project-results');
                     
-                    // Update URL without reload
+                    if(newResults && results) {
+                        results.innerHTML = newResults.innerHTML;
+                    }
+                    
+                    // Update URL without reload to support bookmarking/sharing
                     window.history.pushState({}, '', url);
                     
                     // Re-init plugins
                     initPlugins();
                 })
-                .catch(error => console.error('Error:', error))
+                .catch(error => console.error('Error fetching projects:', error))
                 .finally(() => {
-                    loader.style.display = 'none';
+                    if(loader) loader.style.display = 'none';
                 });
         }
 
+        // Auto-filter on Dropdown Change (Use jQuery because of niceSelect plugin)
+        $('#filter-project-form select').on('change', function() {
+            filterProjects();
+        });
+
+        // Real-time Search with Debounce
+        let searchTimeout;
+        const searchInput = form.querySelector('input[name="keyword"]');
+        if(searchInput) {
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(function() {
+                    filterProjects();
+                }, 500); // Đợi 500ms sau khi ngừng gõ mới lọc
+            });
+        }
+
+        // Handle Search Submit
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             filterProjects();
         });
-
-        // Xử lý riêng cho Dropdown Khu vực để chuyển hướng SEO Friendly
-        const selectKhuvuc = document.getElementById('select-khuvuc');
-        if(selectKhuvuc){
-            selectKhuvuc.addEventListener('change', function(){
-                // Nếu chỉ lọc theo khu vực (không có keyword, không có loại) -> Chuyển hướng link đẹp
-                const keyword = document.querySelector('input[name="keyword"]').value;
-                const type = document.querySelector('select[name="type_filter"]').value;
-                
-                if(keyword === '' && type === ''){
-                    const selectedOption = this.options[this.selectedIndex];
-                    const url = selectedOption.getAttribute('data-url');
-                    if(url) window.location.href = url;
-                } else {
-                    // Nếu đang kết hợp lọc -> Dùng AJAX bình thường
-                    filterProjects();
-                }
-            });
-        }
-
-        // Trigger on select change (cho các select khác trừ khu vực đã xử lý riêng)
-        document.querySelectorAll('.ajax-filter-select').forEach(select => {
-            if(select.id !== 'select-khuvuc') {
-                select.addEventListener('change', filterProjects);
-            }
-        });
+        
+        // Initial Plugin Setup (in case needed)
+        initPlugins();
     });
 </script>
 <!-- Pricing area end -->
@@ -457,5 +464,46 @@
         .search-form { justify-content: center !important; }
         .search-form .form-group { width: 100%; }
         .search-form .btn-light { margin-top: 10px; width: 100%; }
+    }
+    
+    /* Project Filter Styles */
+    .filter-box {
+        border-radius: 50px;
+        transition: all 0.3s;
+    }
+    .filter-box:hover {
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08) !important;
+    }
+    .custom-select-web, .custom-input-web, .btn-green-web {
+        height: 45px; /* Thống nhất chiều cao */
+    }
+    .btn-green-web {
+        background: #108042;
+        color: #fff;
+        transition: all 0.3s;
+        border: none;
+        border-radius: 30px !important; /* Đảm bảo bo tròn tuyệt đối */
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .btn-green-web:hover {
+        background: #0a6c35;
+        transform: translateY(-2px);
+        color: #fff;
+    }
+    
+    @media (max-width: 991px) {
+        .filter-box {
+            border-radius: 15px;
+            padding: 20px !important;
+        }
+        .custom-select-web, .custom-input-web, .btn-green-web {
+            margin-bottom: 10px;
+        }
+        /* Căn giữa nút xóa lọc trên mobile */
+        .filter-actions {
+            justify-content: center !important;
+            width: 100%;
+        }
     }
 </style>

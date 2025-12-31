@@ -23,6 +23,17 @@ $field = (isset($_POST['field'])) ? addslashes($_POST['field']) : "hienthi"; // 
 $value = (isset($_POST['value'])) ? (int)$_POST['value'] : 0;
 
 if($id > 0 && $table != ""){
+    // Xử lý riêng cho trường hợp Banner (chỉ cho phép 1 cái hiển thị)
+    if($table == 'photo' && $field == 'hienthi' && $value == 1) {
+        $d->reset();
+        $d->query("select type from #_photo where id = $id");
+        $row_type = $d->fetch_array();
+        if($row_type && strpos($row_type['type'], 'banner') !== false) {
+            $current_type = $row_type['type'];
+            $d->query("update #_photo set hienthi = 0 where type = '$current_type'");
+        }
+    }
+
     $d->reset();
     $d->setTable($table);
     $d->setWhere('id', $id);

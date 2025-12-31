@@ -50,8 +50,8 @@ if($id || $slug){
 } else {
     // TRANG DANH SÁCH DỰ ÁN
     $where = " #_duan.hienthi=1";
-    
-    // Xử lý Lọc
+    $per_page = 100; // Hiển thị tối đa 100 dự án (không phân trang)
+    $startpoint = 0;
     if(isset($_GET['keyword']) && $_GET['keyword'] != ''){
         $keyword = addslashes($_GET['keyword']);
         $where .= " and #_duan.ten_vi LIKE '%$keyword%'";
@@ -91,7 +91,7 @@ if($id || $slug){
     
     // Lấy danh sách khu vực để tạo Dropdown lọc
     $d->reset();
-    $d->query("select id, ten_vi from #_khuvuc where hienthi=1 order by stt asc");
+    $d->query("select id, ten_vi, ten_khong_dau from #_khuvuc where hienthi=1 order by stt asc");
     $ds_khuvuc = $d->result_array();
     
     $title_bar = "Dự án";

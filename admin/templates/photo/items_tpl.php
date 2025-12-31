@@ -63,7 +63,7 @@
                         <?php } ?>
                         <td class="text-center border-left">
                             <div class="custom-control custom-switch custom-switch-md">
-                                <input type="checkbox" class="custom-control-input checkbox-hienthi" id="hienthi-<?=$v['id']?>" data-id="<?=$v['id']?>" data-table="photo" <?=($v['hienthi']==1)?'checked':''?>>
+                                <input type="checkbox" class="custom-control-input checkbox-hienthi" id="hienthi-<?=$v['id']?>" data-id="<?=$v['id']?>" data-table="photo" data-type="<?=$type?>" <?=($v['hienthi']==1)?'checked':''?>>
                                 <label class="custom-control-label" for="hienthi-<?=$v['id']?>"></label>
                             </div>
                         </td>
@@ -220,22 +220,6 @@
                     data: {id: id, table: table, value: value, field: 'stt'},
                     success: function(res) {
                         if(res == 1) toastr.success('Đã cập nhật số thứ tự');
-                        else toastr.error('Lỗi cập nhật');
-                    }
-                });
-            });
-
-            // Cập nhật Hiển thị nhanh
-            $(document).on('change', '.checkbox-hienthi', function() {
-                var id = $(this).data('id');
-                var table = $(this).data('table');
-                var value = $(this).is(':checked') ? 1 : 0;
-                $.ajax({
-                    url: 'ajax/ajax_update.php',
-                    type: 'POST',
-                    data: {id: id, table: table, value: value, field: 'hienthi'},
-                    success: function(res) {
-                        if(res == 1) toastr.success('Đã cập nhật trạng thái');
                         else toastr.error('Lỗi cập nhật');
                     }
                 });

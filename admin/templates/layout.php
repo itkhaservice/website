@@ -566,9 +566,16 @@ $(document).ready(function(){
     $('.checkbox-hienthi, .checkbox-noibat').change(function() {
         var id = $(this).data('id');
         var table = $(this).data('table');
+        var type = $(this).data('type'); // Lấy type để xử lý banner
         var field = $(this).hasClass('checkbox-noibat') ? 'noibat' : ($(this).data('field') || 'hienthi');
         var value = $(this).is(':checked') ? 1 : 0;
         var label = $(this).next('label');
+        var $this = $(this);
+
+        // UI Update cho Banner: Tắt các cái khác ngay lập tức nếu đang bật cái này
+        if(table == 'photo' && type && type.indexOf('banner') !== -1 && value == 1 && field == 'hienthi') {
+            $('.checkbox-hienthi[data-type="' + type + '"]').not($this).prop('checked', false);
+        }
 
         $.ajax({
             url: 'ajax/ajax_update.php',
@@ -578,7 +585,11 @@ $(document).ready(function(){
                 if(res == 1){
                     toastr.success('Cập nhật thành công!');
                     if(field == 'trangthai') label.text(value == 1 ? 'Đã xem' : 'Chưa xem');
-                } else toastr.error('Thất bại!');
+                } else {
+                    toastr.error('Thất bại!');
+                    // Revert nếu lỗi
+                    $this.prop('checked', !value); 
+                }
             }
         });
     });

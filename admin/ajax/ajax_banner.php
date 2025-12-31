@@ -27,11 +27,13 @@ $value = (isset($_POST['value'])) ? (int)$_POST['value'] : 0;
 
 if($id > 0 && $type != ""){
     // Nếu bật hiển thị banner này (value = 1), thì tắt tất cả các banner khác cùng type
+    /* Logic cũ: Chỉ cho phép 1 banner hiển thị
     if($value == 1) {
         $d->reset();
         $sql = "UPDATE #_photo SET hienthi = 0 WHERE type = '$type'";
         $d->query($sql);
     }
+    */
     
     // Cập nhật trạng thái cho banner hiện tại
     $d->reset();
