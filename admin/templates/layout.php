@@ -229,7 +229,7 @@
             border: none !important;
         }
         .custom-switch .custom-control-label::after {
-            top: 2px !important;
+            top: 6px !important;
             left: calc(-2.75rem + 2px) !important;
             width: calc(1.25rem - 4px) !important;
             height: calc(1.25rem - 4px) !important;

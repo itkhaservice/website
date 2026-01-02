@@ -1,60 +1,86 @@
 <style>
-    /* --- CSS TÙY CHỈNH CHO MODULE NÀY --- */
+    /* --- CSS TÙY CHỈNH CHO MODULE NÀY (PHIÊN BẢN CARD DESIGN) --- */
     
     /* Tổng quan */
-    .content-header h1 { font-size: 1.5rem; font-weight: 700; color: #343a40; }
-    .btn-custom-add { background: #28a745; color: #fff; border-radius: 6px; padding: 8px 16px; font-weight: 600; box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2); border: none; }
-    .btn-custom-add:hover { background: #218838; color: #fff; transform: translateY(-1px); }
+    .content-header h1 { font-size: 1.6rem; font-weight: 800; color: #1e293b; letter-spacing: -0.5px; }
+    .btn-custom-add { background: #108042; color: #fff; border-radius: 8px; padding: 10px 20px; font-weight: 600; box-shadow: 0 4px 6px rgba(16, 128, 66, 0.2); border: none; transition: all 0.3s; }
+    .btn-custom-add:hover { background: #0d6a36; color: #fff; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(16, 128, 66, 0.25); }
     
     /* Thanh lọc (Filter Bar) */
-    .filter-box { background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid #e9ecef; }
-    .filter-input { height: 40px; border-radius: 6px; border: 1px solid #dee2e6; padding-left: 15px; font-size: 14px; color: #495057; }
-    .filter-input:focus { border-color: #80bdff; box-shadow: 0 0 0 0.2rem rgba(0,123,255,.1); }
-    .input-group-text-custom { background: #f8f9fa; border: 1px solid #dee2e6; border-right: none; border-radius: 6px 0 0 6px; color: #6c757d; }
+    .filter-box { background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: none; margin-bottom: 25px; }
+    .filter-input { height: 42px; border-radius: 8px; border: 1px solid #e2e8f0; padding-left: 15px; font-size: 14px; color: #475569; background: #f8fafc; transition: all 0.2s; }
+    .filter-input:focus { border-color: #108042; background: #fff; box-shadow: 0 0 0 3px rgba(16, 128, 66, 0.1); }
+    .input-group-text-custom { background: #f8fafc; border: 1px solid #e2e8f0; border-right: none; border-radius: 8px 0 0 8px; color: #94a3b8; }
     
-    /* Bảng dữ liệu */
-    .card-table { border: none; box-shadow: 0 0 15px rgba(0,0,0,0.05); border-radius: 8px; background: #fff; overflow: hidden; }
-    .table-custom th { background-color: #f8f9fa; border-bottom: 2px solid #e9ecef !important; border-top: none; color: #6c757d; font-size: 12px; text-transform: uppercase; font-weight: 700; padding: 15px 10px; vertical-align: middle; }
-    .table-custom td { padding: 12px 10px; vertical-align: middle; border-top: 1px solid #f1f5f9; color: #343a40; font-size: 14px; }
-    .table-custom tr:hover { background-color: #fcfcfc; }
+    /* Bảng dữ liệu - Card Style */
+    .card-table { border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border-radius: 16px; background: #fff; overflow: hidden; }
+    .table-custom thead th { 
+        background-color: #f8fafc; 
+        border-bottom: 1px solid #e2e8f0; 
+        border-top: none; 
+        color: #64748b; 
+        font-size: 11px; 
+        text-transform: uppercase; 
+        font-weight: 700; 
+        padding: 16px 10px; 
+        letter-spacing: 0.5px;
+        vertical-align: middle;
+    }
+    .table-custom td { padding: 16px 10px; vertical-align: middle; border-top: 1px solid #f1f5f9; color: #334155; font-size: 14px; }
+    .table-custom tr { transition: background 0.2s; }
+    .table-custom tr:hover { background-color: #f8fafc; }
     
-    /* Hình ảnh thumbnail */
+    /* Cột Hình ảnh */
     .thumb-img-wrapper { 
-        width: <?=(in_array($com, ['themanh', 'giatri', 'staff'])) ? '50px' : '70px'?>; 
-        height: <?=(in_array($com, ['themanh', 'giatri'])) ? '50px' : ($com=='du-an' ? '90px' : ($com=='staff' ? '65px' : '50px'))?>;
+        width: 80px; 
+        height: 60px;
         overflow: hidden;
-        border-radius: 4px;
-        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        border: 1px solid #f1f5f9;
         padding: 2px;
         background: #fff;
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     }
-    .thumb-img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; }
+    .thumb-img { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; }
     
     /* Input STT */
-    .input-stt { width: 50px; text-align: center; border: 1px solid #e9ecef; border-radius: 4px; padding: 4px; font-weight: 600; color: #495057; }
-    .input-stt:focus { border-color: #28a745; outline: none; }
+    .input-stt { width: 50px; text-align: center; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px; font-weight: 700; color: #64748b; background: #f8fafc; }
+    .input-stt:focus { border-color: #108042; background: #fff; outline: none; }
 
-    /* Các nút hành động */
-    .action-btn { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.2s; border: 1px solid transparent; }
-    .btn-edit { color: #007bff; background: rgba(0, 123, 255, 0.1); }
-    .btn-edit:hover { background: #007bff; color: #fff; }
-    .btn-delete { color: #dc3545; background: rgba(220, 53, 69, 0.1); }
-    .btn-delete:hover { background: #dc3545; color: #fff; }
+    /* Thông tin chính */
+    .item-title { font-size: 15px; font-weight: 700; color: #1e293b; display: block; margin-bottom: 4px; text-decoration: none; transition: color 0.2s; }
+    .item-title:hover { color: #108042; text-decoration: none; }
+    .item-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 12px; color: #94a3b8; }
+    .item-meta span { display: inline-flex; align-items: center; }
+    .item-meta i { margin-right: 4px; }
+    
+    /* Buttons */
+    .action-btn { width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; transition: all 0.2s; border: 1px solid transparent; }
+    .btn-edit { color: #3b82f6; background: #eff6ff; }
+    .btn-edit:hover { background: #3b82f6; color: #fff; transform: translateY(-1px); }
+    .btn-delete { color: #ef4444; background: #fef2f2; }
+    .btn-delete:hover { background: #ef4444; color: #fff; transform: translateY(-1px); }
 
     /* Phân trang */
-    .pagination-wrapper { padding: 15px 20px; border-top: 1px solid #f1f5f9; background: #fff; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
-    .custom-pagination .page-link { border: none; border-radius: 6px; margin: 0 3px; color: #6c757d; font-weight: 600; min-width: 36px; text-align: center; height: 36px; line-height: 22px; }
-    .custom-pagination .page-item.active .page-link { background-color: #28a745; color: #fff; box-shadow: 0 2px 5px rgba(40, 167, 69, 0.3); }
-    .custom-pagination .page-link:hover:not(.active) { background-color: #e9ecef; color: #28a745; }
-    .page-info { font-size: 14px; color: #6c757d; }
+    .pagination-wrapper { padding: 20px 25px; border-top: 1px solid #f1f5f9; background: #fff; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    .custom-pagination .page-link { border: none; border-radius: 50%; margin: 0 4px; color: #64748b; font-weight: 600; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .custom-pagination .page-item.active .page-link { background-color: #108042; color: #fff; box-shadow: 0 4px 10px rgba(16, 128, 66, 0.2); }
+    .custom-pagination .page-link:hover:not(.active) { background-color: #f1f5f9; color: #108042; }
+    .page-info { font-size: 13px; color: #94a3b8; font-weight: 500; }
+    
+    /* Helper Classes */
+    .text-split { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; line-height: 1.5; color: #64748b; }
+    .badge-custom { padding: 5px 10px; border-radius: 6px; font-weight: 600; font-size: 11px; letter-spacing: 0.3px; }
     
     /* Loading Overlay */
     .table-loading-overlay {
         position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(255, 255, 255, 0.7); z-index: 10;
+        background: rgba(255, 255, 255, 0.8); z-index: 10;
         display: flex; justify-content: center; align-items: center;
-        border-radius: 8px; backdrop-filter: blur(1px);
+        border-radius: 16px; backdrop-filter: blur(2px);
     }
 </style>
 
@@ -80,39 +106,40 @@
 ?>
 
 <!-- Header -->
-<div class="row mb-3 align-items-center">
+<div class="row mb-4 align-items-center">
     <div class="col-md-6">
         <h1 class="m-0"><?=$title_main?></h1>
+        <p class="text-muted small m-0 mt-1">Quản lý danh sách dữ liệu hệ thống</p>
     </div>
-    <div class="col-md-6 text-md-right mt-2 mt-md-0">
-        <a href="index.php?com=<?=$com?>&act=add&type=<?=$type?>" class="btn-custom-add">
-            <i class="fas fa-plus mr-1"></i> Thêm mới
+    <div class="col-md-6 text-md-right mt-3 mt-md-0">
+        <a href="index.php?com=<?=$com?>&act=add&type=<?=$type?>" class="btn-custom-add shadow-sm">
+            <i class="fas fa-plus-circle mr-2"></i>Thêm mới
         </a>
-        <button type="button" id="delete-all" class="btn btn-outline-danger font-weight-bold ml-2" disabled style="border-radius: 6px; height: 40px; padding: 0 16px;">
-            <i class="fas fa-trash-alt mr-1"></i> Xóa (<span id="selected-count">0</span>)
+        <button type="button" id="delete-all" class="btn btn-outline-danger font-weight-bold ml-2 shadow-sm border-0 bg-white" disabled style="border-radius: 8px; height: 44px; padding: 0 20px;">
+            <i class="fas fa-trash-alt mr-2"></i>Xóa (<span id="selected-count">0</span>)
         </button>
     </div>
 </div>
 
 <!-- Filter Bar -->
 <?php if($show_filters) { ?>
-<div class="filter-box mb-4">
-    <div class="row">
+<div class="filter-box">
+    <div class="row align-items-center">
         <!-- Từ khóa -->
-        <div class="col-lg-3 col-md-6 mb-2">
+        <div class="col-lg-4 col-md-6 mb-2 mb-lg-0">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text input-group-text-custom bg-white"><i class="fas fa-search"></i></span>
+                    <span class="input-group-text input-group-text-custom bg-light border-0"><i class="fas fa-search text-muted"></i></span>
                 </div>
-                <input type="text" id="keyword" class="form-control filter-input" style="border-left:none" placeholder="Tìm kiếm..." value="<?=isset($_GET['keyword'])?$_GET['keyword']:''?>">
+                <input type="text" id="keyword" class="form-control filter-input border-0 bg-light" placeholder="Nhập từ khóa tìm kiếm..." value="<?=isset($_GET['keyword'])?$_GET['keyword']:''?>">
             </div>
         </div>
 
         <!-- Khu vực (Nếu có) -->
         <?php if($com == 'du-an') { ?>
-        <div class="col-lg-2 col-md-4 mb-2">
+        <div class="col-lg-2 col-md-4 mb-2 mb-lg-0">
             <select id="id_khuvuc" class="form-control filter-input" onchange="onSearch()">
-                <option value="0">Khu vực</option>
+                <option value="0">Tất cả Khu vực</option>
                 <?php if(!empty($regions)) { foreach($regions as $r) { ?>
                     <option value="<?=$r['id']?>" <?=($_GET['id_khuvuc']==$r['id'])?'selected':''?>><?=$r['ten_vi']?></option>
                 <?php } } ?>
@@ -122,9 +149,9 @@
 
         <!-- Danh mục (Chỉ Tin tức) -->
         <?php if($type == 'tin-tuc') { ?>
-        <div class="col-lg-2 col-md-4 mb-2">
+        <div class="col-lg-2 col-md-4 mb-2 mb-lg-0">
             <select id="id_cat" class="form-control filter-input" onchange="onSearch()">
-                <option value="0">Danh mục</option>
+                <option value="0">Tất cả Danh mục</option>
                 <?php if(!empty($categories)) { foreach($categories as $c) { ?>
                     <option value="<?=$c['id']?>" <?=($_GET['id_cat']==$c['id'])?'selected':''?>><?=$c['ten_vi']?></option>
                 <?php } } ?>
@@ -132,22 +159,13 @@
         </div>
         <?php } ?>
 
-        <!-- Thời gian -->
-        <div class="col-lg-3 col-md-6 mb-2">
-            <div class="d-flex align-items-center">
-                <input type="date" id="tungay" class="form-control filter-input mr-1" value="<?=isset($_GET['tungay'])?$_GET['tungay']:''?>">
-                <span class="text-muted mx-1">-</span>
-                <input type="date" id="denngay" class="form-control filter-input ml-1" value="<?=isset($_GET['denngay'])?$_GET['denngay']:''?>">
-            </div>
-        </div>
-
         <!-- Nút Lọc -->
-        <div class="col-lg-auto col-md-12 mb-2 text-right ml-auto">
-            <button class="btn btn-primary font-weight-bold px-4" type="button" onclick="onSearch()" style="border-radius: 6px; height: 40px; background: #343a40; border-color: #343a40;">
+        <div class="col-lg-auto col-md-12 text-right ml-auto">
+            <button class="btn btn-dark font-weight-bold px-4 shadow-sm" type="button" onclick="onSearch()" style="border-radius: 8px; height: 42px; background: #1e293b; border: none;">
                 <i class="fas fa-filter mr-1"></i> Lọc
             </button>
             <?php if(isset($_GET['keyword']) || isset($_GET['id_khuvuc']) || isset($_GET['id_cat']) || isset($_GET['tungay'])) { ?>
-                <a href="index.php?com=<?=$com?>&act=man&type=<?=$type?>" class="btn btn-light border ml-1 text-danger" title="Xóa lọc" style="height: 40px; border-radius: 6px; width: 40px; padding: 0; line-height: 38px; text-align: center;"><i class="fas fa-times"></i></a>
+                <a href="index.php?com=<?=$com?>&act=man&type=<?=$type?>" class="btn btn-light ml-2 text-danger font-weight-bold" title="Xóa lọc" style="height: 42px; border-radius: 8px; padding: 0 15px; line-height: 42px; background: #fff;"><i class="fas fa-sync-alt mr-1"></i> Reset</a>
             <?php } ?>
         </div>
     </div>
@@ -157,16 +175,15 @@
         var keyword = document.getElementById('keyword').value;
         var id_khuvuc = document.getElementById('id_khuvuc') ? document.getElementById('id_khuvuc').value : 0;
         var id_cat = document.getElementById('id_cat') ? document.getElementById('id_cat').value : 0;
-        var tungay = document.getElementById('tungay').value;
-        var denngay = document.getElementById('denngay').value;
         var url = "index.php?com=<?=$com?>&act=man&type=<?=$type?>";
         if(keyword != '') url += "&keyword=" + encodeURIComponent(keyword);
         if(id_khuvuc > 0) url += "&id_khuvuc=" + id_khuvuc;
         if(id_cat > 0) url += "&id_cat=" + id_cat;
-        if(tungay != '') url += "&tungay=" + tungay;
-        if(denngay != '') url += "&denngay=" + denngay;
         window.location.href = url;
     }
+    document.getElementById('keyword').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') onSearch();
+    });
 </script>
 <?php } ?>
 
@@ -176,76 +193,70 @@
         <table class="table table-custom mb-0">
             <thead>
                 <tr>
-                    <th style="width: 40px" class="text-center">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="select-all">
-                            <label class="custom-control-label" for="select-all"></label>
+                    <th style="width: 50px" class="text-center py-3">
+                        <div class="custom-control custom-checkbox ml-1">
+                            <input type="checkbox" class="custom-control-input cursor-pointer" id="select-all">
+                            <label class="custom-control-label cursor-pointer" for="select-all"></label>
                         </div>
                     </th>
-                    <th style="width: 30px"></th> <!-- Drag -->
-                    <th style="width: 70px" class="text-center align-middle text-uppercase text-muted small font-weight-bold">STT</th>
-                    <?php if($type != 'gioi-thieu') { ?>
-                        <th style="width: 90px" class="text-center align-middle text-uppercase text-muted small font-weight-bold">Hình</th>
+                    <th style="width: 70px" class="text-center">STT</th>
+                    <?php if($type != 'gioi-thieu' && $com != 'feedback') { ?>
+                        <th style="width: 100px" class="text-center">Hình ảnh</th>
                     <?php } ?>
-                    <?php if($com == 'du-an') { ?>
-                        <th style="width: 150px" class="align-middle text-uppercase text-muted small font-weight-bold">Khu vực</th>
-                        <th style="width: 250px" class="align-middle text-uppercase text-muted small font-weight-bold">Mô tả ngắn</th>
-                    <?php } ?>
-                    <th>THÔNG TIN</th>
+                    <th style="min-width: 250px;">Thông tin chi tiết</th>
                     <?php if($com=='du-an' || ($com=='news' && $type=='tin-tuc') || $com=='dichvu') { ?>
-                        <th style="width: 100px" class="text-center">NỔI BẬT</th>
+                        <th style="width: 100px" class="text-center">Nổi bật</th>
                     <?php } ?>
-                    <th style="width: 100px" class="text-center">HIỂN THỊ</th>
-                    <th style="width: 110px" class="text-center">THAO TÁC</th>
+                    <th style="width: 100px" class="text-center">Hiển thị</th>
+                    <th style="width: 110px" class="text-center">Thao tác</th>
                 </tr>
             </thead>
             <tbody id="sortable-list" data-table="<?=$table_db?>">
                 <?php if(!empty($items)) { foreach($items as $k=>$v){ ?>
-                <tr data-id="<?=$v['id']?>">
-                    <td class="text-center">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input select-item" id="select-<?=$v['id']?>" value="<?=$v['id']?>">
-                            <label class="custom-control-label" for="select-<?=$v['id']?>"></label>
+                <tr data-id="<?=$v['id']?>" class="cursor-move">
+                    <td class="text-center py-3">
+                        <div class="custom-control custom-checkbox ml-1">
+                            <input type="checkbox" class="custom-control-input select-item cursor-pointer" id="select-<?=$v['id']?>" value="<?=$v['id']?>">
+                            <label class="custom-control-label cursor-pointer" for="select-<?=$v['id']?>"></label>
                         </div>
                     </td>
-                    <td class="text-center cursor-move text-black-50" title="Kéo thả để sắp xếp">
-                        <i class="fas fa-bars fa-sm"></i>
-                    </td>
                     <td class="text-center">
-                        <input type="number" class="form-control form-control-sm text-center update-stt mx-auto font-weight-bold border-0 bg-light" value="<?=($v['stt']!='')?$v['stt']:0?>" data-id="<?=$v['id']?>" data-table="<?=$table_db?>" style="width: 50px;">
+                        <input type="number" class="form-control form-control-sm text-center update-stt mx-auto shadow-none" value="<?=($v['stt']!='')?$v['stt']:0?>" data-id="<?=$v['id']?>" data-table="<?=$table_db?>" style="width: 50px;">
                     </td>
-                    <?php if($type != 'gioi-thieu') { ?>
+                    
+                    <?php if($type != 'gioi-thieu' && $com != 'feedback') { ?>
                     <td class="text-center">
                         <div class="thumb-img-wrapper">
-                            <img src="../<?=$v['photo']?>" class="thumb-img" onerror="this.src='https://placehold.co/100x100?text=IMG'">
+                            <img src="../<?=$v['photo']?>" class="thumb-img" onerror="this.src='https://placehold.co/100x75/f1f5f9/cbd5e1?text=NO+IMG'">
                         </div>
                     </td>
                     <?php } ?>
-                    <?php if($com == 'du-an') { ?>
+
                     <td class="align-middle">
-                        <span class="badge badge-info px-2 py-1 shadow-sm" style="font-size: 0.85rem; background-color: #17a2b8; color: white;">
-                            <?=($v['ten_khuvuc']) ? $v['ten_khuvuc'] : 'Chưa chọn'?>
-                        </span>
-                    </td>
-                    <td class="align-middle">
-                        <div class="text-muted text-split-2" style="font-size: 0.85rem; max-width: 250px;">
-                            <?=($v['mota_vi'] != '') ? strip_tags($v['mota_vi']) : '<em>(Chưa có mô tả)</em>'?>
-                        </div>
-                    </td>
-                    <?php } ?>
-                    <td>
-                        <a href="index.php?com=<?=$com?>&act=edit&type=<?=$type?>&id=<?=$v['id']?>" class="text-dark font-weight-bold text-decoration-none" style="font-size: 15px; display:block; margin-bottom: 4px;"><?=$v['ten_vi']?></a>
-                        <div class="text-muted small">
+                        <a href="index.php?com=<?=$com?>&act=edit&type=<?=$type?>&id=<?=$v['id']?>" class="item-title"><?=$v['ten_vi']?></a>
+                        
+                        <div class="item-meta mt-1">
                             <?php if(($com == 'news' && $type == 'tin-tuc') || $com == 'thuvien') { ?>
-                                <span class="mr-3"><i class="far fa-clock"></i> Cập nhật: <?=($v['ngaysua'] > 0) ? date('d/m/Y H:i', $v['ngaysua']) : date('d/m/Y H:i', $v['ngaytao'])?></span>
-                                <span><i class="far fa-calendar-plus"></i> Đăng: <?=date('d/m/Y', $v['ngaytao'])?></span>
+                                <span><i class="far fa-calendar-alt"></i> <?=date('d/m/Y', $v['ngaytao'])?></span>
                                 <?php if(isset($v['ten_danhmuc']) && $v['ten_danhmuc']) { ?>
-                                    <span class="text-primary ml-2"><i class="fas fa-folder-open"></i> <?=$v['ten_danhmuc']?></span>
+                                    <span class="text-primary font-weight-bold"><i class="fas fa-folder-open"></i> <?=$v['ten_danhmuc']?></span>
                                 <?php } ?>
-                            <?php } else { ?>
-                                <i class="far fa-clock"></i> <?=date('d/m/Y H:i', ($v['ngaysua']>0?$v['ngaysua']:$v['ngaytao']))?>
+                            <?php } ?>
+
+                            <?php if($com == 'du-an') { ?>
+                                <span class="badge badge-custom badge-info bg-info text-white"><i class="fas fa-map-marker-alt mr-1"></i> <?=($v['ten_khuvuc']) ? $v['ten_khuvuc'] : 'Chưa chọn khu vực'?></span>
+                            <?php } ?>
+                            
+                            <?php if($com == 'feedback') { ?>
+                                <span><i class="fas fa-user-circle"></i> <?=($v['chucvu']) ? $v['chucvu'] : 'Khách hàng'?></span>
                             <?php } ?>
                         </div>
+
+                        <?php if($v['mota_vi'] != '' && $com != 'feedback') { ?>
+                        <div class="text-split mt-2 small">
+                            <?=strip_tags($v['mota_vi'])?>
+                        </div>
+                        <?php } ?>
                     </td>
                     
                     <?php if($com=='du-an' || ($com=='news' && $type=='tin-tuc') || $com=='dichvu') { ?>
@@ -264,12 +275,18 @@
                         </div>
                     </td>
                     <td class="text-center">
-                        <a href="index.php?com=<?=$com?>&act=edit&type=<?=$type?>&id=<?=$v['id']?>" class="action-btn btn-edit mr-1" title="Sửa"><i class="fas fa-pen fa-xs"></i></a>
-                        <a href="index.php?com=<?=$com?>&act=delete&type=<?=$type?>&id=<?=$v['id']?>" class="action-btn btn-delete btn-delete-item" title="Xóa"><i class="fas fa-trash fa-xs"></i></a>
+                        <div class="btn-group">
+                            <a href="index.php?com=<?=$com?>&act=edit&type=<?=$type?>&id=<?=$v['id']?>" class="action-btn btn-edit mr-2" title="Chỉnh sửa"><i class="fas fa-pen fa-xs"></i></a>
+                            <a href="index.php?com=<?=$com?>&act=delete&type=<?=$type?>&id=<?=$v['id']?>" class="action-btn btn-delete btn-delete-item" title="Xóa"><i class="fas fa-trash fa-xs"></i></a>
+                        </div>
                     </td>
                 </tr>
                 <?php }} else { ?>
-                <tr><td colspan="100%" class="text-center py-5 text-muted">Không có dữ liệu nào.</td></tr>
+                <tr><td colspan="100%" class="text-center py-5 text-muted">
+                    <img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-state-2130362-1800926.png" style="width: 150px; opacity: 0.5;">
+                    <p class="mt-3 font-weight-bold">Chưa có dữ liệu nào</p>
+                    <a href="index.php?com=<?=$com?>&act=add&type=<?=$type?>" class="btn btn-sm btn-primary mt-2">Thêm mới ngay</a>
+                </td></tr>
                 <?php } ?>
             </tbody>
         </table>
@@ -279,7 +296,7 @@
     <div class="pagination-wrapper">
         <div class="page-info mb-2 mb-md-0">
             Hiển thị 
-            <select class="form-control-sm border shadow-none mx-1" style="width: 55px; display:inline-block; border-radius:4px" onchange="loadTableAjax('<?=get_admin_paging_url(1)?>&per_page=' + this.value)">
+            <select class="form-control-sm border shadow-none mx-1 bg-light font-weight-bold text-primary" style="width: 60px; display:inline-block; border-radius:6px; text-align:center" onchange="loadTableAjax('<?=get_admin_paging_url(1)?>&per_page=' + this.value)">
                 <?php foreach([5, 10, 20, 50, 100] as $p) { ?>
                     <option value="<?=$p?>" <?=($perPage==$p)?'selected':''?>><?=$p?></option>
                 <?php } ?>
@@ -341,6 +358,10 @@
                     $('html, body').animate({
                         scrollTop: $container.offset().top - 100
                     }, 400);
+
+                    // Reset Select All checkbox
+                    $('#select-all').prop('checked', false);
+                    updateActions();
                 } else {
                     window.location.href = url; // Fallback
                 }
@@ -349,110 +370,112 @@
         });
     }
 
-    // Bind click event for pagination links (Delegation)
-    $(document).on('click', '.custom-pagination .page-link', function(e) {
-        e.preventDefault();
-        var url = $(this).attr('href');
-        loadTableAjax(url);
-    });
+    // Bind click event for pagination links (Delegation) - Wrapped in load event
+    window.addEventListener('load', function() {
+        if (typeof $ === 'undefined') { console.error('jQuery is not loaded!'); return; }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        // Vanilla JS for Select All Logic to avoid jQuery loading order issues
-        const selectAllCheckbox = document.getElementById('select-all');
-        const deleteAllButton = document.getElementById('delete-all');
-        const selectedCountSpan = document.getElementById('selected-count');
+        $(document).on('click', '.custom-pagination .page-link', function(e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            loadTableAjax(url);
+        });
 
+        // Helper function for UI updates
         function updateActions() {
-            const checkedItems = document.querySelectorAll('.select-item:checked');
-            const count = checkedItems.length;
-            selectedCountSpan.textContent = count;
+            var $checkedItems = $('.select-item:checked');
+            var count = $checkedItems.length;
+            var $deleteAllButton = $('#delete-all');
+            
+            $('#selected-count').text(count);
             
             if (count > 0) {
-                deleteAllButton.disabled = false;
-                deleteAllButton.classList.remove('btn-outline-danger');
-                deleteAllButton.classList.add('btn-danger', 'text-white', 'shadow-sm');
+                $deleteAllButton.prop('disabled', false);
+                $deleteAllButton.removeClass('btn-outline-danger shadow-sm border-0 bg-white').addClass('btn-danger text-white shadow-sm');
             } else {
-                deleteAllButton.disabled = true;
-                deleteAllButton.classList.add('btn-outline-danger');
-                deleteAllButton.classList.remove('btn-danger', 'text-white', 'shadow-sm');
+                $deleteAllButton.prop('disabled', true);
+                $deleteAllButton.addClass('btn-outline-danger shadow-sm border-0 bg-white').removeClass('btn-danger text-white shadow-sm');
             }
         }
 
-        if (selectAllCheckbox) {
-            selectAllCheckbox.addEventListener('change', function() {
-                const isChecked = this.checked;
-                const checkboxes = document.querySelectorAll('.select-item');
-                checkboxes.forEach(cb => {
-                    cb.checked = isChecked;
-                });
-                updateActions();
-            });
-        }
+        var lastChecked = null;
 
-        // Event delegation for .select-item
-        document.querySelector('.card-table').addEventListener('change', function(e) {
-            if (e.target.classList.contains('select-item')) {
-                const totalItems = document.querySelectorAll('.select-item').length;
-                const checkedItems = document.querySelectorAll('.select-item:checked').length;
-                if (selectAllCheckbox) {
-                    selectAllCheckbox.checked = (totalItems > 0 && totalItems === checkedItems);
+        // Use Delegation for Select All
+        $(document).on('change', '#select-all', function() {
+            var isChecked = $(this).prop('checked');
+            $('.select-item').prop('checked', isChecked);
+            updateActions();
+        });
+
+        // Use Delegation for Item Selection (including Shift+Click)
+        $(document).on('click', '.select-item', function(e) {
+            var $checkboxes = $('.select-item');
+            
+            if (e.shiftKey && lastChecked) {
+                var start = $checkboxes.index(this);
+                var end = $checkboxes.index(lastChecked);
+                
+                $checkboxes.slice(Math.min(start, end), Math.max(start, end) + 1).prop('checked', lastChecked.checked);
+            }
+            
+            lastChecked = this;
+
+            // Update Select All state
+            var totalItems = $checkboxes.length;
+            var checkedItems = $('.select-item:checked').length;
+            $('#select-all').prop('checked', (totalItems > 0 && totalItems === checkedItems));
+            
+            updateActions();
+        });
+
+        // Delete All Action
+        $(document).on('click', '#delete-all', function(e) {
+            e.preventDefault();
+            var checkedItems = $('.select-item:checked');
+            if (checkedItems.length === 0) return;
+
+            var listid = [];
+            checkedItems.each(function() {
+                listid.push($(this).val());
+            });
+
+            var confirmMsg = 'Xóa ' + listid.length + ' mục đã chọn?';
+            
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: confirmMsg,
+                    text: "Dữ liệu sẽ không thể khôi phục!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Đồng ý xóa!',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = 'index.php?com=<?=$com?>&act=delete_all&type=<?=$type?>&listid=' + listid.join(',');
+                    }
+                });
+            } else {
+                if (confirm(confirmMsg + ' Hành động này không thể hoàn tác!')) {
+                    window.location.href = 'index.php?com=<?=$com?>&act=delete_all&type=<?=$type?>&listid=' + listid.join(',');
                 }
-                updateActions();
             }
         });
 
-        if (deleteAllButton) {
-            deleteAllButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                const checkedItems = document.querySelectorAll('.select-item:checked');
-                if (checkedItems.length === 0) return;
-
-                let listid = [];
-                checkedItems.forEach(cb => listid.push(cb.value));
-
-                // Check for SweetAlert2 availability (loaded in layout)
-                if (typeof Swal !== 'undefined') {
-                    Swal.fire({
-                        title: 'Xóa ' + checkedItems.length + ' mục đã chọn?',
-                        text: "Dữ liệu sẽ không thể khôi phục!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Đồng ý xóa!',
-                        cancelButtonText: 'Hủy'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = 'index.php?com=<?=$com?>&act=delete_all&type=<?=$type?>&listid=' + listid.join(',');
-                        }
-                    });
-                } else {
-                    if (confirm('Xóa ' + checkedItems.length + ' mục đã chọn? Hành động này không thể hoàn tác!')) {
-                        window.location.href = 'index.php?com=<?=$com?>&act=delete_all&type=<?=$type?>&listid=' + listid.join(',');
-                    }
+        // Fast update STT and other fields
+        $(document).on('change', '.update-stt', function() {
+            var id = $(this).data('id');
+            var table = $(this).data('table');
+            var value = $(this).val();
+            $.ajax({
+                url: 'ajax/ajax_update.php',
+                type: 'POST',
+                data: {id: id, table: table, value: value, field: 'stt'},
+                success: function(res) {
+                    if(res == 1) toastr.success('Đã cập nhật STT');
+                    else toastr.error('Lỗi cập nhật');
                 }
             });
-        }
-    });
-
-    // jQuery dependent code (loaded later)
-    window.addEventListener('load', function() {
-        if (typeof $ !== 'undefined') {
-            // AJAX Cập nhật STT nhanh
-            $(document).on('change', '.update-stt', function() {
-                var id = $(this).data('id');
-                var table = $(this).data('table');
-                var value = $(this).val();
-                $.ajax({
-                    url: 'ajax/ajax_update.php',
-                    type: 'POST',
-                    data: {id: id, table: table, value: value, field: 'stt'},
-                    success: function(res) {
-                        if(res == 1) toastr.success('Đã cập nhật STT');
-                        else toastr.error('Lỗi cập nhật');
-                    }
-                });
-            });
-        }
+        });
     });
 </script>

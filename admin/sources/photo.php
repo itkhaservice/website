@@ -35,6 +35,9 @@ switch($act){
     case "delete":
         delete_item();
         break;
+    case "delete_all":
+        delete_all_item();
+        break;
     default:
         get_items();
         $template = "photo/items";

@@ -143,98 +143,89 @@
 </style>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Vanilla JS for Select All Logic to avoid jQuery loading order issues
-        const selectAllCheckbox = document.getElementById('select-all');
-        const deleteAllButton = document.getElementById('delete-all');
-        const selectedCountSpan = document.getElementById('selected-count');
+    window.addEventListener('load', function() {
+        if (typeof $ === 'undefined') { console.error('jQuery is not loaded!'); return; }
 
         function updateActions() {
-            const checkedItems = document.querySelectorAll('.select-item:checked');
-            const count = checkedItems.length;
+            var $checkedItems = $('.select-item:checked');
+            var count = $checkedItems.length;
+            var $deleteAllButton = $('#delete-all');
+            var $selectedCountSpan = $('#selected-count');
             
-            if(selectedCountSpan) {
-                selectedCountSpan.textContent = count;
-                if(count > 0) selectedCountSpan.classList.remove('d-none');
-                else selectedCountSpan.classList.add('d-none');
-            }
+            $selectedCountSpan.text(count);
             
-            if (deleteAllButton) {
-                if (count > 0) {
-                    deleteAllButton.classList.remove('disabled');
-                    deleteAllButton.removeAttribute('disabled');
-                    // Style active state if needed, mirroring news tpl
-                    deleteAllButton.classList.remove('btn-outline-danger', 'bg-white');
-                    deleteAllButton.classList.add('btn-danger', 'text-white', 'shadow-sm');
-                } else {
-                    deleteAllButton.classList.add('disabled');
-                    deleteAllButton.setAttribute('disabled', 'disabled');
-                    // Revert style
-                    deleteAllButton.classList.add('btn-outline-danger', 'bg-white');
-                    deleteAllButton.classList.remove('btn-danger', 'text-white', 'shadow-sm');
-                }
+            if (count > 0) {
+                $selectedCountSpan.removeClass('d-none');
+                $deleteAllButton.removeClass('btn-outline-danger bg-white disabled').addClass('btn-danger text-white shadow-sm').removeAttr('disabled');
+            } else {
+                $selectedCountSpan.addClass('d-none');
+                $deleteAllButton.addClass('btn-outline-danger bg-white disabled').removeClass('btn-danger text-white shadow-sm').attr('disabled', 'disabled');
             }
         }
 
-        if (selectAllCheckbox) {
-            selectAllCheckbox.addEventListener('change', function() {
-                const isChecked = this.checked;
-                const checkboxes = document.querySelectorAll('.select-item');
-                checkboxes.forEach(cb => {
-                    cb.checked = isChecked;
-                });
-                updateActions();
-            });
-        }
+        var lastChecked = null;
 
-        // Event delegation for .select-item within the table
-        const tableBody = document.querySelector('table tbody');
-        if (tableBody) {
-            tableBody.addEventListener('change', function(e) {
-                if (e.target.classList.contains('select-item')) {
-                    const totalItems = document.querySelectorAll('.select-item').length;
-                    const checkedItems = document.querySelectorAll('.select-item:checked').length;
-                    if (selectAllCheckbox) {
-                        selectAllCheckbox.checked = (totalItems > 0 && totalItems === checkedItems);
-                    }
-                    updateActions();
-                }
-            });
-        }
+        // Use Delegation for Select All
+        $(document).on('change', '#select-all', function() {
+            var isChecked = $(this).prop('checked');
+            $('.select-item').prop('checked', isChecked);
+            updateActions();
+        });
 
-        if (deleteAllButton) {
-            deleteAllButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                if (this.classList.contains('disabled')) return;
+        // Use Delegation for Item Selection (including Shift+Click)
+        $(document).on('click', '.select-item', function(e) {
+            var $checkboxes = $('.select-item');
+            
+            if (e.shiftKey && lastChecked) {
+                var start = $checkboxes.index(this);
+                var end = $checkboxes.index(lastChecked);
                 
-                const checkedItems = document.querySelectorAll('.select-item:checked');
-                if (checkedItems.length === 0) return;
+                $checkboxes.slice(Math.min(start, end), Math.max(start, end) + 1).prop('checked', lastChecked.checked);
+            }
+            
+            lastChecked = this;
 
-                let listid = [];
-                checkedItems.forEach(cb => listid.push(cb.value));
+            // Update Select All state
+            var totalItems = $checkboxes.length;
+            var checkedItems = $('.select-item:checked').length;
+            $('#select-all').prop('checked', (totalItems > 0 && totalItems === checkedItems));
+            
+            updateActions();
+        });
 
-                // Check for SweetAlert2 availability
-                if (typeof Swal !== 'undefined') {
-                    Swal.fire({
-                        title: 'Xóa ' + checkedItems.length + ' mục đã chọn?',
-                        text: "Dữ liệu sẽ không thể khôi phục!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Đồng ý xóa!',
-                        cancelButtonText: 'Hủy'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = 'index.php?com=contact&act=delete_all&listid=' + listid.join(',');
-                        }
-                    });
-                } else {
-                    if (confirm('Xóa ' + checkedItems.length + ' mục đã chọn? Hành động này không thể hoàn tác!')) {
+        // Delete All Action
+        $(document).on('click', '#delete-all', function(e) {
+            e.preventDefault();
+            if ($(this).hasClass('disabled')) return;
+            
+            var checkedItems = $('.select-item:checked');
+            if (checkedItems.length === 0) return;
+
+            var listid = [];
+            checkedItems.each(function() {
+                listid.push($(this).val());
+            });
+
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: 'Xóa ' + listid.length + ' mục đã chọn?',
+                    text: "Dữ liệu sẽ không thể khôi phục!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Đồng ý xóa!',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
                         window.location.href = 'index.php?com=contact&act=delete_all&listid=' + listid.join(',');
                     }
+                });
+            } else {
+                if (confirm('Xóa ' + listid.length + ' mục đã chọn? Hành động này không thể hoàn tác!')) {
+                    window.location.href = 'index.php?com=contact&act=delete_all&listid=' + listid.join(',');
                 }
-            });
-        }
+            }
+        });
     });
 </script>
