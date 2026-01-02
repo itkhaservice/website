@@ -575,6 +575,128 @@
     <!-- Featured Projects end -->
 
     <!-- Testimonial area start -->
+    <style>
+        .testimonial-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px 30px;
+            position: relative;
+            margin: 20px 10px;
+            transition: all 0.3s ease;
+        }
+        .testimonial-box:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .quote-icon-bg {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 80px;
+            color: rgba(255, 255, 255, 0.05);
+            font-family: serif;
+            line-height: 1;
+        }
+        .client-img-wrapper {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px auto;
+            position: relative;
+        }
+        .client-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #108042;
+            padding: 3px;
+            background: rgba(255,255,255,0.1);
+        }
+        .quote-text {
+            font-style: italic;
+            font-size: 16px;
+            line-height: 1.8;
+            color: #e0e0e0;
+            margin-bottom: 25px;
+            min-height: 80px; /* Giữ chiều cao đều nhau */
+        }
+        .client-name {
+            color: #ffffff; /* Trắng tinh tế */
+            font-weight: 700;
+            font-size: 20px;
+            margin-bottom: 5px;
+            text-transform: uppercase; /* Giữ in hoa nhưng chỉnh lại spacing */
+            letter-spacing: 2px; /* Khoảng cách chữ rộng tạo vẻ sang trọng */
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            background: linear-gradient(to right, #ffffff 0%, #e0e0e0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; /* Hiệu ứng gradient chữ kim loại */
+        }
+        .client-role {
+            font-size: 14px;
+            color: #ffffff; /* Chuyển sang trắng mờ */
+            opacity: 0.8;
+            letter-spacing: 1px;
+        }
+        /* Custom Owl Nav for Testimonials */
+        .testimonial-slider.owl-carousel .owl-nav {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .testimonial-slider.owl-carousel .owl-nav button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50% !important;
+            background: rgba(16, 128, 66, 0.2) !important;
+            border: 1px solid #108042 !important;
+            color: #fff !important;
+            font-size: 18px !important;
+            transition: all 0.3s ease;
+            display: flex !important; /* Owl override */
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        /* Ẩn các icon/thẻ a cũ bên trong nếu có để tránh lặp */
+        .testimonial-slider.owl-carousel .owl-nav button a,
+        .testimonial-slider.owl-carousel .owl-nav button span { 
+            display: none !important; 
+        }
+        /* Tạo icon mới bằng pseudo-element để thống nhất */
+        .testimonial-slider.owl-carousel .owl-nav button.owl-prev:after {
+            content: "\f060"; /* FontAwesome arrow-left */
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+        }
+        .testimonial-slider.owl-carousel .owl-nav button.owl-next:after {
+            content: "\f061"; /* FontAwesome arrow-right */
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+        }
+        
+        .testimonial-slider.owl-carousel .owl-nav button:hover {
+            background: #108042 !important;
+            transform: scale(1.1);
+        }
+        @media (max-width: 767px) {
+            .testimonial-box {
+                padding: 30px 20px;
+            }
+            .testimonial-slider.owl-carousel .owl-nav {
+                margin-top: 20px;
+            }
+        }
+        .stars-custom {
+            color: #ffc107;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+    </style>
     <section class="testimonials pt-55 pb-65" data-overlay="9" style="background-image: url('img/bg/bg-2.jpg');">
         <div class="container">
             <div class="row">
@@ -591,28 +713,33 @@
             </div>
             <div class="row">
                 <div class="col-xl-12">
-                    <div class="owl-carousel owl-theme testimonial-slider">
+                    <div class="owl-carousel owl-theme testimonial-slider" data-nav="true">
                         <?php if(!empty($ds_ykien)) { foreach($ds_ykien as $v) { ?>
                         <div class="item">
-                            <div class="testimonial-div text-center">
-                                <div class="client-image">
+                            <div class="testimonial-box text-center">
+                                <div class="quote-icon-bg"><i class="fas fa-quote-right"></i></div>
+                                
+                                <div class="client-img-wrapper">
                                     <?php 
                                         $img_src = (!empty($v['photo']) && file_exists($v['photo'])) ? $v['photo'] : 'https://ui-avatars.com/api/?name='.urlencode($v['ten_vi']).'&background=ebebeb&color=666666&size=100';
                                     ?>
-                                    <img src="<?=$img_src?>" class="mt-10 mb-45 rounded-circle shadow-sm" style="width:70px; height:70px; object-fit:cover; margin: auto;" alt="<?=$v['ten_vi']?>">
+                                    <img src="<?=$img_src?>" alt="<?=$v['ten_vi']?>">
                                 </div>
-                                <div class="client-texts">
-                                    <h3 class="green mb-20 f-700 italic">“<?=$v['mota_vi']?>”</h3>
-                                    <div class="white mb-20 text-justify"><?=strip_tags($v['noidung_vi'])?></div>
+                                
+                                <div class="stars-custom">
+                                    <?php for($i=0;$i<$v['rating'];$i++) echo '<i class="fas fa-star"></i>'; ?>
+                                    <?php for($i=$v['rating'];$i<5;$i++) echo '<i class="far fa-star" style="opacity:0.3"></i>'; ?>
                                 </div>
-                                <div class="client-info">
-                                    <ul class="stars-rate" data-starsactive="<?=$v['rating']?>">
-                                        <li class=" text-center text-warning">
-                                            <?php for($i=0;$i<$v['rating'];$i++) echo '<i class="fas fa-star"></i>'; ?>
-                                        </li>
-                                    </ul>
-                                    <h6 class="client-name green f-700"><?=$v['ten_vi']?></h6>
-                                    <p class="white mb-0"><?=$v['chucvu']?></p>
+
+                                <h4 class="white mb-15 f-700" style="font-size: 20px;">“<?=$v['mota_vi']?>”</h4>
+                                
+                                <div class="quote-text text-justify">
+                                    <?=strip_tags($v['noidung_vi'])?>
+                                </div>
+                                
+                                <div class="client-info pt-3" style="border-top: 1px solid rgba(255,255,255,0.1);">
+                                    <div class="client-name"><?=$v['ten_vi']?></div>
+                                    <div class="client-role"><?=$v['chucvu']?></div>
                                 </div>
                             </div>
                         </div>
@@ -675,6 +802,96 @@
     <!-- Photo Gallery area end -->
 
     <!-- Blog/news letter area start -->
+    <style>
+        .each-blog {
+            transition: all 0.4s ease;
+            border-radius: 12px;
+            padding: 15px;
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+        .each-blog:hover {
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transform: translateX(10px);
+        }
+        .blog-date {
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .blog-date img {
+            transition: transform 0.6s ease;
+        }
+        .each-blog:hover .blog-date img {
+            transform: scale(1.15);
+        }
+        .each-blog .blog-text a {
+            transition: all 0.3s ease;
+            display: block;
+        }
+        .each-blog:hover .blog-text a {
+            color: #108042 !important;
+        }
+        .blog-meta {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            color: #777;
+            gap: 15px;
+        }
+        .blog-meta span {
+            display: flex;
+            align-items: center;
+        }
+        .blog-meta i {
+            margin-right: 6px;
+            color: #108042;
+            font-size: 11px;
+        }
+        .blog-meta .entry-cat {
+            background: rgba(16, 128, 66, 0.1);
+            color: #108042;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .blog-outer .fancy-head h1 {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        /* Fix Testimonial Client Image and Before Circle */
+        .client-image {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 40px auto !important;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .client-image:before {
+            content: "" !important; /* Loại bỏ content cũ nếu có */
+            position: absolute;
+            border: 2px solid #108042 !important;
+            opacity: 0.6 !important;
+            left: -10px !important;
+            right: -10px !important;
+            top: -10px !important;
+            bottom: -10px !important;
+            border-radius: 50% !important;
+        }
+        .client-image img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            border-radius: 50% !important;
+            z-index: 2;
+            position: relative;
+        }
+    </style>
     <section>
         <div class="container">
             <div class="row">
@@ -697,11 +914,14 @@
                                 <img src="<?=$img_src?>" alt="<?=$v['ten_vi']?>" style="width: 100%; height: 100%; object-fit: cover;" />
                             </div>
                             <div class="blog-text">
-                                <h6 style="margin-bottom: 5px;">
+                                <h6 style="margin-bottom: 8px;">
                                     <?php $link_tintuc = 'tin-tuc/chi-tiet/' . ($v['ten_khong_dau']!='' ? $v['ten_khong_dau'] : $v['id']) . '.html'; ?>
-                                    <a href="<?=$link_tintuc?>" class="f-700 text-split-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.8em; line-height: 1.4em;"><?=$v['ten_vi']?></a>
+                                    <a href="<?=$link_tintuc?>" class="f-700 text-split-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.8em; line-height: 1.4em; transition: 0.3s;"><?=$v['ten_vi']?></a>
                                 </h6>
-                                <p class="f-500 mb-0 small text-muted"><?=date('d/m/Y', $v['ngaytao'])?> / <?=($v['ten_danhmuc']!='')?$v['ten_danhmuc']:'Tin tức'?></p>
+                                <div class="blog-meta">
+                                    <span class="entry-date"><i class="far fa-calendar-alt"></i> <?=date('d/m/Y', $v['ngaytao'])?></span>
+                                    <span class="entry-cat"><?=($v['ten_danhmuc']!='')?$v['ten_danhmuc']:'Tin tức'?></span>
+                                </div>
                             </div>
                         </div>
                         <?php }} ?>

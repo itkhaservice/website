@@ -41,9 +41,9 @@ $d->reset();
 $d->query("select * from #_giatri where hienthi=1 order by stt asc, id desc");
 $ds_tieuchi = $d->result_array();
 
-// 9. Tin tức nổi bật (Lấy tin có noibat=1)
+// 9. Tin tức mới nhất (Lấy tin nổi bật và mới nhất)
 $d->reset();
-$d->query("select a.*, b.ten_vi as ten_danhmuc from #_news a left join #_news_cat b on a.id_cat = b.id where a.hienthi=1 and a.noibat=1 and a.ngaytao <= ".time()." order by a.ngaytao desc limit 0,3");
+$d->query("select a.*, b.ten_vi as ten_danhmuc from #_news a left join #_news_cat b on a.id_cat = b.id where a.hienthi=1 and a.noibat=1 and a.ngaytao <= ".time()." order by a.ngaytao desc limit 0,4");
 $ds_tintuc = $d->result_array();
 
 // 10. Thư viện ảnh nổi bật
