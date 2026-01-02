@@ -7,6 +7,7 @@
         'feedback' => ['ten', 'chucvu', 'mota', 'noidung', 'photo', 'rating', 'stt', 'hienthi'],
         'dichvu' => ['ten', 'slug', 'mota', 'noidung', 'photo', 'noibat', 'stt', 'hienthi', 'seo'],
         'news' => ['ten', 'slug', 'id_cat', 'mota', 'noidung', 'photo', 'noibat', 'stt', 'hienthi', 'seo', 'ngaytao'],
+        'thuvien' => ['ten', 'slug', 'photo', 'noibat', 'stt', 'hienthi', 'seo', 'ngaytao'],
         'du-an' => ['ten', 'slug', 'id_khuvuc', 'mota', 'noidung', 'photo', 'noibat', 'rating', 'stt', 'hienthi', 'seo'],
     ];
 

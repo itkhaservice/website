@@ -207,6 +207,7 @@
                     <?php if($com=='du-an' || ($com=='news' && $type=='tin-tuc') || $com=='dichvu') { ?>
                         <th style="width: 100px" class="text-center">Nổi bật</th>
                     <?php } ?>
+                    <th style="width: 130px" class="text-center">Ngày cập nhật</th>
                     <th style="width: 100px" class="text-center">Hiển thị</th>
                     <th style="width: 110px" class="text-center">Thao tác</th>
                 </tr>
@@ -267,6 +268,10 @@
                         </div>
                     </td>
                     <?php } ?>
+
+                    <td class="text-center small text-muted">
+                        <?=($v['ngaysua'] > 0) ? date('d/m/Y H:i', $v['ngaysua']) : date('d/m/Y H:i', $v['ngaytao'])?>
+                    </td>
 
                     <td class="text-center">
                         <div class="custom-control custom-switch custom-switch-success">
@@ -474,6 +479,34 @@
                 success: function(res) {
                     if(res == 1) toastr.success('Đã cập nhật STT');
                     else toastr.error('Lỗi cập nhật');
+                }
+            });
+        });
+
+        // Fast update Status (Noibat, Hienthi) - Fix AJAX Pagination Issue
+        $(document).on('change', '.checkbox-noibat, .checkbox-hienthi', function() {
+            var $this = $(this);
+            var id = $this.data('id');
+            var table = $this.data('table');
+            var field = $this.hasClass('checkbox-noibat') ? 'noibat' : 'hienthi';
+            var value = $this.prop('checked') ? 1 : 0;
+
+            $.ajax({
+                url: 'ajax/ajax_update.php',
+                type: 'POST',
+                data: {id: id, table: table, field: field, value: value},
+                success: function(res) {
+                    if(res == 1) {
+                        toastr.success('Cập nhật trạng thái thành công');
+                    } else {
+                        toastr.error('Cập nhật thất bại');
+                        // Revert checkbox state if failed
+                        $this.prop('checked', !value);
+                    }
+                },
+                error: function() {
+                    toastr.error('Lỗi kết nối');
+                    $this.prop('checked', !value);
                 }
             });
         });

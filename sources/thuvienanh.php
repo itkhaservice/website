@@ -43,7 +43,7 @@ if($id != ""){
 
     // Lấy dữ liệu
     $d->reset();
-    $d->query("select * from #_thuvien where hienthi=1 order by stt asc, id desc limit $startpoint, $per_page");
+    $d->query("select * from #_thuvien where hienthi=1 order by ngaytao desc, id desc limit $startpoint, $per_page");
     $ds_thuvien = $d->result_array();
     
     // Tạo mảng phân trang cho View

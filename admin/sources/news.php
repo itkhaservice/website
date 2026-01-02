@@ -71,7 +71,7 @@ switch($act){
             $d->query("select id, ten_vi from #_khuvuc order by stt asc, id desc");
             $regions = $d->result_array();
         }
-        if($type == 'tin-tuc' || $type == 'thuvien-anh'){
+        if($type == 'tin-tuc'){
             $d->reset();
             $d->query("select id, ten_vi from #_news_cat where type='$type' order by stt asc, id desc");
             $categories = $d->result_array();

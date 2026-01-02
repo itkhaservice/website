@@ -310,32 +310,32 @@
             </div>
             <div class="row">
                 <div class="col-xl-12">
-                    <form action="#" class="relative z-5  wow fadeInUp">
+                    <form id="frm-callback" class="relative z-5 wow fadeInUp" onsubmit="submitCallback(event)">
                         <div class="row">
                             <div class="col-xl-10 col-lg-12">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group relative">
-                                            <input type="text" class="form-control input-white shadow-2" id="name" placeholder="Họ & Tên">
+                                            <input type="text" class="form-control input-white shadow-2" name="ten" id="cb_name" placeholder="Họ & Tên" required>
                                             <i class="far fa-user transform-v-center"></i>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group relative">
-                                            <input type="email" class="form-control input-white shadow-2" id="email" placeholder="Email">
+                                            <input type="email" class="form-control input-white shadow-2" name="email" id="cb_email" placeholder="Email" required>
                                             <i class="far fa-envelope transform-v-center"></i>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group relative">
-                                            <input type="text" class="form-control input-white shadow-2" id="phone" placeholder="Số Điện Thoại">
+                                            <input type="text" class="form-control input-white shadow-2" name="dienthoai" id="cb_phone" placeholder="Số Điện Thoại" required>
                                             <i class="fas fa-mobile-alt transform-v-center"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-2 col-lg-12">
-                                <button class="btn btn-blue btn-block request-btn uppercase shadow-2">Gửi</button>
+                                <button type="submit" class="btn btn-blue btn-block request-btn uppercase shadow-2">Gửi</button>
                             </div>
                         </div>
                     </form>
@@ -343,6 +343,51 @@
             </div>
         </div>
     </section>
+    
+    <script>
+        function submitCallback(e) {
+            e.preventDefault();
+            
+            var ten = document.getElementById('cb_name').value;
+            var email = document.getElementById('cb_email').value;
+            var dienthoai = document.getElementById('cb_phone').value;
+            
+            if(ten == '' || email == '' || dienthoai == '') {
+                alert('Vui lòng nhập đầy đủ thông tin!');
+                return false;
+            }
+            
+            // Disable button
+            var btn = e.target.querySelector('button');
+            var originalText = btn.innerText;
+            btn.innerText = 'Đang gửi...';
+            btn.disabled = true;
+
+            $.ajax({
+                url: 'ajax/ajax_contact.php',
+                type: 'POST',
+                data: {
+                    ten: ten,
+                    email: email,
+                    dienthoai: dienthoai
+                },
+                success: function(res) {
+                    if(res == 1) {
+                        window.location.href = 'thank-you.html';
+                    } else {
+                        alert('Có lỗi xảy ra, vui lòng thử lại sau.');
+                        btn.innerText = originalText;
+                        btn.disabled = false;
+                    }
+                },
+                error: function() {
+                    alert('Lỗi kết nối!');
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                }
+            });
+        }
+    </script>
     <!-- Request callback end -->
 
     <!-- Team area start -->
