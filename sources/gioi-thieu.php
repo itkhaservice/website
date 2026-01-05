@@ -4,22 +4,20 @@ if(!defined('_source')) die("Error");
 $id = isset($_GET['id']) ? addslashes($_GET['id']) : "";
 
 if($id != "") {
-    // Lấy chi tiết bài viết theo Slug (ten_khong_dau)
+    // Lấy chi tiết bài viết từ bảng gioithieu (bảng riêng biệt)
     $d->reset();
     $d->query("select * from #_gioithieu where ten_khong_dau='$id' and hienthi=1");
     $row_detail = $d->fetch_array();
-} else {
-    // Nếu không có Slug, lấy bài viết Mới nhất/Nổi bật từ bảng #_gioithieu
-    $d->reset();
-    $d->query("select * from #_gioithieu where hienthi=1 order by stt asc, id desc limit 0,1");
-    $row_detail = $d->fetch_array();
-    
-    // Fallback: Nếu bảng gioithieu rỗng, lấy từ static (dự phòng)
+
+    // Nếu không tìm thấy bài viết
     if(empty($row_detail)) {
-        $d->reset();
-        $d->query("select * from #_static where type='ve-chung-toi' limit 0,1");
-        $row_detail = $d->fetch_array();
+        redirect("404.html");
     }
+} else {
+    // Trang Giới thiệu chính: Lấy đồng bộ với trang chủ từ bảng Static (Về chúng tôi)
+    $d->reset();
+    $d->query("select * from #_static where type='ve-chung-toi' limit 0,1");
+    $row_detail = $d->fetch_array();
 }
 
 // Lấy danh sách Team (Từ bảng table_staff)

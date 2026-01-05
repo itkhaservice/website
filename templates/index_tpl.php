@@ -490,6 +490,43 @@
                     }
                 });
             });
+
+            // Xử lý form đăng ký nhận tin
+            $('#frm-subscribe button').click(function(){
+                var name = $('#name2').val();
+                var email = $('#email2').val();
+
+                if(email == ''){
+                    showCustomAlert('Vui lòng nhập Email!');
+                    return false;
+                }
+
+                var btn = $(this);
+                var originalText = btn.html();
+                btn.text('Đang gửi...');
+                btn.prop('disabled', true);
+
+                $.ajax({
+                    url: 'ajax/ajax_subscribe.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {name: name, email: email},
+                    success: function(res){
+                        showCustomAlert(res.message);
+                        if(res.status == 'success'){
+                            $('#name2').val('');
+                            $('#email2').val('');
+                        }
+                        btn.html(originalText);
+                        btn.prop('disabled', false);
+                    },
+                    error: function(xhr, status, error){
+                        showCustomAlert('Có lỗi xảy ra khi kết nối server.');
+                        btn.html(originalText);
+                        btn.prop('disabled', false);
+                    }
+                });
+            });
         });
     </script>
     <!-- Request callback end -->
@@ -1089,7 +1126,7 @@
                         </div>
                         <div class="subscribe-cotnent z-10">
                             <p class="mb-45 text-justify">Những tin tưc mới nhất sẽ được chúng tôi cập nhật đến bạn quá email nếu bạn để lại cho chúng tôi thông tin và email liên hệ và chúng hoàn toàn tự động. Chúng tôi cam kết không sữ dụng email của bạn vào mục đích nào khác.</p>
-                            <form action="#">
+                            <form action="#" id="frm-subscribe" onsubmit="return false;">
                                 <div class="form-group relative mb-30">
                                     <input type="text" class="form-control input-white" id="name2" placeholder="Họ & Tên">
                                     <i class="far fa-user transform-v-center"></i>

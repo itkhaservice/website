@@ -1633,41 +1633,37 @@ function sendMail($emails, $subject, $body){
     function mailSend_admin($content, $subject, $email = '', $email2='') {
         global $config;
 
+        // Bao gồm class SMTP mới
+        include_once "class.smtp.php";
+
         if($config['email']['on']) {
-            include_once "../phpmailer/class.phpmailer.php";
-            //Khởi tạo đối tượng
-            $mail = new PHPMailer();
-            //Thiet lap thong tin nguoi gui va email nguoi gui
-            $mail->IsSMTP(); // Gọi đến class xử lý SMTP
-            $mail->SMTPAuth = true;                  // Sử dụng đăng nhập vào account
-            //$mail->SMTPSecure = "ssl";
-            $mail->Host = $config['email']['host'];     // Thiết lập thông tin của SMPT
-            $mail->Port = $config['email']['port'];     // Thiết lập cổng gửi email của máy
-            $mail->Username = $config['email']['email'];    // SMTP account username
-            $mail->Password = $config['email']['password']; // SMTP account password
-            $mail->SetFrom($config['email']['email'], $config['email']['name']);
-            //Thiết lập email nhận email hồi đáp
-            //nếu người nhận nhấn nút Reply
-            $mail->AddReplyTo($config['email']['email'], $config['email']['name']);
-            //Thiết lập thông tin người nhận
+            $to = ($email != '') ? $email : $config['email']['email2'];
+            if($to == '') $to = 'it@khaservice.com.vn';
 
-            if ($email != '')
-                $mail->AddAddress($email);
-            else
-                $mail->AddAddress($config['email']['email2']);
-            if ($email2 != '')
-                $mail->AddAddress($email2);
+            // Lấy cấu hình từ config.php
+            // Ưu tiên sử dụng host của SendGrid nếu có
+            $host = 'smtp.sendgrid.net'; 
+            $port = 587; // Cổng chuẩn cho SendGrid
+            $username = 'apikey'; // SendGrid luôn dùng user là 'apikey'
+            $password = $config['email']['password']; // Mật khẩu là API Key SG...
+            $from_email = $config['email']['email'];
+            $from_name = $config['email']['name'];
 
-            //Thiết lập tiêu đề
-            $mail->Subject = $subject;
-            //Thiết lập định dạng font chữ
-            $mail->CharSet = "utf-8";
-            $mail->AltBody = "To view the message, please use an HTML compatible email viewer!";
+            // Nếu mật khẩu không phải key SendGrid (không bắt đầu bằng SG), dùng cấu hình gốc
+            if(strpos($password, 'SG') !== 0) {
+                 $host = $config['email']['host'];
+                 $port = $config['email']['port'];
+                 $username = $config['email']['username']; // Cần check lại key này trong config nếu không phải sendgrid
+            }
 
-            //Thiết lập nội dung chính của email
-            $mail->MsgHTML($content);
-            $mail->Send();
+            // Fallback user nếu config sai
+            if($username == '') $username = 'apikey';
+
+            $smtp = new SimpleSMTP($host, $port, $username, $password);
+            
+            return $smtp->send($to, $subject, $content, $from_email, $from_name);
         }
+        return false;
     }
 
 

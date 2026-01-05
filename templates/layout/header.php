@@ -100,7 +100,7 @@
                                         $ds_gioithieu = $d->result_array();
                                     ?>
                                     <li class="<?=$com=='gioi-thieu'?'active':''?>">
-                                        <a href="gioi-thieu.html">Giới thiệu <i class="fas fa-angle-down"></i></a>
+                                        <a href="index.php?com=gioi-thieu">Giới thiệu <i class="fas fa-angle-down"></i></a>
                                         <?php if(count($ds_gioithieu) > 0) { ?>
                                         <ul class="submenu">
                                             <?php foreach($ds_gioithieu as $v) { ?>

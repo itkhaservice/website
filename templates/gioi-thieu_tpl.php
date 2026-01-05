@@ -19,162 +19,105 @@
     </section>
     <!-- immer banner end -->
 
-    <!-- About us start -->
+    <!-- About us start (Giống trang chủ) -->
     <section class="about-us pt-100 pb-100">
         <div class="container">
             <div class="row align-items-xl-center">
-                <?php if(!empty($row_detail['photo'])) { ?>
-                <div class="col-lg-6">
-                    <div class="relative img-lined bg-blue mx-auto shadow-1 mb-md-30">
-                        <img src="<?=$row_detail['photo']?>" alt="<?=$row_detail['ten_vi']?>" class="w-100">
+                <?php if($com == 'gioi-thieu' && empty($_GET['id'])) { ?>
+                <div class="col-lg-5">
+                    <div class="ceo-video relative img-lined mx-auto shadow-1 wow fadeInLeft">
                         <?php 
-                            if(!empty($row_setting['video_intro'])) { 
-                                $video_url = $row_setting['video_intro'];
-                                // Đảm bảo link sạch để popup nhận diện đúng
-                                if(strpos($video_url, '&') !== false) {
-                                    $video_parts = explode('&', $video_url);
-                                    $video_url = $video_parts[0];
-                                }
+                            $about_img = (!empty($row_detail['photo'])) ? $row_detail['photo'] : 'img/about/ceo.jpg';
+                            $video_url = (!empty($row_detail['video'])) ? $row_detail['video'] : '';
                         ?>
-                            <div class="blob green transform-center">
-                                <a href="<?=$video_url?>" class="popup-video"> <i class="fas fa-play"></i></a>
-                            </div>
+                        <img src="<?=$about_img?>" alt="<?=$row_detail['ten_vi']?>" class="w-100">
+                        <?php if(!empty($video_url)) { 
+                             // Xử lý link Youtube để lấy ID chuẩn
+                             $video_id = '';
+                             if(preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $video_url, $match)) {
+                                 $video_id = $match[1];
+                             }
+                             $final_url = ($video_id != '') ? 'https://www.youtube.com/watch?v=' . $video_id : $video_url;
+                        ?>
+                        <div class="blob green transform-center">
+                            <a href="<?=$final_url?>" class="popup-video"> <i class="fas fa-play"></i></a>
+                        </div>
                         <?php } ?>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-7">
                 <?php } else { ?>
                 <div class="col-lg-12">
                 <?php } ?>
-                    <div class="about-text text-center text-lg-left">
-                        <div class="fancy-head left-al mb-10">
-                            <h5 class="line-head mb-15">
+                    <div class="about-text mt-md-60 text-center text-lg-left wow fadeInRight">
+                        <div class="fancy-head left-al  mb-10">
+                            <h5 class="line-head mb-10">
                                 <span class="line before d-lg-none"></span>
-                                    Giới thiệu
-                                <span class="line after"></span>
+                                Về chúng tôi
+                                <span class="line  after"></span>
                             </h5>
                             <h1><?=$row_detail['ten_vi']?></h1>
                         </div>
-                        <?php if(!empty($row_detail['mota_vi'])) { ?>
-                            <div class="short-desc mb-30 font-weight-bold italic" style="font-size: 1.1rem; color: #555; border-left: 4px solid #108042; padding-left: 20px;">
-                                <?=$row_detail['mota_vi']?>
-                            </div>
-                        <?php } ?>
-                        <div class="description content-main" id="lightgallery-about">
+                        <div class="description content-main mb-20" id="lightgallery-about">
                             <?=str_replace('src="../upload/', 'src="upload/', $row_detail['noidung_vi'])?>
                         </div>
-
-                        <!-- LightGallery CSS/JS -->
-                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/css/lightgallery-bundle.min.css">
-                        <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/lightgallery.min.js"></script>
-                        <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/zoom/lg-zoom.min.js"></script>
-                        <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/thumbnail/lg-thumbnail.min.js"></script>
-
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                const container = document.getElementById('lightgallery-about');
-                                if(!container) return;
-
-                                // 1. Xử lý dàn hàng ngang cho các đoạn văn có nhiều ảnh
-                                const paragraphs = container.querySelectorAll('p');
-                                paragraphs.forEach(p => {
-                                    const imgs = p.querySelectorAll('img');
-                                    if(imgs.length > 1) {
-                                        p.classList.add('img-flex-row');
-                                    }
-                                });
-
-                                // 2. Bọc ảnh vào thẻ <a> để LightGallery hoạt động
-                                const contentImages = container.querySelectorAll('img');
-                                contentImages.forEach(img => {
-                                    if(img.naturalWidth > 50 || img.offsetWidth > 50) {
-                                        const src = img.getAttribute('src');
-                                        const wrapper = document.createElement('a');
-                                        wrapper.className = 'lg-item-wrapper';
-                                        wrapper.setAttribute('data-src', src);
-                                        wrapper.style.cursor = 'zoom-in';
-                                        wrapper.style.display = 'block';
-                                        
-                                        img.parentNode.insertBefore(wrapper, img);
-                                        wrapper.appendChild(img);
-                                    }
-                                });
-
-                                // 3. Khởi tạo LightGallery
-                                lightGallery(container, {
-                                    selector: '.lg-item-wrapper',
-                                    plugins: [lgZoom, lgThumbnail],
-                                    speed: 500,
-                                    mode: 'lg-fade',
-                                    download: false,
-                                    counter: true,
-                                    enableDrag: true,
-                                    enableSwipe: true
-                                });
-                            });
-                        </script>
-
-                        <style>
-                            /* LightGallery Custom Styles */
-                            .img-flex-row { 
-                                display: flex !important;
-                                flex-direction: row !important;
-                                flex-wrap: nowrap !important;
-                                justify-content: center !important;
-                                align-items: flex-start !important;
-                                gap: 15px !important;
-                                margin: 30px 0 !important;
-                                width: 100% !important;
-                            }
-                            .lg-item-wrapper {
-                                flex: 1 1 0% !important;
-                                max-width: 100%;
-                            }
-                            .lg-item-wrapper img { 
-                                width: 100% !important;
-                                height: auto !important;
-                                border-radius: 8px;
-                                object-fit: cover;
-                                display: block;
-                            }
-                            .content-main p:not(.img-flex-row) .lg-item-wrapper {
-                                display: block !important;
-                                margin: 20px auto;
-                                max-width: fit-content;
-                            }
-                            .content-main p:not(.img-flex-row) .lg-item-wrapper img {
-                                width: auto !important;
-                                max-width: 100%;
-                            }
-                            @media (max-width: 767px) {
-                                .img-flex-row { 
-                                    flex-direction: column !important;
-                                    gap: 15px !important;
-                                }
-                                .lg-item-wrapper { 
-                                    width: 100% !important;
-                                    flex: none !important;
-                                }
-                            }
-                        </style>
+                        
+                        <?php if($com == 'gioi-thieu' && empty($_GET['id'])) { ?>
+                        <div class="hr-line mb-30 mt-30"></div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="count-box wow fadeInUp">
+                                    <h3 class="f-900 mb-10"><span class="counter"><?=number_format($row_detail['sl_nhanvien'])?></span>+</h3>
+                                    <p>Nhân viên</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="count-box wow fadeInUp" data-wow-delay=".2s">
+                                    <h3 class="f-900 mb-10"><span class="counter"><?=number_format($row_detail['sl_duan'])?></span>+</h3>
+                                    <p>Dự án</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="count-box wow fadeInUp" data-wow-delay=".4s">
+                                    <h3 class="f-900 mb-10"><span class="counter"><?=number_format($row_detail['sl_canho'])?></span>+</h3>
+                                    <p>Tổng số căn hộ</p>
+                                </div>
+                            </div>
+                        </div>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!-- About us end -->
-    
-    <style>
-        .content-main { text-align: justify; }
-        .content-main img { max-width: 100% !important; height: auto !important; margin: 20px auto; display: block; }
-        .content-main table { width: 100% !important; }
-        @media (max-width: 767px) {
-            .inner-banner { padding: 40px 0 !important; }
-            .about-us { padding: 50px 0 !important; }
-        }
-    </style>
+
+    <!-- Mission and vision area start -->
+    <?php if(($com == 'gioi-thieu' && empty($_GET['id'])) && (!empty($row_detail['tamnhin']) || !empty($row_detail['sumenh']))) { ?>
+    <section class="mission-vision bg-light-white pt-100 pb-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 pr-50 pr-sm-15 mb-md-30">
+                    <h2 class="fancy-2 f-700 mb-25">Tầm Nhìn</h2>
+                    <div class="description text-justify">
+                        <?=str_replace('src="../upload/', 'src="upload/', $row_detail['tamnhin'])?>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 pr-50 pr-sm-15">
+                    <h2 class="fancy-2 f-700 mb-25">Sứ Mệnh</h2>
+                    <div class="description text-justify">
+                        <?=str_replace('src="../upload/', 'src="upload/', $row_detail['sumenh'])?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <?php } ?>
+    <!-- Mission and vision area end -->
 
     <!-- Team area start -->
+    <?php if($com == 'gioi-thieu' && empty($_GET['id'])) { ?>
     <section class="team-area pt-95 pb-100">
         <div class="container">
             <div class="row align-items-end text-center text-lg-left  mb-45">
@@ -222,7 +165,6 @@
             </div>
         </div>
     </section>
-    <!-- Team area end -->
 
     <!-- Testimonial area start -->
     <section class="testimonials-2 bg-light-white pt-95 pb-95">
@@ -264,7 +206,7 @@
                                     </li>
                                 </ul>
                                 <h4 class="italic f-700 mb-20"><?=$v['mota_vi']?></h4>
-                                <p class="mb-35"><?=$v['noidung_vi']?></p>
+                                <div class="mb-35 text-justify"><?=strip_tags($v['noidung_vi'])?></div>
                                 <div class="client-2-img d-flex align-items-center justify-content-md-start justify-content-center">
                                     <div class="img-div mr-30 pb-10">
                                         <div class="client-image">
@@ -276,6 +218,7 @@
                                     </div>
                                     <div class="client-text-2 mb-10">
                                         <h6 class="client-name green fs-17 f-700"><?=$v['ten_vi']?></h6>
+                                        <p class="mb-0 fs-13 f-500"><?=$v['chucvu']?></p>
                                     </div>
                                 </div>
                             </div>
@@ -286,6 +229,7 @@
             </div>
         </div>
     </section>
+    <?php } ?>
     <!-- Testimonial area end -->
 
     <!-- cta area start -->
@@ -310,3 +254,58 @@
         </div>
     </section>
     <!-- cta area end -->
+
+    <!-- LightGallery CSS/JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/css/lightgallery-bundle.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/lightgallery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/zoom/lg-zoom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/thumbnail/lg-thumbnail.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('lightgallery-about');
+            if(!container) return;
+
+            // Bọc ảnh vào thẻ <a> để LightGallery hoạt động
+            const contentImages = container.querySelectorAll('img');
+            contentImages.forEach(img => {
+                if(img.naturalWidth > 50 || img.offsetWidth > 50) {
+                    const src = img.getAttribute('src');
+                    const wrapper = document.createElement('a');
+                    wrapper.className = 'lg-item-wrapper';
+                    wrapper.setAttribute('data-src', src);
+                    wrapper.style.cursor = 'zoom-in';
+                    wrapper.style.display = 'block';
+                    
+                    img.parentNode.insertBefore(wrapper, img);
+                    wrapper.appendChild(img);
+                }
+            });
+
+            // Khởi tạo LightGallery
+            lightGallery(container, {
+                selector: '.lg-item-wrapper',
+                plugins: [lgZoom, lgThumbnail],
+                speed: 500,
+                mode: 'lg-fade',
+                download: false,
+                counter: true,
+                enableDrag: true,
+                enableSwipe: true
+            });
+        });
+    </script>
+
+    <style>
+        .content-main { text-align: justify; }
+        .content-main img { max-width: 100% !important; height: auto !important; margin: 20px auto; display: block; }
+        .content-main table { width: 100% !important; }
+        .big-p.blue { font-size: 1.15rem; line-height: 1.6; margin-bottom: 25px; font-weight: 500; }
+        .mission-vision h2.fancy-2 { display: flex; align-items: center; margin-bottom: 25px; white-space: nowrap; }
+        .mission-vision h2.fancy-2:after { content: ""; position: static; display: inline-block; width: 80px; height: 2px; background: #108042; margin-left: 20px; opacity: 0.6; }
+        
+        @media (max-width: 767px) {
+            .inner-banner { padding: 40px 0 !important; }
+            .about-us { padding: 50px 0 !important; }
+        }
+    </style>
