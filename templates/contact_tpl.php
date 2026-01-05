@@ -82,7 +82,7 @@
     <!-- Contact us area end -->
 
     <!-- Contact form area end -->
-    <section class="contact-form  bg-light-white pt-100 pb-100" style="background-image: url('img/bg/bg-abt.jpg');" data-overlay="7">
+    <section class="contact-form bg-light-white pt-100 pb-100" style="background-image: url('img/bg/bg-abt.jpg');" data-overlay="7">
         <div class="container">
             <div class="row">
                 <div class="col-xl-12">
@@ -99,33 +99,33 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <form action="index.php?com=lien-he" method="post" class="relative z-5 mt-10">
+                    <form id="frm-contact" onsubmit="return false;" class="relative z-5 mt-10">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group relative mb-30 mb-sm-20">
-                                    <input type="text" class="form-control input-lg input-white shadow-5" id="name" name="name" placeholder="Họ & Tên" required>
+                                    <input type="text" class="form-control input-lg input-white shadow-5" id="contact_name" placeholder="Họ & Tên" required>
                                     <i class="far fa-user transform-v-center"></i>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group relative mb-30 mb-sm-20">
-                                    <input type="email" class="form-control input-lg input-white shadow-5" id="email" name="email" placeholder="Email" required>
+                                    <input type="email" class="form-control input-lg input-white shadow-5" id="contact_email" placeholder="Email" required>
                                     <i class="far fa-envelope transform-v-center"></i>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group relative mb-30 mb-sm-20">
-                                    <input type="text" class="form-control input-lg input-white shadow-5" id="phone" name="phone" placeholder="Số điện thoại">
+                                    <input type="text" class="form-control input-lg input-white shadow-5" id="contact_phone" placeholder="Số điện thoại">
                                     <i class="fas fa-mobile-alt transform-v-center"></i>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group relative mb-30 mb-sm-20">
-                                    <textarea class="form-control input-white shadow-5" name="message" id="message" cols="30" rows="7" placeholder="Lời nhắn"></textarea>
+                                    <textarea class="form-control input-white shadow-5" id="contact_message" cols="30" rows="7" placeholder="Lời nhắn"></textarea>
                                 </div>
                             </div>
                             <div class="col-lg-12 text-center mt-30">
-                                <button type="submit" name="btnContact" class="btn btn-square  blob-small">GỬI<i class="fas fa-long-arrow-alt-right ml-20"></i></button>
+                                <button type="button" id="btn-contact-submit" class="btn btn-square blob-small">GỬI<i class="fas fa-long-arrow-alt-right ml-20"></i></button>
                             </div>
                         </div>
                     </form>
@@ -133,6 +133,101 @@
             </div>
         </div>
     </section>
+
+    <!-- Custom Alert Modal -->
+    <div id="custom-alert-overlay" class="custom-alert-overlay">
+        <div class="custom-alert-box">
+            <div class="alert-icon"><i class="fas fa-exclamation-circle"></i></div>
+            <h4 id="custom-alert-title">Thông báo</h4>
+            <p id="custom-alert-message">Nội dung thông báo</p>
+            <button id="custom-alert-close" class="alert-btn">Đóng</button>
+        </div>
+    </div>
+
+    <style>
+        /* CSS cho Custom Alert */
+        .custom-alert-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); z-index: 99999;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all 0.3s;
+        }
+        .custom-alert-overlay.active { opacity: 1; visibility: visible; }
+        .custom-alert-box {
+            background: #fff; width: 90%; max-width: 400px;
+            border-radius: 8px; padding: 30px; text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: translateY(-20px); transition: all 0.3s;
+        }
+        .custom-alert-overlay.active .custom-alert-box { transform: translateY(0); }
+        .alert-icon { font-size: 50px; margin-bottom: 20px; color: #ffc107; }
+        .custom-alert-box h4 { margin-bottom: 10px; font-weight: 700; color: #333; }
+        .custom-alert-box p { margin-bottom: 25px; color: #666; font-size: 15px; }
+        .alert-btn {
+            background: #108042; color: #fff; border: none;
+            padding: 10px 35px; border-radius: 5px; cursor: pointer;
+            transition: background 0.3s; font-weight: 600; text-transform: uppercase;
+        }
+        .alert-btn:hover { background: #0a5c2e; }
+        
+        /* Fix input padding */
+        #frm-contact .input-white { padding-right: 50px !important; }
+    </style>
+
+    <script>
+        window.addEventListener('load', function() {
+            // Hàm hiển thị thông báo Custom
+            function showCustomAlert(message) {
+                $('#custom-alert-message').text(message);
+                $('#custom-alert-overlay').addClass('active');
+            }
+
+            // Đóng thông báo
+            $('#custom-alert-close, #custom-alert-overlay').click(function(e){
+                if(e.target === this) {
+                    $('#custom-alert-overlay').removeClass('active');
+                }
+            });
+
+            $('#btn-contact-submit').click(function(){
+                var name = $('#contact_name').val();
+                var email = $('#contact_email').val();
+                var phone = $('#contact_phone').val();
+                var message = $('#contact_message').val();
+
+                if(name == '' || phone == '' || email == '' || message == ''){
+                    showCustomAlert('Vui lòng nhập đầy đủ thông tin: Họ tên, Email, Số điện thoại và Lời nhắn!');
+                    return false;
+                }
+
+                var btn = $(this);
+                var originalText = btn.html();
+                btn.text('Đang gửi...');
+                btn.prop('disabled', true);
+
+                $.ajax({
+                    url: 'ajax/ajax_callback.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {name: name, phone: phone, email: email, message: message},
+                    success: function(res){
+                        if(res.status == 'success'){
+                            window.location.href = 'thank-you.html';
+                        } else {
+                            showCustomAlert(res.message);
+                            btn.html(originalText);
+                            btn.prop('disabled', false);
+                        }
+                    },
+                    error: function(xhr, status, error){
+                        showCustomAlert('Có lỗi xảy ra khi kết nối server.');
+                        btn.html(originalText);
+                        btn.prop('disabled', false);
+                    }
+                });
+            });
+        });
+    </script>
     <!-- Contact form area end -->
 
     <!-- cta area start -->

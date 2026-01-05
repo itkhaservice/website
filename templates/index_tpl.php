@@ -310,32 +310,47 @@
             </div>
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="frm-callback" class="relative z-5 wow fadeInUp" onsubmit="submitCallback(event)">
+                    <form id="frm-callback" class="relative z-5 wow fadeInUp" onsubmit="return false;">
                         <div class="row">
                             <div class="col-xl-10 col-lg-12">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group relative">
-                                            <input type="text" class="form-control input-white shadow-2" name="ten" id="cb_name" placeholder="Họ & Tên" required>
+                                            <input type="text" class="form-control input-white shadow-2" id="cb_name" placeholder="Họ & Tên" required>
                                             <i class="far fa-user transform-v-center"></i>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group relative">
-                                            <input type="email" class="form-control input-white shadow-2" name="email" id="cb_email" placeholder="Email" required>
+                                            <input type="text" class="form-control input-white shadow-2" id="cb_phone" placeholder="Số Điện Thoại" required>
+                                            <i class="fas fa-mobile-alt transform-v-center"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group relative">
+                                            <input type="email" class="form-control input-white shadow-2" id="cb_email" placeholder="Email (Tùy chọn)">
                                             <i class="far fa-envelope transform-v-center"></i>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group relative">
-                                            <input type="text" class="form-control input-white shadow-2" name="dienthoai" id="cb_phone" placeholder="Số Điện Thoại" required>
-                                            <i class="fas fa-mobile-alt transform-v-center"></i>
+                                            <select class="form-control input-white shadow-2" id="cb_topic">
+                                                <option value="">Dịch vụ quan tâm</option>
+                                                <option value="Tư vấn quản lý vận hành">Quản lý vận hành</option>
+                                                <option value="Dịch vụ kỹ thuật - Bảo trì">Kỹ thuật - Bảo trì</option>
+                                                <option value="Dịch vụ vệ sinh công nghiệp">Vệ sinh công nghiệp</option>
+                                                <option value="Dịch vụ an ninh - Bảo vệ">An ninh - Bảo vệ</option>
+                                                <option value="Chăm sóc cảnh quan">Cảnh quan cây xanh</option>
+                                                <option value="Tuyển dụng">Tuyển dụng</option>
+                                                <option value="Khác">Khác</option>
+                                            </select>
+                                            <i class="fas fa-chevron-down transform-v-center"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-2 col-lg-12">
-                                <button type="submit" class="btn btn-blue btn-block request-btn uppercase shadow-2">Gửi</button>
+                                <button type="button" id="btn-callback" class="btn btn-blue btn-block request-btn uppercase shadow-2">Gửi Ngay</button>
                             </div>
                         </div>
                     </form>
@@ -343,50 +358,139 @@
             </div>
         </div>
     </section>
-    
-    <script>
-        function submitCallback(e) {
-            e.preventDefault();
-            
-            var ten = document.getElementById('cb_name').value;
-            var email = document.getElementById('cb_email').value;
-            var dienthoai = document.getElementById('cb_phone').value;
-            
-            if(ten == '' || email == '' || dienthoai == '') {
-                alert('Vui lòng nhập đầy đủ thông tin!');
-                return false;
-            }
-            
-            // Disable button
-            var btn = e.target.querySelector('button');
-            var originalText = btn.innerText;
-            btn.innerText = 'Đang gửi...';
-            btn.disabled = true;
 
-            $.ajax({
-                url: 'ajax/ajax_contact.php',
-                type: 'POST',
-                data: {
-                    ten: ten,
-                    email: email,
-                    dienthoai: dienthoai
-                },
-                success: function(res) {
-                    if(res == 1) {
-                        window.location.href = 'thank-you.html';
-                    } else {
-                        alert('Có lỗi xảy ra, vui lòng thử lại sau.');
-                        btn.innerText = originalText;
-                        btn.disabled = false;
-                    }
-                },
-                error: function() {
-                    alert('Lỗi kết nối!');
-                    btn.innerText = originalText;
-                    btn.disabled = false;
+    <!-- Custom Alert Modal -->
+    <div id="custom-alert-overlay" class="custom-alert-overlay">
+        <div class="custom-alert-box">
+            <div class="alert-icon"><i class="fas fa-exclamation-circle"></i></div>
+            <h4 id="custom-alert-title">Thông báo</h4>
+            <p id="custom-alert-message">Nội dung thông báo</p>
+            <button id="custom-alert-close" class="alert-btn">Đóng</button>
+        </div>
+    </div>
+
+    <style>
+        /* Tăng padding để text không đè lên icon */
+        #frm-callback .input-white {
+            padding-right: 50px !important;
+        }
+        /* Style Nice Select */
+        #frm-callback .nice-select.input-white {
+            background-color: rgba(255, 255, 255, 0.15) !important;
+            border: none !important;
+            color: #fff !important;
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            padding-left: 25px;
+            border-radius: 0;
+            float: none;
+        }
+        #frm-callback .nice-select.input-white:after { display: none; }
+        #frm-callback .nice-select.input-white .current { color: #fff; }
+        #frm-callback .nice-select.input-white .list {
+            background-color: #fff;
+            color: #333;
+            width: 100%;
+            border-radius: 0;
+            margin-top: 1px;
+            z-index: 99;
+        }
+        #frm-callback .nice-select.input-white .option:hover, 
+        #frm-callback .nice-select.input-white .option.focus, 
+        #frm-callback .nice-select.input-white .option.selected.focus {
+            background-color: #108042;
+            color: #fff;
+        }
+        #frm-callback .form-group i { z-index: 10; pointer-events: none; }
+        
+        /* Custom Alert CSS */
+        .custom-alert-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); z-index: 99999;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all 0.3s;
+        }
+        .custom-alert-overlay.active { opacity: 1; visibility: visible; }
+        .custom-alert-box {
+            background: #fff; width: 90%; max-width: 400px;
+            border-radius: 8px; padding: 30px; text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: translateY(-20px); transition: all 0.3s;
+        }
+        .custom-alert-overlay.active .custom-alert-box { transform: translateY(0); }
+        .alert-icon { font-size: 50px; margin-bottom: 20px; color: #ffc107; } /* Màu vàng cảnh báo */
+        .custom-alert-box h4 { margin-bottom: 10px; font-weight: 700; color: #333; }
+        .custom-alert-box p { margin-bottom: 25px; color: #666; font-size: 15px; }
+        .alert-btn {
+            background: #108042; color: #fff; border: none;
+            padding: 10px 35px; border-radius: 5px; cursor: pointer;
+            transition: background 0.3s; font-weight: 600; text-transform: uppercase;
+        }
+        .alert-btn:hover { background: #0a5c2e; }
+
+        @media (max-width: 991px) {
+            #frm-callback .col-md-3 { margin-bottom: 15px; }
+            #frm-callback .request-btn { margin-top: 5px; }
+        }
+    </style>
+    <script>
+        window.addEventListener('load', function() {
+            if($.fn.niceSelect) {
+                $('#cb_topic').niceSelect();
+            }
+
+            // Hàm hiển thị thông báo Custom
+            function showCustomAlert(message) {
+                $('#custom-alert-message').text(message);
+                $('#custom-alert-overlay').addClass('active');
+            }
+
+            // Đóng thông báo
+            $('#custom-alert-close, #custom-alert-overlay').click(function(e){
+                if(e.target === this) {
+                    $('#custom-alert-overlay').removeClass('active');
                 }
             });
-        }
+
+            $('#btn-callback').click(function(){
+                var name = $('#cb_name').val();
+                var phone = $('#cb_phone').val();
+                var email = $('#cb_email').val();
+                var topic = $('#cb_topic').val();
+
+                if(name == '' || phone == ''){
+                    showCustomAlert('Vui lòng nhập đầy đủ Họ tên và Số điện thoại!');
+                    return false;
+                }
+
+                var btn = $(this);
+                btn.text('Đang gửi...');
+                btn.prop('disabled', true);
+
+                $.ajax({
+                    url: 'ajax/ajax_callback.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {name: name, phone: phone, email: email, topic: topic},
+                    success: function(res){
+                        if(res.status == 'success'){
+                            // Chuyển hướng trang cảm ơn
+                            window.location.href = 'thank-you.html';
+                        } else {
+                            showCustomAlert(res.message);
+                            btn.text('Gửi Ngay');
+                            btn.prop('disabled', false);
+                        }
+                    },
+                    error: function(xhr, status, error){
+                        showCustomAlert('Có lỗi xảy ra khi kết nối server.');
+                        btn.text('Gửi Ngay');
+                        btn.prop('disabled', false);
+                    }
+                });
+            });
+        });
     </script>
     <!-- Request callback end -->
 
