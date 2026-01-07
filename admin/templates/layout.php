@@ -384,6 +384,13 @@
             </a>
           </li>
 
+          <li class="nav-item">
+            <a href="index.php?com=staff&act=man" class="nav-link <?=$com=='staff'?'active':''?>">
+              <i class="nav-icon fas fa-users"></i>
+              <p>Đội ngũ nhân sự</p>
+            </a>
+          </li>
+
           <li class="nav-item <?=($com=='news' && $_GET['type']=='tin-tuc' || ($com=='news_cat' && $_GET['type']=='tin-tuc'))?'menu-open':''?>">
             <a href="#" class="nav-link <?=($com=='news' && $_GET['type']=='tin-tuc' || ($com=='news_cat' && $_GET['type']=='tin-tuc'))?'active':''?>">
               <i class="nav-icon fas fa-bullhorn"></i>

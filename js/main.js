@@ -117,25 +117,29 @@
             autoplay: true,
             autoplayTimeout: 5000,
             nav: false,
-            dots: false,
+            dots: true, // Bật dots mặc định
             responsive: {
                 0: {
                     items: 1,
                     nav: false,
+                    dots: true // Hiện dots trên mobile
                 },
                 600: {
-                    items: 1,
-                    nav: false
+                    items: 2, // Tăng lên 2 item trên tablet nhỏ
+                    nav: false,
+                    dots: true
                 },
                 992: {
                     items: 3,
                     nav: false,
-                    loop: true
+                    loop: true,
+                    dots: false // Ẩn dots trên desktop (dùng nút custom)
                 },
                 1200: {
                     items: 4,
                     nav: false,
-                    loop: true
+                    loop: true,
+                    dots: false
                 }
             }
         });
@@ -201,25 +205,29 @@
             autoplay: true,
             autoplayTimeout: 5000,
             nav: false,
-            dots: false,
+            dots: true,
             responsive: {
                 0: {
                     items: 1,
                     nav: false,
+                    dots: true
                 },
                 600: {
-                    items: 1,
-                    nav: false
+                    items: 2,
+                    nav: false,
+                    dots: true
                 },
                 992: {
                     items: 3,
                     nav: false,
-                    loop: true
+                    loop: true,
+                    dots: false
                 },
                 1200: {
                     items: 3,
                     nav: false,
-                    loop: true
+                    loop: true,
+                    dots: false
                 }
             }
         });

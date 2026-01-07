@@ -54,9 +54,31 @@
 
 @import url('https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,400i,700,700i,900,900i|Montserrat:200,300,400,400i,500,500i,600,700,800,900&display=swap');
 
-/* ....................................
-1. Preloader css
-.......................................*/
+/* Custom Owl Dots for Mobile */
+@media (max-width: 991px) {
+    .team-slider .owl-dots,
+    .price-slider .owl-dots {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .team-slider .owl-dots .owl-dot,
+    .price-slider .owl-dots .owl-dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin: 0 5px;
+        background: #ccc;
+        border-radius: 50%;
+        transition: all 0.3s;
+    }
+    .team-slider .owl-dots .owl-dot.active,
+    .price-slider .owl-dots .owl-dot.active {
+        background: #108042;
+        width: 12px;
+        height: 12px;
+    }
+}
+/* End Custom Owl Dots */
 
 .loader-page {
     position: fixed;

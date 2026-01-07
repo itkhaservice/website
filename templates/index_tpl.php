@@ -545,7 +545,7 @@
                         <h1>Nhân Sự Của Chúng Tôi</h1>
                     </div>
                 </div>
-                <div class="col-lg-5 text-lg-right">
+                <div class="col-lg-5 text-lg-right d-none d-lg-block">
                     <div class="arrow-navigation mb-15 mt-md-20">
                         <a href="" class="nav-slide slide-left">
                             <img src="img/icons/ar_lt.png" alt="">
@@ -595,7 +595,7 @@
                         <h1 class="text-uppercase" style="font-weight: 800; letter-spacing: 1px;">Dự Án Tiêu Biểu</h1>
                     </div>
                 </div>
-                <div class="col-lg-5 mt-md-25 text-lg-right">
+                <div class="col-lg-5 mt-md-25 text-lg-right d-none d-lg-block">
                     <div class="arrow-navigation mb-15 mt-md-20">
                         <a href="" class="nav-slide nav-price-left">
                             <img src="img/icons/ar_lt.png" alt="">
