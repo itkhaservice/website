@@ -68,7 +68,6 @@
                 }
             }
         </style>
-        </style>
         <div class="container-fluid px-lg-5">
             <div class="row align-items-center no-gutters justify-content-between header-row">
                 <!-- Mobile Left Placeholder (to balance if needed, but we use absolute centering for logo) -->
@@ -165,8 +164,9 @@
                         <a href="" class="search-icon d-none d-lg-block black mr-20" data-toggle="modal" data-target="#searchModal">
                             <i class="fas fa-search"></i>
                         </a>
-                        <div class="btn btn-round d-none d-lg-block blob-small btn-dropdown">
-                            <span>Phần mềm QLVH <i class="fas fa-angle-down mr-5"></i></span>
+                        <!-- Fix alignment and Remove Debug -->
+                        <div class="btn btn-round d-none d-lg-inline-flex align-items-center justify-content-center blob-small btn-dropdown ml-3" style="height: 40px; white-space: nowrap;">
+                            <span>Phần mềm QLVH <i class="fas fa-angle-down ml-1"></i></span>
                             <ul class="submenu">
                                 <li><a href="<?=$row_setting['link_phanmem']?>" target="_blank">Link phần mềm quản lý</a></li>
                                 <li><a href="<?=$row_setting['link_gioithieu_app']?>">Nội dung giới thiệu về App Dân Cư</a></li>

@@ -354,9 +354,22 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
 
     function selectFile(path) {
         if (window.opener && !window.opener.closed) {
-            var urlForReturn = 'upload/' + path;
-            if(ckFuncNum != '') { window.opener.CKEDITOR.tools.callFunction(ckFuncNum, '../' + urlForReturn); window.close(); }
-            else if (typeof window.opener.updateImagePath === 'function') { window.opener.updateImagePath(targetField, urlForReturn); window.close(); }
+            // Lấy Base URL từ PHP để đảm bảo chính xác trên mọi môi trường (localhost/hosting)
+            // Loại bỏ 'admin/' khỏi đường dẫn hiện tại để lấy root
+            var rootUrl = window.location.href.split('admin/browser.php')[0];
+            
+            // Xử lý path (path nhận vào là 'news/anh.jpg')
+            // Cần trả về: http://domain.com/upload/news/anh.jpg
+            var fullUrl = rootUrl + 'upload/' + path;
+
+            if(ckFuncNum != '') { 
+                window.opener.CKEDITOR.tools.callFunction(ckFuncNum, fullUrl); 
+                window.close(); 
+            }
+            else if (typeof window.opener.updateImagePath === 'function') { 
+                window.opener.updateImagePath(targetField, fullUrl); 
+                window.close(); 
+            }
         }
     }
 

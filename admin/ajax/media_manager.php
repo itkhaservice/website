@@ -11,10 +11,15 @@ if (!isset($_SESSION['admin_logined']) || $_SESSION['admin_logined'] !== true) {
     exit;
 }
 
-$root_path = dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'upload';
-$root_path = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $root_path);
+$root_path = '../../upload'; // Sử dụng đường dẫn tương đối cho an toàn trên hosting free
 
-if (!file_exists($root_path)) mkdir($root_path, 0755, true);
+if (!file_exists($root_path)) {
+    if (!@mkdir($root_path, 0755, true)) {
+        // Nếu không tạo được, thử báo lỗi
+        echo json_encode(['status' => 0, 'msg' => 'Không thể tạo thư mục gốc upload. Vui lòng kiểm tra quyền (CHMOD 755/777).']);
+        exit;
+    }
+}
 
 // --- TRASH CONFIGURATION ---
 $trash_name = 'trash';
@@ -253,8 +258,12 @@ if ($action === 'mkdir' && isset($_POST['name'])) {
     
     $new_folder = $target_dir . DIRECTORY_SEPARATOR . $name;
     if (!file_exists($new_folder)) {
-        if (mkdir($new_folder, 0755, true)) echo json_encode(['status' => 1]);
-        else echo json_encode(['status' => 0, 'msg' => 'Lỗi tạo thư mục']);
+        if (@mkdir($new_folder, 0755, true)) echo json_encode(['status' => 1]);
+        else {
+            // Lấy lỗi cuối cùng nếu có
+            $error = error_get_last();
+            echo json_encode(['status' => 0, 'msg' => 'Lỗi tạo thư mục: ' . ($error['message'] ?? 'Quyền hạn bị từ chối')]);
+        }
     } else { echo json_encode(['status' => 0, 'msg' => 'Thư mục đã tồn tại']); }
     exit;
 }
