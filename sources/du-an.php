@@ -84,9 +84,9 @@ if($id || $slug){
     $total_items = $row_num['num'];
     $total_pages = ceil($total_items / $per_page);
 
-    // Lấy dữ liệu
+    // Lấy dữ liệu (Tối ưu hóa: Chỉ lấy các cột cần thiết)
     $d->reset();
-    $d->query("select #_duan.*, #_khuvuc.ten_vi as ten_khuvuc from #_duan left join #_khuvuc on #_duan.id_khuvuc = #_khuvuc.id where $where order by #_duan.stt asc, #_duan.id desc limit $startpoint, $per_page");
+    $d->query("select #_duan.id, #_duan.ten_vi, #_duan.ten_khong_dau, #_duan.photo, #_duan.mota_vi, #_duan.id_khuvuc, #_khuvuc.ten_vi as ten_khuvuc from #_duan left join #_khuvuc on #_duan.id_khuvuc = #_khuvuc.id where $where order by #_duan.stt asc, #_duan.id desc limit $startpoint, $per_page");
     $ds_duan = $d->result_array();
     
     // Lấy danh sách khu vực để tạo Dropdown lọc

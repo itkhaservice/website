@@ -104,7 +104,7 @@
                         <div class="project-corporate-card bg-white wow fadeInUp">
                             <div class="project-thumb">
                                 <a href="<?=$link?>">
-                                    <img src="<?=$img_src?>" alt="<?=$v['ten_vi']?>">
+                                    <img src="<?=$img_src?>" alt="<?=$v['ten_vi']?>" loading="lazy">
                                 </a>
                                 <?php if(!empty($v['ten_khuvuc'])) { ?>
                                 <span class="location-badge">
