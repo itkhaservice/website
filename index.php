@@ -1,4 +1,5 @@
 <?php
+$time_start = microtime(true); // Đo hiệu năng
 session_start();
 error_reporting(E_ALL ^ E_NOTICE);
 
@@ -8,9 +9,26 @@ error_reporting(E_ALL ^ E_NOTICE);
 @define ( '_ajax_folder' , './ajax/' );
 @define ( '_upload_folder' , './media/upload/' );
 
+// --- CACHE ENGINE START ---
+$cache_time = 600; // 10 phút
+$cache_path = './upload/trash/cache/';
+if (!is_dir($cache_path)) @mkdir($cache_path, 0777, true);
+$cache_file = $cache_path . md5($_SERVER['REQUEST_URI']) . '.html';
+
 // Check localhost
 $localhost = 0;
 if($_SERVER['SERVER_NAME'] == 'localhost') $localhost = 1;
+
+// Chỉ cache trang GET và không có thông báo chuyển trang
+if ($_SERVER['REQUEST_METHOD'] == 'GET' && empty($_SESSION['transfer_msg'])) {
+    if (file_exists($cache_file) && (time() - $cache_time < filemtime($cache_file))) {
+        echo file_get_contents($cache_file);
+        echo "<!-- Cached at " . date('H:i:s', filemtime($cache_file)) . " | Processed in " . round(microtime(true) - $time_start, 4) . "s -->";
+        exit;
+    }
+    ob_start();
+}
+// --- CACHE ENGINE END ---
 
 include_once _lib."config.php";
 include_once _lib."constant.php";
@@ -154,3 +172,13 @@ if($source!="") include _source.$source.".php";
 </body>
 
 </html>
+<?php
+// --- CACHE SAVE START ---
+if ($_SERVER['REQUEST_METHOD'] == 'GET' && empty($_SESSION['transfer_msg'])) {
+    $content = ob_get_contents();
+    @file_put_contents($cache_file, $content);
+    ob_end_flush();
+}
+echo "<!-- Processed in " . round(microtime(true) - $time_start, 4) . "s -->";
+// --- CACHE SAVE END ---
+?>

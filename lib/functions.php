@@ -745,11 +745,31 @@ function getThanhTien($id){
 
 function getCurrentPageURL() {
     $pageURL = 'http';
-    if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+    if (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
     $pageURL .= "://";
-	$pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-    $pageURL = explode("&p=", $pageURL);
-    return $pageURL[0];
+    $pageURL .= $_SERVER["SERVER_NAME"];
+    
+    // Lấy đường dẫn gốc (không kèm query string)
+    $uri_parts = explode('?', $_SERVER['REQUEST_URI'], 2);
+    $path = $uri_parts[0];
+    
+    $pageURL .= $path;
+    
+    // Lấy tất cả tham số GET hiện tại
+    $params = $_GET;
+    
+    // Loại bỏ các tham số không muốn giữ lại trong base URL phân trang
+    unset($params['p']);
+    unset($params['per_page']);
+    unset($params['com']); // com thường được xử lý bởi rewrite rule, không cần append lại nếu dùng link rewrite
+    unset($params['act']);
+    
+    // Nếu có tham số khác (ví dụ: keyword, type...) thì nối lại
+    if (count($params) > 0) {
+        $pageURL .= '?' . http_build_query($params);
+    }
+    
+    return $pageURL;
 }
 
 
@@ -1634,7 +1654,7 @@ function sendMail($emails, $subject, $body){
         global $config;
 
         // Bao gồm class SMTP mới
-        include_once "class.smtp.php";
+        include_once __DIR__ . "/class.smtp.php";
 
         if($config['email']['on']) {
             $to = ($email != '') ? $email : $config['email']['email2'];

@@ -68,7 +68,7 @@ if($id){
     $total_pages = ceil($total_items / $per_page);
 
     $d->reset();
-    $d->query("select n.*, c.ten_vi as ten_danhmuc from #_news n left join #_news_cat c on n.id_cat = c.id $where order by n.ngaytao desc limit $startpoint, $per_page");
+    $d->query("select n.id, n.ten_vi, n.ten_khong_dau, n.photo, n.mota_vi, n.ngaytao, n.luotxem, n.id_cat, c.ten_vi as ten_danhmuc from #_news n left join #_news_cat c on n.id_cat = c.id $where order by n.ngaytao desc limit $startpoint, $per_page");
     $ds_tintuc = $d->result_array();
     
     // Tạo mảng phân trang cho View
@@ -85,7 +85,7 @@ if($id){
 
 // Lấy danh sách tin mới nhất cho Sidebar
 $d->reset();
-$d->query("select * from #_news where hienthi=1 and ngaytao <= ".time()." order by ngaytao desc limit 0,5");
+$d->query("select id, ten_vi, ten_khong_dau, photo, ngaytao from #_news where hienthi=1 and ngaytao <= ".time()." order by ngaytao desc limit 0,5");
 $ds_sidebar = $d->result_array();
 
 // Lấy danh sách danh mục và đếm số bài viết

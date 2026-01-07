@@ -200,7 +200,7 @@
                                     <?php 
                                         $img_src = (!empty($v['photo']) && file_exists($v['photo'])) ? $v['photo'] : 'https://placehold.co/600x400/ebebeb/666666?text=No+Image';
                                     ?>
-                                    <img src="<?=$img_src?>" alt="<?=$v['ten_vi']?>" class="w-100 transition-4" style="height: 240px; object-fit: cover;">
+                                    <img src="<?=$img_src?>" alt="<?=$v['ten_vi']?>" class="w-100 transition-4" style="height: 240px; object-fit: cover;" loading="lazy">
                                 </a>
                                 <div class="blog-date-badge">
                                     <span class="day"><?=date('d', $v['ngaytao'])?></span>
@@ -244,7 +244,7 @@
                                     if($end_index > $paging['total']) $end_index = $paging['total'];
                                 ?>
                                 <span>Hiển thị <b><?=$start_index?> - <?=$end_index?></b> trên tổng số <b><?=$paging['total']?></b> tin tức</span>
-                                <select class="form-control per-page-select shadow-none ml-2" style="width: 70px; height: 30px; padding: 0 5px;" onchange="var url = new URL(window.location.href); url.searchParams.set('per_page', this.value); url.searchParams.set('p', '1'); window.location.href = url.toString();">
+                                <select class="form-control per-page-select shadow-none ml-2" style="width: 70px; height: 30px; padding: 0 5px;" onchange="updatePerPage(this)">
                                     <?php foreach([6, 12, 24, 48] as $p) { ?>
                                         <option value="<?=$p?>" <?=($paging['per_page']==$p)?'selected':''?>><?=$p?></option>
                                     <?php } ?>
@@ -253,23 +253,44 @@
                             
                             <nav class="d-inline-block">
                                 <ul class="pagination m-0">
+                                    <?php 
+                                        // Xác định dấu nối tham số (? hoặc &)
+                                        $link_connector = (strpos($paging['url'], '?') !== false) ? '&' : '?';
+                                        $per_page_param = ($paging['per_page'] != 6) ? "&per_page=".$paging['per_page'] : ""; // Mặc định 6 thì không cần param
+                                    ?>
+                                    
                                     <?php if($paging['current'] > 1) { ?>
-                                        <li class="page-item"><a class="page-link shadow-sm mx-1 border-0 rounded-circle" href="<?=$paging['url']?>?p=<?=$paging['current']-1?>"><i class="fas fa-angle-left"></i></a></li>
+                                        <li class="page-item"><a class="page-link shadow-sm mx-1 border-0 rounded-circle" href="<?=$paging['url'].$link_connector?>p=<?=$paging['current']-1?><?=$per_page_param?>"><i class="fas fa-angle-left"></i></a></li>
                                     <?php } ?>
                                     
                                     <?php for($i=1; $i<=$paging['last']; $i++) { 
                                         if($i == 1 || $i == $paging['last'] || ($i >= $paging['current'] - 1 && $i <= $paging['current'] + 1)) { ?>
-                                        <li class="page-item <?=($i==$paging['current'])?'active':''?>"><a class="page-link shadow-sm mx-1 border-0 rounded-circle font-weight-bold" href="<?=$paging['url']?>?p=<?=$i?>"><?=$i?></a></li>
+                                        <li class="page-item <?=($i==$paging['current'])?'active':''?>"><a class="page-link shadow-sm mx-1 border-0 rounded-circle font-weight-bold" href="<?=$paging['url'].$link_connector?>p=<?=$i?><?=$per_page_param?>"><?=$i?></a></li>
                                     <?php } elseif($i == 2 || $i == $paging['last'] - 1) { echo '<li class="page-item disabled"><span class="page-link border-0 bg-transparent">...</span></li>'; } } ?>
                                     
                                     <?php if($paging['current'] < $paging['last']) { ?>
-                                        <li class="page-item"><a class="page-link shadow-sm mx-1 border-0 rounded-circle" href="<?=$paging['url']?>?p=<?=$paging['current']+1?>"><i class="fas fa-angle-right"></i></a></li>
+                                        <li class="page-item"><a class="page-link shadow-sm mx-1 border-0 rounded-circle" href="<?=$paging['url'].$link_connector?>p=<?=$paging['current']+1?><?=$per_page_param?>"><i class="fas fa-angle-right"></i></a></li>
                                     <?php } ?>
                                 </ul>
                             </nav>
                         </div>
                     </div>
                 </div>
+                
+                <script>
+                    function updatePerPage(selectObject) {
+                        var value = selectObject.value;
+                        var currentUrl = new URL(window.location.href);
+                        
+                        // Cập nhật tham số per_page
+                        currentUrl.searchParams.set('per_page', value);
+                        
+                        // Reset về trang 1 khi đổi số lượng hiển thị
+                        currentUrl.searchParams.set('p', '1');
+                        
+                        window.location.href = currentUrl.toString();
+                    }
+                </script>
                 <?php } ?>
             </div>
             
@@ -322,7 +343,7 @@
                                 <?php 
                                     $img_sidebar = (!empty($v['photo']) && file_exists($v['photo'])) ? $v['photo'] : 'https://placehold.co/100x100/ebebeb/666666?text=New';
                                 ?>
-                                <img src="<?=$img_sidebar?>" alt="" class="w-100 h-100 object-fit-cover transition-4">
+                                <img src="<?=$img_sidebar?>" alt="" class="w-100 h-100 object-fit-cover transition-4" loading="lazy">
                             </div>
                             <div class="popular-post-text">
                                 <h6 class="mb-5 text-dark f-700 fs-14 text-split-2 group-hover-green transition-2"><?=$v['ten_vi']?></h6>

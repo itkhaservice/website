@@ -1,6 +1,6 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /khaservi_khaserv/
+    RewriteBase /
 
     # Chặn truy cập trực tiếp vào các file hệ thống
     RewriteRule ^\.htaccess$ - [F]
