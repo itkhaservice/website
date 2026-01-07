@@ -1,3 +1,4 @@
+<script>document.title = "<?=$row_setting['shortName']?>";</script>
     <!-- Slider start -->
     <section class="slider-area-2 relative">
         <div class="owl-carousel slider-2">
@@ -446,7 +447,7 @@
                 $('#custom-alert-overlay').addClass('active');
             }
 
-            // Đóng thông báo
+            // Đóng thông báo alert
             $('#custom-alert-close, #custom-alert-overlay').click(function(e){
                 if(e.target === this) {
                     $('#custom-alert-overlay').removeClass('active');
@@ -475,8 +476,8 @@
                     data: {name: name, phone: phone, email: email, topic: topic},
                     success: function(res){
                         if(res.status == 'success'){
-                            // Chuyển hướng trang cảm ơn
-                            window.location.href = 'thank-you.html';
+                            // Chuyển hướng sang trang liên hệ có thông báo cảm ơn
+                            window.location.href = 'lien-he.html?status=success';
                         } else {
                             showCustomAlert(res.message);
                             btn.text('Gửi Ngay');
