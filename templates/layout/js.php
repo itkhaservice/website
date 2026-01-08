@@ -16,6 +16,12 @@
     <!-- JS Files end -->
 
     <?php if(!empty($row_setting['facebook_page_id'])) { ?>
+    <!-- Nút Gọi điện thoại (Trên nút Chat) -->
+    <a href="tel:<?=str_replace([' ','.','-'], '', $row_setting['hotline'])?>" class="mess-fixed-btn phone-fixed-btn shadow-lg">
+        <i class="fas fa-phone-alt"></i>
+        <span class="mess-text">Gọi ngay: <?=$row_setting['hotline']?></span>
+    </a>
+
     <!-- Nút Chat Messenger Thủ Công (Thiết kế đối xứng On-top) -->
     <a href="https://m.me/<?=$row_setting['facebook_page_id']?>" target="_blank" class="mess-fixed-btn shadow-lg">
         <i class="fab fa-facebook-messenger"></i>
@@ -40,6 +46,29 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             white-space: nowrap;
             text-decoration: none !important;
+            /* Animation tỏa năng lượng */
+            animation: pulse-green 2s infinite;
+        }
+        .phone-fixed-btn {
+            bottom: 115px; /* Cách nút Chat khoảng 64px */
+            background: #dc3545; /* Màu đỏ cho nút gọi */
+            animation: pulse-red 2s infinite;
+        }
+        
+        /* Keyframes cho hiệu ứng tỏa năng lượng nhè nhẹ */
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(16, 128, 66, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(16, 128, 66, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 128, 66, 0); }
+        }
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(220, 53, 69, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+        }
+
+        .phone-fixed-btn:hover {
+            background: #c82333;
         }
         .mess-fixed-btn i {
             min-width: 50px; /* Bằng chiều rộng nút ban đầu */
@@ -62,6 +91,11 @@
             background: #0d6a36;
             box-shadow: 0 8px 25px rgba(16, 128, 66, 0.3);
         }
+        .phone-fixed-btn:hover {
+            width: 230px; /* Tăng chiều rộng để hiện số điện thoại */
+            background: #c82333;
+            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.3);
+        }
         .mess-fixed-btn:hover .mess-text {
             opacity: 1;
         }
@@ -70,6 +104,10 @@
             .mess-fixed-btn {
                 left: 20px;
                 bottom: 20px;
+            }
+            .phone-fixed-btn {
+                left: 20px;
+                bottom: 80px;
             }
             .mess-fixed-btn:hover {
                 width: 50px; /* Tắt mở rộng trên mobile để tránh đè giao diện */
