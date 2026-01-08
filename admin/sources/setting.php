@@ -38,6 +38,7 @@ function save_item(){
     $data['email'] = $_POST['email'];
     $data['email2'] = $_POST['email2'];
     $data['fanpage'] = $_POST['fanpage'];
+    $data['facebook_page_id'] = $_POST['facebook_page_id'];
     $data['tiktok'] = $_POST['tiktok'];
     $data['youtube'] = $_POST['youtube'];
     $data['youtubeInfo'] = $_POST['youtubeInfo'];

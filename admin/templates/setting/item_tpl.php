@@ -100,6 +100,11 @@
                         <!-- Tab Mạng xã hội -->
                         <div class="tab-pane fade" id="tabs-social" role="tabpanel">
                             <div class="form-group">
+                                <label class="font-weight-bold"><i class="fab fa-facebook-messenger text-primary mr-1"></i> Fanpage ID (Cho Chat Plugin)</label>
+                                <input type="text" name="facebook_page_id" class="form-control" value="<?=@$item['facebook_page_id']?>" placeholder="Ví dụ: 106506484307xxx">
+                                <small class="text-muted italic">Lấy ID Fanpage tại: <a href="https://lookup-id.com/" target="_blank">https://lookup-id.com/</a></small>
+                            </div>
+                            <div class="form-group">
                                 <label class="font-weight-bold"><i class="fab fa-facebook text-primary mr-1"></i> Fanpage Facebook</label>
                                 <input type="text" name="fanpage" class="form-control" value="<?=$item['fanpage']?>">
                             </div>
