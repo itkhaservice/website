@@ -14,13 +14,14 @@
     <script src="js/jquery.meanmenu.min.js"></script>
     <script src="js/main.js?v=<?=time()?>"></script>
     <!-- JS Files end -->
-    
-    <?php
-    // DEBUG: Kiểm tra giá trị
-    // var_dump($row_setting['facebook_page_id']); 
-    ?>
 
     <?php if(!empty($row_setting['facebook_page_id'])) { ?>
+    <!-- Nút Chat Messenger Thủ Công (Hoạt động ngay cả trên localhost) -->
+    <a href="https://m.me/<?=$row_setting['facebook_page_id']?>" target="_blank" 
+       style="position: fixed; left: 20px; bottom: 150px; background: #0084ff; color: #fff; padding: 10px 16px; border-radius: 30px; font-weight: 600; text-decoration: none; z-index: 999999; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 8px;">
+        <i class="fab fa-facebook-messenger" style="font-size: 20px;"></i> Chat Messenger
+    </a>
+
     <!-- ✅ FULL FACEBOOK MESSENGER CUSTOMER CHAT (FINAL) -->
     <div id="fb-root"></div>
     <div id="fb-customer-chat" class="fb-customerchat"></div>
