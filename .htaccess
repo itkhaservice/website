@@ -38,6 +38,9 @@
     # Cảm ơn
     RewriteRule ^thank-you.html$ index.php?com=thank-you [QSA,L]
 
+    # Sitemap
+    RewriteRule ^sitemap.xml$ sitemap.php [L]
+
     # 404 Error page
     ErrorDocument 404 /404.html
     RewriteRule ^404.html$ index.php?com=404 [QSA,L]

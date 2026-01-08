@@ -164,8 +164,21 @@ if($source != "" && file_exists(_source.$source.".php")) {
     <base href="<?=$base_url?>">
     <title><?=($title_bar!='')?$title_bar:$row_setting['title']?></title>
     <meta charset="utf-8">
-    <meta name="description" content="">
+    <meta name="description" content="<?=($description_t!='')?$description_t:$row_setting['description']?>">
+    <meta name="keywords" content="<?=($keywords_t!='')?$keywords_t:$row_setting['keywords']?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- SEO Canonical -->
+    <link rel="canonical" href="<?=getCurrentPageURL()?>" />
+    
+    <!-- Open Graph data -->
+    <meta property="og:title" content="<?=($title_bar!='')?$title_bar:$row_setting['title']?>" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="<?=getCurrentPageURL()?>" />
+    <meta property="og:image" content="<?=$base_url?><?=($row_detail['photo']!='')?$row_detail['photo']:$row_setting['logo']?>" />
+    <meta property="og:description" content="<?=($description_t!='')?$description_t:$row_setting['description']?>" />
+    <meta property="og:site_name" content="<?=$row_setting['ten_vi']?>" />
+
     <!-- Calling Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="<?=($row_setting['logo']!='') ? $row_setting['logo'] : 'img/favicon.png'?>">
     
