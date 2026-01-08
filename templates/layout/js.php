@@ -14,6 +14,11 @@
     <script src="js/jquery.meanmenu.min.js"></script>
     <script src="js/main.js?v=<?=time()?>"></script>
     <!-- JS Files end -->
+    
+    <?php
+    // DEBUG: Kiểm tra giá trị
+    // var_dump($row_setting['facebook_page_id']); 
+    ?>
 
     <?php if(!empty($row_setting['facebook_page_id'])) { ?>
     <!-- Messenger Chat Plugin Code -->
