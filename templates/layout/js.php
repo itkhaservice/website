@@ -45,4 +45,16 @@
         fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));
     </script>
+    
+    <style>
+        /* Ép icon Messenger sang trái bằng CSS */
+        .fb_dialog {
+            left: 18pt !important;
+            right: auto !important;
+        }
+        .fb-customerchat iframe {
+            left: 18pt !important;
+            right: auto !important;
+        }
+    </style>
     <?php } ?>
