@@ -40,10 +40,10 @@ echo_url($url_web . 'lien-he.html', '0.7');
 
 // 3. Danh mục Tin tức
 $d->reset();
-$d->query("select ten_khong_dau, ngaytao from #_news_cat where hienthi=1 and type='tin-tuc' order by stt asc");
+$d->query("select ten_khong_dau from #_news_cat where hienthi=1 and type='tin-tuc' order by stt asc");
 $news_cats = $d->result_array();
 foreach($news_cats as $v) {
-    echo_url($url_web . 'tin-tuc/' . $v['ten_khong_dau'] . '.html', '0.7', $v['ngaytao']);
+    echo_url($url_web . 'tin-tuc/' . $v['ten_khong_dau'] . '.html', '0.7');
 }
 
 // 4. Chi tiết Tin tức
