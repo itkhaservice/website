@@ -21,49 +21,66 @@
     ?>
 
     <?php if(!empty($row_setting['facebook_page_id'])) { ?>
-    <!-- Messenger Chat Plugin Code -->
+    <!-- ✅ FULL FACEBOOK MESSENGER CUSTOMER CHAT (FINAL) -->
     <div id="fb-root"></div>
     <div id="fb-customer-chat" class="fb-customerchat"></div>
 
     <script>
-      var chatbox = document.getElementById('fb-customer-chat');
-      chatbox.setAttribute("page_id", "<?=$row_setting['facebook_page_id']?>");
-      chatbox.setAttribute("attribution", "biz_inbox");
+        // ==============================
+        // CONFIG
+        // ==============================
+        const FB_PAGE_ID = "<?=$row_setting['facebook_page_id']?>"; // Get from Admin Config
 
-      window.fbAsyncInit = function() {
-        FB.init({
-          xfbml            : true,
-          version          : 'v18.0'
-        });
-      };
+        // ==============================
+        // SET ATTRIBUTE FOR CHATBOX
+        // ==============================
+        const chatbox = document.getElementById('fb-customer-chat');
+        chatbox.setAttribute("page_id", FB_PAGE_ID);
+        chatbox.setAttribute("attribution", "biz_inbox");
 
-      (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
+        // ==============================
+        // FACEBOOK SDK INIT
+        // ==============================
+        window.fbAsyncInit = function () {
+            FB.init({
+                xfbml: true,
+                version: 'v18.0'
+            });
+        };
+
+        // ==============================
+        // LOAD FACEBOOK SDK ASYNC
+        // ==============================
+        (function (d, s, id) {
+            let js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js";
+            js.async = true;
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
     </script>
-    
+
     <style>
-        /* Ép icon Messenger sang trái, đối xứng với nút Scroll Top (right: 80px, bottom: 51px) */
-        #fb-root .fb_dialog {
-            left: 80px !important;
+        /* ==============================
+           FACEBOOK MESSENGER POSITION
+           Force icon & chatbox to LEFT
+           ============================== */
+        #fb-root .fb_dialog,
+        #fb-root .fb-customerchat iframe {
+            left: 80px !important;   /* Desktop left position */
             right: auto !important;
-            bottom: 51px !important;
+            bottom: 51px !important; /* Align with Scroll Top */
             z-index: 9999999 !important;
         }
-        /* Xử lý khung chat khi mở ra */
-        #fb-root .fb_iframe_widget iframe {
-            left: 80px !important;
-            right: auto !important;
-            bottom: 51px !important;
-            z-index: 9999999 !important;
-        }
-        /* Mobile: Giữ khoảng cách nhỏ hơn */
+
+        /* ==============================
+           MOBILE RESPONSIVE
+           ============================== */
         @media (max-width: 768px) {
-            #fb-root .fb_dialog {
+            #fb-root .fb_dialog,
+            #fb-root .fb-customerchat iframe {
                 left: 20px !important;
                 bottom: 80px !important;
             }
