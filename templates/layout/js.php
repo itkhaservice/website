@@ -47,25 +47,25 @@
     </script>
     
     <style>
-        /* Ép icon Messenger sang trái bằng CSS */
+        /* Ép icon Messenger sang trái, đối xứng với nút Scroll Top (right: 80px, bottom: 51px) */
         #fb-root .fb_dialog {
-            left: 24px !important;
+            left: 80px !important;
             right: auto !important;
-            bottom: 24px !important;
-            z-index: 9999999 !important; /* Đảm bảo nổi lên trên cùng */
+            bottom: 51px !important;
+            z-index: 9999999 !important;
         }
         /* Xử lý khung chat khi mở ra */
         #fb-root .fb_iframe_widget iframe {
-            left: 24px !important;
+            left: 80px !important;
             right: auto !important;
-            bottom: 24px !important;
+            bottom: 51px !important;
             z-index: 9999999 !important;
         }
-        /* Ẩn bớt bản mobile nếu cần thiết hoặc điều chỉnh */
+        /* Mobile: Giữ khoảng cách nhỏ hơn */
         @media (max-width: 768px) {
             #fb-root .fb_dialog {
-                left: 15px !important;
-                bottom: 80px !important; /* Tránh menu mobile nếu có */
+                left: 20px !important;
+                bottom: 80px !important;
             }
         }
     </style>
