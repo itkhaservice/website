@@ -218,6 +218,20 @@
             transform: translateY(-1px);
         }
         
+        /* Override Bootstrap Colors */
+        .text-primary { color: var(--primary) !important; }
+        a { color: var(--primary); text-decoration: none; background-color: transparent; }
+        a:hover { color: rgb(12, 100, 52); text-decoration: none; }
+        
+        .page-item.active .page-link {
+            z-index: 3;
+            color: #fff;
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        .page-link { color: var(--primary); }
+        .page-link:hover { color: rgb(12, 100, 52); }
+
         /* --- Switch Toggle (iOS Style) --- */
         .custom-switch { padding-left: 2.75rem !important; }
         .custom-switch .custom-control-label::before {
