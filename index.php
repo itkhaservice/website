@@ -179,6 +179,26 @@ if($source != "" && file_exists(_source.$source.".php")) {
     <meta property="og:description" content="<?=($description_t!='')?$description_t:$row_setting['description']?>" />
     <meta property="og:site_name" content="<?=$row_setting['ten_vi']?>" />
 
+    <!-- Schema.org Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "<?=addslashes($row_setting['ten_vi'])?>",
+      "url": "<?=$base_url?>",
+      "logo": "<?=$base_url?><?=$row_setting['logo']?>",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "<?=$row_setting['hotline']?>",
+        "contactType": "customer service"
+      },
+      "sameAs": [
+        "<?=$row_setting['fanpage']?>",
+        "<?=$row_setting['youtube']?>"
+      ]
+    }
+    </script>
+
     <!-- Calling Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="<?=($row_setting['logo']!='') ? $row_setting['logo'] : 'img/favicon.png'?>">
     
