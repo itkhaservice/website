@@ -31,6 +31,7 @@ $com = (isset($_GET['com'])) ? addslashes($_GET['com']) : "index";
 $act = (isset($_GET['act'])) ? addslashes($_GET['act']) : "";
 
 switch($com){
+    case 'index':
     case 'dashboard':
         $source = "dashboard";
         $template = "dashboard";
