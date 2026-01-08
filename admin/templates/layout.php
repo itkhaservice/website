@@ -504,6 +504,14 @@
           </li>
 
           <li class="nav-header">HỆ THỐNG</li>
+          <?php if($_SESSION['login']['role'] >= 3) { ?>
+          <li class="nav-item">
+            <a href="index.php?com=user&act=man" class="nav-link <?=$com=='user'?'active':''?>">
+              <i class="nav-icon fas fa-user-shield"></i>
+              <p>Quản lý tài khoản</p>
+            </a>
+          </li>
+          <?php } ?>
           <li class="nav-item">
             <a href="index.php?com=setting" class="nav-link <?=$com=='setting'?'active':''?>">
               <i class="nav-icon fas fa-tools"></i>

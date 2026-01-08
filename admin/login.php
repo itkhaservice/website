@@ -11,7 +11,33 @@ if(isset($_POST['login'])){
     
     if($d->num_rows() == 1){
         $row = $d->fetch_array();
+        
+        // Kiểm tra mật khẩu
+        $login_success = false;
+        $need_rehash = false;
+
+        // 1. Kiểm tra chuẩn cũ (MD5) để hỗ trợ user chưa chuyển đổi
         if($row['password'] == md5($password)){
+            $login_success = true;
+            $need_rehash = true; // Cần nâng cấp mã hóa
+        } 
+        // 2. Kiểm tra chuẩn mới (Bcrypt)
+        else if(password_verify($password, $row['password'])){
+            $login_success = true;
+            // password_needs_rehash kiểm tra xem thuật toán có thay đổi không
+            if(password_needs_rehash($row['password'], PASSWORD_DEFAULT)) {
+                $need_rehash = true;
+            }
+        }
+
+        if($login_success){
+            // Nếu là user cũ hoặc thuật toán hash đã cũ -> Cập nhật lại mật khẩu mới
+            if($need_rehash){
+                $new_hash = password_hash($password, PASSWORD_DEFAULT);
+                $d->reset();
+                $d->query("UPDATE #_user SET password = '$new_hash' WHERE id = '".$row['id']."'");
+            }
+
             $_SESSION['admin_logined'] = true;
             $_SESSION['login']['username'] = $username;
             $_SESSION['login']['id'] = $row['id'];
