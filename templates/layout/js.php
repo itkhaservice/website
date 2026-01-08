@@ -48,13 +48,25 @@
     
     <style>
         /* Ép icon Messenger sang trái bằng CSS */
-        .fb_dialog {
-            left: 18pt !important;
+        #fb-root .fb_dialog {
+            left: 24px !important;
             right: auto !important;
+            bottom: 24px !important;
+            z-index: 9999999 !important; /* Đảm bảo nổi lên trên cùng */
         }
-        .fb-customerchat iframe {
-            left: 18pt !important;
+        /* Xử lý khung chat khi mở ra */
+        #fb-root .fb_iframe_widget iframe {
+            left: 24px !important;
             right: auto !important;
+            bottom: 24px !important;
+            z-index: 9999999 !important;
+        }
+        /* Ẩn bớt bản mobile nếu cần thiết hoặc điều chỉnh */
+        @media (max-width: 768px) {
+            #fb-root .fb_dialog {
+                left: 15px !important;
+                bottom: 80px !important; /* Tránh menu mobile nếu có */
+            }
         }
     </style>
     <?php } ?>
