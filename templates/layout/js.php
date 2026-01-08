@@ -16,11 +16,69 @@
     <!-- JS Files end -->
 
     <?php if(!empty($row_setting['facebook_page_id'])) { ?>
-    <!-- Nút Chat Messenger Thủ Công (Hoạt động ngay cả trên localhost) -->
-    <a href="https://m.me/<?=$row_setting['facebook_page_id']?>" target="_blank" 
-       style="position: fixed; left: 20px; bottom: 150px; background: #0084ff; color: #fff; padding: 10px 16px; border-radius: 30px; font-weight: 600; text-decoration: none; z-index: 999999; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 8px;">
-        <i class="fab fa-facebook-messenger" style="font-size: 20px;"></i> Chat Messenger
+    <!-- Nút Chat Messenger Thủ Công (Thiết kế đối xứng On-top) -->
+    <a href="https://m.me/<?=$row_setting['facebook_page_id']?>" target="_blank" class="mess-fixed-btn shadow-lg">
+        <i class="fab fa-facebook-messenger"></i>
+        <span class="mess-text">Chat Messenger</span>
     </a>
+
+    <style>
+        .mess-fixed-btn {
+            position: fixed;
+            left: 80px;
+            bottom: 51px;
+            background: #108042;
+            color: #fff !important;
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Để icon luôn nằm cố định bên trái */
+            z-index: 999999;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            white-space: nowrap;
+            text-decoration: none !important;
+        }
+        .mess-fixed-btn i {
+            min-width: 50px; /* Bằng chiều rộng nút ban đầu */
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+        .mess-text {
+            opacity: 0;
+            font-weight: 600;
+            font-size: 14px;
+            transition: opacity 0.3s ease;
+            padding-right: 20px;
+        }
+        /* Hiệu ứng Hover */
+        .mess-fixed-btn:hover {
+            width: 190px;
+            background: #0d6a36;
+            box-shadow: 0 8px 25px rgba(16, 128, 66, 0.3);
+        }
+        .mess-fixed-btn:hover .mess-text {
+            opacity: 1;
+        }
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .mess-fixed-btn {
+                left: 20px;
+                bottom: 20px;
+            }
+            .mess-fixed-btn:hover {
+                width: 50px; /* Tắt mở rộng trên mobile để tránh đè giao diện */
+            }
+            .mess-fixed-btn:hover .mess-text {
+                display: none;
+            }
+        }
+    </style>
 
     <!-- ✅ FULL FACEBOOK MESSENGER CUSTOMER CHAT (FINAL) -->
     <div id="fb-root"></div>
