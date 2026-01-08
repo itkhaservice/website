@@ -16,6 +16,10 @@ if($d->num_rows() == 0){
     echo "Cột facebook_page_id đã tồn tại.<br>";
 }
 
+// Cập nhật ID Fanpage cho Khaservice
+$d->query("UPDATE #_setting SET facebook_page_id = '103551752496533' WHERE facebook_page_id IS NULL OR facebook_page_id = ''");
+echo "Đã cập nhật ID Fanpage: 103551752496533<br>";
+
 // Thêm bảng log nếu chưa có
 $sql = "SHOW TABLES LIKE '#_log'";
 $d->query($sql);
