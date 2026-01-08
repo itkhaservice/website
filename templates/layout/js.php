@@ -41,7 +41,7 @@
             display: flex;
             align-items: center;
             justify-content: flex-start; /* Để icon luôn nằm cố định bên trái */
-            z-index: 999999;
+            z-index: 2147483647; /* Z-Index cao nhất có thể */
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             white-space: nowrap;
@@ -92,7 +92,7 @@
             box-shadow: 0 8px 25px rgba(16, 128, 66, 0.3);
         }
         .phone-fixed-btn:hover {
-            width: 230px; /* Tăng chiều rộng để hiện số điện thoại */
+            width: 260px; /* Tăng chiều rộng cố định để đảm bảo bao phủ */
             background: #c82333;
             box-shadow: 0 8px 25px rgba(220, 53, 69, 0.3);
         }
