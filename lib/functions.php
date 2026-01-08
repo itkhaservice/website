@@ -330,7 +330,7 @@ function upload_image($file, $extension, $folder, $newname=''){
 
         if(strpos($extension, $ext)===false){
             alert('Chỉ hỗ trợ upload file dạng '.$extension);
-            return false; // không hỗ trợ
+            return false;
         }
 
         if($newname=='' && file_exists($folder.$_FILES[$file]['name']))
@@ -344,11 +344,75 @@ function upload_image($file, $extension, $folder, $newname=''){
             $_FILES[$file]['name'] = $newname.'.'.$ext;
         }
 
-        if (!copy($_FILES[$file]["tmp_name"], $folder.$_FILES[$file]['name']))	{
-            if ( !move_uploaded_file($_FILES[$file]["tmp_name"], $folder.$_FILES[$file]['name']))	{
+        $dest_path = $folder . $_FILES[$file]['name'];
+
+        if (!copy($_FILES[$file]["tmp_name"], $dest_path)) {
+            if ( !move_uploaded_file($_FILES[$file]["tmp_name"], $dest_path)) {
                 return false;
             }
         }
+        
+        // --- AUTO RESIZE & WEBP GENERATION ---
+        try {
+            $max_width = 1920; // Chuẩn Full HD
+            list($width, $height) = getimagesize($dest_path);
+            
+            // Chỉ xử lý nếu là ảnh JPG, PNG, GIF
+            if(in_array($ext, ['JPG', 'JPEG', 'PNG', 'GIF'])) {
+                $image = null;
+                if($ext == 'JPG' || $ext == 'JPEG') $image = imagecreatefromjpeg($dest_path);
+                elseif($ext == 'PNG') $image = imagecreatefrompng($dest_path);
+                elseif($ext == 'GIF') $image = imagecreatefromgif($dest_path);
+
+                if($image) {
+                    // 1. Resize nếu ảnh quá lớn
+                    if($width > $max_width) {
+                        $ratio = $max_width / $width;
+                        $new_height = $height * $ratio;
+                        
+                        $canvas = imagecreatetruecolor($max_width, $new_height);
+                        
+                        // Giữ trong suốt cho PNG/GIF
+                        if($ext == 'PNG' || $ext == 'GIF'){
+                            imagealphablending($canvas, false);
+                            imagesavealpha($canvas, true);
+                            $transparent = imagecolorallocatealpha($canvas, 255, 255, 255, 127);
+                            imagefilledrectangle($canvas, 0, 0, $max_width, $new_height, $transparent);
+                        }
+                        
+                        imagecopyresampled($canvas, $image, 0, 0, 0, 0, $max_width, $new_height, $width, $height);
+                        
+                        // Ghi đè file gốc bằng file đã resize
+                        if($ext == 'JPG' || $ext == 'JPEG') imagejpeg($canvas, $dest_path, 90);
+                        elseif($ext == 'PNG') imagepng($canvas, $dest_path, 9);
+                        elseif($ext == 'GIF') imagegif($canvas, $dest_path);
+                        
+                        imagedestroy($image); // Giải phóng ảnh cũ
+                        $image = $canvas; // Gán ảnh mới để làm WebP
+                    }
+
+                    // 2. Tạo bản WebP
+                    $webp_path = str_replace('.'.$ext, '.webp', $dest_path);
+                    $webp_path = str_replace('.'.$ext, '.webp', $webp_path); // Lowercase check
+                    
+                    if(function_exists('imagewebp')) {
+                        // Chuyển PNG/GIF trong suốt sang WebP cần xử lý background
+                        if($ext == 'PNG' || $ext == 'GIF') {
+                            imagepalettetotruecolor($image);
+                            imagealphablending($image, true);
+                            imagesavealpha($image, true);
+                        }
+                        imagewebp($image, $webp_path, 85); // Chất lượng 85
+                    }
+                    
+                    imagedestroy($image);
+                }
+            }
+        } catch(Exception $e) {
+            // Nếu lỗi xử lý ảnh thì bỏ qua, vẫn trả về ảnh gốc upload thành công
+        }
+        // -------------------------------------
+
         return $_FILES[$file]['name'];
     }
     return false;
