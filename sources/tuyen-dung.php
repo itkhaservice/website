@@ -5,12 +5,15 @@ $id = (isset($_GET['id'])) ? addslashes($_GET['id']) : "";
 
 if($id){
     // CHI TIẾT TUYỂN DỤNG (Theo ID hoặc Slug)
+    global $template, $source;
     $d->reset();
     $d->query("select * from #_tuyendung where (id='$id' or ten_khong_dau='$id') and hienthi=1");
     $row_detail = $d->fetch_array();
     
     if(empty($row_detail)){
-        redirect("index.php?com=tuyen-dung");
+        $source = "404";
+        $template = "404";
+        return;
     }
     
     $title_bar = $row_detail['ten_vi'];

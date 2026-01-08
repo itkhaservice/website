@@ -76,15 +76,18 @@ function get_items(){
 }
 
 function get_item(){
-    global $d, $item;
+    global $d, $item, $template, $source;
     $id = isset($_GET['id']) ? (int)$_GET['id'] : "";
-    if(!$id)
-        transfer("Không tìm thấy dữ liệu", "index.php?com=photo&act=man&type=".$_GET['type']);
+    if(!$id) {
+        $source = "404"; $template = "404"; return;
+    }
     
     $d->reset();
     $sql = "select * from #_photo where id='".$id."'";
     $d->query($sql);
-    if($d->num_rows()==0) transfer("Dữ liệu không có thực", "index.php?com=photo&act=man&type=".$_GET['type']);
+    if($d->num_rows()==0) {
+        $source = "404"; $template = "404"; return;
+    }
     $item = $d->fetch_array();
 }
 

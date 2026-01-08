@@ -1,6 +1,6 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /khaservi_khaserv/
+    RewriteBase /
 
     # Chặn truy cập trực tiếp vào các file hệ thống
     RewriteRule ^\.htaccess$ - [F]
@@ -39,7 +39,7 @@
     RewriteRule ^thank-you.html$ index.php?com=thank-you [QSA,L]
 
     # 404 Error page
-    ErrorDocument 404 /khaservi_khaserv/404.html
+    ErrorDocument 404 /404.html
     RewriteRule ^404.html$ index.php?com=404 [QSA,L]
 
     # Tổng quát cho các trang khác nếu có pattern chung

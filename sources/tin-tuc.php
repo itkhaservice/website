@@ -6,6 +6,7 @@ $cat_slug = (isset($_GET['type'])) ? addslashes($_GET['type']) : "";
 
 if($id){
     // CHI TIẾT TIN TỨC
+    global $template, $source;
     $d->reset();
     $where = "hienthi=1 and ngaytao <= ".time();
     if(is_numeric($id)) $where .= " and id='$id'";
@@ -15,7 +16,9 @@ if($id){
     $row_detail = $d->fetch_array();
     
     if(empty($row_detail)){
-        redirect("tin-tuc.html");
+        $source = "404";
+        $template = "404";
+        return;
     }
     
     // Cập nhật lượt xem
@@ -43,12 +46,17 @@ if($id){
     }
 
     if($cat_slug != ""){
+        global $template, $source;
         $d->reset();
         $d->query("select id, ten_vi from #_news_cat where ten_khong_dau='$cat_slug' limit 0,1");
         $row_cat = $d->fetch_array();
         if(!empty($row_cat)){
             $where .= " and n.id_cat='".$row_cat['id']."' ";
             $title_bar = $row_cat['ten_vi'];
+        } else {
+            $source = "404";
+            $template = "404";
+            return;
         }
     } else {
         $title_bar = "Tin tức";

@@ -139,12 +139,23 @@ switch($com){
         $template = "404";
         break;
     default:
-        $source = "index";
-        $template = "index";
+        if($com != '') {
+            $source = "404";
+            $template = "404";
+        } else {
+            $source = "index";
+            $template = "index";
+        }
         break;
 }
 
-if($source!="") include _source.$source.".php";
+if($source != "" && file_exists(_source.$source.".php")) {
+    include _source.$source.".php";
+} else {
+    $source = "404";
+    $template = "404";
+    if(file_exists(_source.$source.".php")) include _source.$source.".php";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

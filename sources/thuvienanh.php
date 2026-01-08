@@ -6,6 +6,7 @@ $id = isset($_GET['id']) ? addslashes($_GET['id']) : "";
 
 if($id != ""){
     // --- TRANG CHI TIẾT ALBUM ---
+    global $template, $source;
     $d->reset();
     $where = "hienthi=1";
     if(is_numeric($id)) $where .= " and id='$id'";
@@ -15,7 +16,9 @@ if($id != ""){
     $row_detail = $d->fetch_array();
     
     if(empty($row_detail)) {
-        redirect("thu-vien-anh.html");
+        $source = "404";
+        $template = "404";
+        return;
     }
 
     $title_bar = $row_detail['ten_vi'];

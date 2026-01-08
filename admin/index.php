@@ -74,12 +74,18 @@ switch($com){
         exit();
         break;
     default:
-        $source = "dashboard";
-        $template = "dashboard";
+        $source = "404";
+        $template = "404";
         break;
 }
 
-if($source != "") include _source.$source.".php";
+if($source != "" && file_exists(_source.$source.".php")) {
+    include _source.$source.".php";
+} else {
+    $source = "404";
+    $template = "404";
+    include _source.$source.".php";
+}
 
 // Include Layout chính
 include _template."layout.php";

@@ -5,6 +5,7 @@ $id = (isset($_GET['id'])) ? addslashes($_GET['id']) : "";
 
 if($id){
     // TRANG CHI TIẾT - Chấp nhận cả ID (số) hoặc Slug (chuỗi)
+    global $template, $source;
     $d->reset();
     if(is_numeric($id)) {
         $d->query("select * from #_dichvu where id='$id' and hienthi=1");
@@ -14,7 +15,9 @@ if($id){
     $row_detail = $d->fetch_array();
     
     if(empty($row_detail)){
-        redirect("index.php");
+        $source = "404";
+        $template = "404";
+        return;
     }
     
     $title_bar = $row_detail['ten_vi'];

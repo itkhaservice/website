@@ -97,7 +97,7 @@ switch($act){
 }
 
 function get_items(){
-    global $d, $items, $type, $table_db, $paging, $curPage, $perPage, $regions, $com, $categories;
+    global $d, $items, $type, $table_db, $paging, $curPage, $perPage, $regions, $com, $categories, $template, $source;
     
     // Lấy danh sách khu vực để lọc cho module dự án
     if($com == 'du-an'){
@@ -111,6 +111,26 @@ function get_items(){
         $d->reset();
         $d->query("select id, ten_vi from #_news_cat where type='$type' order by stt asc, id desc");
         $categories = $d->result_array();
+    }
+
+    // Kiểm tra id_khuvuc nếu có
+    if(isset($_GET['id_khuvuc']) && (int)$_GET['id_khuvuc'] > 0){
+        $id_check = (int)$_GET['id_khuvuc'];
+        $d->reset();
+        $d->query("select id from #_khuvuc where id='$id_check'");
+        if($d->num_rows() == 0) {
+            $source = "404"; $template = "404"; return;
+        }
+    }
+
+    // Kiểm tra id_cat nếu có
+    if(isset($_GET['id_cat']) && (int)$_GET['id_cat'] > 0){
+        $id_check = (int)$_GET['id_cat'];
+        $d->reset();
+        $d->query("select id from #_news_cat where id='$id_check'");
+        if($d->num_rows() == 0) {
+            $source = "404"; $template = "404"; return;
+        }
     }
 
     // Xử lý phân trang
@@ -192,10 +212,13 @@ function get_items(){
 }
 
 function get_item(){
-    global $d, $item, $table_db, $regions, $categories, $gallery;
+    global $d, $item, $table_db, $regions, $categories, $gallery, $template, $source;
     $id = isset($_GET['id']) ? (int)$_GET['id'] : "";
-    if(!$id)
-        transfer("Không tìm thấy dữ liệu", "index.php?com=".$_GET['com']."&act=man&type=".$_GET['type']);
+    if(!$id) {
+        $source = "404";
+        $template = "404";
+        return;
+    }
     
     // Lấy danh sách khu vực nếu là module dự án
     if($_GET['com'] == 'du-an'){
@@ -214,7 +237,11 @@ function get_item(){
     $d->reset();
     $sql = "select * from #_$table_db where id='".$id."'";
     $d->query($sql);
-    if($d->num_rows()==0) transfer("Dữ liệu không có thực", "index.php?com=".$_GET['com']."&act=man&type=".$_GET['type']);
+    if($d->num_rows()==0) {
+        $source = "404";
+        $template = "404";
+        return;
+    }
     $item = $d->fetch_array();
 
     // Lấy danh sách ảnh Gallery cho Thư viện ảnh

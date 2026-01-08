@@ -17,6 +17,7 @@ if($id && !is_numeric($id)){
 
 if($id || $slug){
     // TRANG CHI TIẾT DỰ ÁN
+    global $template, $source;
     $d->reset();
     $where = "a.hienthi=1";
     if($slug) $where .= " and a.ten_khong_dau='$slug'";
@@ -26,7 +27,9 @@ if($id || $slug){
     $row_detail = $d->fetch_array();
     
     if(empty($row_detail)){
-        redirect("du-an.html");
+        $source = "404";
+        $template = "404";
+        return;
     }
     
     // Cập nhật lượt xem
@@ -59,6 +62,7 @@ if($id || $slug){
     
     // Xử lý lọc theo Slug Khu vực (SEO)
     if(isset($_GET['khuvuc']) && $_GET['khuvuc'] != ''){
+        global $template, $source;
         $slug_khuvuc = addslashes($_GET['khuvuc']);
         $d->reset();
         $d->query("select id from #_khuvuc where ten_khong_dau='$slug_khuvuc' limit 0,1");
@@ -66,6 +70,10 @@ if($id || $slug){
         if(!empty($row_slug_kv)){
             $where .= " and #_duan.id_khuvuc = " . $row_slug_kv['id'];
             $_GET['id_khuvuc'] = $row_slug_kv['id']; // Gán lại để hiển thị selected trong dropdown
+        } else {
+            $source = "404";
+            $template = "404";
+            return;
         }
     }
     // Xử lý lọc theo ID Khu vực (Legacy/Filter Form)

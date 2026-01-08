@@ -46,11 +46,14 @@ function get_items(){
 }
 
 function get_item(){
-    global $d, $item, $type, $table_db;
+    global $d, $item, $type, $table_db, $template, $source;
     $id = (int)$_GET['id'];
     $d->reset();
     $sql = "select * from #_$table_db where id='$id'";
     $d->query($sql);
+    if($d->num_rows() == 0) {
+        $source = "404"; $template = "404"; return;
+    }
     $item = $d->fetch_array();
 }
 

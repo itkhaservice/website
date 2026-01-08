@@ -21,10 +21,10 @@
         $config_url = $_SERVER["SERVER_NAME"];
         $base_url = "https://$config_url/";
         
-        $config['database']['servername'] = 'sql309.infinityfree.com';
-        $config['database']['username'] = 'if0_40778649';
-        $config['database']['password'] = 'I9IaWb2t7P8';
-        $config['database']['database'] = 'if0_40778649_khaservice_db';
+        $config['database']['servername'] = 'localhost';
+        $config['database']['username'] = 'khaservi_khaserv';
+        $config['database']['password'] = 'otKM8XJI4GOa';
+        $config['database']['database'] = 'khaservi_khas';
         $config['database']['refix'] = 'table_';
     }
 

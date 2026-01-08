@@ -5,13 +5,16 @@ $id = isset($_GET['id']) ? addslashes($_GET['id']) : "";
 
 if($id != "") {
     // Lấy chi tiết bài viết từ bảng gioithieu (bảng riêng biệt)
+    global $template, $source;
     $d->reset();
     $d->query("select * from #_gioithieu where ten_khong_dau='$id' and hienthi=1");
     $row_detail = $d->fetch_array();
 
     // Nếu không tìm thấy bài viết
     if(empty($row_detail)) {
-        redirect("404.html");
+        $source = "404";
+        $template = "404";
+        return;
     }
 } else {
     // Trang Giới thiệu chính: Lấy đồng bộ với trang chủ từ bảng Static (Về chúng tôi)
