@@ -322,11 +322,15 @@ function save_item(){
     if($id){
         $data['ngaysua'] = time();
         $d->setWhere('id', $id);
-        $d->update($data);
+        if($d->update($data)) {
+            ghiLogAdmin($com, 'Cập nhật', 'ID: ' . $id . ' - Tên: ' . $data['ten_vi']);
+        }
     }else{
         if(!isset($data['ngaytao'])) $data['ngaytao'] = time();
-        $d->insert($data);
-        $id = mysqli_insert_id($d->db);
+        if($d->insert($data)) {
+            $id = mysqli_insert_id($d->db);
+            ghiLogAdmin($com, 'Thêm mới', 'ID: ' . $id . ' - Tên: ' . $data['ten_vi']);
+        }
     }
 
     // XỬ LÝ MULTI-PHOTO GALLERY (Cho Thư viện ảnh)
@@ -402,8 +406,10 @@ function delete_item(){
         $d->reset();
         $d->setTable($table_db);
         $d->setWhere('id', $id);
-        if($d->delete())
+        if($d->delete()) {
+            ghiLogAdmin($com, 'Xóa', 'ID: ' . $id . ' - Tên: ' . $row['ten_vi']);
             transfer("Xóa dữ liệu thành công", "index.php?com=$com&act=man&type=$type");
+        }
         else
             transfer("Xóa dữ liệu bị lỗi", "index.php?com=$com&act=man&type=$type");
     }else{

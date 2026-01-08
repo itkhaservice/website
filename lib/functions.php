@@ -1861,8 +1861,20 @@ function getEmailTemplate($content){
         }
     }
 
-    function ghiLogAdmin($id_user, $noidung){
+    function ghiLogAdmin($module, $hanhdong, $noidung){
         global $d;
+        
+        $data['id_user'] = $_SESSION['login']['id'];
+        $data['username'] = $_SESSION['login']['username'];
+        $data['module'] = $module;
+        $data['hanhdong'] = $hanhdong;
+        $data['noidung'] = $noidung;
+        $data['ip'] = $_SERVER['REMOTE_ADDR'];
+        $data['ngaytao'] = time();
+
+        $d->reset();
+        $d->setTable('log');
+        $d->insert($data);
     }
 
     function getDiscountUsed($id){

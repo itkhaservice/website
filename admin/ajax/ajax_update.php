@@ -6,6 +6,7 @@ session_start();
 if (file_exists(_lib."config.php")) {
     include_once _lib."config.php";
     include_once _lib."class.database.php";
+    include_once _lib."functions.php";
 } else {
     die("0");
 }
@@ -23,13 +24,16 @@ $field = (isset($_POST['field'])) ? addslashes($_POST['field']) : "hienthi"; // 
 $value = (isset($_POST['value'])) ? (int)$_POST['value'] : 0;
 
 if($id > 0 && $table != ""){
+    // Lấy tên để ghi log
+    $d->reset();
+    $d->query("select * from #_$table where id = $id");
+    $item_log = $d->fetch_array();
+    $name_log = isset($item_log['ten_vi']) ? $item_log['ten_vi'] : (isset($item_log['username']) ? $item_log['username'] : "ID: $id");
+
     // Xử lý riêng cho trường hợp Banner (chỉ cho phép 1 cái hiển thị)
     if($table == 'photo' && $field == 'hienthi' && $value == 1) {
-        $d->reset();
-        $d->query("select type from #_photo where id = $id");
-        $row_type = $d->fetch_array();
-        if($row_type && strpos($row_type['type'], 'banner') !== false) {
-            $current_type = $row_type['type'];
+        if(isset($item_log['type']) && strpos($item_log['type'], 'banner') !== false) {
+            $current_type = $item_log['type'];
             $d->query("update #_photo set hienthi = 0 where type = '$current_type'");
         }
     }
@@ -40,6 +44,8 @@ if($id > 0 && $table != ""){
     $data[$field] = $value;
     
     if($d->update($data)){
+        $action_name = ($value == 1) ? 'Hiện' : 'Ẩn';
+        ghiLogAdmin("Cập nhật nhanh ($table)", $action_name, "$field: $name_log");
         echo "1";
     } else {
         echo "0";

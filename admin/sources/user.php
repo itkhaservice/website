@@ -80,9 +80,10 @@ function save_item(){
         $d->reset();
         $d->setTable('user');
         $d->setWhere('id', $id);
-        if($d->update($data))
+        if($d->update($data)) {
+            ghiLogAdmin('Tài khoản', 'Cập nhật', 'Username: ' . $data['username']);
             redirect("index.php?com=user&act=man");
-        else
+        } else
             transfer("Cập nhật dữ liệu bị lỗi", "index.php?com=user&act=man");
     }else{ // Thêm mới
         // Kiểm tra trùng username
@@ -98,9 +99,10 @@ function save_item(){
         
         $d->reset();
         $d->setTable('user');
-        if($d->insert($data))
+        if($d->insert($data)) {
+            ghiLogAdmin('Tài khoản', 'Thêm mới', 'Username: ' . $data['username']);
             redirect("index.php?com=user&act=man");
-        else
+        } else
             transfer("Lưu dữ liệu bị lỗi", "index.php?com=user&act=man");
     }
 }
@@ -118,9 +120,10 @@ function delete_item(){
         
         $d->reset();
         $sql = "delete from #_user where id='".$id."'";
-        if($d->query($sql))
+        if($d->query($sql)) {
+            ghiLogAdmin('Tài khoản', 'Xóa', 'ID: ' . $id);
             redirect("index.php?com=user&act=man");
-        else
+        } else
             transfer("Xóa dữ liệu bị lỗi", "index.php?com=user&act=man");
     }else{
         transfer("Không nhận được dữ liệu", "index.php?com=user&act=man");

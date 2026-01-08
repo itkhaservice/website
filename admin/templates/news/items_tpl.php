@@ -482,33 +482,5 @@
                 }
             });
         });
-
-        // Fast update Status (Noibat, Hienthi) - Fix AJAX Pagination Issue
-        $(document).on('change', '.checkbox-noibat, .checkbox-hienthi', function() {
-            var $this = $(this);
-            var id = $this.data('id');
-            var table = $this.data('table');
-            var field = $this.hasClass('checkbox-noibat') ? 'noibat' : 'hienthi';
-            var value = $this.prop('checked') ? 1 : 0;
-
-            $.ajax({
-                url: 'ajax/ajax_update.php',
-                type: 'POST',
-                data: {id: id, table: table, field: field, value: value},
-                success: function(res) {
-                    if(res == 1) {
-                        toastr.success('Cập nhật trạng thái thành công');
-                    } else {
-                        toastr.error('Cập nhật thất bại');
-                        // Revert checkbox state if failed
-                        $this.prop('checked', !value);
-                    }
-                },
-                error: function() {
-                    toastr.error('Lỗi kết nối');
-                    $this.prop('checked', !value);
-                }
-            });
-        });
     });
 </script>

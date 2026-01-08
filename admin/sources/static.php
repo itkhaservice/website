@@ -77,10 +77,14 @@ function save_item(){
     if($d->num_rows() > 0){
         $d->setTable('static');
         $d->setWhere('type', $type);
-        $d->update($data);
+        if($d->update($data)) {
+            ghiLogAdmin('Trang tĩnh', 'Cập nhật', 'Loại: ' . $type);
+        }
     }else{
         $d->setTable('static');
-        $d->insert($data);
+        if($d->insert($data)) {
+            ghiLogAdmin('Trang tĩnh', 'Thêm mới', 'Loại: ' . $type);
+        }
     }
     transfer("Cập nhật dữ liệu thành công", "index.php?com=static&act=capnhat&type=".$type);
 }

@@ -140,18 +140,20 @@ function save_item(){
         $d->reset();
         $d->setTable('photo');
         $d->setWhere('id', $id);
-        if($d->update($data))
+        if($d->update($data)) {
+            ghiLogAdmin('Hình ảnh', 'Cập nhật', 'Loại: ' . $type . ' - ID: ' . $id);
             redirect("index.php?com=photo&act=man&type=".$type);
-        else
+        } else
             transfer("Cập nhật dữ liệu bị lỗi", "index.php?com=photo&act=man&type=".$type);
             
     }else{ // Thêm mới
         $data['ngaytao'] = time();
         $d->reset();
         $d->setTable('photo');
-        if($d->insert($data))
+        if($d->insert($data)) {
+            ghiLogAdmin('Hình ảnh', 'Thêm mới', 'Loại: ' . $type);
             redirect("index.php?com=photo&act=man&type=".$type);
-        else
+        } else
             transfer("Lưu dữ liệu bị lỗi", "index.php?com=photo&act=man&type=".$type);
     }
 }
@@ -170,9 +172,10 @@ function delete_item(){
         $d->reset();
         $d->setTable('photo');
         $d->setWhere('id', $id);
-        if($d->delete())
+        if($d->delete()) {
+            ghiLogAdmin('Hình ảnh', 'Xóa', 'Loại: ' . $type . ' - ID: ' . $id);
             redirect("index.php?com=photo&act=man&type=".$type);
-        else
+        } else
             transfer("Xóa dữ liệu bị lỗi", "index.php?com=photo&act=man&type=".$type);
     }else{
         transfer("Không nhận được dữ liệu", "index.php?com=photo&act=man&type=".$type);

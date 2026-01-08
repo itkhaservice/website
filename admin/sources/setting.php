@@ -80,6 +80,7 @@ function save_item(){
     $d->reset();
     $d->setTable('setting');
     if($d->update($data)){
+        ghiLogAdmin('Cấu hình', 'Cập nhật', 'Thông tin chung');
         redirect("index.php?com=setting&act=capnhat");
     }else{
         transfer("Cập nhật dữ liệu bị lỗi", "index.php?com=setting&act=capnhat");

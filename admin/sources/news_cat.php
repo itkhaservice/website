@@ -78,11 +78,17 @@ function save_item(){
         $d->reset();
         $d->setTable($table_db);
         $d->setWhere('id', $id);
-        if($d->update($data)) transfer("Cập nhật dữ liệu thành công", "index.php?com=news_cat&act=man&type=".$type);
+        if($d->update($data)) {
+            ghiLogAdmin('Danh mục', 'Cập nhật', 'Tên: ' . $data['ten_vi']);
+            transfer("Cập nhật dữ liệu thành công", "index.php?com=news_cat&act=man&type=".$type);
+        }
     }else{
         $d->reset();
         $d->setTable($table_db);
-        if($d->insert($data)) transfer("Lưu dữ liệu thành công", "index.php?com=news_cat&act=man&type=".$type);
+        if($d->insert($data)) {
+            ghiLogAdmin('Danh mục', 'Thêm mới', 'Tên: ' . $data['ten_vi']);
+            transfer("Lưu dữ liệu thành công", "index.php?com=news_cat&act=man&type=".$type);
+        }
     }
 }
 
@@ -92,19 +98,24 @@ function delete_item(){
     $d->reset();
     $d->setTable($table_db);
     $d->setWhere('id', $id);
-    if($d->delete()) transfer("Xóa dữ liệu thành công", "index.php?com=news_cat&act=man&type=".$type);
+    if($d->delete()) {
+        ghiLogAdmin('Danh mục', 'Xóa', 'ID: ' . $id);
+        transfer("Xóa dữ liệu thành công", "index.php?com=news_cat&act=man&type=".$type);
+    }
 }
 
 function delete_all_item(){
     global $d, $type, $table_db;
     $listid = explode(",",$_GET['listid']);
+    $count_del = 0;
     foreach($listid as $id){
         $id = (int)$id;
         $d->reset();
         $d->setTable($table_db);
         $d->setWhere('id', $id);
-        $d->delete();
+        if($d->delete()) $count_del++;
     }
+    if($count_del > 0) ghiLogAdmin('Danh mục', 'Xóa nhiều', 'Số lượng: ' . $count_del);
     transfer("Xóa dữ liệu thành công", "index.php?com=news_cat&act=man&type=".$type);
 }
 ?>

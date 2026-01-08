@@ -73,6 +73,10 @@ switch($com){
         $source = "user";
         $template = "user/items";
         break;
+    case 'log':
+        $source = "log";
+        $template = "log/items";
+        break;
     case 'logout':
         unset($_SESSION['admin_logined']);
         header("Location: index.php");

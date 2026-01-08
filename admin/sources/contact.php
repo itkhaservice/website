@@ -73,8 +73,10 @@ function delete_item(){
         $d->reset();
         $d->setTable('contact');
         $d->setWhere('id', $id);
-        $d->delete();
-        $_SESSION['transfer_msg'] = "Xóa dữ liệu thành công!";
+        if($d->delete()){
+            ghiLogAdmin('Liên hệ', 'Xóa', 'ID: ' . $id);
+            $_SESSION['transfer_msg'] = "Xóa dữ liệu thành công!";
+        }
         redirect("index.php?com=contact&act=man");
     }
 }
@@ -82,13 +84,15 @@ function delete_item(){
 function delete_all_item(){
     global $d;
     $listid = explode(",",$_GET['listid']);
+    $count_del = 0;
     foreach($listid as $id){
         $id = (int)$id;
         $d->reset();
         $d->setTable('contact');
         $d->setWhere('id', $id);
-        $d->delete();
+        if($d->delete()) $count_del++;
     }
+    if($count_del > 0) ghiLogAdmin('Liên hệ', 'Xóa nhiều', 'Số lượng: ' . $count_del);
     $_SESSION['transfer_msg'] = "Xóa dữ liệu thành công!";
     redirect("index.php?com=contact&act=man");
 }

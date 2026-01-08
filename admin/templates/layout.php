@@ -511,6 +511,12 @@
               <p>Quản lý tài khoản</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="index.php?com=log&act=man" class="nav-link <?=$com=='log'?'active':''?>">
+              <i class="nav-icon fas fa-history"></i>
+              <p>Nhật ký hoạt động</p>
+            </a>
+          </li>
           <?php } ?>
           <li class="nav-item">
             <a href="index.php?com=setting" class="nav-link <?=$com=='setting'?'active':''?>">
@@ -592,7 +598,10 @@ $(document).ready(function(){
         });
     }
 
-    $('.checkbox-hienthi, .checkbox-noibat').change(function() {
+    // Unbind trước để tránh trùng lặp sự kiện
+    $(document).off('change', '.checkbox-hienthi, .checkbox-noibat').on('change', '.checkbox-hienthi, .checkbox-noibat', function(e) {
+        // e.preventDefault(); // Không cần thiết với checkbox change
+        
         var id = $(this).data('id');
         var table = $(this).data('table');
         var type = $(this).data('type'); // Lấy type để xử lý banner
