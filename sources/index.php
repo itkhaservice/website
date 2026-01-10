@@ -18,7 +18,7 @@ $ds_team = $d->result_array();
 
 // 4. Dự án nổi bật
 $d->reset();
-$d->query("select a.id, a.ten_vi, a.ten_khong_dau, a.photo, b.ten_vi as ten_khuvuc from #_duan a left join #_khuvuc b on a.id_khuvuc = b.id where a.hienthi=1 and a.noibat=1 order by a.stt asc, a.id desc limit 0,10");
+$d->query("select a.id, a.ten_vi, a.ten_khong_dau, a.photo, a.mota_vi, b.ten_vi as ten_khuvuc from #_duan a left join #_khuvuc b on a.id_khuvuc = b.id where a.hienthi=1 and a.noibat=1 order by a.stt asc, a.id desc limit 0,10");
 $ds_duan = $d->result_array();
 
 // 5. Testimonial

@@ -1,4 +1,3 @@
-<script>document.title = "<?=$row_setting['shortName']?>";</script>
     <!-- Slider start -->
     <section class="slider-area-2 relative">
         <div class="owl-carousel slider-2">
@@ -7,19 +6,18 @@
                 <div class="silder-img bg-cover" style="background-image: url('<?=!empty($v['photo']) ? $v['photo'] : 'img/banner/banner_3b.jpg'?>');">
                     <div class="container">
                         <div class="row">
-                            <div class="col-xl-7 col-md-8">
+                            <div class="col-xl-8 col-md-10">
                                 <div class="slider-content-3 z-10">
                                     <?php if(!empty($v['mota_vi'])) { ?>
                                     <div class="line-head h5-custom-editor">
                                           <?=htmlspecialchars_decode($v['mota_vi'])?>
-                                        <span class="line after"></span>
                                     </div>
                                     <?php } ?>
-                                    <div class="banner-head-2 banner-head-3 black f-700 mt-15 mb-35 mt-xs-20 mb-xs-30 h1-custom-editor">
+                                    <div class="banner-head-2 banner-head-3 black f-800 mt-15 mb-35 h1-custom-editor">
                                         <?=htmlspecialchars_decode($v['ten_vi'])?>
                                     </div>
                                     <?php if(!empty($v['link'])) { ?>
-                                    <a href="<?=$v['link']?>" class="btn btn-square-border">Xem thêm<i class="fas fa-long-arrow-alt-right ml-20"></i></a>
+                                    <a href="<?=$v['link']?>" class="btn btn-primary-modern">Xem thêm<i class="fas fa-long-arrow-alt-right ml-20"></i></a>
                                     <?php } ?>
                                 </div>
                             </div>
@@ -27,45 +25,13 @@
                     </div>
                 </div>
             </div>
-            <?php }} else { ?>
-            <!-- Fallback Slider if empty -->
-            <div class="item">
-                <div class="silder-img bg-cover" style="background-image: url('img/banner/banner_3a.jpg');">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xl-7 col-md-8">
-                                <div class="slider-content-3 z-10">
-                                    <div class="line-head">
-                                        1000+ Happy Clients
-                                        <span class="line after"></span>
-                                    </div>
-                                    <h1 class="banner-head-2 banner-head-3 black f-700 mt-15 mb-35 mt-xs-20 mb-xs-30">Let's <span class="green">Make Something Awesome Together</span> with the Right People.</h1>
-                                    <a href="" class="btn btn-square-border">Learn More<i class="fas fa-long-arrow-alt-right ml-20"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <?php } ?>
+            <?php }} ?>
         </div>
         <div class="slider-control type-3 z-5">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6">
-                        <div class="dots-slider">
-
-                        </div>
-                    </div>
-                    <div class="col-lg-6 text-right d-none d-lg-block">
-                        <div class="nav-slider d-flex justify-content-end">
-                            <a href="" class="slider-btn slides-left flex-center">
-                                <i class="fas fa-chevron-left"></i>
-                            </a>
-                            <a href="" class="slider-btn slides-right flex-center">
-                                <i class="fas fa-chevron-right"></i>
-                            </a>
-                        </div>
+                        <div class="dots-slider"></div>
                     </div>
                 </div>
             </div>
@@ -73,54 +39,32 @@
     </section>
     
     <style>
-        /* Fix styles for CKEditor content in Slider */
-        .h5-custom-editor { position: relative; display: inline-block; font-size: 1.25rem; font-weight: 500; }
         .h5-custom-editor p { margin-bottom: 0; display: inline-block; }
-        .h5-custom-editor .line { position: absolute; top: 50%; transform: translateY(-50%); }
-        
-        .h1-custom-editor { font-size: 3rem; line-height: 1.2; }
         .h1-custom-editor p { margin-bottom: 0; }
-        
-        /* Cấu trúc Slider mới: Tự động chiều cao theo chiều rộng */
         .silder-img {
             height: auto !important;
-            min-height: auto !important;
-            aspect-ratio: 1920 / 750; /* Tỷ lệ vàng cho banner desktop */
+            aspect-ratio: 1920 / 750;
             background-size: cover !important;
             background-position: center center !important;
             display: flex;
             align-items: center;
         }
-
-        /* Responsive adjustments */
-        @media (max-width: 767px) {
-            /* Tự động tính chiều cao theo tỷ lệ ảnh gốc để không bị mất hình (1920x750) */
-            .silder-img { 
-                aspect-ratio: 1920 / 750 !important;
-                background-position: center center !important;
-            }
-            
-            /* Ẩn hoàn toàn nội dung chữ trên mobile theo yêu cầu */
-            .slider-content-3 {
-                display: none !important;
-            }
-        }
     </style>
     <!-- Slider end -->
 
     <!-- Our features start -->
-    <section class="features-area bg-light-white pt-40 pb-40 pb-xs-00">
+    <section class="features-area bg-light-white pt-80 pb-80" style="background: #f8fafc;">
         <div class="container">
             <div class="row">
                 <?php if(!empty($ds_themanh)) { foreach($ds_themanh as $k => $v) { ?>
-                <div class="col-sm-4 text-center text-lg-left mb-3">
-                    <div class="icon-box d-flex flex-column flex-lg-row">
-                        <div class="icon-img mr-20 mr-md-00 mb-md-10">
-                            <img src="<?=!empty($v['photo']) ? $v['photo'] : 'img/feature/icon'.($k+1).'.png'?>" alt="<?=$v['ten_vi']?>" style="width:56px; height:56px; object-fit:contain;">
+                <div class="col-lg-4 col-md-6 mb-4 wow fadeInUp" data-wow-delay="<?=($k * 0.1)?>s">
+                    <div class="feature-card-modern">
+                        <div class="icon-circle-modern">
+                            <img src="<?=!empty($v['photo']) ? $v['photo'] : 'img/feature/icon'.($k+1).'.png'?>" alt="<?=$v['ten_vi']?>" style="width:40px; height:40px; object-fit:contain;">
                         </div>
                         <div class="icon-text">
-                            <h5 class="f-700"><?=$v['ten_vi']?></h5>
-                            <p class="text-justify"><?=$v['mota_vi']?></p>
+                            <h5><?=$v['ten_vi']?></h5>
+                            <p class="mb-0"><?=$v['mota_vi']?></p>
                         </div>
                     </div>
                 </div>
@@ -133,53 +77,66 @@
     <!-- About us start -->
     <section class="about-us pt-100 pb-100">
         <div class="container">
-            <div class="row align-items-xl-center">
-                <div class="col-lg-5">
-                    <div class="ceo-video relative img-lined mx-auto shadow-1 wow fadeInLeft">
-                        <img src="<?=!empty($about['photo']) ? $about['photo'] : 'img/about/ceo.jpg'?>" alt="">
+            <div class="row align-items-center">
+                <!-- Left Column: Image with Depth -->
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="about-img-wrapper wow fadeInLeft">
+                        <img src="<?=!empty($about['photo']) ? $about['photo'] : 'img/about/ceo.jpg'?>" alt="Về Khaservice">
+                        
                         <?php if(!empty($about['video'])) { ?>
-                        <div class="blob green transform-center">
-                            <a href="<?=$about['video']?>" class="popup-video"> <i class="fas fa-play"></i></a>
-                        </div>
+                        <a href="<?=$about['video']?>" class="popup-video video-btn-modern">
+                            <i class="fas fa-play ml-1"></i>
+                        </a>
                         <?php } ?>
                     </div>
                 </div>
-                <div class="col-lg-7">
-                    <div class="about-text mt-md-60 text-center text-lg-left wow fadeInRight">
-                        <div class="fancy-head left-al  mb-10">
-                            <h5 class="line-head mb-10">
-                                <span class="line before d-lg-none"></span>
-                                Về chúng tôi
-                                <span class="line  after"></span>
-                            </h5>
-                            <h1><?=$about['ten_vi']?></h1>
+
+                <!-- Right Column: Content -->
+                <div class="col-lg-6">
+                    <div class="about-text pl-lg-5 wow fadeInRight">
+                        <div class="fancy-head left-al mb-30">
+                            <h5 class="line-head mb-15">VỀ CHÚNG TÔI</h5>
+                            <h1 class="mb-20" style="font-size: 2.5rem; line-height: 1.2;"><?=$about['ten_vi']?></h1>
                         </div>
-                        <div class="description content-main mb-20">
+                        
+                        <div class="description content-main mb-40 text-muted" style="font-size: 1.05rem; line-height: 1.8;">
                             <?=$about['noidung_vi']?>
                         </div>
-                        <p><a href="index.php?com=gioi-thieu" class="btn-more-link">Xem thêm</a></p>
                         
-                        <div class="hr-line mb-30 mt-30"></div>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="count-box wow fadeInUp">
-                                    <h3 class="f-900 mb-10"><span class="counter"><?=number_format($about['sl_nhanvien'])?></span>+</h3>
-                                    <p>Nhân viên</p>
+                        <div class="row mb-40">
+                            <div class="col-6 mb-3">
+                                <div class="stat-card">
+                                    <div class="stat-icon"><i class="fas fa-medal"></i></div>
+                                    <h3>10+</h3>
+                                    <p>Năm kinh nghiệm</p>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
-                                <div class="count-box wow fadeInUp" data-wow-delay=".2s">
-                                    <h3 class="f-900 mb-10"><span class="counter"><?=number_format($about['sl_duan'])?></span>+</h3>
+                            <div class="col-6 mb-3">
+                                <div class="stat-card">
+                                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                                    <h3><span class="counter"><?=number_format($about['sl_nhanvien'])?></span>+</h3>
+                                    <p>Nhân sự</p>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <div class="stat-card">
+                                    <div class="stat-icon"><i class="fas fa-building"></i></div>
+                                    <h3><span class="counter"><?=number_format($about['sl_duan'])?></span>+</h3>
                                     <p>Dự án</p>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
-                                <div class="count-box wow fadeInUp" data-wow-delay=".4s">
-                                    <h3 class="f-900 mb-10"><span class="counter"><?=number_format($about['sl_canho'])?></span>+</h3>
-                                    <p>Tổng số căn hộ</p>
+                            <div class="col-6 mb-3">
+                                <div class="stat-card">
+                                    <div class="stat-icon"><i class="fas fa-home"></i></div>
+                                    <h3><span class="counter"><?=number_format($about['sl_canho'])?></span>+</h3>
+                                    <p>Căn hộ</p>
                                 </div>
                             </div>
                         </div>
+
+                        <a href="index.php?com=gioi-thieu" class="btn btn-primary-modern shadow-lg">
+                            TÌM HIỂU THÊM <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -188,37 +145,32 @@
     <!-- About us end -->
 
     <!-- Service start -->
-    <section class="service-3 pt-95" data-overlay="9" style="background-image: url('img/bg/bg_blgng.jpg');">
-        <div class="container">
+    <section class="service-3 pt-100 pb-100" data-overlay="9" style="background-image: url('img/bg/bg_blgng.jpg'); background-attachment: fixed; position: relative;">
+        <div class="container" style="position: relative; z-index: 10;">
             <div class="row">
                 <div class="col-xl-12">
-                    <div class="fancy-head text-center relative z-5 mb-45">
-                        <h5 class="line-head mb-15 wow fadeInDown" >
-                          <span class="line before "></span>
-                                DỊCH VỤ CỦA CHÚNG TÔI
-                          <span class="line after"></span>
-                        </h5>
-                        <h1 class="white wow fadeInUp" >Lĩnh Vực Hoạt Động</h1>
+                    <div class="fancy-head text-center relative z-5 mb-60">
+                        <h5 class="line-head mb-15 wow fadeInDown">DỊCH VỤ CỦA CHÚNG TÔI</h5>
+                        <h1 class="white wow fadeInUp">Lĩnh Vực Hoạt Động</h1>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <?php if(!empty($ds_dichvu)) { foreach($ds_dichvu as $k=>$v){ ?>
-                <div class="col-xl-3 col-md-6 text-center mb-4">
-                    <div class="service-list-3 shadow-2 transition-4 img-lined z-5 no-mar wow zoomIn h-100 bg-white p-4">
-                        <div class="service-icon-wrapper z-10 mx-auto mb-3">
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="modern-service-card wow fadeInUp" data-wow-delay="<?=$k*0.1?>s">
+                        <div class="modern-service-icon">
                             <img src="<?=!empty($v['photo']) ? $v['photo'] : 'img/service/'.(($k%4)+1).'.png'?>" 
                                  onerror="this.src='img/feature/icon1.png';" 
-                                 style="width:100%; max-width:100px; height:80px; object-fit:contain;" alt="<?=$v['ten_vi']?>">
+                                 alt="<?=$v['ten_vi']?>">
                         </div>
-                        <div class="service-text-3 transition-4 mt-10 z-10">
-                            <h4 class="f-700 mb-15 text-split-2 green" style="min-height: 2.8em; font-size: 18px;"><?=$v['ten_vi']?></h4>
-                            <div class="mb-25 text-split-3 text-muted text-justify" style="min-height: 4.5em; font-size: 14px; line-height: 1.6;"><?=strip_tags($v['noidung_vi'])?></div>
-                            <a href="dich-vu/<?=$v['ten_khong_dau']?>.html" class="btn btn-border-blue mb-10 px-4 rounded-pill">
-                                XEM CHI TIẾT<i class="fas fa-long-arrow-alt-right ml-15"></i>
-                            </a>
-                            <span class="bg-green undeline-3"></span>
+                        <h3 class="modern-service-title"><?=$v['ten_vi']?></h3>
+                        <div class="modern-service-desc">
+                            <?=strip_tags($v['noidung_vi'])?>
                         </div>
+                        <a href="dich-vu/<?=$v['ten_khong_dau']?>.html" class="modern-service-btn">
+                            Xem chi tiết <i class="fas fa-arrow-right"></i>
+                        </a>
                     </div>
                 </div>
                 <?php }} ?>
@@ -227,382 +179,23 @@
     </section>
     <!-- Service end -->
 
-    <!-- Count area start -->
-    <section class="count-3 pt-100 pb-70">
-    </section>
-    <!-- Count area end -->
-
-    <!-- Features list start -->
-    <section class="feature-list-area pt-100 pb-100">
+    <!-- Featured Projects start -->
+    <section class="featured-projects bg-light-white pt-100 pb-100">
         <div class="container">
-            <div class="row align-items-xl-center">
-                <div class="col-lg-6">
-                    <div class="video-present relative img-lined shadow-1 bg-blue wow fadeInLeft">
-                        <img src="<?=!empty($about['photo']) ? $about['photo'] : 'img/feature/office_video.jpg'?>" class="opacity-5 img-100" alt="">
-                        <div class="video-text transform-center">
-                            <?php 
-                            if(!empty($about['video'])) { 
-                                // Xử lý link Youtube để lấy ID chuẩn, tránh lỗi popup
-                                $video_url = $about['video'];
-                                $video_id = '';
-                                
-                                // Pattern bắt link youtube các kiểu (ngắn, dài, embed...)
-                                if(preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $video_url, $match)) {
-                                    $video_id = $match[1];
-                                }
-                                
-                                // Nếu lấy được ID thì tạo link chuẩn, không thì giữ nguyên link gốc (dự phòng)
-                                $final_url = ($video_id != '') ? 'https://www.youtube.com/watch?v=' . $video_id : $video_url;
-                            ?>
-                            <div class="blob green video-blob">
-                                <a href="<?=$final_url?>" class="popup-video"> <i class="fas fa-play"></i></a>
-                            </div>
-                            <?php } ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 ">
-                    <div class="feature-all mt-md-60">
-                        <div class="fancy-head left-al text-left mb-30 wow fadeInDown">
-                            <h5 class="line-head mb-15">
-                                TẠI SAO CHỌN CHÚNG TÔI?
-                                <span class="line after"></span>
-                            </h5>
-                            <h1>Giá Trị Cốt Lõi</h1>
-                        </div>
-                        <div class="feature-list wow fadeInRight">
-                            <ul class="feature-list-all">
-                                <?php if(!empty($ds_tieuchi)) { foreach($ds_tieuchi as $k => $v) { ?>
-                                <li class="mb-20">
-                                    <div class="d-flex align-items-center justify-content-start text-left">
-                                        <div class="feature-num mr-25">
-                                            <span class="flex-center bg-light-white"><?=sprintf("%02d", $k+1)?></span>
-                                        </div>
-                                        <div class="feature-detail">
-                                            <h5 class="f-700"><?=$v['ten_vi']?></h5>
-                                            <p class="text-justify"><?=$v['mota_vi']?></p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <?php } } ?>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Features list end -->
-
-    <!-- Request callback start -->
-    <section class="callback-area pt-95 pb-85" style="background-image: url('img/banner/banner_1.jpg');" data-overlay="9">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="fancy-head text-center relative z-5 mb-40 wow fadeInDown">
-                        <h5 class="line-head mb-15 white">
-                            <span class="line before bg-white"></span>
-                                LIÊN HỆ
-                            <span class="line after bg-white"></span>
-                        </h5>
-                        <h1 class="white">Để lại thông tin và chúng tôi sẽ gọi lại cho bạn</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xl-12">
-                    <form id="frm-callback" class="relative z-5 wow fadeInUp" onsubmit="return false;">
-                        <div class="row">
-                            <div class="col-xl-10 col-lg-12">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group relative">
-                                            <input type="text" class="form-control input-white shadow-2" id="cb_name" placeholder="Họ & Tên" required>
-                                            <i class="far fa-user transform-v-center"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group relative">
-                                            <input type="text" class="form-control input-white shadow-2" id="cb_phone" placeholder="Số Điện Thoại" required>
-                                            <i class="fas fa-mobile-alt transform-v-center"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group relative">
-                                            <input type="email" class="form-control input-white shadow-2" id="cb_email" placeholder="Email (Tùy chọn)">
-                                            <i class="far fa-envelope transform-v-center"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group relative">
-                                            <select class="form-control input-white shadow-2" id="cb_topic">
-                                                <option value="">Dịch vụ quan tâm</option>
-                                                <option value="Tư vấn quản lý vận hành">Quản lý vận hành</option>
-                                                <option value="Dịch vụ kỹ thuật - Bảo trì">Kỹ thuật - Bảo trì</option>
-                                                <option value="Dịch vụ vệ sinh công nghiệp">Vệ sinh công nghiệp</option>
-                                                <option value="Dịch vụ an ninh - Bảo vệ">An ninh - Bảo vệ</option>
-                                                <option value="Chăm sóc cảnh quan">Cảnh quan cây xanh</option>
-                                                <option value="Tuyển dụng">Tuyển dụng</option>
-                                                <option value="Khác">Khác</option>
-                                            </select>
-                                            <i class="fas fa-chevron-down transform-v-center"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-2 col-lg-12">
-                                <button type="button" id="btn-callback" class="btn btn-blue btn-block request-btn uppercase shadow-2">Gửi Ngay</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Custom Alert Modal -->
-    <div id="custom-alert-overlay" class="custom-alert-overlay">
-        <div class="custom-alert-box">
-            <div class="alert-icon"><i class="fas fa-exclamation-circle"></i></div>
-            <h4 id="custom-alert-title">Thông báo</h4>
-            <p id="custom-alert-message">Nội dung thông báo</p>
-            <button id="custom-alert-close" class="alert-btn">Đóng</button>
-        </div>
-    </div>
-
-    <style>
-        /* Tăng padding để text không đè lên icon */
-        #frm-callback .input-white {
-            padding-right: 50px !important;
-        }
-        /* Style Nice Select */
-        #frm-callback .nice-select.input-white {
-            background-color: rgba(255, 255, 255, 0.15) !important;
-            border: none !important;
-            color: #fff !important;
-            width: 100%;
-            height: 50px;
-            line-height: 50px;
-            padding-left: 25px;
-            border-radius: 0;
-            float: none;
-        }
-        #frm-callback .nice-select.input-white:after { display: none; }
-        #frm-callback .nice-select.input-white .current { color: #fff; }
-        #frm-callback .nice-select.input-white .list {
-            background-color: #fff;
-            color: #333;
-            width: 100%;
-            border-radius: 0;
-            margin-top: 1px;
-            z-index: 99;
-        }
-        #frm-callback .nice-select.input-white .option:hover, 
-        #frm-callback .nice-select.input-white .option.focus, 
-        #frm-callback .nice-select.input-white .option.selected.focus {
-            background-color: #108042;
-            color: #fff;
-        }
-        #frm-callback .form-group i { z-index: 10; pointer-events: none; }
-        
-        /* Custom Alert CSS */
-        .custom-alert-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); z-index: 99999;
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; visibility: hidden; transition: all 0.3s;
-        }
-        .custom-alert-overlay.active { opacity: 1; visibility: visible; }
-        .custom-alert-box {
-            background: #fff; width: 90%; max-width: 400px;
-            border-radius: 8px; padding: 30px; text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transform: translateY(-20px); transition: all 0.3s;
-        }
-        .custom-alert-overlay.active .custom-alert-box { transform: translateY(0); }
-        .alert-icon { font-size: 50px; margin-bottom: 20px; color: #ffc107; } /* Màu vàng cảnh báo */
-        .custom-alert-box h4 { margin-bottom: 10px; font-weight: 700; color: #333; }
-        .custom-alert-box p { margin-bottom: 25px; color: #666; font-size: 15px; }
-        .alert-btn {
-            background: #108042; color: #fff; border: none;
-            padding: 10px 35px; border-radius: 5px; cursor: pointer;
-            transition: background 0.3s; font-weight: 600; text-transform: uppercase;
-        }
-        .alert-btn:hover { background: #0a5c2e; }
-
-        @media (max-width: 991px) {
-            #frm-callback .col-md-3 { margin-bottom: 15px; }
-            #frm-callback .request-btn { margin-top: 5px; }
-        }
-    </style>
-    <script>
-        window.addEventListener('load', function() {
-            if($.fn.niceSelect) {
-                $('#cb_topic').niceSelect();
-            }
-
-            // Hàm hiển thị thông báo Custom
-            function showCustomAlert(message) {
-                $('#custom-alert-message').text(message);
-                $('#custom-alert-overlay').addClass('active');
-            }
-
-            // Đóng thông báo alert
-            $('#custom-alert-close, #custom-alert-overlay').click(function(e){
-                if(e.target === this) {
-                    $('#custom-alert-overlay').removeClass('active');
-                }
-            });
-
-            $('#btn-callback').click(function(){
-                var name = $('#cb_name').val();
-                var phone = $('#cb_phone').val();
-                var email = $('#cb_email').val();
-                var topic = $('#cb_topic').val();
-
-                if(name == '' || phone == ''){
-                    showCustomAlert('Vui lòng nhập đầy đủ Họ tên và Số điện thoại!');
-                    return false;
-                }
-
-                var btn = $(this);
-                btn.text('Đang gửi...');
-                btn.prop('disabled', true);
-
-                $.ajax({
-                    url: 'ajax/ajax_callback.php',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {name: name, phone: phone, email: email, topic: topic},
-                    success: function(res){
-                        if(res.status == 'success'){
-                            // Chuyển hướng sang trang liên hệ có thông báo cảm ơn
-                            window.location.href = 'lien-he.html?status=success';
-                        } else {
-                            showCustomAlert(res.message);
-                            btn.text('Gửi Ngay');
-                            btn.prop('disabled', false);
-                        }
-                    },
-                    error: function(xhr, status, error){
-                        showCustomAlert('Có lỗi xảy ra khi kết nối server.');
-                        btn.text('Gửi Ngay');
-                        btn.prop('disabled', false);
-                    }
-                });
-            });
-
-            // Xử lý form đăng ký nhận tin
-            $('#frm-subscribe button').click(function(){
-                var name = $('#name2').val();
-                var email = $('#email2').val();
-
-                if(email == ''){
-                    showCustomAlert('Vui lòng nhập Email!');
-                    return false;
-                }
-
-                var btn = $(this);
-                var originalText = btn.html();
-                btn.text('Đang gửi...');
-                btn.prop('disabled', true);
-
-                $.ajax({
-                    url: 'ajax/ajax_subscribe.php',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {name: name, email: email},
-                    success: function(res){
-                        showCustomAlert(res.message);
-                        if(res.status == 'success'){
-                            $('#name2').val('');
-                            $('#email2').val('');
-                        }
-                        btn.html(originalText);
-                        btn.prop('disabled', false);
-                    },
-                    error: function(xhr, status, error){
-                        showCustomAlert('Có lỗi xảy ra khi kết nối server.');
-                        btn.html(originalText);
-                        btn.prop('disabled', false);
-                    }
-                });
-            });
-        });
-    </script>
-    <!-- Request callback end -->
-
-    <!-- Team area start -->
-    <section class="team-area pt-95 pb-100">
-        <div class="container">
-            <div class="row align-items-end text-center text-lg-left  mb-45">
-                <div class="col-lg-7">
-                    <div class="fancy-head left-al">
-                        <h5 class="line-head mb-15">
-                            <span class="line before d-lg-none"></span>
-                            ĐỘI NGŨ
-                            <span class="line after"></span>
-                        </h5>
-                        <h1>Nhân Sự Của Chúng Tôi</h1>
+            <div class="row align-items-end mb-60">
+                <div class="col-lg-7 text-center text-lg-left">
+                    <div class="fancy-head wow fadeInLeft">
+                        <h5 class="line-head mb-15">DỰ ÁN</h5>
+                        <h1 class="text-uppercase">Dự Án Tiêu Biểu</h1>
                     </div>
                 </div>
                 <div class="col-lg-5 text-lg-right d-none d-lg-block">
-                    <div class="arrow-navigation mb-15 mt-md-20">
-                        <a href="" class="nav-slide slide-left">
-                            <img src="img/icons/ar_lt.png" alt="">
-                        </a>
-                        <a href="" class="nav-slide slide-right">
-                            <img src="img/icons/ar_rt.png" alt="">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="owl-carousel team-slider">
-                        <?php if(!empty($ds_team)) { foreach($ds_team as $v) { ?>
-                        <div class="item">
-                            <div class="team-each">
-                                <div class="team-image relative img-lined">
-                                    <img src="<?=!empty($v['photo']) ? $v['photo'] : 'img/team/team1.jpg'?>" alt="">
-                                </div>
-                                <div class="team-info text-center transition-4">
-                                    <h5>
-                                        <a href="#" class="f-700"><?=$v['ten_vi']?></a>
-                                    </h5>
-                                    <p class="mb-0"><?=$v['chucvu']?></p>
-                                </div>
-                            </div>
-                        </div>
-                        <?php }} ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Team area end -->
-
-    <!-- Featured Projects start -->
-    <section class="featured-projects bg-light-white pt-95 pb-100">
-        <div class="container">
-            <div class="row align-items-end text-center text-lg-left mb-45">
-                <div class="col-lg-7 text-center text-lg-left">
-                    <div class="fancy-head left-al wow fadeInLeft">
-                        <h5 class="line-head mb-15">
-                            <span class="line before d-lg-none"></span>
-                            DỰ ÁN
-                            <span class="line after"></span>
-                        </h5>
-                        <h1 class="text-uppercase" style="font-weight: 800; letter-spacing: 1px;">Dự Án Tiêu Biểu</h1>
-                    </div>
-                </div>
-                <div class="col-lg-5 mt-md-25 text-lg-right d-none d-lg-block">
-                    <div class="arrow-navigation mb-15 mt-md-20">
-                        <a href="" class="nav-slide nav-price-left">
-                            <img src="img/icons/ar_lt.png" alt="">
+                    <div class="arrow-navigation mb-15">
+                        <a href="" class="nav-slide nav-price-left mr-2">
+                            <i class="fas fa-chevron-left"></i>
                         </a>
                         <a href="" class="nav-slide nav-price-right">
-                            <img src="img/icons/ar_rt.png" alt="">
+                            <i class="fas fa-chevron-right"></i>
                         </a>
                     </div>
                 </div>
@@ -615,7 +208,7 @@
                             $img_src = ($v['photo']!='' && file_exists($v['photo'])) ? $v['photo'] : 'https://placehold.co/600x400/ebebeb/666666?text=No+Image';
                         ?>
                         <div class="item">
-                            <div class="project-corporate-card bg-white wow fadeInUp">
+                            <div class="project-corporate-card bg-white wow fadeInUp h-100">
                                 <div class="project-thumb">
                                     <a href="<?=$link_duan?>">
                                         <img src="<?=$img_src?>" alt="<?=$v['ten_vi']?>">
@@ -630,9 +223,12 @@
                                     <h4 class="project-title">
                                         <a href="<?=$link_duan?>"><?=$v['ten_vi']?></a>
                                     </h4>
+                                    <div class="project-desc mb-3">
+                                        <?=(!empty($v['mota_vi']) && trim($v['mota_vi']) != '') ? strip_tags($v['mota_vi']) : 'Nội dung đang cập nhật...'?>
+                                    </div>
                                     <div class="project-line"></div>
                                     <div class="project-footer d-flex justify-content-between align-items-center">
-                                        <span class="text-muted text-sm text-uppercase font-weight-bold">Chi tiết dự án</span>
+                                        <span class="text-muted text-xs font-weight-bold text-uppercase">Chi tiết dự án</span>
                                         <a href="<?=$link_duan?>" class="btn-arrow-link"><i class="fas fa-arrow-right"></i></a>
                                     </div>
                                 </div>
@@ -644,122 +240,6 @@
             </div>
         </div>
     </section>
-
-    <style>
-        /* Corporate Project Card Style */
-        .project-corporate-card {
-            border: 1px solid #e5e5e5;
-            transition: all 0.4s ease;
-            position: relative;
-            background: #fff;
-            height: 100%;
-        }
-        
-        .project-corporate-card:hover {
-            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
-            transform: translateY(-5px);
-            border-color: transparent;
-        }
-
-        /* Phần hình ảnh */
-        .project-thumb {
-            position: relative;
-            overflow: hidden;
-            height: 240px; /* Chiều cao cố định cho ảnh gọn gàng */
-        }
-        
-        .project-thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-        }
-        
-        .project-corporate-card:hover .project-thumb img {
-            transform: scale(1.05); /* Zoom rất nhẹ, không quá lố */
-        }
-
-        .location-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255, 255, 255, 0.95);
-            color: #333;
-            padding: 5px 12px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-        }
-        .location-badge i { color: #108042; margin-right: 5px; }
-
-        /* Phần nội dung */
-        .project-body {
-            padding: 25px;
-            text-align: left;
-            position: relative;
-        }
-        
-        .project-title {
-            margin-bottom: 15px;
-            min-height: 3em; /* Đảm bảo đều dòng */
-        }
-        
-        .project-title a {
-            color: #222;
-            font-weight: 700;
-            font-size: 18px;
-            text-transform: uppercase; /* Nghiêm túc hơn */
-            line-height: 1.4;
-            transition: color 0.3s;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        
-        .project-corporate-card:hover .project-title a {
-            color: #108042;
-        }
-
-        /* Đường kẻ trang trí */
-        .project-line {
-            width: 40px;
-            height: 3px;
-            background-color: #e5e5e5;
-            margin-bottom: 20px;
-            transition: width 0.4s ease, background-color 0.4s ease;
-        }
-        
-        .project-corporate-card:hover .project-line {
-            width: 100%;
-            background-color: #108042;
-        }
-
-        /* Footer card */
-        .btn-arrow-link {
-            width: 35px;
-            height: 35px;
-            border: 1px solid #e5e5e5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%; /* Tròn nhỏ tinh tế */
-            color: #999;
-            transition: all 0.3s;
-        }
-        
-        .project-corporate-card:hover .btn-arrow-link {
-            background-color: #108042;
-            border-color: #108042;
-            color: #fff;
-        }
-        
-        .text-sm { font-size: 12px; letter-spacing: 0.5px; }
-    </style>
-    <!-- Featured Projects end -->
 
     <!-- Testimonial area start -->
     <style>
