@@ -103,6 +103,9 @@
     }
     
     $show_filters = in_array($com, ['du-an', 'news', 'staff', 'thuvien', 'dichvu', 'themanh', 'giatri', 'feedback', 'appdancu']);
+    
+    // Check Permission
+    $is_admin = (isset($_SESSION['login']['role']) && $_SESSION['login']['role'] > 1);
 ?>
 
 <!-- Header -->
@@ -112,12 +115,14 @@
         <p class="text-muted small m-0 mt-1">Quản lý danh sách dữ liệu hệ thống</p>
     </div>
     <div class="col-md-6 text-md-right mt-3 mt-md-0">
+        <?php if($is_admin) { ?>
         <a href="index.php?com=<?=$com?>&act=add&type=<?=$type?>" class="btn-custom-add shadow-sm">
             <i class="fas fa-plus-circle mr-2"></i>Thêm mới
         </a>
         <button type="button" id="delete-all" class="btn btn-outline-danger font-weight-bold ml-2 shadow-sm border-0 bg-white" disabled style="border-radius: 8px; height: 44px; padding: 0 20px;">
             <i class="fas fa-trash-alt mr-2"></i>Xóa (<span id="selected-count">0</span>)
         </button>
+        <?php } ?>
     </div>
 </div>
 
@@ -193,12 +198,14 @@
         <table class="table table-custom mb-0">
             <thead>
                 <tr>
+                    <?php if($is_admin) { ?>
                     <th style="width: 50px" class="text-center py-3">
                         <div class="custom-control custom-checkbox ml-1">
                             <input type="checkbox" class="custom-control-input cursor-pointer" id="select-all">
                             <label class="custom-control-label cursor-pointer" for="select-all"></label>
                         </div>
                     </th>
+                    <?php } ?>
                     <th style="width: 70px" class="text-center">STT</th>
                     <?php if($type != 'gioi-thieu' && $com != 'feedback') { ?>
                         <th style="width: 100px" class="text-center">Hình ảnh</th>
@@ -215,14 +222,18 @@
             <tbody id="sortable-list" data-table="<?=$table_db?>">
                 <?php if(!empty($items)) { foreach($items as $k=>$v){ ?>
                 <tr data-id="<?=$v['id']?>" class="cursor-move">
+                    <?php if($is_admin) { ?>
                     <td class="text-center py-3">
                         <div class="custom-control custom-checkbox ml-1">
                             <input type="checkbox" class="custom-control-input select-item cursor-pointer" id="select-<?=$v['id']?>" value="<?=$v['id']?>">
                             <label class="custom-control-label cursor-pointer" for="select-<?=$v['id']?>"></label>
                         </div>
                     </td>
+                    <?php } ?>
                     <td class="text-center">
-                        <input type="number" class="form-control form-control-sm text-center update-stt mx-auto shadow-none" value="<?=($v['stt']!='')?$v['stt']:0?>" data-id="<?=$v['id']?>" data-table="<?=$table_db?>" style="width: 50px;">
+                        <?php if($is_admin) { ?>
+                            <input type="number" class="form-control form-control-sm text-center update-stt mx-auto shadow-none" value="<?=($v['stt']!='')?$v['stt']:0?>" data-id="<?=$v['id']?>" data-table="<?=$table_db?>" style="width: 50px;">
+                        <?php } else { echo $v['stt']; } ?>
                     </td>
                     
                     <?php if($type != 'gioi-thieu' && $com != 'feedback') { ?>
@@ -263,7 +274,7 @@
                     <?php if($com=='du-an' || ($com=='news' && $type=='tin-tuc') || $com=='dichvu') { ?>
                     <td class="text-center">
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input checkbox-noibat" id="noibat-<?=$v['id']?>" data-id="<?=$v['id']?>" data-table="<?=$table_db?>" <?=($v['noibat']==1)?'checked':''?>>
+                            <input type="checkbox" class="custom-control-input checkbox-noibat" id="noibat-<?=$v['id']?>" data-id="<?=$v['id']?>" data-table="<?=$table_db?>" <?=($v['noibat']==1)?'checked':''?> <?=$is_admin?'':'disabled'?>>
                             <label class="custom-control-label" for="noibat-<?=$v['id']?>"></label>
                         </div>
                     </td>
@@ -275,14 +286,16 @@
 
                     <td class="text-center">
                         <div class="custom-control custom-switch custom-switch-success">
-                            <input type="checkbox" class="custom-control-input checkbox-hienthi" id="hienthi-<?=$v['id']?>" data-id="<?=$v['id']?>" data-table="<?=$table_db?>" <?=($v['hienthi']==1)?'checked':''?>>
+                            <input type="checkbox" class="custom-control-input checkbox-hienthi" id="hienthi-<?=$v['id']?>" data-id="<?=$v['id']?>" data-table="<?=$table_db?>" <?=($v['hienthi']==1)?'checked':''?> <?=$is_admin?'':'disabled'?>>
                             <label class="custom-control-label" for="hienthi-<?=$v['id']?>"></label>
                         </div>
                     </td>
                     <td class="text-center">
                         <div class="btn-group">
-                            <a href="index.php?com=<?=$com?>&act=edit&type=<?=$type?>&id=<?=$v['id']?>" class="action-btn btn-edit mr-2" title="Chỉnh sửa"><i class="fas fa-pen fa-xs"></i></a>
+                            <a href="index.php?com=<?=$com?>&act=edit&type=<?=$type?>&id=<?=$v['id']?>" class="action-btn btn-edit mr-2" title="<?=$is_admin?'Chỉnh sửa':'Xem chi tiết'?>"><i class="fas <?=$is_admin?'fa-pen':'fa-eye'?> fa-xs"></i></a>
+                            <?php if($is_admin) { ?>
                             <a href="index.php?com=<?=$com?>&act=delete&type=<?=$type?>&id=<?=$v['id']?>" class="action-btn btn-delete btn-delete-item" title="Xóa"><i class="fas fa-trash fa-xs"></i></a>
+                            <?php } ?>
                         </div>
                     </td>
                 </tr>
@@ -290,7 +303,9 @@
                 <tr><td colspan="100%" class="text-center py-5 text-muted">
                     <img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-state-2130362-1800926.png" style="width: 150px; opacity: 0.5;">
                     <p class="mt-3 font-weight-bold">Chưa có dữ liệu nào</p>
+                    <?php if($is_admin) { ?>
                     <a href="index.php?com=<?=$com?>&act=add&type=<?=$type?>" class="btn btn-sm btn-primary mt-2">Thêm mới ngay</a>
+                    <?php } ?>
                 </td></tr>
                 <?php } ?>
             </tbody>

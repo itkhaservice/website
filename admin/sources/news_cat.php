@@ -59,6 +59,12 @@ function get_item(){
 
 function save_item(){
     global $d, $type, $table_db;
+
+    // Check permission: Role 1 (Staff) cannot save
+    if(isset($_SESSION['login']['role']) && $_SESSION['login']['role'] == 1){
+        transfer("Bạn không có quyền thực hiện thao tác này!", "index.php?com=news_cat&act=man&type=".$type);
+    }
+
     if(empty($_POST)) transfer("Không nhận được dữ liệu", "index.php?com=news_cat&act=man&type=".$type);
     $id = (int)$_POST['id'];
 
@@ -94,6 +100,12 @@ function save_item(){
 
 function delete_item(){
     global $d, $type, $table_db;
+
+    // Check permission: Role 1 (Staff) cannot delete
+    if(isset($_SESSION['login']['role']) && $_SESSION['login']['role'] == 1){
+        transfer("Bạn không có quyền thực hiện thao tác này!", "index.php?com=news_cat&act=man&type=".$type);
+    }
+
     $id = (int)$_GET['id'];
     $d->reset();
     $d->setTable($table_db);
@@ -106,6 +118,12 @@ function delete_item(){
 
 function delete_all_item(){
     global $d, $type, $table_db;
+
+    // Check permission: Role 1 (Staff) cannot delete
+    if(isset($_SESSION['login']['role']) && $_SESSION['login']['role'] == 1){
+        transfer("Bạn không có quyền thực hiện thao tác này!", "index.php?com=news_cat&act=man&type=".$type);
+    }
+
     $listid = explode(",",$_GET['listid']);
     $count_del = 0;
     foreach($listid as $id){

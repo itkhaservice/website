@@ -1,3 +1,6 @@
+<?php $is_admin = (isset($_SESSION['login']['role']) && $_SESSION['login']['role'] > 1); ?>
+<?php $readonly_attr = $is_admin ? '' : 'readonly disabled'; ?>
+
 <!-- Header -->
 <form method="post" action="index.php?com=static&act=save&type=<?=$type?>" enctype="multipart/form-data">
     <div class="row mb-3 align-items-center">
@@ -5,7 +8,9 @@
             <h1 class="m-0 text-dark" style="font-size: 1.25rem; font-weight: 700; color: #1e293b !important;"><?=$title_main?></h1>
         </div>
         <div class="col-sm-6 text-right mt-2 mt-md-0">
+            <?php if($is_admin) { ?>
             <button type="submit" class="btn btn-sm btn-primary shadow-sm mr-2 px-3" style="font-weight: 600;"><i class="fas fa-save mr-1"></i> Lưu dữ liệu</button>
+            <?php } ?>
             <a href="index.php?com=dashboard" class="btn btn-sm btn-light border shadow-sm px-3 text-secondary" style="font-weight: 600;"><i class="fas fa-sign-out-alt mr-1"></i> Thoát</a>
         </div>
     </div>
@@ -36,11 +41,11 @@
                             <input type="hidden" name="ten_vi" value="<?=$item['ten_vi']?>">
                             <div class="form-group">
                                 <label class="font-weight-600">Mô tả ngắn (Slogan/Lời dẫn)</label>
-                                <input type="text" name="mota_vi" class="form-control shadow-none border" value="<?=$item['mota_vi']?>" placeholder="Nhập lời dẫn...">
+                                <input type="text" name="mota_vi" class="form-control shadow-none border" value="<?=$item['mota_vi']?>" placeholder="Nhập lời dẫn..." <?=$readonly_attr?>>
                             </div>
                             <div class="form-group mb-0">
                                 <label class="font-weight-600">Nội dung chi tiết</label>
-                                <textarea name="noidung_vi" id="noidung_vi" class="form-control editor shadow-none border"><?=$item['noidung_vi']?></textarea>
+                                <textarea name="noidung_vi" id="noidung_vi" class="form-control editor shadow-none border" <?=$readonly_attr?>><?=$item['noidung_vi']?></textarea>
                             </div>
                         </div>
 
@@ -61,7 +66,7 @@
                                 <div class="col-md-4 mb-3">
                                     <label class="font-weight-600 small"><?=$s['label']?></label>
                                     <div class="input-group input-group-sm">
-                                        <input type="number" name="<?=$s['field']?>" class="form-control shadow-none border" value="<?=$item[$s['field']]?>">
+                                        <input type="number" name="<?=$s['field']?>" class="form-control shadow-none border" value="<?=$item[$s['field']]?>" <?=$readonly_attr?>>
                                         <div class="input-group-append"><span class="input-group-text">+</span></div>
                                     </div>
                                 </div>
@@ -69,15 +74,15 @@
                             </div>
                             <div class="form-group mt-3">
                                 <label class="font-weight-600">Mô tả số liệu (Bên trái thống kê)</label>
-                                <textarea name="mota_solieu" id="mota_solieu" class="form-control editor shadow-none border"><?=$item['mota_solieu']?></textarea>
+                                <textarea name="mota_solieu" id="mota_solieu" class="form-control editor shadow-none border" <?=$readonly_attr?>><?=$item['mota_solieu']?></textarea>
                             </div>
                             <div class="form-group mt-3">
                                 <label class="font-weight-600">Mô tả đối tác (Bên trái logo đối tác)</label>
-                                <textarea name="mota_doitac" id="mota_doitac" class="form-control editor shadow-none border"><?=$item['mota_doitac']?></textarea>
+                                <textarea name="mota_doitac" id="mota_doitac" class="form-control editor shadow-none border" <?=$readonly_attr?>><?=$item['mota_doitac']?></textarea>
                             </div>
                             <div class="form-group mt-3 mb-0">
                                 <label class="font-weight-600 text-danger"><i class="fab fa-youtube mr-1"></i> Link Video (Youtube)</label>
-                                <input type="text" name="video" class="form-control shadow-none border" value="<?=$item['video']?>" placeholder="https://www.youtube.com/watch?v=...">
+                                <input type="text" name="video" class="form-control shadow-none border" value="<?=$item['video']?>" placeholder="https://www.youtube.com/watch?v=..." <?=$readonly_attr?>>
                             </div>
                         </div>
 
@@ -85,7 +90,7 @@
                         <div class="tab-pane fade" id="tabs-vision" role="tabpanel">
                             <div class="form-group mb-0">
                                 <label class="font-weight-600">Nội dung Tầm nhìn</label>
-                                <textarea name="tamnhin" id="tamnhin" class="form-control editor shadow-none border"><?=$item['tamnhin']?></textarea>
+                                <textarea name="tamnhin" id="tamnhin" class="form-control editor shadow-none border" <?=$readonly_attr?>><?=$item['tamnhin']?></textarea>
                             </div>
                         </div>
 
@@ -93,7 +98,7 @@
                         <div class="tab-pane fade" id="tabs-mission" role="tabpanel">
                             <div class="form-group mb-0">
                                 <label class="font-weight-600">Nội dung Sứ mệnh</label>
-                                <textarea name="sumenh" id="sumenh" class="form-control editor shadow-none border"><?=$item['sumenh']?></textarea>
+                                <textarea name="sumenh" id="sumenh" class="form-control editor shadow-none border" <?=$readonly_attr?>><?=$item['sumenh']?></textarea>
                             </div>
                         </div>
                     </div>
@@ -105,20 +110,24 @@
             <div class="card mb-4 shadow-sm border-0" style="border-radius: 12px;">
                 <div class="card-header bg-white font-weight-bold d-flex justify-content-between align-items-center py-3">
                     <span>Hình ảnh</span>
+                    <?php if($is_admin) { ?>
                     <button type="button" onclick="openBrowser('photo')" class="btn btn-xs btn-outline-primary py-1 px-2" style="font-size: 11px;"><i class="fas fa-search-plus"></i> DUYỆT</button>
+                    <?php } ?>
                 </div>
                 <div class="card-body text-center bg-light-50">
                     <?php 
                         $img_src = ($item['photo'] != '' && file_exists('../'.$item['photo'])) ? '../'.$item['photo'] : 'https://placehold.co/300x200/ebebeb/666666?text=No+Image';
                     ?>
                     <div class="mb-3 bg-white p-2 rounded shadow-xs border d-inline-block">
-                        <img id="preview-photo" src="<?=$img_src?>" class="img-fluid rounded" style="max-height: 150px; cursor: pointer;" onclick="openBrowser('photo')">
+                        <img id="preview-photo" src="<?=$img_src?>" class="img-fluid rounded" style="max-height: 150px; cursor: pointer;" <?=$is_admin ? "onclick=\"openBrowser('photo')\"" : ""?>>
                         <input type="hidden" name="photo_from_server" id="photo" value="<?=$item['photo']?>">
                     </div>
+                    <?php if($is_admin) { ?>
                     <div class="custom-file text-left text-sm">
                         <input type="file" class="custom-file-input" name="file" id="file">
                         <label class="custom-file-label shadow-none" for="file" style="border-radius: 8px;">Tải ảnh mới...</label>
                     </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -140,10 +149,17 @@
             setTimeout(waitCK, 100);
             return;
         }
+        <?php if($is_admin) { ?>
         initKhaServiceCKEditor(
             ['noidung_vi', 'tamnhin', 'sumenh', 'mota_solieu', 'mota_doitac'], 
             'vechungtoi'
         );
+        <?php } else { ?>
+        // Readonly mode
+        ['noidung_vi', 'tamnhin', 'sumenh', 'mota_solieu', 'mota_doitac'].forEach(function(id) {
+            if(document.getElementById(id)) document.getElementById(id).readOnly = true;
+        });
+        <?php } ?>
     }
     waitCK();
 

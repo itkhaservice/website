@@ -7,7 +7,7 @@ if(isset($_POST['login'])){
     
     // Check DB
     $d->reset();
-    $d->query("select * from #_user where username='$username' and role >= 2"); // Role >= 2 là admin/mod
+    $d->query("select * from #_user where username='$username' and role >= 1"); // Role >= 1 là admin/mod/staff
     
     if($d->num_rows() == 1){
         $row = $d->fetch_array();

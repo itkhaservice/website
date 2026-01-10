@@ -1,3 +1,6 @@
+<?php $is_admin = (isset($_SESSION['login']['role']) && $_SESSION['login']['role'] > 1); ?>
+<?php $readonly_attr = $is_admin ? '' : 'readonly disabled'; ?>
+
 <!-- Header -->
 <form method="post" action="index.php?com=news_cat&act=save&type=<?=$type?>">
     <!-- Hidden ID for Edit Mode -->
@@ -8,7 +11,9 @@
             <h1 class="m-0 text-dark" style="font-size: 1.5rem; font-weight: 700;">Quản lý: <?=$title_main?></h1>
         </div>
         <div class="col-sm-6 text-right">
+            <?php if($is_admin) { ?>
             <button type="submit" class="btn btn-save shadow-sm mr-2 px-4"><i class="fas fa-save mr-1"></i> Lưu dữ liệu</button>
+            <?php } ?>
             <a href="index.php?com=news_cat&act=man&type=<?=$type?>" class="btn btn-secondary shadow-sm px-4"><i class="fas fa-undo mr-1"></i> Hủy bỏ</a>
         </div>
     </div>
@@ -30,13 +35,13 @@
                 <div class="tab-pane fade show active" id="tabs-info" role="tabpanel">
                     <div class="form-group">
                         <label class="font-weight-600">Tên <?=$title_main?> <span class="text-danger">*</span></label>
-                        <input type="text" name="ten_vi" id="ten_vi" class="form-control shadow-none border" value="<?=$item['ten_vi']?>" required placeholder="Nhập tên..." onkeyup="changeTitle(this);">
+                        <input type="text" name="ten_vi" id="ten_vi" class="form-control shadow-none border" value="<?=$item['ten_vi']?>" required placeholder="Nhập tên..." onkeyup="changeTitle(this);" <?=$readonly_attr?>>
                     </div>
 
                     <div class="form-group">
                         <label class="font-weight-600">Đường dẫn (Link thân thiện)</label>
                         <div class="input-group">
-                            <input type="text" name="ten_khong_dau" id="ten_khong_dau" class="form-control shadow-none border bg-light" value="<?=$item['ten_khong_dau']?>" placeholder="tự-động-tạo-từ-tên">
+                            <input type="text" name="ten_khong_dau" id="ten_khong_dau" class="form-control shadow-none border bg-light" value="<?=$item['ten_khong_dau']?>" placeholder="tự-động-tạo-từ-tên" <?=$readonly_attr?>>
                             <div class="input-group-append">
                                 <span class="input-group-text bg-white small text-muted"><i class="fas fa-link"></i></span>
                             </div>
@@ -46,11 +51,11 @@
 
                     <div class="form-group">
                         <label class="font-weight-600 text-sm">Số thứ tự (stt)</label>
-                        <input type="number" name="stt" class="form-control form-control-sm shadow-none border" value="<?=isset($item['stt'])?$item['stt']:1?>" style="width: 100px;">
+                        <input type="number" name="stt" class="form-control form-control-sm shadow-none border" value="<?=isset($item['stt'])?$item['stt']:1?>" style="width: 100px;" <?=$readonly_attr?>>
                     </div>
 
                     <div class="custom-control custom-switch mb-2">
-                        <input type="checkbox" class="custom-control-input" id="hienthi" name="hienthi" <?=(!isset($item['hienthi']) || $item['hienthi']==1)?'checked':''?>>
+                        <input type="checkbox" class="custom-control-input" id="hienthi" name="hienthi" <?=(!isset($item['hienthi']) || $item['hienthi']==1)?'checked':''?> <?=$is_admin?'':'disabled'?>>
                         <label class="custom-control-label font-weight-500 text-sm cursor-pointer" for="hienthi">Hiển thị</label>
                     </div>
                 </div>
@@ -59,15 +64,15 @@
                 <div class="tab-pane fade" id="tabs-seo" role="tabpanel">
                     <div class="form-group">
                         <label class="font-weight-600">Title (Tiêu đề SEO)</label>
-                        <input type="text" name="title" class="form-control" value="<?=$item['title']?>" placeholder="Mặc định lấy theo tên...">
+                        <input type="text" name="title" class="form-control" value="<?=$item['title']?>" placeholder="Mặc định lấy theo tên..." <?=$readonly_attr?>>
                     </div>
                     <div class="form-group">
                         <label class="font-weight-600">Keywords (Từ khóa)</label>
-                        <textarea name="keywords" class="form-control" rows="3" placeholder="Từ khóa cách nhau bởi dấu phẩy"><?=$item['keywords']?></textarea>
+                        <textarea name="keywords" class="form-control" rows="3" placeholder="Từ khóa cách nhau bởi dấu phẩy" <?=$readonly_attr?>><?=$item['keywords']?></textarea>
                     </div>
                     <div class="form-group">
                         <label class="font-weight-600">Description (Mô tả SEO)</label>
-                        <textarea name="description" class="form-control" rows="3" placeholder="Mô tả ngắn gọn nội dung..."><?=$item['description']?></textarea>
+                        <textarea name="description" class="form-control" rows="3" placeholder="Mô tả ngắn gọn nội dung..." <?=$readonly_attr?>><?=$item['description']?></textarea>
                     </div>
                 </div>
             </div>

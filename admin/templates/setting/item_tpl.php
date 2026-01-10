@@ -1,10 +1,15 @@
+<?php $is_admin = (isset($_SESSION['login']['role']) && $_SESSION['login']['role'] > 1); ?>
+<?php $readonly_attr = $is_admin ? '' : 'readonly disabled'; ?>
+
 <form method="post" action="index.php?com=setting&act=save" enctype="multipart/form-data">
     <div class="row mb-3 align-items-center">
         <div class="col-sm-6">
             <h1 class="m-0 text-dark" style="font-size: 1.5rem; font-weight: 700;">Cấu hình hệ thống</h1>
         </div>
         <div class="col-sm-6 text-right">
+            <?php if($is_admin) { ?>
             <button type="submit" class="btn btn-sm btn-primary shadow-sm px-4 font-weight-bold" style="border-radius: 8px;"><i class="fas fa-save mr-2"></i> LƯU THIẾT LẬP</button>
+            <?php } ?>
         </div>
     </div>
 
@@ -33,37 +38,37 @@
                         <div class="tab-pane fade show active" id="tabs-info" role="tabpanel">
                             <div class="form-group">
                                 <label class="font-weight-bold">Tên đầy đủ (longName)</label>
-                                <input type="text" name="longName" class="form-control" value="<?=$item['longName']?>" placeholder="Ví dụ: Công ty Cổ phần Quản lý và Vận hành...">
+                                <input type="text" name="longName" class="form-control" value="<?=$item['longName']?>" placeholder="Ví dụ: Công ty Cổ phần Quản lý và Vận hành..." <?=$readonly_attr?>>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="font-weight-bold">Tên giao dịch (nationalName)</label>
-                                        <input type="text" name="nationalName" class="form-control" value="<?=$item['nationalName']?>">
+                                        <input type="text" name="nationalName" class="form-control" value="<?=$item['nationalName']?>" <?=$readonly_attr?>>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="font-weight-bold">Tên viết tắt (shortName)</label>
-                                        <input type="text" name="shortName" class="form-control" value="<?=$item['shortName']?>">
+                                        <input type="text" name="shortName" class="form-control" value="<?=$item['shortName']?>" <?=$readonly_attr?>>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold">Mã số thuế (taxCode)</label>
-                                <input type="text" name="taxCode" class="form-control" value="<?=$item['taxCode']?>">
+                                <input type="text" name="taxCode" class="form-control" value="<?=$item['taxCode']?>" <?=$readonly_attr?>>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="font-weight-bold">Email 1</label>
-                                        <input type="email" name="email" class="form-control" value="<?=$item['email']?>">
+                                        <input type="email" name="email" class="form-control" value="<?=$item['email']?>" <?=$readonly_attr?>>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="font-weight-bold text-info">Email 2 (Tuyển dụng)</label>
-                                        <input type="email" name="email2" class="form-control" value="<?=$item['email2']?>">
+                                        <input type="email" name="email2" class="form-control" value="<?=$item['email2']?>" <?=$readonly_attr?>>
                                     </div>
                                 </div>
                             </div>
@@ -71,29 +76,29 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="font-weight-bold">Điện thoại</label>
-                                        <input type="text" name="dienthoai" class="form-control" value="<?=$item['dienthoai']?>">
+                                        <input type="text" name="dienthoai" class="form-control" value="<?=$item['dienthoai']?>" <?=$readonly_attr?>>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="font-weight-bold text-danger">Hotline 1</label>
-                                        <input type="text" name="hotline" class="form-control font-weight-bold text-danger" value="<?=$item['hotline']?>">
+                                        <input type="text" name="hotline" class="form-control font-weight-bold text-danger" value="<?=$item['hotline']?>" <?=$readonly_attr?>>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="font-weight-bold text-danger">Hotline 2 (Tuyển dụng)</label>
-                                        <input type="text" name="hotline2" class="form-control font-weight-bold text-danger" value="<?=$item['hotline2']?>">
+                                        <input type="text" name="hotline2" class="form-control font-weight-bold text-danger" value="<?=$item['hotline2']?>" <?=$readonly_attr?>>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold">Địa chỉ</label>
-                                <input type="text" name="diachi_vi" class="form-control" value="<?=$item['diachi_vi']?>">
+                                <input type="text" name="diachi_vi" class="form-control" value="<?=$item['diachi_vi']?>" <?=$readonly_attr?>>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold">Mô tả ngắn về công ty</label>
-                                <textarea name="description" class="form-control" rows="4"><?=$item['description']?></textarea>
+                                <textarea name="description" class="form-control" rows="4" <?=$readonly_attr?>><?=$item['description']?></textarea>
                             </div>
                         </div>
 
@@ -101,28 +106,28 @@
                         <div class="tab-pane fade" id="tabs-social" role="tabpanel">
                             <div class="form-group">
                                 <label class="font-weight-bold"><i class="fab fa-facebook-messenger text-primary mr-1"></i> Fanpage ID (Cho Chat Plugin)</label>
-                                <input type="text" name="facebook_page_id" class="form-control" value="<?=@$item['facebook_page_id']?>" placeholder="Ví dụ: 106506484307xxx">
+                                <input type="text" name="facebook_page_id" class="form-control" value="<?=@$item['facebook_page_id']?>" placeholder="Ví dụ: 106506484307xxx" <?=$readonly_attr?>>
                                 <small class="text-muted italic">Lấy ID Fanpage tại: <a href="https://lookup-id.com/" target="_blank">https://lookup-id.com/</a></small>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold"><i class="fab fa-facebook text-primary mr-1"></i> Fanpage Facebook</label>
-                                <input type="text" name="fanpage" class="form-control" value="<?=$item['fanpage']?>">
+                                <input type="text" name="fanpage" class="form-control" value="<?=$item['fanpage']?>" <?=$readonly_attr?>>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold"><i class="fab fa-tiktok text-dark mr-1"></i> Tiktok</label>
-                                <input type="text" name="tiktok" class="form-control" value="<?=$item['tiktok']?>">
+                                <input type="text" name="tiktok" class="form-control" value="<?=$item['tiktok']?>" <?=$readonly_attr?>>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold"><i class="fab fa-youtube text-danger mr-1"></i> Kênh Youtube</label>
-                                <input type="text" name="youtube" class="form-control" value="<?=$item['youtube']?>">
+                                <input type="text" name="youtube" class="form-control" value="<?=$item['youtube']?>" <?=$readonly_attr?>>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold text-success"><i class="fas fa-play-circle mr-1"></i> Video trang giới thiệu (link Youtube)</label>
-                                <input type="text" name="video_intro" class="form-control border-success shadow-none" value="<?=$item['video_intro']?>" placeholder="https://www.youtube.com/watch?v=...">
+                                <input type="text" name="video_intro" class="form-control border-success shadow-none" value="<?=$item['video_intro']?>" placeholder="https://www.youtube.com/watch?v=..." <?=$readonly_attr?>>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold"><i class="fas fa-info-circle text-info mr-1"></i> Thông tin Youtube (youtubeInfo)</label>
-                                <input type="text" name="youtubeInfo" class="form-control" value="<?=$item['youtubeInfo']?>">
+                                <input type="text" name="youtubeInfo" class="form-control" value="<?=$item['youtubeInfo']?>" <?=$readonly_attr?>>
                             </div>
                         </div>
 
@@ -130,7 +135,7 @@
                         <div class="tab-pane fade" id="tabs-map" role="tabpanel">
                             <div class="form-group">
                                 <label class="font-weight-bold">Google Map Iframe</label>
-                                <textarea name="google_map" class="form-control" rows="8"><?=$item['google_map']?></textarea>
+                                <textarea name="google_map" class="form-control" rows="8" <?=$readonly_attr?>><?=$item['google_map']?></textarea>
                                 <small class="text-muted mt-2 d-block italic">Dán mã nhúng từ Google Maps (thẻ iframe) vào đây.</small>
                             </div>
                             <?php if($item['google_map'] != '') { ?>
@@ -147,11 +152,11 @@
                         <div class="tab-pane fade" id="tabs-app" role="tabpanel">
                             <div class="form-group">
                                 <label class="font-weight-bold"><i class="fas fa-external-link-alt text-primary mr-1"></i> Link phần mềm quản lý (Header)</label>
-                                <input type="text" name="link_phanmem" class="form-control" value="<?=$item['link_phanmem']?>" placeholder="https://...">
+                                <input type="text" name="link_phanmem" class="form-control" value="<?=$item['link_phanmem']?>" placeholder="https://..." <?=$readonly_attr?>>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold"><i class="fas fa-info-circle text-info mr-1"></i> Link giới thiệu App dân cư</label>
-                                <input type="text" name="link_gioithieu_app" class="form-control" value="<?=$item['link_gioithieu_app']?>" placeholder="https://...">
+                                <input type="text" name="link_gioithieu_app" class="form-control" value="<?=$item['link_gioithieu_app']?>" placeholder="https://..." <?=$readonly_attr?>>
                             </div>
                         </div>
                     </div>
@@ -164,7 +169,9 @@
             <div class="card mb-4 shadow-sm border-0">
                 <div class="card-header bg-white font-weight-bold d-flex justify-content-between align-items-center">
                     <span><i class="fas fa-image mr-1 text-primary"></i> Logo vuông (favicon)</span>
+                    <?php if($is_admin) { ?>
                     <button type="button" onclick="openBrowser('logo')" class="btn btn-xs btn-outline-primary px-2 py-1" style="font-size: 11px;">DUYỆT</button>
+                    <?php } ?>
                 </div>
                 <div class="card-body text-center bg-white">
                     <?php 
@@ -174,10 +181,12 @@
                         <img id="preview-logo" src="<?=$img_src?>" class="img-fluid rounded" style="max-height: 100px;">
                         <input type="hidden" name="logo_from_server" id="input-logo" value="<?=$item['logo']?>">
                     </div>
+                    <?php if($is_admin) { ?>
                     <div class="custom-file text-left text-sm">
                         <input type="file" class="custom-file-input" name="logo_file" id="logo_file">
                         <label class="custom-file-label" for="logo_file">Tải ảnh mới...</label>
                     </div>
+                    <?php } ?>
                     <small class="text-danger mt-2 d-block">Khuyên dùng: <b>200x200px</b> (.png hoặc .ico)</small>
                 </div>
             </div>
@@ -186,7 +195,9 @@
             <div class="card mb-4 shadow-sm border-0">
                 <div class="card-header bg-white font-weight-bold d-flex justify-content-between align-items-center">
                     <span><i class="fas fa-image mr-1 text-primary"></i> Logo ngang</span>
+                    <?php if($is_admin) { ?>
                     <button type="button" onclick="openBrowser('logoRectangle')" class="btn btn-xs btn-outline-primary px-2 py-1" style="font-size: 11px;">DUYỆT</button>
+                    <?php } ?>
                 </div>
                 <div class="card-body text-center bg-white">
                     <?php 
@@ -196,10 +207,12 @@
                         <img id="preview-logoRectangle" src="<?=$img_src_rect?>" class="img-fluid rounded" style="max-height: 60px;">
                         <input type="hidden" name="logoRectangle_from_server" id="input-logoRectangle" value="<?=$item['logoRectangle']?>">
                     </div>
+                    <?php if($is_admin) { ?>
                     <div class="custom-file text-left text-sm">
                         <input type="file" class="custom-file-input" name="logoRectangle_file" id="logoRectangle_file">
                         <label class="custom-file-label" for="logoRectangle_file">Tải ảnh mới...</label>
                     </div>
+                    <?php } ?>
                     <small class="text-danger mt-2 d-block">Khuyên dùng: <b>400x150px</b> (.png trong suốt)</small>
                 </div>
             </div>

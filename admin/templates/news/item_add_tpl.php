@@ -13,6 +13,9 @@
 
     $fields = isset($config_fields[$com]) ? $config_fields[$com] : $config_fields['news'];
     $has_tabs = in_array('noidung', $fields) || in_array('seo', $fields);
+
+    // Check Permission
+    $is_admin = (isset($_SESSION['login']['role']) && $_SESSION['login']['role'] > 1);
 ?>
 
 <!-- Header -->
@@ -22,13 +25,17 @@
             <h1 class="m-0 text-dark" style="font-size: 1.25rem; font-weight: 700; color: #1e293b !important;">Quản lý: <?=$title_main?></h1>
         </div>
         <div class="col-sm-6 text-right">
+            <?php if($is_admin) { ?>
             <button type="submit" class="btn btn-sm btn-primary shadow-sm mr-2 px-3" style="font-weight: 600;"><i class="fas fa-save mr-1"></i> Lưu dữ liệu</button>
+            <?php } ?>
             <a href="index.php?com=<?=$com?>&act=man&type=<?=$type?>" class="btn btn-sm btn-light border shadow-sm px-3 text-secondary" style="font-weight: 600;"><i class="fas fa-sign-out-alt mr-1"></i> Thoát</a>
         </div>
     </div>
 
     <input type="hidden" name="id" value="<?=$item['id']?>">
     
+    <?php $readonly_attr = $is_admin ? '' : 'disabled readonly'; ?>
+
     <div class="row">
         <div class="col-md-9">
             <div class="card border-0 shadow-sm" style="border-radius: 12px; overflow: hidden;">
@@ -62,6 +69,7 @@
                         <!-- Tab Album (Multi Upload) -->
                         <?php if($com == 'thuvien') { ?>
                         <div class="tab-pane fade" id="album" role="tabpanel">
+                            <?php if($is_admin) { ?>
                             <div class="form-group mb-4">
                                 <label class="font-weight-600">Chọn nhiều hình ảnh</label>
                                 <div class="d-flex align-items-center">
@@ -75,17 +83,20 @@
                                 </div>
                                 <small class="text-muted mt-2 d-block font-italic">Nhấn giữ phím <b>Ctrl</b> để chọn nhiều tệp cùng lúc (khi tải từ máy).</small>
                             </div>
+                            <?php } ?>
                             
                             <div id="gallery-preview" class="row">
                                 <?php if(!empty($gallery)) { foreach($gallery as $g) { ?>
                                     <div class="col-md-3 col-sm-4 col-6 mb-4 gallery-item text-center">
                                         <div class="bg-light p-2 rounded border shadow-xs position-relative">
                                             <img src="../<?=$g['photo']?>" class="img-fluid rounded mb-2" style="height: 120px; object-fit: cover;">
-                                            <input type="number" name="stt_existing[<?=$g['id']?>]" class="form-control form-control-sm text-center mb-2 mx-auto" value="<?=$g['stt']?>" style="width: 60px;">
+                                            <input type="number" name="stt_existing[<?=$g['id']?>]" class="form-control form-control-sm text-center mb-2 mx-auto" value="<?=$g['stt']?>" style="width: 60px;" <?=$readonly_attr?>>
+                                            <?php if($is_admin) { ?>
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="del-gal-<?=$g['id']?>" name="delete_gallery[]" value="<?=$g['id']?>">
                                                 <label class="custom-control-label text-danger small cursor-pointer" for="del-gal-<?=$g['id']?>">Xóa ảnh này</label>
                                             </div>
+                                            <?php } ?>
                                         </div>
                                     </div>
                                 <?php } } ?>
@@ -100,7 +111,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="font-weight-600 small">Khu vực</label>
-                                        <select name="id_khuvuc" class="form-control form-control-sm">
+                                        <select name="id_khuvuc" class="form-control form-control-sm" <?=$readonly_attr?>>
                                             <option value="0">-- Chọn khu vực --</option>
                                             <?php if(!empty($regions)) { foreach($regions as $r){ ?>
                                                 <option value="<?=$r['id']?>" <?=($item['id_khuvuc']==$r['id'])?'selected':''?>><?=$r['ten_vi']?></option>
@@ -114,7 +125,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="font-weight-600 small">Danh mục</label>
-                                        <select name="id_cat" class="form-control form-control-sm">
+                                        <select name="id_cat" class="form-control form-control-sm" <?=$readonly_attr?>>
                                             <option value="0">-- Chọn danh mục --</option>
                                             <?php if(!empty($categories)) { foreach($categories as $c){ ?>
                                                 <option value="<?=$c['id']?>" <?=($item['id_cat']==$c['id'])?'selected':''?>><?=$c['ten_vi']?></option>
@@ -128,7 +139,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="font-weight-600 small">Đánh giá sao</label>
-                                        <select name="rating" class="form-control form-control-sm">
+                                        <select name="rating" class="form-control form-control-sm" <?=$readonly_attr?>>
                                             <?php for($i=1; $i<=5; $i++) { ?>
                                                 <option value="<?=$i?>" <?=($item['rating']==$i)?'selected':''?>><?=$i?> Sao</option>
                                             <?php } ?>
@@ -140,27 +151,27 @@
 
                             <div class="form-group">
                                 <label class="font-weight-600 small">Tiêu đề <span class="text-danger">*</span></label>
-                                <input type="text" name="ten_vi" id="ten_vi" class="form-control form-control-sm" value="<?=$item['ten_vi']?>" required>
+                                <input type="text" name="ten_vi" id="ten_vi" class="form-control form-control-sm" value="<?=$item['ten_vi']?>" required <?=$readonly_attr?>>
                             </div>
 
                             <?php if(in_array('slug', $fields)) { ?>
                             <div class="form-group">
                                 <label class="font-weight-600 small">Đường dẫn (Slug)</label>
-                                <input type="text" name="ten_khong_dau" id="ten_khong_dau" class="form-control form-control-sm" value="<?=$item['ten_khong_dau']?>">
+                                <input type="text" name="ten_khong_dau" id="ten_khong_dau" class="form-control form-control-sm" value="<?=$item['ten_khong_dau']?>" <?=$readonly_attr?>>
                             </div>
                             <?php } ?>
 
                             <?php if(in_array('chucvu', $fields)) { ?>
                             <div class="form-group">
                                 <label class="font-weight-600 small">Chức vụ / Vị trí</label>
-                                <input type="text" name="chucvu" class="form-control form-control-sm" value="<?=$item['chucvu']?>">
+                                <input type="text" name="chucvu" class="form-control form-control-sm" value="<?=$item['chucvu']?>" <?=$readonly_attr?>>
                             </div>
                             <?php } ?>
 
                             <?php if(in_array('mota', $fields)) { ?>
                             <div class="form-group mb-0">
                                 <label class="font-weight-600 small">Mô tả ngắn</label>
-                                <textarea name="mota_vi" id="mota_vi" class="form-control" rows="5"><?=$item['mota_vi']?></textarea>
+                                <textarea name="mota_vi" id="mota_vi" class="form-control" rows="5" <?=$readonly_attr?>><?=$item['mota_vi']?></textarea>
                             </div>
                             <?php } ?>
                         </div>
@@ -169,7 +180,7 @@
                         <?php if(in_array('noidung', $fields)) { ?>
                         <div class="tab-pane fade" id="content" role="tabpanel">
                             <div class="form-group mb-0">
-                                <textarea name="noidung_vi" id="noidung_vi" class="form-control" rows="15"><?=$item['noidung_vi']?></textarea>
+                                <textarea name="noidung_vi" id="noidung_vi" class="form-control" rows="15" <?=$readonly_attr?>><?=$item['noidung_vi']?></textarea>
                             </div>
                         </div>
                         <?php } ?>
@@ -179,15 +190,15 @@
                         <div class="tab-pane fade" id="seo" role="tabpanel">
                             <div class="form-group">
                                 <label class="font-weight-600 small">SEO Title</label>
-                                <input type="text" name="title" class="form-control form-control-sm shadow-none border" value="<?=$item['title']?>">
+                                <input type="text" name="title" class="form-control form-control-sm shadow-none border" value="<?=$item['title']?>" <?=$readonly_attr?>>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-600 small">SEO Keywords</label>
-                                <textarea name="keywords" class="form-control shadow-none border" rows="3"><?=$item['keywords']?></textarea>
+                                <textarea name="keywords" class="form-control shadow-none border" rows="3" <?=$readonly_attr?>><?=$item['keywords']?></textarea>
                             </div>
                             <div class="form-group mb-0">
                                 <label class="font-weight-600 small">SEO Description</label>
-                                <textarea name="description" class="form-control shadow-none border" rows="3"><?=$item['description']?></textarea>
+                                <textarea name="description" class="form-control shadow-none border" rows="3" <?=$readonly_attr?>><?=$item['description']?></textarea>
                             </div>
                         </div>
                         <?php } ?>
@@ -207,15 +218,19 @@
             <div class="card mb-4 shadow-sm border-0" style="border-radius: 12px;">
                 <div class="card-header bg-white font-weight-bold d-flex justify-content-between align-items-center py-3 text-xs uppercase">
                     <span>Hình ảnh</span>
+                    <?php if($is_admin) { ?>
                     <button type="button" onclick="openBrowser('photo')" class="btn btn-xs btn-outline-primary px-2 py-1">DUYỆT</button>
+                    <?php } ?>
                 </div>
                 <div class="card-body text-center bg-light-50">
                     <?php $img_src = ($item['photo'] != '' && file_exists('../'.$item['photo'])) ? '../'.$item['photo'] : 'https://placehold.co/300x300?text=No+Image'; ?>
-                    <img id="preview-photo" src="<?=$img_src?>" class="img-fluid rounded mb-3 shadow-xs border" style="max-height: 150px; cursor: pointer;" onclick="openBrowser('photo')">
+                    <img id="preview-photo" src="<?=$img_src?>" class="img-fluid rounded mb-3 shadow-xs border" style="max-height: 150px; cursor: pointer;" <?=$is_admin ? "onclick=\"openBrowser('photo')\"" : ""?>>
+                    <?php if($is_admin) { ?>
                     <div class="custom-file text-left text-xs">
                         <input type="file" class="custom-file-input" name="file" id="file" accept="image/*, .jfif">
                         <label class="custom-file-label" for="file">Tải ảnh mới...</label>
                     </div>
+                    <?php } ?>
                     <small class="text-danger mt-2 d-block">Kích thước khuyến nghị: <b><?=$size_info?></b> (.jpg, .png, .webp, .jfif)</small>
                     <input type="hidden" name="photo_from_server" id="input-photo" value="<?=$item['photo']?>">
                 </div>
@@ -230,20 +245,20 @@
                     ?>
                     <div class="form-group">
                         <label class="font-weight-600 small">Ngày hiển thị</label>
-                        <input type="datetime-local" name="ngaytao" class="form-control form-control-sm" value="<?=$ngaytao_val?>">
+                        <input type="datetime-local" name="ngaytao" class="form-control form-control-sm" value="<?=$ngaytao_val?>" <?=$readonly_attr?>>
                     </div>
                     <?php } ?>
                     <div class="form-group">
                         <label class="font-weight-600 small">Số thứ tự</label>
-                        <input type="number" name="stt" class="form-control form-control-sm" value="<?=isset($item['stt'])?$item['stt']:1?>" style="width: 80px;">
+                        <input type="number" name="stt" class="form-control form-control-sm" value="<?=isset($item['stt'])?$item['stt']:1?>" style="width: 80px;" <?=$readonly_attr?>>
                     </div>
                     <div class="custom-control custom-switch mb-2">
-                        <input type="checkbox" class="custom-control-input" id="hienthi" name="hienthi" <?=(!isset($item['hienthi']) || $item['hienthi']==1)?'checked':''?>>
+                        <input type="checkbox" class="custom-control-input" id="hienthi" name="hienthi" <?=(!isset($item['hienthi']) || $item['hienthi']==1)?'checked':''?> <?=$is_admin?'':'disabled'?>>
                         <label class="custom-control-label small cursor-pointer" for="hienthi">Hiển thị</label>
                     </div>
                     <?php if(in_array('noibat', $fields)) { ?>
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="noibat" name="noibat" <?=($item['noibat']==1)?'checked':''?>>
+                        <input type="checkbox" class="custom-control-input" id="noibat" name="noibat" <?=($item['noibat']==1)?'checked':''?> <?=$is_admin?'':'disabled'?>>
                         <label class="custom-control-label small cursor-pointer" for="noibat">Nổi bật</label>
                     </div>
                     <?php } ?>
@@ -282,7 +297,13 @@
             setTimeout(waitCK, 100);
             return;
         }
+        <?php if($is_admin) { ?>
         initKhaServiceCKEditor(['noidung_vi', 'mota_vi'], dir);
+        <?php } else { ?>
+        // Read-only mode for textareas (CKEditor replacement)
+        if(document.getElementById('noidung_vi')) document.getElementById('noidung_vi').readOnly = true;
+        if(document.getElementById('mota_vi')) document.getElementById('mota_vi').readOnly = true;
+        <?php } ?>
     }
     waitCK();
 

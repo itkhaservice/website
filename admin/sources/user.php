@@ -61,6 +61,11 @@ function get_item(){
 function save_item(){
     global $d;
     
+    // Check permission: Role 1 (Staff) cannot save/edit users
+    if(isset($_SESSION['login']['role']) && $_SESSION['login']['role'] == 1){
+        transfer("Bạn không có quyền thực hiện thao tác này!", "index.php?com=user&act=man");
+    }
+
     if(empty($_POST)) transfer("Không nhận được dữ liệu", "index.php?com=user&act=man");
     $id = isset($_POST['id']) ? (int)$_POST['id'] : "";
     
@@ -110,6 +115,11 @@ function save_item(){
 function delete_item(){
     global $d;
     
+    // Check permission: Role 1 (Staff) cannot delete users
+    if(isset($_SESSION['login']['role']) && $_SESSION['login']['role'] == 1){
+        transfer("Bạn không có quyền thực hiện thao tác này!", "index.php?com=user&act=man");
+    }
+
     if(isset($_GET['id'])){
         $id =  (int)$_GET['id'];
         

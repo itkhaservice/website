@@ -1,10 +1,13 @@
+<?php $is_admin = (isset($_SESSION['login']['role']) && $_SESSION['login']['role'] > 1); ?>
 <div class="row mb-4 align-items-center">
     <div class="col-md-6 col-sm-12">
         <h1 class="m-0 text-dark text-center text-md-left" style="font-size: 1.6rem; font-weight: 800; color: #1e293b !important; letter-spacing: -0.5px;"><?=$title_main?></h1>
     </div>
     <div class="col-md-6 col-sm-12 text-center text-md-right mt-3 mt-md-0">
+        <?php if($is_admin) { ?>
         <a href="index.php?com=<?=$com?>&act=add&type=<?=$type?>" class="btn btn-sm btn-save shadow-sm mr-2 px-3 py-2"><i class="fas fa-plus-circle mr-1"></i> Thêm mới</a>
         <a href="#" id="delete-all" class="btn btn-sm btn-outline-danger shadow-sm px-3 py-2 border-0 bg-white"><i class="fas fa-trash-alt mr-1"></i> Xóa mục chọn <span id="selected-count" class="badge badge-danger ml-1 d-none">0</span></a>
+        <?php } ?>
     </div>
 </div>
 
@@ -46,6 +49,7 @@
             <table class="table table-hover mb-0">
                 <thead>
                     <tr style="background: #f8fafc; border-bottom: 1px solid #f1f5f9;">
+                        <?php if($is_admin) { ?>
                         <th style="width: 50px" class="text-center py-3">
                             <div class="custom-control custom-checkbox ml-1">
                                 <input type="checkbox" class="custom-control-input cursor-pointer" id="select-all">
@@ -53,6 +57,7 @@
                             </div>
                         </th>
                         <th style="width: 40px" class="text-center"></th>
+                        <?php } ?>
                         <th style="width: 80px" class="text-center text-uppercase font-weight-bold small text-muted">STT</th>
                         <th class="text-uppercase font-weight-bold small text-muted">Tên danh mục</th>
                         <th class="text-uppercase font-weight-bold small text-muted">Đường dẫn (Slug)</th>
@@ -63,6 +68,7 @@
                 <tbody id="sortable-list" data-table="<?=$table_db?>">
                     <?php if(!empty($items)) { foreach($items as $k=>$v){ ?>
                     <tr data-id="<?=$v['id']?>" class="ui-sortable-handle align-middle">
+                        <?php if($is_admin) { ?>
                         <td class="text-center py-3">
                             <div class="custom-control custom-checkbox ml-1">
                                 <input type="checkbox" class="custom-control-input select-item cursor-pointer" id="select-<?=$v['id']?>" value="<?=$v['id']?>">
@@ -72,8 +78,11 @@
                         <td class="text-center cursor-move text-muted">
                             <i class="fas fa-grip-vertical opacity-25"></i>
                         </td>
+                        <?php } ?>
                         <td class="text-center">
-                            <input type="number" class="form-control form-control-sm text-center update-stt mx-auto border-0 bg-light" value="<?=($v['stt']!='')?$v['stt']:0?>" data-id="<?=$v['id']?>" data-table="<?=$table_db?>" style="width: 50px; border-radius: 8px; font-weight: 600;">
+                            <?php if($is_admin) { ?>
+                                <input type="number" class="form-control form-control-sm text-center update-stt mx-auto border-0 bg-light" value="<?=($v['stt']!='')?$v['stt']:0?>" data-id="<?=$v['id']?>" data-table="<?=$table_db?>" style="width: 50px; border-radius: 8px; font-weight: 600;">
+                            <?php } else { echo $v['stt']; } ?>
                         </td>
                         <td>
                             <div class="font-weight-bold text-dark" style="font-size: 1rem;"><?=$v['ten_vi']?></div>
@@ -87,14 +96,16 @@
                         </td>
                         <td class="text-center border-left">
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input checkbox-hienthi cursor-pointer" id="hienthi-<?=$v['id']?>" data-id="<?=$v['id']?>" data-table="<?=$table_db?>" <?=($v['hienthi']==1)?'checked':''?>>
+                                <input type="checkbox" class="custom-control-input checkbox-hienthi cursor-pointer" id="hienthi-<?=$v['id']?>" data-id="<?=$v['id']?>" data-table="<?=$table_db?>" <?=($v['hienthi']==1)?'checked':''?> <?=$is_admin?'':'disabled'?>>
                                 <label class="custom-control-label cursor-pointer" for="hienthi-<?=$v['id']?>"></label>
                             </div>
                         </td>
                         <td class="text-center border-left">
                             <div class="btn-group shadow-xs rounded">
-                                <a href="index.php?com=<?=$com?>&act=edit&type=<?=$type?>&id=<?=$v['id']?>" class="btn btn-sm btn-white text-primary border-right" title="Sửa danh mục"><i class="fas fa-edit"></i></a>
+                                <a href="index.php?com=<?=$com?>&act=edit&type=<?=$type?>&id=<?=$v['id']?>" class="btn btn-sm btn-white text-primary border-right" title="<?=$is_admin?'Sửa danh mục':'Xem chi tiết'?>"><i class="fas <?=$is_admin?'fa-edit':'fa-eye'?>"></i></a>
+                                <?php if($is_admin) { ?>
                                 <a href="index.php?com=<?=$com?>&act=delete&type=<?=$type?>&id=<?=$v['id']?>" class="btn btn-sm btn-white text-danger btn-delete-item" title="Xóa mục này"><i class="fas fa-trash-alt"></i></a>
+                                <?php } ?>
                             </div>
                         </td>
                     </tr>

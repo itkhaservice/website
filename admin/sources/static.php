@@ -35,6 +35,12 @@ function get_item(){
 
 function save_item(){
     global $d, $type;
+
+    // Check permission: Role 1 (Staff) cannot save static content
+    if(isset($_SESSION['login']['role']) && $_SESSION['login']['role'] == 1){
+        transfer("Bạn không có quyền thực hiện thao tác này!", "index.php?com=static&act=capnhat&type=".$type);
+    }
+
     if(empty($_POST)) transfer("Không nhận được dữ liệu", "index.php?com=static&act=capnhat&type=".$type);
     
     $file_name = fns_Rand_digit(0,9,12);

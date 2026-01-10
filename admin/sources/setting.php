@@ -25,6 +25,12 @@ function get_item(){
 
 function save_item(){
     global $d;
+
+    // Check permission: Role 1 (Staff) cannot save setting
+    if(isset($_SESSION['login']['role']) && $_SESSION['login']['role'] == 1){
+        transfer("Bạn không có quyền thực hiện thao tác này!", "index.php?com=setting&act=capnhat");
+    }
+
     if(empty($_POST)) transfer("Không nhận được dữ liệu", "index.php?com=setting&act=capnhat");
     
     $data['longName'] = $_POST['longName'];

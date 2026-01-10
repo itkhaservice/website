@@ -94,6 +94,11 @@ function get_item(){
 function save_item(){
     global $d, $type;
     
+    // Check permission: Role 1 (Staff) cannot save
+    if(isset($_SESSION['login']['role']) && $_SESSION['login']['role'] == 1){
+        transfer("Bạn không có quyền thực hiện thao tác này!", "index.php?com=photo&act=man&type=".$type);
+    }
+
     $file_name = fns_Rand_digit(0,9,12);
     
     if(empty($_POST)) transfer("Không nhận được dữ liệu", "index.php?com=photo&act=man&type=".$type);
@@ -161,6 +166,11 @@ function save_item(){
 function delete_item(){
     global $d, $type;
     
+    // Check permission: Role 1 (Staff) cannot delete
+    if(isset($_SESSION['login']['role']) && $_SESSION['login']['role'] == 1){
+        transfer("Bạn không có quyền thực hiện thao tác này!", "index.php?com=photo&act=man&type=".$type);
+    }
+
     if(isset($_GET['id'])){
         $id = (int)$_GET['id'];
         
@@ -184,6 +194,12 @@ function delete_item(){
 
 function delete_all_item(){
     global $d, $type;
+
+    // Check permission: Role 1 (Staff) cannot delete
+    if(isset($_SESSION['login']['role']) && $_SESSION['login']['role'] == 1){
+        transfer("Bạn không có quyền thực hiện thao tác này!", "index.php?com=photo&act=man&type=".$type);
+    }
+
     $listid = explode(",",$_GET['listid']);
     foreach($listid as $id){
         $id = (int)$id;

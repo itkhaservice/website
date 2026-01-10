@@ -1,9 +1,12 @@
+<?php $is_admin = (isset($_SESSION['login']['role']) && $_SESSION['login']['role'] > 1); ?>
 <div class="row mb-4 align-items-center">
     <div class="col-md-6">
         <h1 class="m-0 text-dark" style="font-size: 1.6rem; font-weight: 800; color: #1e293b !important; letter-spacing: -0.5px;">Liên hệ - Đăng ký</h1>
     </div>
     <div class="col-md-6 text-right">
+        <?php if($is_admin) { ?>
         <a href="#" id="delete-all" class="btn btn-sm btn-outline-danger shadow-sm px-3 py-2 border-0 bg-white"><i class="fas fa-trash-alt mr-1"></i> Xóa mục chọn <span id="selected-count" class="badge badge-danger ml-1 d-none">0</span></a>
+        <?php } ?>
     </div>
 </div>
 
@@ -46,12 +49,14 @@
             <table class="table table-hover mb-0">
                 <thead>
                     <tr style="background: #f8fafc; border-bottom: 1px solid #f1f5f9;">
+                        <?php if($is_admin) { ?>
                         <th style="width: 50px" class="text-center py-3">
                             <div class="custom-control custom-checkbox ml-1">
                                 <input type="checkbox" class="custom-control-input" id="select-all">
                                 <label class="custom-control-label" for="select-all"></label>
                             </div>
                         </th>
+                        <?php } ?>
                         <th style="width: 60px" class="text-center text-uppercase font-weight-800 small text-muted">ID</th>
                         <th class="text-uppercase font-weight-800 small text-muted">Khách hàng</th>
                         <th class="text-uppercase font-weight-800 small text-muted">Nội dung liên hệ</th>
@@ -63,12 +68,14 @@
                 <tbody>
                     <?php if(!empty($items)) { foreach($items as $k=>$v){ ?>
                     <tr class="align-middle">
+                        <?php if($is_admin) { ?>
                         <td class="text-center py-3">
                             <div class="custom-control custom-checkbox ml-1">
                                 <input type="checkbox" class="custom-control-input select-item" id="select-<?=$v['id']?>" value="<?=$v['id']?>">
                                 <label class="custom-control-label" for="select-<?=$v['id']?>"></label>
                             </div>
                         </td>
+                        <?php } ?>
                         <td class="text-center"><span class="badge badge-light px-2 py-1 text-muted border">#<?=$v['id']?></span></td>
                         <td class="py-3">
                             <div class="font-weight-bold text-dark mb-1"><?=$v['ten']?></div>
@@ -84,12 +91,14 @@
                         </td>
                         <td class="text-center border-left">
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input checkbox-hienthi" id="trangthai-<?=$v['id']?>" data-id="<?=$v['id']?>" data-table="contact" data-field="trangthai" <?=($v['trangthai']==1)?'checked':''?>>
+                                <input type="checkbox" class="custom-control-input checkbox-hienthi" id="trangthai-<?=$v['id']?>" data-id="<?=$v['id']?>" data-table="contact" data-field="trangthai" <?=($v['trangthai']==1)?'checked':''?> <?=$is_admin?'':'disabled'?>>
                                 <label class="custom-control-label small cursor-pointer" for="trangthai-<?=$v['id']?>"><?=($v['trangthai']==1)?'Đã xem':'Chưa xem'?></label>
                             </div>
                         </td>
                         <td class="text-center border-left">
+                            <?php if($is_admin) { ?>
                             <a href="index.php?com=contact&act=delete&id=<?=$v['id']?>" class="btn btn-sm btn-white text-danger btn-delete-item shadow-xs" title="Xóa"><i class="fas fa-trash-alt"></i></a>
+                            <?php } else { echo '-'; } ?>
                         </td>
                     </tr>
                     <?php }} else { ?>

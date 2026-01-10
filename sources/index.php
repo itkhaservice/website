@@ -41,9 +41,9 @@ $d->reset();
 $d->query("select ten_vi, mota_vi from #_giatri where hienthi=1 order by stt asc, id desc");
 $ds_tieuchi = $d->result_array();
 
-// 9. Tin tức mới nhất
+// 9. Tin tức mới nhất (Lấy 4 bài hiển thị, ưu tiên nổi bật)
 $d->reset();
-$d->query("select a.id, a.ten_vi, a.ten_khong_dau, a.photo, a.ngaytao, b.ten_vi as ten_danhmuc from #_news a left join #_news_cat b on a.id_cat = b.id where a.hienthi=1 and a.noibat=1 and a.ngaytao <= ".time()." order by a.ngaytao desc limit 0,4");
+$d->query("select a.id, a.ten_vi, a.ten_khong_dau, a.photo, a.ngaytao, b.ten_vi as ten_danhmuc from #_news a left join #_news_cat b on a.id_cat = b.id where a.hienthi=1 and a.ngaytao <= ".time()." order by a.noibat desc, a.ngaytao desc limit 0,4");
 $ds_tintuc = $d->result_array();
 
 // 10. Thư viện ảnh nổi bật

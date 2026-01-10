@@ -68,6 +68,13 @@ function get_items(){
 
 function delete_item(){
     global $d;
+    
+    // Check permission: Role 1 (Staff) cannot delete
+    if(isset($_SESSION['login']['role']) && $_SESSION['login']['role'] == 1){
+        $_SESSION['transfer_msg'] = "Bạn không có quyền thực hiện thao tác này!";
+        redirect("index.php?com=contact&act=man");
+    }
+
     if(isset($_GET['id'])){
         $id = (int)$_GET['id'];
         $d->reset();
@@ -83,6 +90,13 @@ function delete_item(){
 
 function delete_all_item(){
     global $d;
+
+    // Check permission: Role 1 (Staff) cannot delete
+    if(isset($_SESSION['login']['role']) && $_SESSION['login']['role'] == 1){
+        $_SESSION['transfer_msg'] = "Bạn không có quyền thực hiện thao tác này!";
+        redirect("index.php?com=contact&act=man");
+    }
+
     $listid = explode(",",$_GET['listid']);
     $count_del = 0;
     foreach($listid as $id){
