@@ -1,5 +1,26 @@
 <?php
 session_start();
+
+// --- CUSTOM ERROR HANDLER ---
+function customShutdownHandler() {
+    $error = error_get_last();
+    if ($error && ($error['type'] === E_ERROR || $error['type'] === E_PARSE || $error['type'] === E_CORE_ERROR || $error['type'] === E_COMPILE_ERROR)) {
+        // Xóa output buffer hiện tại để tránh hiển thị HTML dở dang
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+        
+        $error_msg = $error['message'] . " in " . $error['file'] . " on line " . $error['line'];
+        
+        // Include giao diện lỗi đẹp
+        include 'templates/error_tpl.php';
+        exit();
+    }
+}
+register_shutdown_function('customShutdownHandler');
+ob_start(); // Bắt đầu buffer để có thể clear nếu lỗi
+// ----------------------------
+
 @define ( '_IN_ADMIN' , true );
 @define ( '_template' , './templates/');
 @define ( '_source' , './sources/');

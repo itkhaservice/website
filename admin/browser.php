@@ -359,15 +359,18 @@ $ckFuncNum = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : '';
             var rootUrl = window.location.href.split('admin/browser.php')[0];
             
             // Xử lý path (path nhận vào là 'news/anh.jpg')
-            // Cần trả về: http://domain.com/upload/news/anh.jpg
-            var fullUrl = rootUrl + 'upload/' + path;
-
+            
             if(ckFuncNum != '') { 
+                // CKEditor cần Full URL để hiển thị ảnh
+                var fullUrl = rootUrl + 'upload/' + path;
                 window.opener.CKEDITOR.tools.callFunction(ckFuncNum, fullUrl); 
                 window.close(); 
             }
             else if (typeof window.opener.updateImagePath === 'function') { 
-                window.opener.updateImagePath(targetField, fullUrl); 
+                // Input Field chỉ cần đường dẫn tương đối: upload/folder/file.jpg
+                // Vì file item_add_tpl.php sẽ tự thêm ../ để preview
+                var relativePath = 'upload/' + path;
+                window.opener.updateImagePath(targetField, relativePath); 
                 window.close(); 
             }
         }

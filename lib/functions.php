@@ -353,63 +353,69 @@ function upload_image($file, $extension, $folder, $newname=''){
         }
         
         // --- AUTO RESIZE & WEBP GENERATION ---
-        try {
-            $max_width = 1920; // Chuẩn Full HD
-            list($width, $height) = getimagesize($dest_path);
-            
-            // Chỉ xử lý nếu là ảnh JPG, PNG, GIF
-            if(in_array($ext, ['JPG', 'JPEG', 'PNG', 'GIF'])) {
-                $image = null;
-                if($ext == 'JPG' || $ext == 'JPEG') $image = imagecreatefromjpeg($dest_path);
-                elseif($ext == 'PNG') $image = imagecreatefrompng($dest_path);
-                elseif($ext == 'GIF') $image = imagecreatefromgif($dest_path);
+        // Chỉ xử lý nếu thư viện GD được cài đặt
+        if(function_exists('imagecreatefromjpeg')) {
+            try {
+                $max_width = 1920; // Chuẩn Full HD
+                list($width, $height) = getimagesize($dest_path);
+                
+                // Chỉ xử lý nếu là ảnh JPG, PNG, GIF
+                if(in_array($ext, ['JPG', 'JPEG', 'PNG', 'GIF'])) {
+                    $image = null;
+                    if($ext == 'JPG' || $ext == 'JPEG') $image = imagecreatefromjpeg($dest_path);
+                    elseif($ext == 'PNG') $image = imagecreatefrompng($dest_path);
+                    elseif($ext == 'GIF') $image = imagecreatefromgif($dest_path);
 
-                if($image) {
-                    // 1. Resize nếu ảnh quá lớn
-                    if($width > $max_width) {
-                        $ratio = $max_width / $width;
-                        $new_height = $height * $ratio;
+                    if($image) {
+                        $working_image = $image; // Mặc định dùng ảnh gốc để tạo WebP nếu không resize
+
+                        // 1. Resize nếu ảnh quá lớn
+                        if($width > $max_width) {
+                            $ratio = $max_width / $width;
+                            $new_height = $height * $ratio;
+                            
+                            $canvas = imagecreatetruecolor($max_width, $new_height);
+                            
+                            // Giữ trong suốt cho PNG/GIF
+                            if($ext == 'PNG' || $ext == 'GIF'){
+                                imagealphablending($canvas, false);
+                                imagesavealpha($canvas, true);
+                                $transparent = imagecolorallocatealpha($canvas, 255, 255, 255, 127);
+                                imagefilledrectangle($canvas, 0, 0, $max_width, $new_height, $transparent);
+                            }
+                            
+                            imagecopyresampled($canvas, $working_image, 0, 0, 0, 0, $max_width, $new_height, $width, $height);
+                            
+                            // Ghi đè file gốc bằng file đã resize
+                            if($ext == 'JPG' || $ext == 'JPEG') imagejpeg($canvas, $dest_path, 90);
+                            elseif($ext == 'PNG') imagepng($canvas, $dest_path, 9);
+                            elseif($ext == 'GIF') imagegif($canvas, $dest_path);
+                            
+                            $working_image = $canvas; // Cập nhật ảnh làm việc là ảnh đã resize
+                        }
+
+                        // 2. Tạo bản WebP
+                        // Xử lý tên file .webp (Thay thế đuôi mở rộng)
+                        $webp_path = preg_replace('/\.(jpg|jpeg|png|gif)$/i', '.webp', $dest_path);
                         
-                        $canvas = imagecreatetruecolor($max_width, $new_height);
-                        
-                        // Giữ trong suốt cho PNG/GIF
-                        if($ext == 'PNG' || $ext == 'GIF'){
-                            imagealphablending($canvas, false);
-                            imagesavealpha($canvas, true);
-                            $transparent = imagecolorallocatealpha($canvas, 255, 255, 255, 127);
-                            imagefilledrectangle($canvas, 0, 0, $max_width, $new_height, $transparent);
+                        if(function_exists('imagewebp')) {
+                            // Chuyển PNG/GIF trong suốt sang WebP cần xử lý background
+                            if($ext == 'PNG' || $ext == 'GIF') {
+                                imagepalettetotruecolor($working_image);
+                                imagealphablending($working_image, true);
+                                imagesavealpha($working_image, true);
+                            }
+                            imagewebp($working_image, $webp_path, 85); // Chất lượng 85
                         }
                         
-                        imagecopyresampled($canvas, $image, 0, 0, 0, 0, $max_width, $new_height, $width, $height);
-                        
-                        // Ghi đè file gốc bằng file đã resize
-                        if($ext == 'JPG' || $ext == 'JPEG') imagejpeg($canvas, $dest_path, 90);
-                        elseif($ext == 'PNG') imagepng($canvas, $dest_path, 9);
-                        elseif($ext == 'GIF') imagegif($canvas, $dest_path);
-                        
-                        imagedestroy($image); // Giải phóng ảnh cũ
-                        $image = $canvas; // Gán ảnh mới để làm WebP
+                        // Giải phóng bộ nhớ
+                        if(isset($canvas) && $canvas) imagedestroy($canvas);
+                        if(isset($image) && $image) imagedestroy($image);
                     }
-
-                    // 2. Tạo bản WebP
-                    $webp_path = str_replace('.'.$ext, '.webp', $dest_path);
-                    $webp_path = str_replace('.'.$ext, '.webp', $webp_path); // Lowercase check
-                    
-                    if(function_exists('imagewebp')) {
-                        // Chuyển PNG/GIF trong suốt sang WebP cần xử lý background
-                        if($ext == 'PNG' || $ext == 'GIF') {
-                            imagepalettetotruecolor($image);
-                            imagealphablending($image, true);
-                            imagesavealpha($image, true);
-                        }
-                        imagewebp($image, $webp_path, 85); // Chất lượng 85
-                    }
-                    
-                    imagedestroy($image);
                 }
+            } catch (Exception $e) {
+                // Ghi log lỗi nếu cần thiết, nhưng không làm crash ứng dụng
             }
-        } catch(Exception $e) {
-            // Nếu lỗi xử lý ảnh thì bỏ qua, vẫn trả về ảnh gốc upload thành công
         }
         // -------------------------------------
 
