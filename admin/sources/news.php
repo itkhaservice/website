@@ -272,7 +272,7 @@ function save_item(){
     
     // Các trường chung
     if(isset($_POST['noidung_vi'])) $data['noidung_vi'] = $_POST['noidung_vi'];
-    if(isset($_POST['stt'])) $data['stt'] = $_POST['stt'];
+    if(isset($_POST['stt'])) $data['stt'] = ($_POST['stt'] != '') ? (int)$_POST['stt'] : 1;
     $data['hienthi'] = isset($_POST['hienthi']) ? 1 : 0;
     
     // Các trường SEO

@@ -108,7 +108,7 @@ function save_item(){
     $data['ten_vi'] = $_POST['ten_vi'];
     $data['link'] = $_POST['link'];
     $data['mota_vi'] = $_POST['mota_vi'];
-    $data['stt'] = $_POST['stt'];
+    $data['stt'] = (isset($_POST['stt']) && $_POST['stt'] != '') ? (int)$_POST['stt'] : 1;
     $data['type'] = $type;
         $data['hienthi'] = isset($_POST['hienthi']) ? 1 : 0;
         

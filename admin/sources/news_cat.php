@@ -76,7 +76,7 @@ function save_item(){
     $data['keywords'] = $_POST['keywords'];
     $data['description'] = $_POST['description'];
     
-    $data['stt'] = $_POST['stt'];
+    $data['stt'] = (isset($_POST['stt']) && $_POST['stt'] != '') ? (int)$_POST['stt'] : 1;
     $data['hienthi'] = isset($_POST['hienthi']) ? 1 : 0;
     $data['type'] = $type;
 
