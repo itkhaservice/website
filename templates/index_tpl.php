@@ -4,23 +4,26 @@
         <div class="owl-carousel slider-2">
             <?php if(!empty($ds_slider)) { foreach($ds_slider as $v) { ?>
             <div class="item">
-                <div class="silder-img bg-cover" style="background-image: url('<?=!empty($v['photo']) ? $v['photo'] : 'img/banner/banner_3b.jpg'?>');">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xl-7 col-md-8">
-                                <div class="slider-content-3 z-10">
-                                    <?php if(!empty($v['mota_vi'])) { ?>
-                                    <div class="line-head h5-custom-editor">
-                                          <?=htmlspecialchars_decode($v['mota_vi'])?>
-                                        <span class="line after"></span>
+                <div class="silder-img">
+                    <img src="<?=!empty($v['photo']) ? $v['photo'] : 'img/banner/banner_3b.jpg'?>" alt="<?=!empty($v['ten_vi']) ? $v['ten_vi'] : 'Slideshow'?>">
+                    <div class="slider-content-overlay">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xl-7 col-md-8">
+                                    <div class="slider-content-3 z-10">
+                                        <?php if(!empty($v['mota_vi'])) { ?>
+                                        <div class="line-head h5-custom-editor">
+                                              <?=htmlspecialchars_decode($v['mota_vi'])?>
+                                            <span class="line after"></span>
+                                        </div>
+                                        <?php } ?>
+                                        <div class="banner-head-2 banner-head-3 black f-700 mt-15 mb-35 mt-xs-20 mb-xs-30 h1-custom-editor">
+                                            <?=htmlspecialchars_decode($v['ten_vi'])?>
+                                        </div>
+                                        <?php if(!empty($v['link'])) { ?>
+                                        <a href="<?=$v['link']?>" class="btn btn-square-border">Xem thêm<i class="fas fa-long-arrow-alt-right ml-20"></i></a>
+                                        <?php } ?>
                                     </div>
-                                    <?php } ?>
-                                    <div class="banner-head-2 banner-head-3 black f-700 mt-15 mb-35 mt-xs-20 mb-xs-30 h1-custom-editor">
-                                        <?=htmlspecialchars_decode($v['ten_vi'])?>
-                                    </div>
-                                    <?php if(!empty($v['link'])) { ?>
-                                    <a href="<?=$v['link']?>" class="btn btn-square-border">Xem thêm<i class="fas fa-long-arrow-alt-right ml-20"></i></a>
-                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
@@ -30,17 +33,20 @@
             <?php }} else { ?>
             <!-- Fallback Slider if empty -->
             <div class="item">
-                <div class="silder-img bg-cover" style="background-image: url('img/banner/banner_3a.jpg');">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xl-7 col-md-8">
-                                <div class="slider-content-3 z-10">
-                                    <div class="line-head">
-                                        1000+ Happy Clients
-                                        <span class="line after"></span>
+                <div class="silder-img">
+                    <img src="img/banner/banner_3a.jpg" alt="Default Banner">
+                    <div class="slider-content-overlay">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xl-7 col-md-8">
+                                    <div class="slider-content-3 z-10">
+                                        <div class="line-head">
+                                            1000+ Happy Clients
+                                            <span class="line after"></span>
+                                        </div>
+                                        <h1 class="banner-head-2 banner-head-3 black f-700 mt-15 mb-35 mt-xs-20 mb-xs-30">Let's <span class="green">Make Something Awesome Together</span> with the Right People.</h1>
+                                        <a href="" class="btn btn-square-border">Learn More<i class="fas fa-long-arrow-alt-right ml-20"></i></a>
                                     </div>
-                                    <h1 class="banner-head-2 banner-head-3 black f-700 mt-15 mb-35 mt-xs-20 mb-xs-30">Let's <span class="green">Make Something Awesome Together</span> with the Right People.</h1>
-                                    <a href="" class="btn btn-square-border">Learn More<i class="fas fa-long-arrow-alt-right ml-20"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -81,53 +87,302 @@
         .h1-custom-editor { font-size: 3rem; line-height: 1.2; }
         .h1-custom-editor p { margin-bottom: 0; }
         
-        /* Cấu trúc Slider mới: Tự động chiều cao theo chiều rộng */
-        .silder-img {
+        /* Cấu trúc Slider mới: Sử dụng thẻ img để đảm bảo hiển thị 100% nội dung ảnh */
+        .slider-area-2 {
+            padding: 0 !important;
+            margin: 0 !important;
+            width: 100% !important;
+            overflow: hidden;
+        }
+
+        .slider-2, 
+        .slider-2 .owl-stage-outer, 
+        .slider-2 .owl-stage, 
+        .slider-2 .owl-item {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .silder-img,
+        .slider-2 .silder-img {
+            position: relative;
+            display: block;
+            width: 100% !important;
             height: auto !important;
-            min-height: auto !important;
-            aspect-ratio: 1920 / 750; /* Tỷ lệ vàng cho banner desktop */
-            background-size: cover !important;
-            background-position: center center !important;
+            min-height: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            aspect-ratio: unset !important;
+            background-image: none !important; /* Đảm bảo không còn background cũ */
+        }
+
+        .silder-img img,
+        .slider-2 .silder-img img {
+            width: 100% !important;
+            height: auto !important;
+            display: block !important;
+            max-width: none !important;
+            object-fit: contain !important;
+        }
+
+        /* Định vị lớp phủ chứa nội dung chữ */
+        .slider-content-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: center;
+            z-index: 5;
+            pointer-events: none; /* Để có thể click/drag vào slider nếu cần */
+        }
+        
+        .slider-content-overlay .container {
+            pointer-events: auto; /* Kích hoạt lại click cho nội dung */
         }
 
         /* Responsive adjustments */
         @media (max-width: 767px) {
-            /* Tự động tính chiều cao theo tỷ lệ ảnh gốc để không bị mất hình (1920x750) */
-            .silder-img { 
-                aspect-ratio: 1920 / 750 !important;
-                background-position: center center !important;
+            /* Trên mobile, ảnh sẽ tự co theo chiều rộng thiết bị, giữ nguyên tỷ lệ 1920x600 */
+            .silder-img img,
+            .slider-2 .silder-img img { 
+                width: 100% !important;
+                height: auto !important;
             }
             
-            /* Ẩn hoàn toàn nội dung chữ trên mobile theo yêu cầu */
+            /* Ẩn hoàn toàn nội dung chữ trên mobile để tránh che mất ảnh nhỏ */
             .slider-content-3 {
                 display: none !important;
             }
+
+            /* Đưa dots xuống dưới ảnh trên mobile */
+            .slider-control.type-3 {
+                position: relative !important;
+                background: none !important;
+                padding: 15px 0 !important;
+                bottom: auto !important;
+            }
+
+            .slider-control .dots-slider {
+                text-align: center !important;
+                padding-left: 0 !important;
+            }
+
+            /* Thu nhỏ dots trên mobile */
+            .dots-slider .owl-dot {
+                width: 8px !important;
+                height: 8px !important;
+                background: #ccc !important; /* Màu xám để hiện rõ trên nền trắng */
+                margin: 0 4px !important;
+            }
+
+            .dots-slider .owl-dot.active {
+                width: 25px !important;
+                background: #108042 !important;
+                box-shadow: none !important;
+            }
+        }
+
+        /* --- MODERN SLIDER CONTROLS STYLING --- */
+        
+        /* 1. Gradient Overlay ở đáy để làm nổi bật nút điều khiển */
+        .slider-control.type-3 {
+            bottom: 0;
+            padding-bottom: 30px;
+            padding-top: 50px;
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+            width: 100%;
+        }
+
+        /* 2. Styling Dots (Chấm tròn) - Style Modern "Pill" */
+        .dots-slider .owl-dot {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.4) !important;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            margin: 0 6px;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+        }
+
+        .dots-slider .owl-dot.active {
+            width: 40px; /* Kéo dài thành hình viên thuốc */
+            background: #108042 !important; /* Màu xanh thương hiệu */
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(16, 128, 66, 0.4);
+        }
+        
+        .dots-slider .owl-dot:hover {
+            background: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        /* 3. Styling Arrows (Mũi tên) - Style Tròn nổi khối */
+        .slider-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15); /* Kính mờ */
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .slider-btn i {
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+
+        .slider-btn:hover {
+            background: #108042;
+            border-color: #108042;
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(16, 128, 66, 0.4);
+        }
+        
+        .slider-btn:hover i {
+            transform: scale(1.1);
+        }
+        
+        /* Căn chỉnh vị trí */
+        .slider-control .dots-slider {
+            text-align: left;
+            padding-left: 10px;
         }
     </style>
     <!-- Slider end -->
 
     <!-- Our features start -->
-    <section class="features-area bg-light-white pt-40 pb-40 pb-xs-00">
+    <section class="features-area bg-light-white pt-60 pb-60 relative z-2">
         <div class="container">
             <div class="row">
                 <?php if(!empty($ds_themanh)) { foreach($ds_themanh as $k => $v) { ?>
-                <div class="col-sm-4 text-center text-lg-left mb-3">
-                    <div class="icon-box d-flex flex-column flex-lg-row">
-                        <div class="icon-img mr-20 mr-md-00 mb-md-10">
-                            <img src="<?=!empty($v['photo']) ? $v['photo'] : 'img/feature/icon'.($k+1).'.png'?>" alt="<?=$v['ten_vi']?>" style="width:56px; height:56px; object-fit:contain;">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="feature-card-modern h-100 wow fadeInUp" data-wow-delay="<?=($k*0.2)?>s">
+                        <div class="feature-icon-wrapper">
+                            <img src="<?=!empty($v['photo']) ? $v['photo'] : 'img/feature/icon'.($k+1).'.png'?>" alt="<?=$v['ten_vi']?>">
                         </div>
-                        <div class="icon-text">
-                            <h5 class="f-700"><?=$v['ten_vi']?></h5>
-                            <p class="text-justify"><?=$v['mota_vi']?></p>
+                        <div class="feature-content">
+                            <h5 class="feature-title"><?=$v['ten_vi']?></h5>
+                            <p class="feature-desc"><?=$v['mota_vi']?></p>
                         </div>
+                        <div class="feature-hover-line"></div>
                     </div>
                 </div>
                 <?php }} ?>
             </div>
         </div>
     </section>
+
+    <style>
+        /* --- MODERN FEATURE CARD CSS --- */
+        .features-area {
+            background-color: #f9fbfd; /* Nền sáng hiện đại hơn */
+        }
+        
+        .feature-card-modern {
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.03); /* Bóng đổ rất nhẹ mặc định */
+            border: 1px solid rgba(0,0,0,0.03);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Phần Icon */
+        .feature-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px auto;
+            background: #fff;
+            border: 2px solid rgba(16, 128, 66, 0.1); /* Viền xanh nhạt mặc định */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 10px rgba(16, 128, 66, 0.05);
+        }
+
+        .feature-icon-wrapper img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            transition: all 0.4s ease;
+            filter: none; /* Bỏ trắng đen, hiện màu gốc */
+            opacity: 1;
+        }
+
+        /* Phần Nội dung */
+        .feature-title {
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+            color: #108042; /* Dùng màu xanh thương hiệu cho tiêu đề mặc định */
+            transition: color 0.3s;
+        }
+
+        .feature-desc {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Giới hạn 3 dòng */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Hiệu ứng Hover Line ở đáy */
+        .feature-hover-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: #108042;
+            transition: width 0.4s ease;
+        }
+
+        /* --- HOVER EFFECTS --- */
+        .feature-card-modern:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1); /* Bóng đổ sâu hơn khi hover */
+        }
+
+        .feature-card-modern:hover .feature-icon-wrapper {
+            background: #108042; /* Icon background chuyển xanh */
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .feature-card-modern:hover .feature-icon-wrapper img {
+            filter: grayscale(0%) brightness(0) invert(1); /* Icon chuyển trắng */
+            opacity: 1;
+        }
+
+        .feature-card-modern:hover .feature-title {
+            color: #108042;
+        }
+        
+        .feature-card-modern:hover .feature-hover-line {
+            width: 100%; /* Line chạy full chiều rộng */
+        }
+    </style>
     <!-- Our features end -->
 
     <!-- About us start -->
